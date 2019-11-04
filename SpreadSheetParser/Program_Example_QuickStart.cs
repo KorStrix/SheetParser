@@ -3,34 +3,21 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using System.Windows.Forms;
-using System.CodeDom;
 
 namespace SpreadSheetParser
 {
-    public partial class SpreadSheetParser : Form
+    static class Program_Example_QuickStart
     {
         // If modifying these scopes, delete your previously saved credentials
         // at ~/.credentials/sheets.googleapis.com-dotnet-quickstart.json
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         static string ApplicationName = "Google Sheets API .NET Quickstart";
 
-        public SpreadSheetParser()
-        {
-            InitializeComponent();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button_Connect_Click(object sender, EventArgs e)
+        static void Main_Example(string[] args)
         {
             UserCredential credential;
 
@@ -57,35 +44,23 @@ namespace SpreadSheetParser
             });
 
             // Define request parameters.
-            string spreadsheetId = "16E4yPh8VkPfL-VeaBmcJ1vrZc36E3jFchanlEN_Apd8";
-            var pTest = service.Spreadsheets.Get(spreadsheetId);
-            checkedListBox_TableList.Items.Clear();
-
-            try
-            {
-                var TestResponse = pTest.Execute();
-                for (int i = 0; i < TestResponse.Sheets.Count; i++)
-                    checkedListBox_TableList.Items.Add(new SheetWrapper(TestResponse.Sheets[i]));
-            }
-            catch (Exception pException)
-            {
-            }
-
-            string strSheetName = "MonsterData";
-            string range = "!A2:C";
-
+            String spreadsheetId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
+            String range = "Class Data!A2:E";
             SpreadsheetsResource.ValuesResource.GetRequest request =
-                    service.Spreadsheets.Values.Get(spreadsheetId, strSheetName + range);
+                    service.Spreadsheets.Values.Get(spreadsheetId, range);
 
+            // Prints the names and majors of students in a sample spreadsheet:
+            // https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
             ValueRange response = request.Execute();
-
             IList<IList<Object>> values = response.Values;
             if (values != null && values.Count > 0)
             {
-                //List<MyTypeBuilder.FieldInfo> listFieldInfo = new List<MyTypeBuilder.FieldInfo>();
-                //listFieldInfo.Add(new MyTypeBuilder.FieldInfo("intTest", typeof(int)));
-
-                //System.Type pType = MyTypeBuilder.CompileResultType(listFieldInfo);
+                Console.WriteLine("Name, Major");
+                foreach (var row in values)
+                {
+                    // Print columns A and E, which correspond to indices 0 and 4.
+                    Console.WriteLine("{0}, {1}", row[0], row[4]);
+                }
             }
             else
             {
@@ -93,30 +68,5 @@ namespace SpreadSheetParser
             }
             Console.Read();
         }
-
-        private void button_StartParsing_Click(object sender, EventArgs e)
-        {
-
-        }
-
     }
-
-    public class SheetWrapper
-    {
-        public Sheet pSheet { get; private set; }
-
-        public SheetWrapper(Sheet pSheet)
-        {
-            this.pSheet = pSheet;
-        }
-
-        public override string ToString()
-        {
-            if (pSheet == null)
-                return "Error";
-
-            return pSheet.Properties.Title;
-        }
-    }
-
 }

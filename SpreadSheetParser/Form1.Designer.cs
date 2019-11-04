@@ -50,7 +50,7 @@
             this.button_Connect.TabIndex = 1;
             this.button_Connect.Text = "button1";
             this.button_Connect.UseVisualStyleBackColor = true;
-            this.button_Connect.Click += new System.EventHandler(this.button1_Click);
+            this.button_Connect.Click += new System.EventHandler(this.button_Connect_Click);
             // 
             // checkedListBox_TableList
             // 
@@ -68,13 +68,14 @@
             this.button_StartParsing.TabIndex = 3;
             this.button_StartParsing.Text = "button2";
             this.button_StartParsing.UseVisualStyleBackColor = true;
-            this.button_StartParsing.Click += new System.EventHandler(this.button2_Click);
+            this.button_StartParsing.Click += new System.EventHandler(this.button_StartParsing_Click);
             // 
             // textBox_Console
             // 
-            this.textBox_Console.Location = new System.Drawing.Point(538, 220);
+            this.textBox_Console.Location = new System.Drawing.Point(392, 70);
+            this.textBox_Console.Multiline = true;
             this.textBox_Console.Name = "textBox_Console";
-            this.textBox_Console.Size = new System.Drawing.Size(100, 21);
+            this.textBox_Console.Size = new System.Drawing.Size(291, 254);
             this.textBox_Console.TabIndex = 4;
             // 
             // SpreadSheetParser
