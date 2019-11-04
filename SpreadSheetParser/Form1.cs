@@ -1,24 +1,22 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Sheets.v4;
-using Google.Apis.Sheets.v4.Data;
-using Google.Apis.Services;
-using Google.Apis.Util.Store;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using System.CodeDom;
 
 namespace SpreadSheetParser
 {
     public partial class SpreadSheetParser : Form
     {
-        // If modifying these scopes, delete your previously saved credentials
-        // at ~/.credentials/sheets.googleapis.com-dotnet-quickstart.json
-        static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
-        static string ApplicationName = "Google Sheets API .NET Quickstart";
+        public enum ECommandLine
+        {
+            type,
+            comment,
+            typename,
+        }
+
+        SpreadSheetConnector _pSheetConnector = new SpreadSheetConnector();
+        CodeFileBuilder _pCodeFileBuilder = new CodeFileBuilder();
 
         public SpreadSheetParser()
         {
@@ -32,66 +30,94 @@ namespace SpreadSheetParser
 
         private void button_Connect_Click(object sender, EventArgs e)
         {
-            UserCredential credential;
+            // 테스트 시트
+            // https://docs.google.com/spreadsheets/d/1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4/edit#gid=0
+            string strSheetID = "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4";
 
-            using (var stream =
-                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
-            {
-                // The file token.json stores the user's access and refresh tokens, and is created
-                // automatically when the authorization flow completes for the first time.
-                string credPath = "token.json";
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, true)).Result;
-                Console.WriteLine("Credential file saved to: " + credPath);
-            }
-
-            // Create Google Sheets API service.
-            var service = new SheetsService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
-            });
-
-            // Define request parameters.
-            string spreadsheetId = "16E4yPh8VkPfL-VeaBmcJ1vrZc36E3jFchanlEN_Apd8";
-            var pTest = service.Spreadsheets.Get(spreadsheetId);
             checkedListBox_TableList.Items.Clear();
+            List<SheetWrapper> listSheet = _pSheetConnector.DoConnect(strSheetID);
+            for (int i = 0; i < listSheet.Count; i++)
+                checkedListBox_TableList.Items.Add(listSheet[i], true);
 
-            try
+            _pCodeFileBuilder = new CodeFileBuilder();
+
+            foreach (var pItem in checkedListBox_TableList.CheckedItems)
             {
-                var TestResponse = pTest.Execute();
-                for (int i = 0; i < TestResponse.Sheets.Count; i++)
-                    checkedListBox_TableList.Items.Add(new SheetWrapper(TestResponse.Sheets[i]));
+                SheetWrapper pWrapper = (SheetWrapper)pItem;
+                string strSheetName = pWrapper.ToString();
+
+                var pCodeType = _pCodeFileBuilder.AddCodeType(strSheetName);
+                pCodeType.IsClass = true;
+
+                IList<IList<Object>> pData = _pSheetConnector.GetExcelData(strSheetName);
+                if (pData == null)
+                    continue;
+
+                for (int i = 0; i < pData.Count; i++)
+                {
+                    IList<object> pRow = pData[i];
+                    for (int k = 0; k < pRow.Count; k++)
+                    {
+                        string strText = (string)pRow[k];
+                        if (string.IsNullOrEmpty(strText))
+                            continue;
+
+                        if (strText.StartsWith("-"))
+                        {
+                            if(pRow.Count < k + 1)
+                                Execute_CommandLine(pCodeType, strText, (string)pRow[k + 1]);
+                            else
+                                Execute_CommandLine(pCodeType, strText, "");
+
+                            continue;
+                        }
+
+                        if (strText.Contains(":"))
+                        {
+                            string[] arrText = strText.Split(':');
+                            if(arrText[1].ToLower().Equals("enum"))
+                                pCodeType.AddEnumField(new EnumFieldData(arrText[0]));
+                            else
+                                pCodeType.AddField(new FieldData(arrText[0], arrText[1]));
+                        }
+                    }
+                }
             }
-            catch (Exception pException)
+             
+            _pCodeFileBuilder.GenerateCSharpCode("test2");
+        }
+
+        private void Execute_CommandLine(System.CodeDom.CodeTypeDeclaration pCodeType, string strText, string strCommandLineValue)
+        {
+            strText = strText.Remove(0, 1);
+            ECommandLine eCommandLine = (ECommandLine)System.Enum.Parse(typeof(ECommandLine), strText);
+            switch (eCommandLine)
             {
+                case ECommandLine.type:
+
+                    pCodeType.IsClass = false;
+                    pCodeType.IsStruct = false;
+                    pCodeType.IsEnum = false;
+
+                    switch (strCommandLineValue.ToLower())
+                    {
+                        case "class": pCodeType.IsClass = true; break;
+                        case "struct": pCodeType.IsStruct = true; break;
+                        case "enum": pCodeType.IsEnum = true; break;
+                    }
+                    break;
+
+                case ECommandLine.comment:
+                    pCodeType.AddComment(strCommandLineValue);
+                    break;
+
+                case ECommandLine.typename:
+                    pCodeType.Name = strCommandLineValue;
+                    break;
+
+                default:
+                    break;
             }
-
-            string strSheetName = "MonsterData";
-            string range = "!A2:C";
-
-            SpreadsheetsResource.ValuesResource.GetRequest request =
-                    service.Spreadsheets.Values.Get(spreadsheetId, strSheetName + range);
-
-            ValueRange response = request.Execute();
-
-            IList<IList<Object>> values = response.Values;
-            if (values != null && values.Count > 0)
-            {
-                //List<MyTypeBuilder.FieldInfo> listFieldInfo = new List<MyTypeBuilder.FieldInfo>();
-                //listFieldInfo.Add(new MyTypeBuilder.FieldInfo("intTest", typeof(int)));
-
-                //System.Type pType = MyTypeBuilder.CompileResultType(listFieldInfo);
-            }
-            else
-            {
-                Console.WriteLine("No data found.");
-            }
-            Console.Read();
         }
 
         private void button_StartParsing_Click(object sender, EventArgs e)
@@ -99,24 +125,6 @@ namespace SpreadSheetParser
 
         }
 
-    }
-
-    public class SheetWrapper
-    {
-        public Sheet pSheet { get; private set; }
-
-        public SheetWrapper(Sheet pSheet)
-        {
-            this.pSheet = pSheet;
-        }
-
-        public override string ToString()
-        {
-            if (pSheet == null)
-                return "Error";
-
-            return pSheet.Properties.Title;
-        }
     }
 
 }

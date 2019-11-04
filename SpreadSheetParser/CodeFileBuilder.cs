@@ -10,18 +10,9 @@ using System.Threading.Tasks;
 
 namespace SpreadSheetParser
 {
-    public class FieldData
+    public static class TypeParser
     {
-        public string strFieldName;
-        public string strTypeName;
-        public string strComment;
-
-        public FieldData(string strFieldName, string strTypeName, string strComment = "")
-        {
-            this.strFieldName = strFieldName; this.strTypeName = strTypeName; this.strComment = strComment;
-        }
-
-        public Type GetFieldType_OrNull()
+        static public Type GetFieldType_OrNull(string strTypeName)
         {
             System.Type pType = null;
             string strKey = strTypeName.ToLower();
@@ -39,6 +30,18 @@ namespace SpreadSheetParser
             }
 
             return pType;
+        }
+    }
+
+    public class FieldData
+    {
+        public string strFieldName;
+        public string strTypeName;
+        public string strComment;
+
+        public FieldData(string strFieldName, string strTypeName, string strComment = "")
+        {
+            this.strFieldName = strFieldName; this.strTypeName = strTypeName; this.strComment = strComment;
         }
     }
 
@@ -70,8 +73,6 @@ namespace SpreadSheetParser
         CodeNamespace _pNameSpace;
         CodeCompileUnit _pCompileUnit;
 
-        Dictionary<string, System.Type> _mapEnum = new Dictionary<string, Type>();
-
         public CodeFileBuilder()
         {
             _pCompileUnit = new CodeCompileUnit();
@@ -99,41 +100,17 @@ namespace SpreadSheetParser
             }
         }
 
-        public CodeTypeDeclaration AddClass(string strTypeName, string strComment = "", TypeAttributes eTypeAttributeFlags = TypeAttributes.Public | TypeAttributes.Class)
+        public CodeTypeDeclaration AddCodeType(string strTypeName, string strComment = "", TypeAttributes eTypeAttributeFlags = TypeAttributes.Public)
         {
-            CodeTypeDeclaration pClass = new CodeTypeDeclaration(strTypeName);
-            _pNameSpace.Types.Add(pClass);
+            CodeTypeDeclaration pCodeType = new CodeTypeDeclaration(strTypeName);
+            _pNameSpace.Types.Add(pCodeType);
 
-            pClass.IsClass = true;
-            pClass.TypeAttributes = eTypeAttributeFlags;
+            pCodeType.TypeAttributes = eTypeAttributeFlags;
+            pCodeType.AddComment(strComment);
 
-            if (string.IsNullOrEmpty(strComment) == false)
-            {
-                pClass.Comments.Add(new CodeCommentStatement("<summary>", true));
-                pClass.Comments.Add(new CodeCommentStatement(strComment, true));
-                pClass.Comments.Add(new CodeCommentStatement("</summary>", true));
-            }
-
-            return pClass;
+            return pCodeType;
         }
 
-        public CodeTypeDeclaration AddEnum(string strTypeName, string strComment = "")
-        {
-            CodeTypeDeclaration pClass = new CodeTypeDeclaration(strTypeName);
-            _pNameSpace.Types.Add(pClass);
-            _mapEnum.Add(strTypeName.ToLower(), pClass.GetType());
-
-            pClass.IsEnum = true;
-
-            if (string.IsNullOrEmpty(strComment) == false)
-            {
-                pClass.Comments.Add(new CodeCommentStatement("<summary>", true));
-                pClass.Comments.Add(new CodeCommentStatement(strComment, true));
-                pClass.Comments.Add(new CodeCommentStatement("</summary>", true));
-            }
-
-            return pClass;
-        }
 
         #region Setter
 
@@ -158,13 +135,23 @@ namespace SpreadSheetParser
 
     static public class CodeFileHelper
     {
+        public static void AddComment(this CodeTypeDeclaration pCodeType, string strComment)
+        {
+            if (string.IsNullOrEmpty(strComment))
+                return;
+
+            pCodeType.Comments.Add(new CodeCommentStatement("<summary>", true));
+            pCodeType.Comments.Add(new CodeCommentStatement(strComment, true));
+            pCodeType.Comments.Add(new CodeCommentStatement("</summary>", true));
+        }
+
         public static void AddField(this CodeTypeDeclaration pCodeType, FieldData pFieldData)
         {
             CodeMemberField pField = new CodeMemberField();
             pField.Attributes = MemberAttributes.Public;
             pField.Name = pFieldData.strFieldName;
 
-            Type pType = pFieldData.GetFieldType_OrNull();
+            Type pType = TypeParser.GetFieldType_OrNull(pFieldData.strTypeName);
             if (pType == null)
                 pField.Type = new CodeTypeReference(pFieldData.strTypeName);
             else
