@@ -21,6 +21,16 @@ namespace SpreadSheetParser
         public SpreadSheetParser()
         {
             InitializeComponent();
+
+            _instance = this;
+        }
+
+        static public SpreadSheetParser isntance => _instance;
+        static private SpreadSheetParser _instance;
+
+        static public void WriteConsole(string strText)
+        {
+            _instance.textBox_Console.AppendText(strText + "\n");
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -30,9 +40,13 @@ namespace SpreadSheetParser
 
         private void button_Connect_Click(object sender, EventArgs e)
         {
-            // 테스트 시트
-            // https://docs.google.com/spreadsheets/d/1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4/edit#gid=0
-            string strSheetID = "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4";
+            WriteConsole("연결 시작");
+
+            string strSheetID = textBox_URL.Text;
+
+            //// 테스트 시트
+            //// https://docs.google.com/spreadsheets/d/1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4/edit#gid=0
+            //strSheetID = "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4";
 
             checkedListBox_TableList.Items.Clear();
             List<SheetWrapper> listSheet = _pSheetConnector.DoConnect(strSheetID);
@@ -85,6 +99,7 @@ namespace SpreadSheetParser
             }
              
             _pCodeFileBuilder.GenerateCSharpCode("test2");
+            WriteConsole("연결 종료");
         }
 
         private void Execute_CommandLine(System.CodeDom.CodeTypeDeclaration pCodeType, string strText, string strCommandLineValue)
