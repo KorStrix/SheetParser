@@ -14,19 +14,9 @@ namespace SpreadSheetParser
         [STAThread]
         static void Main()
         {
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new SpreadSheetParser());
-
-            SaveData_SpreadSheet pSheet = new SaveData_SpreadSheet();
-            pSheet.strSheetID = "TestID";
-
-            pSheet.listTable.Add(new SaveData_Table() { strSheetName = "Test1" });
-            pSheet.listTable.Add(new SaveData_Table() { strSheetName = "Test2" });
-
-            SaveDataManager.SaveSheet(pSheet);
-
-            var listSheet = SaveDataManager.LoadSheet();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new SpreadSheetParser());
         }
     }
 }

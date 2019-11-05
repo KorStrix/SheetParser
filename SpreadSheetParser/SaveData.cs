@@ -14,13 +14,26 @@ namespace SpreadSheetParser
     public class SaveData_SpreadSheet
     {
         public string strSheetID;
+        public DateTime date_LastEdit;
         public List<SaveData_Table> listTable = new List<SaveData_Table>();
+
+        public override string ToString()
+        {
+            return strSheetID;
+        }
     }
 
     public class SaveData_Table
     {
         public string strSheetName;
         public bool bEnable = true;
+
+        public string strCommandLine;
+
+        public override string ToString()
+        {
+            return strSheetName;
+        }
     }
 
     public static class SaveDataManager
@@ -43,12 +56,12 @@ namespace SpreadSheetParser
             }
         }
 
-        static public List<SaveData_SpreadSheet> LoadSheet()
+        static public Dictionary<string, SaveData_SpreadSheet> LoadSheet()
         {
-            List<SaveData_SpreadSheet> listSaveSheet = new List<SaveData_SpreadSheet>();
+            Dictionary<string, SaveData_SpreadSheet> mapSaveSheet = new Dictionary<string, SaveData_SpreadSheet>();
 
             if (Directory.Exists(const_strSaveFolderPath) == false)
-                return listSaveSheet;
+                return mapSaveSheet;
 
             DirectoryInfo pDirectory = new DirectoryInfo(const_strSaveFolderPath);
             FileInfo[] arrFile = pDirectory.GetFiles();
@@ -68,10 +81,10 @@ namespace SpreadSheetParser
                 }
 
                 if(pSaveData != null)
-                    listSaveSheet.Add(pSaveData);
+                    mapSaveSheet.Add(pSaveData.strSheetID, pSaveData);
             }
 
-            return listSaveSheet;
+            return mapSaveSheet;
         }
     }
 }

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox_URL = new System.Windows.Forms.TextBox();
+            this.textBox_SheetID = new System.Windows.Forms.TextBox();
             this.button_Connect = new System.Windows.Forms.Button();
             this.checkedListBox_TableList = new System.Windows.Forms.CheckedListBox();
             this.button_StartParsing = new System.Windows.Forms.Button();
@@ -36,7 +36,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox_SaveSheet = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -44,24 +44,24 @@
             this.button2 = new System.Windows.Forms.Button();
             this.textBox_CommandLine = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.textBox_Csharp_Path = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.button_Csharp_PathSetting = new System.Windows.Forms.Button();
             this.button_CSV_PathSetting = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.textBox_CSV_Path = new System.Windows.Forms.TextBox();
+            this.button_Csharp_PathSetting = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBox_Csharp_Path = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBox_URL
+            // textBox_SheetID
             // 
-            this.textBox_URL.Location = new System.Drawing.Point(138, 20);
-            this.textBox_URL.Name = "textBox_URL";
-            this.textBox_URL.Size = new System.Drawing.Size(283, 21);
-            this.textBox_URL.TabIndex = 0;
+            this.textBox_SheetID.Location = new System.Drawing.Point(138, 20);
+            this.textBox_SheetID.Name = "textBox_SheetID";
+            this.textBox_SheetID.Size = new System.Drawing.Size(283, 21);
+            this.textBox_SheetID.TabIndex = 0;
             // 
             // button_Connect
             // 
@@ -104,8 +104,8 @@
             // 
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.comboBox1);
-            this.groupBox1.Controls.Add(this.textBox_URL);
+            this.groupBox1.Controls.Add(this.comboBox_SaveSheet);
+            this.groupBox1.Controls.Add(this.textBox_SheetID);
             this.groupBox1.Controls.Add(this.button_Connect);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
@@ -132,13 +132,13 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "이전에 연결한 ID";
             // 
-            // comboBox1
+            // comboBox_SaveSheet
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(138, 50);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(184, 20);
-            this.comboBox1.TabIndex = 2;
+            this.comboBox_SaveSheet.FormattingEnabled = true;
+            this.comboBox_SaveSheet.Location = new System.Drawing.Point(138, 50);
+            this.comboBox_SaveSheet.Name = "comboBox_SaveSheet";
+            this.comboBox_SaveSheet.Size = new System.Drawing.Size(184, 20);
+            this.comboBox_SaveSheet.TabIndex = 2;
             // 
             // groupBox2
             // 
@@ -214,31 +214,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "3. Output Setting";
             // 
-            // textBox_Csharp_Path
-            // 
-            this.textBox_Csharp_Path.Location = new System.Drawing.Point(8, 49);
-            this.textBox_Csharp_Path.Name = "textBox_Csharp_Path";
-            this.textBox_Csharp_Path.Size = new System.Drawing.Size(329, 21);
-            this.textBox_Csharp_Path.TabIndex = 5;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 23);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(99, 12);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "3-1. C# File Path";
-            // 
-            // button_Csharp_PathSetting
-            // 
-            this.button_Csharp_PathSetting.Location = new System.Drawing.Point(213, 18);
-            this.button_Csharp_PathSetting.Name = "button_Csharp_PathSetting";
-            this.button_Csharp_PathSetting.Size = new System.Drawing.Size(124, 23);
-            this.button_Csharp_PathSetting.TabIndex = 7;
-            this.button_Csharp_PathSetting.Text = "경로 세팅";
-            this.button_Csharp_PathSetting.UseVisualStyleBackColor = true;
-            // 
             // button_CSV_PathSetting
             // 
             this.button_CSV_PathSetting.Location = new System.Drawing.Point(213, 130);
@@ -264,6 +239,31 @@
             this.textBox_CSV_Path.Size = new System.Drawing.Size(329, 21);
             this.textBox_CSV_Path.TabIndex = 8;
             // 
+            // button_Csharp_PathSetting
+            // 
+            this.button_Csharp_PathSetting.Location = new System.Drawing.Point(213, 18);
+            this.button_Csharp_PathSetting.Name = "button_Csharp_PathSetting";
+            this.button_Csharp_PathSetting.Size = new System.Drawing.Size(124, 23);
+            this.button_Csharp_PathSetting.TabIndex = 7;
+            this.button_Csharp_PathSetting.Text = "경로 세팅";
+            this.button_Csharp_PathSetting.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 23);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(99, 12);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "3-1. C# File Path";
+            // 
+            // textBox_Csharp_Path
+            // 
+            this.textBox_Csharp_Path.Location = new System.Drawing.Point(8, 49);
+            this.textBox_Csharp_Path.Name = "textBox_Csharp_Path";
+            this.textBox_Csharp_Path.Size = new System.Drawing.Size(329, 21);
+            this.textBox_Csharp_Path.TabIndex = 5;
+            // 
             // SpreadSheetParser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -275,7 +275,7 @@
             this.Controls.Add(this.textBox_Console);
             this.Name = "SpreadSheetParser";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -290,7 +290,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox_URL;
+        private System.Windows.Forms.TextBox textBox_SheetID;
         private System.Windows.Forms.Button button_Connect;
         private System.Windows.Forms.CheckedListBox checkedListBox_TableList;
         private System.Windows.Forms.Button button_StartParsing;
@@ -299,7 +299,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox_SaveSheet;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox textBox_Csharp_Path;
         private System.Windows.Forms.TextBox textBox_CommandLine;

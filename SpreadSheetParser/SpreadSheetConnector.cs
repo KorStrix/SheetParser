@@ -41,32 +41,42 @@ namespace SpreadSheetParser
 
         string _strSheetID;
 
-        public List<SheetWrapper> DoConnect(string strSheetID)
+        public bool DoConnect(string strSheetID, out List<SheetWrapper> listSheet, out Exception pException_OnError)
         {
+            listSheet = new List<SheetWrapper>();
+            pException_OnError = null;
+
             this._strSheetID = strSheetID;
             UserCredential credential;
 
-            using (var stream =
-                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+            try
             {
-                string credPath = "token.json";
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, true)).Result;
-                Console.WriteLine("Credential file saved to: " + credPath);
+                using (var stream =
+                    new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+                {
+                    string credPath = "token.json";
+                    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                        GoogleClientSecrets.Load(stream).Secrets,
+                        Scopes,
+                        "user",
+                        CancellationToken.None,
+                        new FileDataStore(credPath, true)).Result;
+                    Console.WriteLine("Credential file saved to: " + credPath);
+                }
+
+                pService = new SheetsService(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = ApplicationName,
+                });
+            }
+            catch (Exception pException)
+            {
+                pException_OnError = pException;
+                return false;
             }
 
-            pService = new SheetsService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
-            });
-
             var pRequest_HandShake = pService.Spreadsheets.Get(strSheetID);
-            List<SheetWrapper> listSheet = new List<SheetWrapper>();
             try
             {
                 var TestResponse = pRequest_HandShake.Execute();
@@ -75,9 +85,11 @@ namespace SpreadSheetParser
             }
             catch (Exception pException)
             {
+                pException_OnError = pException;
+                return false;
             }
 
-            return listSheet;
+            return true;
         }
 
         public IList<IList<Object>> GetExcelData(string strSheetName)
