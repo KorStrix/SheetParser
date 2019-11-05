@@ -15,6 +15,9 @@ namespace SpreadSheetParser
             typename,
         }
 
+        static public SpreadSheetParser isntance => _instance;
+        static private SpreadSheetParser _instance;
+
         SpreadSheetConnector _pSheetConnector = new SpreadSheetConnector();
         CodeFileBuilder _pCodeFileBuilder = new CodeFileBuilder();
 
@@ -25,12 +28,10 @@ namespace SpreadSheetParser
             _instance = this;
         }
 
-        static public SpreadSheetParser isntance => _instance;
-        static private SpreadSheetParser _instance;
-
         static public void WriteConsole(string strText)
         {
-            _instance.textBox_Console.AppendText(strText + "\n");
+            _instance.textBox_Console.AppendText(strText);
+            _instance.textBox_Console.AppendText(Environment.NewLine);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -139,7 +140,6 @@ namespace SpreadSheetParser
         {
 
         }
-
     }
 
 }
