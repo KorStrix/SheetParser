@@ -16,7 +16,13 @@ namespace SpreadSheetParser
         public string strSheetID;
         public DateTime date_LastEdit;
         public List<SaveData_Table> listTable = new List<SaveData_Table>();
+        public string strOutputPath_Csharp = Directory.GetCurrentDirectory();
+        public string strOutputPath_CSV = Directory.GetCurrentDirectory();
 
+        public SaveData_SpreadSheet(string strSheetID)
+        {
+            this.strSheetID = strSheetID;
+        }
         public override string ToString()
         {
             return strSheetID;

@@ -71,9 +71,13 @@ namespace SpreadSheetParser
             for (int i = 0; i < listSheet.Count; i++)
                 checkedListBox_TableList.Items.Add(listSheet[i], true);
 
-            SaveData_SpreadSheet pSheet = new SaveData_SpreadSheet();
+            SaveData_SpreadSheet pSheet = new SaveData_SpreadSheet(strSheetID);
             _mapSaveData[pSheet.strSheetID] = pSheet;
             SaveDataManager.SaveSheet(_mapSaveData[pSheet.strSheetID]);
+
+            textBox_Csharp_Path.Text = pSheet.strOutputPath_Csharp;
+            textBox_CSV_Path.Text = pSheet.strOutputPath_CSV;
+
 
             WriteConsole("연결 성공");
         }
