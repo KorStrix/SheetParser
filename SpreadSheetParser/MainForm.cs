@@ -197,6 +197,12 @@ namespace SpreadSheetParser
             }
         }
 
+        private void Button_OpenPath_SaveSheet_Click(object sender, EventArgs e)
+        {
+            string strSaveFolderPath = SaveDataManager.const_strSaveFolderPath;
+            OpenPath(strSaveFolderPath.Remove(strSaveFolderPath.Length - 1, 1));
+        }
+
         private void Button_OpenPath_Csharp_Click(object sender, EventArgs e)
         {
             OpenPath(textBox_Csharp_Path.Text);
@@ -230,12 +236,13 @@ namespace SpreadSheetParser
 
             try
             {
-                System.Diagnostics.Process.Start($"C:/{strPath}");
+                System.Diagnostics.Process.Start(strPath);
                 WriteConsole($"폴더 열기 성공.. 경로{strPath}");
             }
             catch (System.Exception pException)
             {
-                WriteConsole($"폴더 열기 실패.. 경로{strPath}\n에러:{pException}");
+                WriteConsole($"폴더 열기 실패.. 경로{strPath}");
+                WriteConsole($"에러:{ pException}");
             }
         }
 

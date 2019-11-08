@@ -44,7 +44,7 @@ namespace SpreadSheetParser
 
     public static class SaveDataManager
     {
-        static string const_strSaveFolderPath = Directory.GetCurrentDirectory() + "/SaveData/";
+        public static string const_strSaveFolderPath = Directory.GetCurrentDirectory() + "/SaveData/";
 
         static JsonSerializer _pSerializer = new JsonSerializer();
 
