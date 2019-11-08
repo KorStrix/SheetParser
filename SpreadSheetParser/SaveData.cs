@@ -21,6 +21,7 @@ namespace SpreadSheetParser
 
         public SaveData_SpreadSheet(string strSheetID)
         {
+            date_LastEdit = DateTime.Now;
             this.strSheetID = strSheetID;
         }
         public override string ToString()
