@@ -15,6 +15,12 @@ namespace SpreadSheetParser
             typename,
         }
 
+        public enum EState
+        {
+            None,
+            IsConnected,
+        }
+
         static public SpreadSheetParser isntance => _instance;
         static private SpreadSheetParser _instance;
 
@@ -22,6 +28,8 @@ namespace SpreadSheetParser
         CodeFileBuilder _pCodeFileBuilder = new CodeFileBuilder();
 
         Dictionary<string, SaveData_SpreadSheet> _mapSaveData = new Dictionary<string, SaveData_SpreadSheet>();
+
+        EState _eState;
 
         public SpreadSheetParser()
         {
@@ -38,6 +46,8 @@ namespace SpreadSheetParser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            SetState(EState.None);
+
             _mapSaveData = SaveDataManager.LoadSheet();
 
             SaveData_SpreadSheet pSheet_LastEdit = GetSheet_LastEdit(_mapSaveData);
@@ -78,7 +88,7 @@ namespace SpreadSheetParser
             textBox_Csharp_Path.Text = pSheet.strOutputPath_Csharp;
             textBox_CSV_Path.Text = pSheet.strOutputPath_CSV;
 
-
+            SetState(EState.IsConnected);
             WriteConsole("연결 성공");
         }
 
@@ -180,6 +190,83 @@ namespace SpreadSheetParser
 
                 case ECommandLine.typename:
                     pCodeType.Name = strCommandLineValue;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void Button_OpenPath_Csharp_Click(object sender, EventArgs e)
+        {
+            OpenPath(textBox_Csharp_Path.Text);
+        }
+
+        private void Button_OpenPath_CSV_Click(object sender, EventArgs e)
+        {
+            OpenPath(textBox_CSV_Path.Text);
+        }
+
+        private void Button_Csharp_PathSetting_Click(object sender, EventArgs e)
+        {
+            if(SettingPath(ref textBox_Csharp_Path))
+            {
+                
+            }
+        }
+
+        private void Button_CSV_PathSetting_Click(object sender, EventArgs e)
+        {
+            if(SettingPath(ref textBox_CSV_Path))
+            {
+
+            }
+        }
+
+
+        private void OpenPath(string strPath)
+        {
+            WriteConsole($"폴더 열기 시도.. 경로{strPath}");
+
+            try
+            {
+                System.Diagnostics.Process.Start($"C:/{strPath}");
+                WriteConsole($"폴더 열기 성공.. 경로{strPath}");
+            }
+            catch (System.Exception pException)
+            {
+                WriteConsole($"폴더 열기 실패.. 경로{strPath}\n에러:{pException}");
+            }
+        }
+
+        private bool SettingPath(ref TextBox pTextBox_Path)
+        {
+            using (FolderBrowserDialog pDialog = new FolderBrowserDialog())
+            {
+                if (pDialog.ShowDialog() == DialogResult.OK)
+                {
+                    pTextBox_Path.Text = pDialog.SelectedPath;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void SetState(EState eState)
+        {
+            _eState = eState;
+
+            switch (_eState)
+            {
+                case EState.None:
+                    groupBox2.Enabled = false;
+                    groupBox3.Enabled = false;
+                    break;
+
+                case EState.IsConnected:
+                    groupBox2.Enabled = true;
+                    groupBox3.Enabled = true;
                     break;
 
                 default:

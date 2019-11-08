@@ -86,8 +86,19 @@ namespace SpreadSheetParser
 
                 }
 
-                if(pSaveData != null)
+                if (pSaveData == null)
+                    continue;
+
+                if(mapSaveSheet.ContainsKey(pSaveData.strSheetID))
+                {
+                    SaveData_SpreadSheet pSheetAlreadyAdded = mapSaveSheet[pSaveData.strSheetID];
+                    if (pSheetAlreadyAdded.date_LastEdit < pSaveData.date_LastEdit)
+                        mapSaveSheet[pSaveData.strSheetID] = pSaveData;
+                }
+                else
+                {
                     mapSaveSheet.Add(pSaveData.strSheetID, pSaveData);
+                }
             }
 
             return mapSaveSheet;

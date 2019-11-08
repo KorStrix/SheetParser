@@ -50,6 +50,8 @@
             this.button_Csharp_PathSetting = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox_Csharp_Path = new System.Windows.Forms.TextBox();
+            this.button_OpenPath_Csharp = new System.Windows.Forms.Button();
+            this.button_OpenPath_CSV = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -83,7 +85,7 @@
             // 
             // button_StartParsing
             // 
-            this.button_StartParsing.Location = new System.Drawing.Point(213, 255);
+            this.button_StartParsing.Location = new System.Drawing.Point(213, 263);
             this.button_StartParsing.Name = "button_StartParsing";
             this.button_StartParsing.Size = new System.Drawing.Size(124, 40);
             this.button_StartParsing.TabIndex = 3;
@@ -97,7 +99,7 @@
             this.textBox_Console.Multiline = true;
             this.textBox_Console.Name = "textBox_Console";
             this.textBox_Console.ReadOnly = true;
-            this.textBox_Console.Size = new System.Drawing.Size(427, 108);
+            this.textBox_Console.Size = new System.Drawing.Size(776, 108);
             this.textBox_Console.TabIndex = 4;
             // 
             // groupBox1
@@ -200,6 +202,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.button_OpenPath_CSV);
+            this.groupBox3.Controls.Add(this.button_OpenPath_Csharp);
             this.groupBox3.Controls.Add(this.button_CSV_PathSetting);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.textBox_CSV_Path);
@@ -216,12 +220,13 @@
             // 
             // button_CSV_PathSetting
             // 
-            this.button_CSV_PathSetting.Location = new System.Drawing.Point(213, 130);
+            this.button_CSV_PathSetting.Location = new System.Drawing.Point(255, 130);
             this.button_CSV_PathSetting.Name = "button_CSV_PathSetting";
-            this.button_CSV_PathSetting.Size = new System.Drawing.Size(124, 23);
+            this.button_CSV_PathSetting.Size = new System.Drawing.Size(82, 23);
             this.button_CSV_PathSetting.TabIndex = 10;
             this.button_CSV_PathSetting.Text = "경로 세팅";
             this.button_CSV_PathSetting.UseVisualStyleBackColor = true;
+            this.button_CSV_PathSetting.Click += new System.EventHandler(this.Button_CSV_PathSetting_Click);
             // 
             // label5
             // 
@@ -241,12 +246,13 @@
             // 
             // button_Csharp_PathSetting
             // 
-            this.button_Csharp_PathSetting.Location = new System.Drawing.Point(213, 18);
+            this.button_Csharp_PathSetting.Location = new System.Drawing.Point(255, 18);
             this.button_Csharp_PathSetting.Name = "button_Csharp_PathSetting";
-            this.button_Csharp_PathSetting.Size = new System.Drawing.Size(124, 23);
+            this.button_Csharp_PathSetting.Size = new System.Drawing.Size(82, 23);
             this.button_Csharp_PathSetting.TabIndex = 7;
             this.button_Csharp_PathSetting.Text = "경로 세팅";
             this.button_Csharp_PathSetting.UseVisualStyleBackColor = true;
+            this.button_Csharp_PathSetting.Click += new System.EventHandler(this.Button_Csharp_PathSetting_Click);
             // 
             // label4
             // 
@@ -263,6 +269,26 @@
             this.textBox_Csharp_Path.Name = "textBox_Csharp_Path";
             this.textBox_Csharp_Path.Size = new System.Drawing.Size(329, 21);
             this.textBox_Csharp_Path.TabIndex = 5;
+            // 
+            // button_OpenPath_Csharp
+            // 
+            this.button_OpenPath_Csharp.Location = new System.Drawing.Point(150, 18);
+            this.button_OpenPath_Csharp.Name = "button_OpenPath_Csharp";
+            this.button_OpenPath_Csharp.Size = new System.Drawing.Size(82, 23);
+            this.button_OpenPath_Csharp.TabIndex = 11;
+            this.button_OpenPath_Csharp.Text = "경로 열기";
+            this.button_OpenPath_Csharp.UseVisualStyleBackColor = true;
+            this.button_OpenPath_Csharp.Click += new System.EventHandler(this.Button_OpenPath_Csharp_Click);
+            // 
+            // button_OpenPath_CSV
+            // 
+            this.button_OpenPath_CSV.Location = new System.Drawing.Point(150, 130);
+            this.button_OpenPath_CSV.Name = "button_OpenPath_CSV";
+            this.button_OpenPath_CSV.Size = new System.Drawing.Size(82, 23);
+            this.button_OpenPath_CSV.TabIndex = 12;
+            this.button_OpenPath_CSV.Text = "경로 열기";
+            this.button_OpenPath_CSV.UseVisualStyleBackColor = true;
+            this.button_OpenPath_CSV.Click += new System.EventHandler(this.Button_OpenPath_CSV_Click);
             // 
             // SpreadSheetParser
             // 
@@ -312,6 +338,8 @@
         private System.Windows.Forms.Button button_CSV_PathSetting;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox_CSV_Path;
+        private System.Windows.Forms.Button button_OpenPath_CSV;
+        private System.Windows.Forms.Button button_OpenPath_Csharp;
     }
 }
 
