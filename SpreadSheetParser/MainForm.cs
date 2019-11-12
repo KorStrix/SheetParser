@@ -24,7 +24,10 @@ namespace SpreadSheetParser
         static public SpreadSheetParser isntance => _instance;
         static private SpreadSheetParser _instance;
 
+        private delegate void SafeCallDelegate(string text);
+
         SpreadSheetConnector _pSheetConnector = new SpreadSheetConnector();
+        SaveData_SpreadSheet _pSheet_CurrentConnected;
         CodeFileBuilder _pCodeFileBuilder = new CodeFileBuilder();
 
         Dictionary<string, SaveData_SpreadSheet> _mapSaveData = new Dictionary<string, SaveData_SpreadSheet>();
@@ -40,8 +43,19 @@ namespace SpreadSheetParser
 
         static public void WriteConsole(string strText)
         {
-            _instance.textBox_Console.AppendText(strText);
-            _instance.textBox_Console.AppendText(Environment.NewLine);
+            // Winform 컨트롤을 스레드로부터 안전하게 호출하는 법
+            // https://docs.microsoft.com/ko-kr/dotnet/framework/winforms/controls/how-to-make-thread-safe-calls-to-windows-forms-controls
+            if (_instance.textBox_Console.InvokeRequired)
+            {
+                var d = new SafeCallDelegate(WriteConsole);
+                _instance.textBox_Console.Invoke(d, new object[] { strText });
+                _instance.textBox_Console.Invoke(d, new object[] { Environment.NewLine });
+            }
+            else
+            {
+                _instance.textBox_Console.AppendText(strText);
+                _instance.textBox_Console.AppendText(Environment.NewLine);
+            }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -72,7 +86,7 @@ namespace SpreadSheetParser
             checkedListBox_TableList.Items.Clear();
             List<SheetWrapper> listSheet;
             System.Exception pException;
-            if(_pSheetConnector.DoConnect(strSheetID, out listSheet, out pException) == false)
+            if (_pSheetConnector.DoConnect(strSheetID, out listSheet, out pException) == false)
             {
                 WriteConsole("연결 실패 " + pException);
                 return;
@@ -81,13 +95,21 @@ namespace SpreadSheetParser
             for (int i = 0; i < listSheet.Count; i++)
                 checkedListBox_TableList.Items.Add(listSheet[i], true);
 
-            SaveData_SpreadSheet pSheet = new SaveData_SpreadSheet(strSheetID);
-            _mapSaveData[pSheet.strSheetID] = pSheet;
-            SaveDataManager.SaveSheet(_mapSaveData[pSheet.strSheetID]);
+            if (_mapSaveData.ContainsKey(strSheetID))
+            {
+                _pSheet_CurrentConnected = _mapSaveData[strSheetID];
+                WriteConsole("저장된 파일로 덮어썼습니다.");
+            }
+            else
+            {
+                _pSheet_CurrentConnected = new SaveData_SpreadSheet(strSheetID);
+                _mapSaveData[_pSheet_CurrentConnected.strSheetID] = _pSheet_CurrentConnected;
+                SaveDataManager.SaveSheet(_pSheet_CurrentConnected);
 
-            textBox_Csharp_Path.Text = pSheet.strOutputPath_Csharp;
-            textBox_CSV_Path.Text = pSheet.strOutputPath_CSV;
+                WriteConsole("새 파일을 만들었습니다.");
+            }
 
+            UpdateUI();
             SetState(EState.IsConnected);
             WriteConsole("연결 성공");
         }
@@ -217,7 +239,8 @@ namespace SpreadSheetParser
         {
             if(SettingPath(ref textBox_Csharp_Path))
             {
-                
+                _pSheet_CurrentConnected.strOutputPath_Csharp = textBox_Csharp_Path.Text;
+                AutoSaveAsync();
             }
         }
 
@@ -225,10 +248,10 @@ namespace SpreadSheetParser
         {
             if(SettingPath(ref textBox_CSV_Path))
             {
-
+                _pSheet_CurrentConnected.strOutputPath_CSV = textBox_CSV_Path.Text;
+                AutoSaveAsync();
             }
         }
-
 
         private void OpenPath(string strPath)
         {
@@ -279,6 +302,24 @@ namespace SpreadSheetParser
                 default:
                     break;
             }
+        }
+
+
+        private void AutoSaveAsync()
+        {
+            WriteConsole("자동 저장 중.." + _pSheet_CurrentConnected.strSheetID);
+            SaveDataManager.SaveSheet_Async(_pSheet_CurrentConnected, AutoSaveDone);
+        }
+
+        private void AutoSaveDone()
+        {
+            WriteConsole("자동 저장 완료..");
+        }
+
+        private void UpdateUI()
+        {
+            textBox_Csharp_Path.Text = _pSheet_CurrentConnected.strOutputPath_Csharp;
+            textBox_CSV_Path.Text = _pSheet_CurrentConnected.strOutputPath_CSV;
         }
     }
 }
