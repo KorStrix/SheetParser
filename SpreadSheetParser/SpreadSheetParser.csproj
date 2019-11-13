@@ -76,7 +76,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SaveData.cs" />
+    <Compile Include="JsonSaveManager.cs" />
+    <Compile Include="SaveData_Sheet.cs" />
     <Compile Include="CodeFileBuilder.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

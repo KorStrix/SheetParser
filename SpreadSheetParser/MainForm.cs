@@ -29,6 +29,7 @@ namespace SpreadSheetParser
         SpreadSheetConnector _pSheetConnector = new SpreadSheetConnector();
         SaveData_SpreadSheet _pSheet_CurrentConnected;
         CodeFileBuilder _pCodeFileBuilder = new CodeFileBuilder();
+        Config _pConfig;
 
         Dictionary<string, SaveData_SpreadSheet> _mapSaveData = new Dictionary<string, SaveData_SpreadSheet>();
 
@@ -62,15 +63,23 @@ namespace SpreadSheetParser
         {
             SetState(EState.None);
 
+            _pConfig = SaveDataManager.LoadConfig();
             _mapSaveData = SaveDataManager.LoadSheet();
-
-            SaveData_SpreadSheet pSheet_LastEdit = GetSheet_LastEdit(_mapSaveData);
-            if (pSheet_LastEdit != null)
-                textBox_SheetID.Text = pSheet_LastEdit.strSheetID;
 
             comboBox_SaveSheet.Items.Clear();
             foreach (var pData in _mapSaveData.Values)
                 comboBox_SaveSheet.Items.Add(pData);
+
+            SaveData_SpreadSheet pSheet_LastEdit = GetSheet_LastEdit(_mapSaveData);
+            if (pSheet_LastEdit != null)
+            {
+                textBox_SheetID.Text = pSheet_LastEdit.strSheetID;
+                if (_pConfig.bAutoConnect)
+                {
+                    WriteConsole("Config - 자동연결로 인해 연결을 시작합니다..");
+                    button_Connect_Click(null, null);
+                }
+            }
         }
 
         private void button_Connect_Click(object sender, EventArgs e)
@@ -290,13 +299,13 @@ namespace SpreadSheetParser
             switch (_eState)
             {
                 case EState.None:
-                    groupBox2.Enabled = false;
-                    groupBox3.Enabled = false;
+                    groupBox2_TableSetting.Enabled = false;
+                    groupBox3_OutputSetting.Enabled = false;
                     break;
 
                 case EState.IsConnected:
-                    groupBox2.Enabled = true;
-                    groupBox3.Enabled = true;
+                    groupBox2_TableSetting.Enabled = true;
+                    groupBox3_OutputSetting.Enabled = true;
                     break;
 
                 default:
@@ -320,6 +329,11 @@ namespace SpreadSheetParser
         {
             textBox_Csharp_Path.Text = _pSheet_CurrentConnected.strOutputPath_Csharp;
             textBox_CSV_Path.Text = _pSheet_CurrentConnected.strOutputPath_CSV;
+        }
+
+        private void checkBox_AutoConnect_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

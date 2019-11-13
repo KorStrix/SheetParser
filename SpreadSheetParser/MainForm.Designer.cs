@@ -34,16 +34,17 @@
             this.button_StartParsing = new System.Windows.Forms.Button();
             this.textBox_Console = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button_OpenPath_SaveSheet = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox_SaveSheet = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox2_TableSetting = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.textBox_CommandLine = new System.Windows.Forms.TextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox3_OutputSetting = new System.Windows.Forms.GroupBox();
             this.button_OpenPath_CSV = new System.Windows.Forms.Button();
             this.button_OpenPath_Csharp = new System.Windows.Forms.Button();
             this.button_CSV_PathSetting = new System.Windows.Forms.Button();
@@ -52,11 +53,13 @@
             this.button_Csharp_PathSetting = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox_Csharp_Path = new System.Windows.Forms.TextBox();
-            this.button_OpenPath_SaveSheet = new System.Windows.Forms.Button();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.checkBox_AutoConnect = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.groupBox2_TableSetting.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.groupBox3_OutputSetting.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox_SheetID
@@ -72,7 +75,7 @@
             this.button_Connect.Name = "button_Connect";
             this.button_Connect.Size = new System.Drawing.Size(75, 23);
             this.button_Connect.TabIndex = 1;
-            this.button_Connect.Text = "Connect";
+            this.button_Connect.Text = "연결";
             this.button_Connect.UseVisualStyleBackColor = true;
             this.button_Connect.Click += new System.EventHandler(this.button_Connect_Click);
             // 
@@ -118,6 +121,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "1. Connect";
             // 
+            // button_OpenPath_SaveSheet
+            // 
+            this.button_OpenPath_SaveSheet.Location = new System.Drawing.Point(363, 47);
+            this.button_OpenPath_SaveSheet.Name = "button_OpenPath_SaveSheet";
+            this.button_OpenPath_SaveSheet.Size = new System.Drawing.Size(75, 23);
+            this.button_OpenPath_SaveSheet.TabIndex = 5;
+            this.button_OpenPath_SaveSheet.Text = "저장폴더";
+            this.button_OpenPath_SaveSheet.UseVisualStyleBackColor = true;
+            this.button_OpenPath_SaveSheet.Click += new System.EventHandler(this.Button_OpenPath_SaveSheet_Click);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -146,14 +159,14 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.groupBox4);
-            this.groupBox2.Controls.Add(this.checkedListBox_TableList);
-            this.groupBox2.Location = new System.Drawing.Point(12, 98);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(533, 313);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "2. TableSetting";
+            this.groupBox2_TableSetting.Controls.Add(this.groupBox4);
+            this.groupBox2_TableSetting.Controls.Add(this.checkedListBox_TableList);
+            this.groupBox2_TableSetting.Location = new System.Drawing.Point(12, 98);
+            this.groupBox2_TableSetting.Name = "groupBox2";
+            this.groupBox2_TableSetting.Size = new System.Drawing.Size(533, 313);
+            this.groupBox2_TableSetting.TabIndex = 6;
+            this.groupBox2_TableSetting.TabStop = false;
+            this.groupBox2_TableSetting.Text = "2. TableSetting";
             // 
             // groupBox4
             // 
@@ -204,21 +217,21 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.button_OpenPath_CSV);
-            this.groupBox3.Controls.Add(this.button_OpenPath_Csharp);
-            this.groupBox3.Controls.Add(this.button_CSV_PathSetting);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.textBox_CSV_Path);
-            this.groupBox3.Controls.Add(this.button_Csharp_PathSetting);
-            this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.textBox_Csharp_Path);
-            this.groupBox3.Controls.Add(this.button_StartParsing);
-            this.groupBox3.Location = new System.Drawing.Point(551, 98);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(445, 313);
-            this.groupBox3.TabIndex = 7;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "3. Output Setting";
+            this.groupBox3_OutputSetting.Controls.Add(this.button_OpenPath_CSV);
+            this.groupBox3_OutputSetting.Controls.Add(this.button_OpenPath_Csharp);
+            this.groupBox3_OutputSetting.Controls.Add(this.button_CSV_PathSetting);
+            this.groupBox3_OutputSetting.Controls.Add(this.label5);
+            this.groupBox3_OutputSetting.Controls.Add(this.textBox_CSV_Path);
+            this.groupBox3_OutputSetting.Controls.Add(this.button_Csharp_PathSetting);
+            this.groupBox3_OutputSetting.Controls.Add(this.label4);
+            this.groupBox3_OutputSetting.Controls.Add(this.textBox_Csharp_Path);
+            this.groupBox3_OutputSetting.Controls.Add(this.button_StartParsing);
+            this.groupBox3_OutputSetting.Location = new System.Drawing.Point(551, 98);
+            this.groupBox3_OutputSetting.Name = "groupBox3";
+            this.groupBox3_OutputSetting.Size = new System.Drawing.Size(445, 313);
+            this.groupBox3_OutputSetting.TabIndex = 7;
+            this.groupBox3_OutputSetting.TabStop = false;
+            this.groupBox3_OutputSetting.Text = "3. Output Setting";
             // 
             // button_OpenPath_CSV
             // 
@@ -292,23 +305,36 @@
             this.textBox_Csharp_Path.Size = new System.Drawing.Size(431, 21);
             this.textBox_Csharp_Path.TabIndex = 5;
             // 
-            // button_OpenPath_SaveSheet
+            // groupBox5
             // 
-            this.button_OpenPath_SaveSheet.Location = new System.Drawing.Point(363, 47);
-            this.button_OpenPath_SaveSheet.Name = "button_OpenPath_SaveSheet";
-            this.button_OpenPath_SaveSheet.Size = new System.Drawing.Size(75, 23);
-            this.button_OpenPath_SaveSheet.TabIndex = 5;
-            this.button_OpenPath_SaveSheet.Text = "저장폴더";
-            this.button_OpenPath_SaveSheet.UseVisualStyleBackColor = true;
-            this.button_OpenPath_SaveSheet.Click += new System.EventHandler(this.Button_OpenPath_SaveSheet_Click);
+            this.groupBox5.Controls.Add(this.checkBox_AutoConnect);
+            this.groupBox5.Location = new System.Drawing.Point(551, 12);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(445, 80);
+            this.groupBox5.TabIndex = 13;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "0. Config";
+            // 
+            // checkBox_AutoConnect
+            // 
+            this.checkBox_AutoConnect.AutoSize = true;
+            this.checkBox_AutoConnect.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_AutoConnect.Location = new System.Drawing.Point(8, 25);
+            this.checkBox_AutoConnect.Name = "checkBox_AutoConnect";
+            this.checkBox_AutoConnect.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_AutoConnect.TabIndex = 7;
+            this.checkBox_AutoConnect.Text = "자동연결";
+            this.checkBox_AutoConnect.UseVisualStyleBackColor = true;
+            this.checkBox_AutoConnect.CheckedChanged += new System.EventHandler(this.checkBox_AutoConnect_CheckedChanged);
             // 
             // SpreadSheetParser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 537);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.groupBox3_OutputSetting);
+            this.Controls.Add(this.groupBox2_TableSetting);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.textBox_Console);
             this.Name = "SpreadSheetParser";
@@ -316,11 +342,13 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
+            this.groupBox2_TableSetting.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.groupBox3_OutputSetting.ResumeLayout(false);
+            this.groupBox3_OutputSetting.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -334,11 +362,11 @@
         private System.Windows.Forms.Button button_StartParsing;
         private System.Windows.Forms.TextBox textBox_Console;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox2_TableSetting;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox_SaveSheet;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox3_OutputSetting;
         private System.Windows.Forms.TextBox textBox_Csharp_Path;
         private System.Windows.Forms.TextBox textBox_CommandLine;
         private System.Windows.Forms.Button button2;
@@ -353,6 +381,8 @@
         private System.Windows.Forms.Button button_OpenPath_CSV;
         private System.Windows.Forms.Button button_OpenPath_Csharp;
         private System.Windows.Forms.Button button_OpenPath_SaveSheet;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.CheckBox checkBox_AutoConnect;
     }
 }
 
