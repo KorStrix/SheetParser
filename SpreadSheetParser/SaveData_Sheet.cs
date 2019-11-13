@@ -64,6 +64,11 @@ namespace SpreadSheetParser
             JsonSaveManager.SaveData(pData, GetFilePath("Config"));
         }
 
+        static public void SaveConfig_Async(Config pData, System.Action OnFinishAsync)
+        {
+            JsonSaveManager.SaveData_Async(pData, GetFilePath("Config"), OnFinishAsync);
+        }
+
         static public Config LoadConfig()
         {
             List<Config> listConfig = JsonSaveManager.LoadData<Config>(const_strSaveFolderPath);
@@ -92,6 +97,9 @@ namespace SpreadSheetParser
             for (int i = 0; i < listSheet.Count; i++)
             {
                 var pData = listSheet[i];
+                if (string.IsNullOrEmpty(pData.strSheetID))
+                    continue;
+
                 if (mapSaveSheet.ContainsKey(pData.strSheetID))
                 {
                     SaveData_SpreadSheet pSheetAlreadyAdded = mapSaveSheet[pData.strSheetID];

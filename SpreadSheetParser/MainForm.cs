@@ -48,9 +48,8 @@ namespace SpreadSheetParser
             // https://docs.microsoft.com/ko-kr/dotnet/framework/winforms/controls/how-to-make-thread-safe-calls-to-windows-forms-controls
             if (_instance.textBox_Console.InvokeRequired)
             {
-                var d = new SafeCallDelegate(WriteConsole);
-                _instance.textBox_Console.Invoke(d, new object[] { strText });
-                _instance.textBox_Console.Invoke(d, new object[] { Environment.NewLine });
+                var pDelegate = new SafeCallDelegate(WriteConsole);
+                _instance.textBox_Console.Invoke(pDelegate, new object[] { strText });
             }
             else
             {
@@ -80,6 +79,8 @@ namespace SpreadSheetParser
                     button_Connect_Click(null, null);
                 }
             }
+
+            checkBox_AutoConnect.Checked = _pConfig.bAutoConnect;
         }
 
         private void button_Connect_Click(object sender, EventArgs e)
@@ -249,7 +250,7 @@ namespace SpreadSheetParser
             if(SettingPath(ref textBox_Csharp_Path))
             {
                 _pSheet_CurrentConnected.strOutputPath_Csharp = textBox_Csharp_Path.Text;
-                AutoSaveAsync();
+                AutoSaveAsync_CurrentSheet();
             }
         }
 
@@ -258,14 +259,13 @@ namespace SpreadSheetParser
             if(SettingPath(ref textBox_CSV_Path))
             {
                 _pSheet_CurrentConnected.strOutputPath_CSV = textBox_CSV_Path.Text;
-                AutoSaveAsync();
+                AutoSaveAsync_CurrentSheet();
             }
         }
 
         private void OpenPath(string strPath)
         {
             WriteConsole($"폴더 열기 시도.. 경로{strPath}");
-
             try
             {
                 System.Diagnostics.Process.Start(strPath);
@@ -314,12 +314,6 @@ namespace SpreadSheetParser
         }
 
 
-        private void AutoSaveAsync()
-        {
-            WriteConsole("자동 저장 중.." + _pSheet_CurrentConnected.strSheetID);
-            SaveDataManager.SaveSheet_Async(_pSheet_CurrentConnected, AutoSaveDone);
-        }
-
         private void AutoSaveDone()
         {
             WriteConsole("자동 저장 완료..");
@@ -333,7 +327,22 @@ namespace SpreadSheetParser
 
         private void checkBox_AutoConnect_CheckedChanged(object sender, EventArgs e)
         {
-
+            _pConfig.bAutoConnect = checkBox_AutoConnect.Checked;
+            AutoSaveAsync_Config();
         }
+
+
+        private void AutoSaveAsync_CurrentSheet()
+        {
+            WriteConsole("자동 저장 중.." + _pSheet_CurrentConnected.strSheetID);
+            SaveDataManager.SaveSheet_Async(_pSheet_CurrentConnected, AutoSaveDone);
+        }
+
+        private void AutoSaveAsync_Config()
+        {
+            WriteConsole("자동 저장 중.. Config");
+            SaveDataManager.SaveConfig_Async(_pConfig, AutoSaveDone);
+        }
+
     }
 }

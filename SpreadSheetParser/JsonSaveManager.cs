@@ -14,7 +14,17 @@ namespace SpreadSheetParser
 {
     public static class JsonSaveManager
     {
-        static JsonSerializer _pSerializer = new JsonSerializer();
+        static JsonSerializer _pSerializer = JsonSerializer.CreateDefault(Create_JsonSerializerSetting());
+        static JsonSerializerSettings _pSetting = Create_JsonSerializerSetting();
+
+        static JsonSerializerSettings Create_JsonSerializerSetting()
+        {
+            JsonSerializerSettings pSetting = new JsonSerializerSettings();
+            pSetting.Formatting = Formatting.Indented;
+            pSetting.MissingMemberHandling = MissingMemberHandling.Error;
+
+            return pSetting;
+        }
 
         static public void SaveData(object pData, string strFilePath)
         {
@@ -41,9 +51,10 @@ namespace SpreadSheetParser
                 {
                     using (var writer = new StreamWriter(memoryStream))
                     {
-                        var serializer = JsonSerializer.CreateDefault();
+                        JsonSerializerSettings pSetting = new JsonSerializerSettings();
+                        pSetting.Formatting = Formatting.Indented;
 
-                        serializer.Serialize(writer, pData);
+                        _pSerializer.Serialize(writer, pData);
 
                         await writer.FlushAsync().ConfigureAwait(false);
 
@@ -75,11 +86,11 @@ namespace SpreadSheetParser
                 T pData = null;
                 try
                 {
-                    pData = JsonConvert.DeserializeObject<T>(strText);
+                    pData = JsonConvert.DeserializeObject<T>(strText, _pSetting);
                 }
                 catch
                 {
-
+                    continue;
                 }
 
                 if (pData == null)
