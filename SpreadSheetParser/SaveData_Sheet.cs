@@ -21,7 +21,7 @@ namespace SpreadSheetParser
     {
         public string strSheetID;
         public DateTime date_LastEdit;
-        public List<SaveData_Table> listTable = new List<SaveData_Table>();
+        public List<SaveData_Sheet> listTable = new List<SaveData_Sheet>();
         public string strOutputPath_Csharp = Directory.GetCurrentDirectory();
         public string strOutputPath_CSV = Directory.GetCurrentDirectory();
 
@@ -42,12 +42,18 @@ namespace SpreadSheetParser
         }
     }
 
-    public class SaveData_Table
+    public class SaveData_Sheet
     {
         public string strSheetName;
         public bool bEnable = true;
 
         public string strCommandLine;
+
+        public SaveData_Sheet(string strSheetName)
+        {
+            this.strSheetName = strSheetName;
+            bEnable = true;
+        }
 
         public override string ToString()
         {

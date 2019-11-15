@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -10,6 +11,8 @@ namespace SpreadSheetParser
     {
         public enum ECommandLine
         {
+            Error = -1,
+
             type,
             comment,
             typename,
@@ -19,15 +22,18 @@ namespace SpreadSheetParser
         {
             None,
             IsConnected,
+            IsConnected_And_SelectTable,
         }
 
         static public SpreadSheetParser isntance => _instance;
         static private SpreadSheetParser _instance;
 
-        private delegate void SafeCallDelegate(string text);
+        delegate void SafeCallDelegate(string text);
+        delegate void delOnParsingText(IList<object> listRow, string strText, int iRowIndex, int iColumnIndex);
 
         SpreadSheetConnector _pSheetConnector = new SpreadSheetConnector();
-        SaveData_SpreadSheet _pSheet_CurrentConnected;
+        SaveData_SpreadSheet _pSpreadSheet_CurrentConnected;
+        SaveData_Sheet _pSheet_CurrentConnected;
         CodeFileBuilder _pCodeFileBuilder = new CodeFileBuilder();
         Config _pConfig;
 
@@ -81,6 +87,17 @@ namespace SpreadSheetParser
             }
 
             checkBox_AutoConnect.Checked = _pConfig.bAutoConnect;
+
+            checkedListBox_SheetList.ItemCheck += CheckedListBox_TableList_ItemCheck;
+
+        }
+
+        private void CheckedListBox_TableList_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            _pSpreadSheet_CurrentConnected.listTable[e.Index].bEnable = e.NewValue == CheckState.Checked;
+            AutoSaveAsync_CurrentSheet();
+
+            WriteConsole("여기 작업 해야함");
         }
 
         private void button_Connect_Click(object sender, EventArgs e)
@@ -93,7 +110,7 @@ namespace SpreadSheetParser
             //// https://docs.google.com/spreadsheets/d/1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4/edit#gid=0
             //strSheetID = "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4";
 
-            checkedListBox_TableList.Items.Clear();
+            checkedListBox_SheetList.Items.Clear();
             List<SheetWrapper> listSheet;
             System.Exception pException;
             if (_pSheetConnector.DoConnect(strSheetID, out listSheet, out pException) == false)
@@ -102,22 +119,36 @@ namespace SpreadSheetParser
                 return;
             }
 
-            for (int i = 0; i < listSheet.Count; i++)
-                checkedListBox_TableList.Items.Add(listSheet[i], true);
-
             if (_mapSaveData.ContainsKey(strSheetID))
             {
-                _pSheet_CurrentConnected = _mapSaveData[strSheetID];
-                WriteConsole("저장된 파일로 덮어썼습니다.");
+                _pSpreadSheet_CurrentConnected = _mapSaveData[strSheetID];
+                List<SaveData_Sheet> listSavedTable = _pSpreadSheet_CurrentConnected.listTable;
+
+                for (int i = 0; i < listSheet.Count; i++)
+                {
+                    string strSheetName = listSheet[i].ToString();
+                    if (listSavedTable.Where(x => (x.strSheetName == strSheetName)).Count() == 0)
+                        listSavedTable.Add(new SaveData_Sheet(strSheetName));
+                }
             }
             else
             {
-                _pSheet_CurrentConnected = new SaveData_SpreadSheet(strSheetID);
-                _mapSaveData[_pSheet_CurrentConnected.strSheetID] = _pSheet_CurrentConnected;
-                SaveDataManager.SaveSheet(_pSheet_CurrentConnected);
+                _pSpreadSheet_CurrentConnected = new SaveData_SpreadSheet(strSheetID);
+                _mapSaveData[_pSpreadSheet_CurrentConnected.strSheetID] = _pSpreadSheet_CurrentConnected;
+
+                _pSpreadSheet_CurrentConnected.listTable.Clear();
+                for (int i = 0; i < listSheet.Count; i++)
+                    _pSpreadSheet_CurrentConnected.listTable.Add(new SaveData_Sheet(listSheet[i].ToString()));
+
+                SaveDataManager.SaveSheet(_pSpreadSheet_CurrentConnected);
 
                 WriteConsole("새 파일을 만들었습니다.");
             }
+
+            checkedListBox_SheetList.Items.Clear();
+            List<SaveData_Sheet> listSheetSaved = _pSpreadSheet_CurrentConnected.listTable;
+            for (int i = 0; i < listSheetSaved.Count; i++)
+                checkedListBox_SheetList.Items.Add(listSheetSaved[i], listSheetSaved[i].bEnable);
 
             UpdateUI();
             SetState(EState.IsConnected);
@@ -128,52 +159,85 @@ namespace SpreadSheetParser
         {
             _pCodeFileBuilder = new CodeFileBuilder();
 
-            foreach (var pItem in checkedListBox_TableList.CheckedItems)
+            foreach (var pItem in checkedListBox_SheetList.CheckedItems)
             {
                 SheetWrapper pWrapper = (SheetWrapper)pItem;
-                string strSheetName = pWrapper.ToString();
-
-                var pCodeType = _pCodeFileBuilder.AddCodeType(strSheetName);
+                
+                var pCodeType = _pCodeFileBuilder.AddCodeType(pWrapper.ToString());
                 pCodeType.IsClass = true;
 
-                IList<IList<Object>> pData = _pSheetConnector.GetExcelData(strSheetName);
-                if (pData == null)
-                    continue;
-
-                for (int i = 0; i < pData.Count; i++)
-                {
-                    IList<object> pRow = pData[i];
-                    for (int k = 0; k < pRow.Count; k++)
+                ParsingSheet(pWrapper.ToString(),
+                    (listRow, strText, iRow, iColumn) =>
                     {
-                        string strText = (string)pRow[k];
-                        if (string.IsNullOrEmpty(strText))
-                            continue;
-
                         if (strText.StartsWith("-"))
                         {
-                            if (pRow.Count < k + 1)
-                                Execute_CommandLine(pCodeType, strText, (string)pRow[k + 1]);
+                            if (listRow.Count < iColumn + 1)
+                                Execute_CommandLine(pCodeType, strText, (string)listRow[iColumn + 1]);
                             else
                                 Execute_CommandLine(pCodeType, strText, "");
 
-                            continue;
+                            return;
                         }
 
                         if (strText.Contains(":"))
                         {
                             string[] arrText = strText.Split(':');
-                            if (arrText[1].ToLower().Equals("enum"))
+                            if (CheckIsEnum(arrText[1]))
                                 pCodeType.AddEnumField(new EnumFieldData(arrText[0]));
                             else
                                 pCodeType.AddField(new FieldData(arrText[0], arrText[1]));
                         }
-                    }
-                }
+                    });
             }
 
             _pCodeFileBuilder.GenerateCSharpCode("test2");
         }
 
+        private static bool CheckIsEnum(string strText)
+        {
+            return strText.ToLower().Equals("enum");
+        }
+
+        private void button_CheckTable_Click(object sender, EventArgs e)
+        {
+            SaveData_Sheet pSheetData = GetCurrentSelectedTable_OrNull();
+            WriteConsole("테이블 유효성 체크중.." + pSheetData.ToString());
+            try
+            {
+                ParsingSheet(pSheetData.ToString(), 
+                (listRow, strText, iRow, iColumn) =>
+                {
+                    if (strText.StartsWith("-"))
+                    {
+                        ECommandLine eCommandLine = Parsing_CommandLine(strText);
+                        switch (eCommandLine)
+                        {
+                            case ECommandLine.type:
+                            case ECommandLine.comment:
+                            case ECommandLine.typename:
+                                if(string.IsNullOrEmpty((string)listRow[iColumn + 1]))
+                                    throw new System.Exception("Command Parsing Error - Value Is Null");
+                                break;
+
+                            default: throw new System.Exception("Command Parsing Error - Parsing Error");
+                        }
+                        
+                        return;
+                    }
+
+                    if (strText.Contains(":"))
+                    {
+                    }
+                });
+            }
+            catch (Exception pException)
+            {
+                WriteConsole("테이블 유효성 에러 " + pException);
+                return;
+            }
+
+            WriteConsole("테이블 유효성 체크 - 이상없음");
+        }
 
 
         private SaveData_SpreadSheet GetSheet_LastEdit(Dictionary<string, SaveData_SpreadSheet> mapSaveData)
@@ -198,8 +262,7 @@ namespace SpreadSheetParser
 
         private void Execute_CommandLine(System.CodeDom.CodeTypeDeclaration pCodeType, string strText, string strCommandLineValue)
         {
-            strText = strText.Remove(0, 1);
-            ECommandLine eCommandLine = (ECommandLine)System.Enum.Parse(typeof(ECommandLine), strText);
+            ECommandLine eCommandLine = Parsing_CommandLine(strText);
             switch (eCommandLine)
             {
                 case ECommandLine.type:
@@ -229,6 +292,17 @@ namespace SpreadSheetParser
             }
         }
 
+        private static ECommandLine Parsing_CommandLine(string strText)
+        {
+            ECommandLine eCommandLine;
+            strText = strText.Remove(0, 1);
+
+            if (System.Enum.TryParse(strText, out eCommandLine) == false)
+                eCommandLine = ECommandLine.Error;
+
+            return eCommandLine;
+        }
+
         private void Button_OpenPath_SaveSheet_Click(object sender, EventArgs e)
         {
             string strSaveFolderPath = SaveDataManager.const_strSaveFolderPath;
@@ -249,7 +323,7 @@ namespace SpreadSheetParser
         {
             if(SettingPath(ref textBox_Csharp_Path))
             {
-                _pSheet_CurrentConnected.strOutputPath_Csharp = textBox_Csharp_Path.Text;
+                _pSpreadSheet_CurrentConnected.strOutputPath_Csharp = textBox_Csharp_Path.Text;
                 AutoSaveAsync_CurrentSheet();
             }
         }
@@ -258,7 +332,7 @@ namespace SpreadSheetParser
         {
             if(SettingPath(ref textBox_CSV_Path))
             {
-                _pSheet_CurrentConnected.strOutputPath_CSV = textBox_CSV_Path.Text;
+                _pSpreadSheet_CurrentConnected.strOutputPath_CSV = textBox_CSV_Path.Text;
                 AutoSaveAsync_CurrentSheet();
             }
         }
@@ -301,11 +375,31 @@ namespace SpreadSheetParser
                 case EState.None:
                     groupBox2_TableSetting.Enabled = false;
                     groupBox3_OutputSetting.Enabled = false;
+                    groupBox_SelectedTable.Enabled = false;
                     break;
 
                 case EState.IsConnected:
                     groupBox2_TableSetting.Enabled = true;
                     groupBox3_OutputSetting.Enabled = true;
+                    groupBox_SelectedTable.Enabled = false;
+
+                    if (GetCurrentSelectedTable_OrNull() != null)
+                        SetState(EState.IsConnected_And_SelectTable);
+
+                    break;
+
+                case EState.IsConnected_And_SelectTable:
+
+                    groupBox2_TableSetting.Enabled = true;
+                    groupBox3_OutputSetting.Enabled = true;
+                    groupBox_SelectedTable.Enabled = true;
+
+                    var pWrapper = GetCurrentSelectedTable_OrNull();
+                    if (pWrapper != null)
+                        Update_Step_2_TableSetting(pWrapper);
+                    else
+                        SetState(EState.IsConnected);
+
                     break;
 
                 default:
@@ -319,10 +413,33 @@ namespace SpreadSheetParser
             WriteConsole("자동 저장 완료..");
         }
 
+        void ParsingSheet(string strSheetName, delOnParsingText OnParsingText)
+        {
+            IList<IList<Object>> pData = _pSheetConnector.GetExcelData(strSheetName);
+            if (pData == null)
+                return;
+
+            if (OnParsingText == null)
+                OnParsingText = (a, b, c, d) => { };
+
+            for (int i = 0; i < pData.Count; i++)
+            {
+                IList<object> listRow = pData[i];
+                for (int j = 0; j < listRow.Count; j++)
+                {
+                    string strText = (string)listRow[j];
+                    if (string.IsNullOrEmpty(strText))
+                        continue;
+
+                    OnParsingText(listRow, strText, i, j);
+                }
+            }
+        }
+
         private void UpdateUI()
         {
-            textBox_Csharp_Path.Text = _pSheet_CurrentConnected.strOutputPath_Csharp;
-            textBox_CSV_Path.Text = _pSheet_CurrentConnected.strOutputPath_CSV;
+            textBox_Csharp_Path.Text = _pSpreadSheet_CurrentConnected.strOutputPath_Csharp;
+            textBox_CSV_Path.Text = _pSpreadSheet_CurrentConnected.strOutputPath_CSV;
         }
 
         private void checkBox_AutoConnect_CheckedChanged(object sender, EventArgs e)
@@ -334,8 +451,8 @@ namespace SpreadSheetParser
 
         private void AutoSaveAsync_CurrentSheet()
         {
-            WriteConsole("자동 저장 중.." + _pSheet_CurrentConnected.strSheetID);
-            SaveDataManager.SaveSheet_Async(_pSheet_CurrentConnected, AutoSaveDone);
+            WriteConsole("자동 저장 중.." + _pSpreadSheet_CurrentConnected.strSheetID);
+            SaveDataManager.SaveSheet_Async(_pSpreadSheet_CurrentConnected, AutoSaveDone);
         }
 
         private void AutoSaveAsync_Config()
@@ -344,5 +461,30 @@ namespace SpreadSheetParser
             SaveDataManager.SaveConfig_Async(_pConfig, AutoSaveDone);
         }
 
+        private void checkedListBox_TableList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetState(EState.IsConnected_And_SelectTable);
+        }
+
+        private SaveData_Sheet GetCurrentSelectedTable_OrNull()
+        {
+            return (SaveData_Sheet)checkedListBox_SheetList.SelectedItem;
+        }
+
+        private void Update_Step_2_TableSetting(SaveData_Sheet pSheetData)
+        {
+            _pSheet_CurrentConnected = pSheetData;
+            if (pSheetData == null)
+                return;
+
+            groupBox_SelectedTable.Text = pSheetData.ToString();
+            textBox_CommandLine.Text = pSheetData.strCommandLine;
+        }
+
+        private void button_TableSave_Click(object sender, EventArgs e)
+        {
+            _pSheet_CurrentConnected.strCommandLine = textBox_CommandLine.Text;
+            AutoSaveAsync_CurrentSheet();
+        }
     }
 }
