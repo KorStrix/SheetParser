@@ -84,16 +84,15 @@ namespace SpreadSheetParser
         /// <summary>
         /// Generate CSharp source code from the compile unit.
         /// </summary>
-        /// <param name="filename">Output file name</param>
-        public void GenerateCSharpCode(string fileName)
+        public void GenerateCSharpCode(string strFilePath)
         {
-            if (fileName.Contains(".cs") == false)
-                fileName += ".cs";
+            if (strFilePath.Contains(".cs") == false)
+                strFilePath += ".cs";
 
             CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
             CodeGeneratorOptions options = new CodeGeneratorOptions();
             options.BracingStyle = "C";
-            using (StreamWriter sourceWriter = new StreamWriter(fileName))
+            using (StreamWriter sourceWriter = new StreamWriter(strFilePath))
             {
                 provider.GenerateCodeFromCompileUnit(
                     _pCompileUnit, sourceWriter, options);

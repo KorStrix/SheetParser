@@ -46,6 +46,10 @@
             this.button2 = new System.Windows.Forms.Button();
             this.textBox_CommandLine = new System.Windows.Forms.TextBox();
             this.groupBox3_OutputSetting = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox_FileName_Csharp = new System.Windows.Forms.TextBox();
+            this.checkBox_OpenFolder_AfterBuild_Csharp = new System.Windows.Forms.CheckBox();
+            this.checkBox_OpenFolder_AfterBuild_CSV = new System.Windows.Forms.CheckBox();
             this.button_OpenPath_CSV = new System.Windows.Forms.Button();
             this.button_OpenPath_Csharp = new System.Windows.Forms.Button();
             this.button_CSV_PathSetting = new System.Windows.Forms.Button();
@@ -56,6 +60,7 @@
             this.textBox_Csharp_Path = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoConnect = new System.Windows.Forms.CheckBox();
+            this.button_Save_FileName_Csharp = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2_TableSetting.SuspendLayout();
             this.groupBox_SelectedTable.SuspendLayout();
@@ -231,6 +236,11 @@
             // 
             // groupBox3_OutputSetting
             // 
+            this.groupBox3_OutputSetting.Controls.Add(this.button_Save_FileName_Csharp);
+            this.groupBox3_OutputSetting.Controls.Add(this.label6);
+            this.groupBox3_OutputSetting.Controls.Add(this.textBox_FileName_Csharp);
+            this.groupBox3_OutputSetting.Controls.Add(this.checkBox_OpenFolder_AfterBuild_Csharp);
+            this.groupBox3_OutputSetting.Controls.Add(this.checkBox_OpenFolder_AfterBuild_CSV);
             this.groupBox3_OutputSetting.Controls.Add(this.button_OpenPath_CSV);
             this.groupBox3_OutputSetting.Controls.Add(this.button_OpenPath_Csharp);
             this.groupBox3_OutputSetting.Controls.Add(this.button_CSV_PathSetting);
@@ -246,6 +256,46 @@
             this.groupBox3_OutputSetting.TabIndex = 7;
             this.groupBox3_OutputSetting.TabStop = false;
             this.groupBox3_OutputSetting.Text = "3. Output Setting";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(84, 79);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(60, 12);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "C# 파일명";
+            // 
+            // textBox_FileName_Csharp
+            // 
+            this.textBox_FileName_Csharp.Location = new System.Drawing.Point(150, 76);
+            this.textBox_FileName_Csharp.Name = "textBox_FileName_Csharp";
+            this.textBox_FileName_Csharp.Size = new System.Drawing.Size(178, 21);
+            this.textBox_FileName_Csharp.TabIndex = 14;
+            // 
+            // checkBox_OpenFolder_AfterBuild_Csharp
+            // 
+            this.checkBox_OpenFolder_AfterBuild_Csharp.AutoSize = true;
+            this.checkBox_OpenFolder_AfterBuild_Csharp.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_OpenFolder_AfterBuild_Csharp.Location = new System.Drawing.Point(238, 22);
+            this.checkBox_OpenFolder_AfterBuild_Csharp.Name = "checkBox_OpenFolder_AfterBuild_Csharp";
+            this.checkBox_OpenFolder_AfterBuild_Csharp.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_OpenFolder_AfterBuild_Csharp.TabIndex = 13;
+            this.checkBox_OpenFolder_AfterBuild_Csharp.Text = "자동연결";
+            this.checkBox_OpenFolder_AfterBuild_Csharp.UseVisualStyleBackColor = true;
+            this.checkBox_OpenFolder_AfterBuild_Csharp.CheckedChanged += new System.EventHandler(this.checkBox_OpenFolder_AfterBuild_Csharp_CheckedChanged);
+            // 
+            // checkBox_OpenFolder_AfterBuild_CSV
+            // 
+            this.checkBox_OpenFolder_AfterBuild_CSV.AutoSize = true;
+            this.checkBox_OpenFolder_AfterBuild_CSV.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_OpenFolder_AfterBuild_CSV.Location = new System.Drawing.Point(238, 134);
+            this.checkBox_OpenFolder_AfterBuild_CSV.Name = "checkBox_OpenFolder_AfterBuild_CSV";
+            this.checkBox_OpenFolder_AfterBuild_CSV.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_OpenFolder_AfterBuild_CSV.TabIndex = 8;
+            this.checkBox_OpenFolder_AfterBuild_CSV.Text = "자동연결";
+            this.checkBox_OpenFolder_AfterBuild_CSV.UseVisualStyleBackColor = true;
+            this.checkBox_OpenFolder_AfterBuild_CSV.CheckedChanged += new System.EventHandler(this.checkBox_OpenFolder_AfterBuild_CSV_CheckedChanged);
             // 
             // button_OpenPath_CSV
             // 
@@ -335,11 +385,21 @@
             this.checkBox_AutoConnect.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBox_AutoConnect.Location = new System.Drawing.Point(8, 25);
             this.checkBox_AutoConnect.Name = "checkBox_AutoConnect";
-            this.checkBox_AutoConnect.Size = new System.Drawing.Size(72, 16);
+            this.checkBox_AutoConnect.Size = new System.Drawing.Size(200, 16);
             this.checkBox_AutoConnect.TabIndex = 7;
-            this.checkBox_AutoConnect.Text = "자동연결";
+            this.checkBox_AutoConnect.Text = "프로그램 실행시 Sheet 자동연결";
             this.checkBox_AutoConnect.UseVisualStyleBackColor = true;
             this.checkBox_AutoConnect.CheckedChanged += new System.EventHandler(this.checkBox_AutoConnect_CheckedChanged);
+            // 
+            // button_Save_FileName_Csharp
+            // 
+            this.button_Save_FileName_Csharp.Location = new System.Drawing.Point(357, 76);
+            this.button_Save_FileName_Csharp.Name = "button_Save_FileName_Csharp";
+            this.button_Save_FileName_Csharp.Size = new System.Drawing.Size(82, 23);
+            this.button_Save_FileName_Csharp.TabIndex = 19;
+            this.button_Save_FileName_Csharp.Text = "파일명 저장";
+            this.button_Save_FileName_Csharp.UseVisualStyleBackColor = true;
+            this.button_Save_FileName_Csharp.Click += new System.EventHandler(this.button_Save_FileName_Csharp_Click);
             // 
             // SpreadSheetParser
             // 
@@ -398,6 +458,11 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox checkBox_AutoConnect;
         private System.Windows.Forms.Button button_CheckTable;
+        private System.Windows.Forms.CheckBox checkBox_OpenFolder_AfterBuild_Csharp;
+        private System.Windows.Forms.CheckBox checkBox_OpenFolder_AfterBuild_CSV;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBox_FileName_Csharp;
+        private System.Windows.Forms.Button button_Save_FileName_Csharp;
     }
 }
 

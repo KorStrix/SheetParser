@@ -15,6 +15,8 @@ namespace SpreadSheetParser
     public class Config
     {
         public bool bAutoConnect = true;
+        public bool bOpenPath_AfterBuild_Csharp;
+        public bool bOpenPath_AfterBuild_CSV;
     }
 
     public class SaveData_SpreadSheet
@@ -24,6 +26,9 @@ namespace SpreadSheetParser
         public List<SaveData_Sheet> listTable = new List<SaveData_Sheet>();
         public string strOutputPath_Csharp = Directory.GetCurrentDirectory();
         public string strOutputPath_CSV = Directory.GetCurrentDirectory();
+
+        public string strFileName_Csharp = "DefualtCsharp";
+        public string strFileName_CSV = "DefaultCSV";
 
         public SaveData_SpreadSheet(string strSheetID)
         {
@@ -70,7 +75,7 @@ namespace SpreadSheetParser
             JsonSaveManager.SaveData(pData, GetFilePath("Config"));
         }
 
-        static public void SaveConfig_Async(Config pData, System.Action OnFinishAsync)
+        static public void SaveConfig_Async(Config pData, System.Action<bool> OnFinishAsync)
         {
             JsonSaveManager.SaveData_Async(pData, GetFilePath("Config"), OnFinishAsync);
         }
@@ -90,7 +95,7 @@ namespace SpreadSheetParser
             JsonSaveManager.SaveData(pSheet, GetFilePath(pSheet.strSheetID));
         }
 
-        static public void SaveSheet_Async(SaveData_SpreadSheet pSheet, System.Action OnFinishAsync)
+        static public void SaveSheet_Async(SaveData_SpreadSheet pSheet, System.Action<bool> OnFinishAsync)
         {
             JsonSaveManager.SaveData_Async(pSheet, GetFilePath(pSheet.strSheetID), OnFinishAsync);
         }

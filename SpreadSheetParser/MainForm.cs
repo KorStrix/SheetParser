@@ -87,6 +87,8 @@ namespace SpreadSheetParser
             }
 
             checkBox_AutoConnect.Checked = _pConfig.bAutoConnect;
+            checkBox_OpenFolder_AfterBuild_Csharp.Checked = _pConfig.bOpenPath_AfterBuild_Csharp;
+            checkBox_OpenFolder_AfterBuild_CSV.Checked = _pConfig.bOpenPath_AfterBuild_CSV;
 
             checkedListBox_SheetList.ItemCheck += CheckedListBox_TableList_ItemCheck;
 
@@ -96,8 +98,6 @@ namespace SpreadSheetParser
         {
             _pSpreadSheet_CurrentConnected.listTable[e.Index].bEnable = e.NewValue == CheckState.Checked;
             AutoSaveAsync_CurrentSheet();
-
-            WriteConsole("여기 작업 해야함");
         }
 
         private void button_Connect_Click(object sender, EventArgs e)
@@ -157,40 +157,58 @@ namespace SpreadSheetParser
 
         private void button_StartParsing_Click(object sender, EventArgs e)
         {
+            WriteConsole("코드 파일 생성중..");
             _pCodeFileBuilder = new CodeFileBuilder();
 
-            foreach (var pItem in checkedListBox_SheetList.CheckedItems)
+            try
             {
-                SheetWrapper pWrapper = (SheetWrapper)pItem;
-                
-                var pCodeType = _pCodeFileBuilder.AddCodeType(pWrapper.ToString());
-                pCodeType.IsClass = true;
 
-                ParsingSheet(pWrapper.ToString(),
-                    (listRow, strText, iRow, iColumn) =>
-                    {
-                        if (strText.StartsWith("-"))
+                foreach (var pItem in checkedListBox_SheetList.CheckedItems)
+                {
+                    SaveData_Sheet pSheetData = (SaveData_Sheet)pItem;
+
+                    var pCodeType = _pCodeFileBuilder.AddCodeType(pSheetData.ToString());
+                    pCodeType.IsClass = true;
+
+                    ParsingSheet(pSheetData.ToString(),
+                        (listRow, strText, iRow, iColumn) =>
                         {
-                            if (listRow.Count < iColumn + 1)
-                                Execute_CommandLine(pCodeType, strText, (string)listRow[iColumn + 1]);
-                            else
-                                Execute_CommandLine(pCodeType, strText, "");
+                            if (strText.StartsWith("-"))
+                            {
+                                if (listRow.Count < iColumn + 1)
+                                    Execute_CommandLine(pCodeType, strText, (string)listRow[iColumn + 1]);
+                                else
+                                    Execute_CommandLine(pCodeType, strText, "");
 
-                            return;
-                        }
+                                return;
+                            }
 
-                        if (strText.Contains(":"))
-                        {
-                            string[] arrText = strText.Split(':');
-                            if (CheckIsEnum(arrText[1]))
-                                pCodeType.AddEnumField(new EnumFieldData(arrText[0]));
-                            else
-                                pCodeType.AddField(new FieldData(arrText[0], arrText[1]));
-                        }
-                    });
+                            if (strText.Contains(":"))
+                            {
+                                string[] arrText = strText.Split(':');
+                                if (CheckIsEnum(arrText[1]))
+                                    pCodeType.AddEnumField(new EnumFieldData(arrText[0]));
+                                else
+                                    pCodeType.AddField(new FieldData(arrText[0], arrText[1]));
+                            }
+                        });
+                }
+            }
+            catch(System.Exception pException)
+            {
+                WriteConsole("코드 파일 생성 실패.." + pException);
+                return;
             }
 
-            _pCodeFileBuilder.GenerateCSharpCode("test2");
+            _pCodeFileBuilder.GenerateCSharpCode(_pSpreadSheet_CurrentConnected.strOutputPath_Csharp + "/" + _pSpreadSheet_CurrentConnected.strFileName_Csharp);
+
+            if(_pConfig.bOpenPath_AfterBuild_Csharp)
+                Button_OpenPath_Csharp_Click(null, null);
+
+            if (_pConfig.bOpenPath_AfterBuild_CSV)
+                Button_OpenPath_CSV_Click(null, null);
+
+            WriteConsole("코드 파일 생성 완료");
         }
 
         private static bool CheckIsEnum(string strText)
@@ -337,6 +355,14 @@ namespace SpreadSheetParser
             }
         }
 
+
+        private void button_TableSave_Click(object sender, EventArgs e)
+        {
+            _pSheet_CurrentConnected.strCommandLine = textBox_CommandLine.Text;
+            AutoSaveAsync_CurrentSheet();
+        }
+
+
         private void OpenPath(string strPath)
         {
             WriteConsole($"폴더 열기 시도.. 경로{strPath}");
@@ -408,11 +434,6 @@ namespace SpreadSheetParser
         }
 
 
-        private void AutoSaveDone()
-        {
-            WriteConsole("자동 저장 완료..");
-        }
-
         void ParsingSheet(string strSheetName, delOnParsingText OnParsingText)
         {
             IList<IList<Object>> pData = _pSheetConnector.GetExcelData(strSheetName);
@@ -440,6 +461,8 @@ namespace SpreadSheetParser
         {
             textBox_Csharp_Path.Text = _pSpreadSheet_CurrentConnected.strOutputPath_Csharp;
             textBox_CSV_Path.Text = _pSpreadSheet_CurrentConnected.strOutputPath_CSV;
+
+            textBox_FileName_Csharp.Text = _pSpreadSheet_CurrentConnected.strFileName_Csharp;
         }
 
         private void checkBox_AutoConnect_CheckedChanged(object sender, EventArgs e)
@@ -448,6 +471,17 @@ namespace SpreadSheetParser
             AutoSaveAsync_Config();
         }
 
+        private void checkBox_OpenFolder_AfterBuild_Csharp_CheckedChanged(object sender, EventArgs e)
+        {
+            _pConfig.bOpenPath_AfterBuild_Csharp = checkBox_OpenFolder_AfterBuild_Csharp.Checked;
+            AutoSaveAsync_Config();
+        }
+
+        private void checkBox_OpenFolder_AfterBuild_CSV_CheckedChanged(object sender, EventArgs e)
+        {
+            _pConfig.bOpenPath_AfterBuild_CSV = checkBox_OpenFolder_AfterBuild_CSV.Checked;
+            AutoSaveAsync_Config();
+        }
 
         private void AutoSaveAsync_CurrentSheet()
         {
@@ -459,6 +493,14 @@ namespace SpreadSheetParser
         {
             WriteConsole("자동 저장 중.. Config");
             SaveDataManager.SaveConfig_Async(_pConfig, AutoSaveDone);
+        }
+
+        private void AutoSaveDone(bool bIsSuccess)
+        {
+            if(bIsSuccess)
+                WriteConsole("자동 저장 완료..");
+            else
+                WriteConsole("자동 저장 실패!");
         }
 
         private void checkedListBox_TableList_SelectedIndexChanged(object sender, EventArgs e)
@@ -481,9 +523,9 @@ namespace SpreadSheetParser
             textBox_CommandLine.Text = pSheetData.strCommandLine;
         }
 
-        private void button_TableSave_Click(object sender, EventArgs e)
+        private void button_Save_FileName_Csharp_Click(object sender, EventArgs e)
         {
-            _pSheet_CurrentConnected.strCommandLine = textBox_CommandLine.Text;
+            _pSpreadSheet_CurrentConnected.strFileName_Csharp = textBox_FileName_Csharp.Text;
             AutoSaveAsync_CurrentSheet();
         }
     }

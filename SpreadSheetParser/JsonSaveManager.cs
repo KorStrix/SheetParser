@@ -17,6 +17,7 @@ namespace SpreadSheetParser
         static JsonSerializer _pSerializer = JsonSerializer.CreateDefault(Create_JsonSerializerSetting());
         static JsonSerializerSettings _pSetting = Create_JsonSerializerSetting();
 
+        static HashSet<string> _set_AsyncSave = new HashSet<string>();
         static JsonSerializerSettings Create_JsonSerializerSetting()
         {
             JsonSerializerSettings pSetting = new JsonSerializerSettings();
@@ -37,36 +38,49 @@ namespace SpreadSheetParser
             }
         }
 
-        static public async void SaveData_Async(object pData, string strFilePath, System.Action OnFinishAsync)
+        static public async void SaveData_Async(object pData, string strFilePath, System.Action<bool> OnFinishAsync)
         {
+            if (_set_AsyncSave.Contains(strFilePath))
+                return;
+            _set_AsyncSave.Add(strFilePath);
+
             Check_ExistsFolderPath(strFilePath);
 
-            // create this in the constructor, stream manages can be reused
-            // see details in this answer https://stackoverflow.com/a/42599288/185498
-            var streamManager = new RecyclableMemoryStreamManager();
-
-            using (var file = File.Open(strFilePath, FileMode.Create))
+            try
             {
-                using (var memoryStream = streamManager.GetStream()) // RecyclableMemoryStream will be returned, it inherits MemoryStream, however prevents data allocation into the LOH
+                using (var file = File.Open(strFilePath, FileMode.Create))
                 {
-                    using (var writer = new StreamWriter(memoryStream))
+                    // create this in the constructor, stream manages can be reused
+                    // see details in this answer https://stackoverflow.com/a/42599288/185498
+                    var streamManager = new RecyclableMemoryStreamManager();
+
+                    using (var memoryStream = streamManager.GetStream()) // RecyclableMemoryStream will be returned, it inherits MemoryStream, however prevents data allocation into the LOH
                     {
-                        JsonSerializerSettings pSetting = new JsonSerializerSettings();
-                        pSetting.Formatting = Formatting.Indented;
+                        using (var writer = new StreamWriter(memoryStream))
+                        {
+                            JsonSerializerSettings pSetting = new JsonSerializerSettings();
+                            pSetting.Formatting = Formatting.Indented;
 
-                        _pSerializer.Serialize(writer, pData);
+                            _pSerializer.Serialize(writer, pData);
 
-                        await writer.FlushAsync().ConfigureAwait(false);
+                            await writer.FlushAsync().ConfigureAwait(false);
 
-                        memoryStream.Seek(0, SeekOrigin.Begin);
+                            memoryStream.Seek(0, SeekOrigin.Begin);
 
-                        await memoryStream.CopyToAsync(file).ConfigureAwait(false);
+                            await memoryStream.CopyToAsync(file).ConfigureAwait(false);
+                        }
                     }
-                }
 
-                await file.FlushAsync().ConfigureAwait(false);
-                OnFinishAsync?.Invoke();
+                    await file.FlushAsync().ConfigureAwait(false);
+                    OnFinishAsync?.Invoke(true);
+                }
+            } 
+            catch(System.Exception pException)
+            {
+                OnFinishAsync?.Invoke(false);
             }
+
+            _set_AsyncSave.Remove(strFilePath);
         }
 
         public static List<T> LoadData<T>(string strFolderPath)
