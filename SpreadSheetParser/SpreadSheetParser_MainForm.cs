@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
-    public partial class SpreadSheetParser : Form
+    public partial class SpreadSheetParser_MainForm : Form
     {
         public enum ECommandLine
         {
@@ -24,8 +22,8 @@ namespace SpreadSheetParser
             IsConnected_And_SelectTable,
         }
 
-        static public SpreadSheetParser isntance => _instance;
-        static private SpreadSheetParser _instance;
+        static public SpreadSheetParser_MainForm isntance => _instance;
+        static private SpreadSheetParser_MainForm _instance;
 
         delegate void SafeCallDelegate(string text);
         delegate void delOnParsingText(IList<object> listRow, string strText, int iRowIndex, int iColumnIndex);
@@ -39,8 +37,9 @@ namespace SpreadSheetParser
         Dictionary<string, SaveData_SpreadSheet> _mapSaveData = new Dictionary<string, SaveData_SpreadSheet>();
 
         EState _eState;
+        bool _bIsConnecting;
 
-        public SpreadSheetParser()
+        public SpreadSheetParser_MainForm()
         {
             InitializeComponent();
 
@@ -63,9 +62,11 @@ namespace SpreadSheetParser
             }
         }
 
+        bool _bIsLoading_CreateForm = false;
         private void MainForm_Load(object sender, EventArgs e)
         {
             SetState(EState.None);
+            _bIsLoading_CreateForm = true;
 
             _pConfig = SaveDataManager.LoadConfig();
             _mapSaveData = SaveDataManager.LoadSheet();
@@ -91,30 +92,39 @@ namespace SpreadSheetParser
 
             checkedListBox_SheetList.ItemCheck += CheckedListBox_TableList_ItemCheck;
 
+            _bIsLoading_CreateForm = false;
         }
 
         private void CheckedListBox_TableList_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+            if (_bIsConnecting)
+                return;
+
             _pSpreadSheet_CurrentConnected.listTable[e.Index].bEnable = e.NewValue == CheckState.Checked;
             AutoSaveAsync_CurrentSheet();
         }
 
-        private void button_Connect_Click(object sender, EventArgs e)
+        private async void button_Connect_Click(object sender, EventArgs e)
         {
-            WriteConsole("연결 시작");
+            _bIsConnecting = true;
 
             string strSheetID = textBox_SheetID.Text;
+            WriteConsole($"연결 시작 Sheet ID : {strSheetID}");
 
             //// 테스트 시트
             //// https://docs.google.com/spreadsheets/d/1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4/edit#gid=0
             //strSheetID = "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4";
 
             checkedListBox_SheetList.Items.Clear();
-            List<SheetWrapper> listSheet;
-            System.Exception pException;
-            if (_pSheetConnector.DoConnect(strSheetID, out listSheet, out pException) == false)
+            await _pSheetConnector.DoConnect(strSheetID, OnFinishConnect);
+            _bIsConnecting = false;
+        }
+
+        private void OnFinishConnect(string strSheetID, List<SheetWrapper> listSheet, Exception pException_OnError)
+        {
+            if(pException_OnError != null)
             {
-                WriteConsole("연결 실패 " + pException);
+                WriteConsole("연결 실패 " + pException_OnError);
                 return;
             }
 
@@ -161,19 +171,18 @@ namespace SpreadSheetParser
 
             try
             {
-
                 foreach (var pItem in checkedListBox_SheetList.CheckedItems)
                 {
                     SaveData_Sheet pSheetData = (SaveData_Sheet)pItem;
                     List<CommandLineArg> listCommandLine = Parsing_CommandLine(pSheetData.strCommandLine);
 
                     bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
-                    if(bIsEnum)
+                    if (bIsEnum)
                     {
                         ParsingSheet(pSheetData.ToString(),
                             (listRow, strText, iRow, iColumn) =>
                             {
-                                if(iRow == 0)
+                                if (iRow == 0)
                                 {
 
                                 }
@@ -206,10 +215,12 @@ namespace SpreadSheetParser
                                         pCodeType.AddField(new FieldData(arrText[0], arrText[1]));
                                 }
                             });
+
+                        Execute_CommandLine(pCodeType, listCommandLine);
                     }
                 }
             }
-            catch(Exception pException)
+            catch (Exception pException)
             {
                 WriteConsole("코드 파일 생성 실패.." + pException);
                 return;
@@ -217,7 +228,7 @@ namespace SpreadSheetParser
 
             _pCodeFileBuilder.GenerateCSharpCode(_pSpreadSheet_CurrentConnected.strOutputPath_Csharp + "/" + _pSpreadSheet_CurrentConnected.strFileName_Csharp);
 
-            if(_pConfig.bOpenPath_AfterBuild_Csharp)
+            if (_pConfig.bOpenPath_AfterBuild_Csharp)
                 Button_OpenPath_Csharp_Click(null, null);
 
             if (_pConfig.bOpenPath_AfterBuild_CSV)
@@ -260,7 +271,7 @@ namespace SpreadSheetParser
                 return;
             }
 
-            if(iErrorCount > 0)
+            if (iErrorCount > 0)
                 WriteConsole($"테이블 유효성 체크 - 에러, 개수 : {iErrorCount}");
             else
                 WriteConsole("테이블 유효성 체크 - 이상없음");
@@ -294,20 +305,6 @@ namespace SpreadSheetParser
                 });
         }
 
-        private static void Execute_CommandLine(ECommandLine eCommandLine, string strValue)
-        {
-            switch (eCommandLine)
-            {
-                case ECommandLine.comment:
-                case ECommandLine.typename:
-                    if (string.IsNullOrEmpty(strValue))
-                        throw new Exception("Command Parsing Error - Value Is Null");
-                    break;
-
-                default: throw new Exception("Command Parsing Error - Parsing Error");
-            }
-        }
-
         private SaveData_SpreadSheet GetSheet_LastEdit(Dictionary<string, SaveData_SpreadSheet> mapSaveData)
         {
             WriteConsole("마지막에 수정한 Sheet 찾는 중..");
@@ -320,7 +317,7 @@ namespace SpreadSheetParser
                     pSheet_LastEdit = pSheet;
             }
 
-            if(pSheet_LastEdit != null)
+            if (pSheet_LastEdit != null)
                 WriteConsole(string.Format("마지막에 수정한 시트를 찾았다. 수정한 시간 {0}, SheetID {1}", pSheet_LastEdit.date_LastEdit, pSheet_LastEdit.strSheetID));
             else
                 WriteConsole(string.Format("마지막에 수정한 시트를 못찾았다.."));
@@ -328,21 +325,24 @@ namespace SpreadSheetParser
             return pSheet_LastEdit;
         }
 
-        private void Execute_CommandLine(System.CodeDom.CodeTypeDeclaration pCodeType, string strText, string strCommandLineValue)
+        private void Execute_CommandLine(System.CodeDom.CodeTypeDeclaration pCodeType, List<CommandLineArg> listCommandLine)
         {
-            ECommandLine eCommandLine = ECommandLine.Error; //Parsing_CommandLine(strText);
-            switch (eCommandLine)
+            for(int i = 0; i < listCommandLine.Count; i++)
             {
-                case ECommandLine.comment:
-                    pCodeType.AddComment(strCommandLineValue);
-                    break;
+                ECommandLine eCommandLine = (ECommandLine)Enum.Parse(typeof(ECommandLine), listCommandLine[i].strArgName);
+                switch (eCommandLine)
+                {
+                    case ECommandLine.comment:
+                        pCodeType.AddComment(listCommandLine[i].strArgValue);
+                        break;
 
-                case ECommandLine.typename:
-                    pCodeType.Name = strCommandLineValue;
-                    break;
+                    case ECommandLine.typename:
+                        pCodeType.Name = listCommandLine[i].strArgValue;
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -364,7 +364,7 @@ namespace SpreadSheetParser
 
         private void Button_Csharp_PathSetting_Click(object sender, EventArgs e)
         {
-            if(SettingPath(ref textBox_Csharp_Path))
+            if (SettingPath(ref textBox_Csharp_Path))
             {
                 _pSpreadSheet_CurrentConnected.strOutputPath_Csharp = textBox_Csharp_Path.Text;
                 AutoSaveAsync_CurrentSheet();
@@ -373,7 +373,7 @@ namespace SpreadSheetParser
 
         private void Button_CSV_PathSetting_Click(object sender, EventArgs e)
         {
-            if(SettingPath(ref textBox_CSV_Path))
+            if (SettingPath(ref textBox_CSV_Path))
             {
                 _pSpreadSheet_CurrentConnected.strOutputPath_CSV = textBox_CSV_Path.Text;
                 AutoSaveAsync_CurrentSheet();
@@ -440,7 +440,6 @@ namespace SpreadSheetParser
                     break;
 
                 case EState.IsConnected_And_SelectTable:
-
                     groupBox2_TableSetting.Enabled = true;
                     groupBox3_OutputSetting.Enabled = true;
                     groupBox_SelectedTable.Enabled = true;
@@ -461,6 +460,8 @@ namespace SpreadSheetParser
 
         void ParsingSheet(string strSheetName, delOnParsingText OnParsingText)
         {
+            const string const_strIgnoreString = "#";
+
             IList<IList<Object>> pData = _pSheetConnector.GetExcelData(strSheetName);
             if (pData == null)
                 return;
@@ -468,12 +469,22 @@ namespace SpreadSheetParser
             if (OnParsingText == null) // For Loop에서 Null Check 방지
                 OnParsingText = (a, b, c, d) => { };
 
-            for (int i = 0; i < pData.Count; i++)
+            HashSet<int> setIgnoreColumnIndex = new HashSet<int>();
+            for (int i = 1; i < pData.Count; i++)
             {
                 IList<object> listRow = pData[i];
                 for (int j = 0; j < listRow.Count; j++)
                 {
+                    if (setIgnoreColumnIndex.Contains(j))
+                        continue;
+
                     string strText = (string)listRow[j];
+                    if (listRow[j].Equals(const_strIgnoreString))
+                    {
+                        setIgnoreColumnIndex.Add(j);
+                        continue;
+                    }
+
                     if (string.IsNullOrEmpty(strText))
                         continue;
 
@@ -492,18 +503,27 @@ namespace SpreadSheetParser
 
         private void checkBox_AutoConnect_CheckedChanged(object sender, EventArgs e)
         {
+            if (_bIsLoading_CreateForm)
+                return;
+
             _pConfig.bAutoConnect = checkBox_AutoConnect.Checked;
             AutoSaveAsync_Config();
         }
 
         private void checkBox_OpenFolder_AfterBuild_Csharp_CheckedChanged(object sender, EventArgs e)
         {
+            if (_bIsLoading_CreateForm)
+                return;
+
             _pConfig.bOpenPath_AfterBuild_Csharp = checkBox_OpenFolder_AfterBuild_Csharp.Checked;
             AutoSaveAsync_Config();
         }
 
         private void checkBox_OpenFolder_AfterBuild_CSV_CheckedChanged(object sender, EventArgs e)
         {
+            if (_bIsLoading_CreateForm)
+                return;
+
             _pConfig.bOpenPath_AfterBuild_CSV = checkBox_OpenFolder_AfterBuild_CSV.Checked;
             AutoSaveAsync_Config();
         }
@@ -525,7 +545,7 @@ namespace SpreadSheetParser
 
         private void AutoSaveDone(bool bIsSuccess)
         {
-            if(bIsSuccess)
+            if (bIsSuccess)
                 WriteConsole("자동 저장 완료..");
             else
                 WriteConsole("자동 저장 실패!");
@@ -584,5 +604,11 @@ namespace SpreadSheetParser
         private void radioButton_class_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Class; AutoSaveAsync_CurrentSheet(); }
         private void radioButton_Struct_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Struct; AutoSaveAsync_CurrentSheet(); }
         private void radioButton_Enum_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Enum; AutoSaveAsync_CurrentSheet(); }
+
+        private void button_Info_Click(object sender, EventArgs e)
+        {
+            CommandLine_InfoForm secondForm = new CommandLine_InfoForm();
+            secondForm.Show();
+        }
     }
 }

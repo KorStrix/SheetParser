@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace SpreadSheetParser
 {
@@ -37,17 +38,18 @@ namespace SpreadSheetParser
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         static string ApplicationName = "Google Sheets API .NET Quickstart";
 
+        public delegate void delOnFinishConnect(string strSheetID, List<SheetWrapper> listSheet, Exception pException_OnError);
+
         public SheetsService pService { get; private set; } = null;
 
         string _strSheetID;
 
-        public bool DoConnect(string strSheetID, out List<SheetWrapper> listSheet, out Exception pException_OnError)
+        public async Task DoConnect(string strSheetID, delOnFinishConnect OnFinishConnect)
         {
-            listSheet = new List<SheetWrapper>();
-            pException_OnError = null;
-
+            List< SheetWrapper > listSheet = new List<SheetWrapper>();
             this._strSheetID = strSheetID;
             UserCredential credential;
+            Exception pException_OnError = null;
 
             try
             {
@@ -73,23 +75,23 @@ namespace SpreadSheetParser
             catch (Exception pException)
             {
                 pException_OnError = pException;
-                return false;
             }
 
             var pRequest_HandShake = pService.Spreadsheets.Get(strSheetID);
             try
             {
-                var TestResponse = pRequest_HandShake.Execute();
-                for (int i = 0; i < TestResponse.Sheets.Count; i++)
-                    listSheet.Add(new SheetWrapper(TestResponse.Sheets[i]));
+                var pResponse = pRequest_HandShake.ExecuteAsync();
+                await pResponse;
+
+                for (int i = 0; i < pResponse.Result.Sheets.Count; i++)
+                    listSheet.Add(new SheetWrapper(pResponse.Result.Sheets[i]));
             }
             catch (Exception pException)
             {
                 pException_OnError = pException;
-                return false;
             }
 
-            return true;
+            OnFinishConnect(strSheetID, listSheet, pException_OnError);
         }
 
         public IList<IList<Object>> GetExcelData(string strSheetName)
