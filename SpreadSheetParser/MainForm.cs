@@ -13,7 +13,6 @@ namespace SpreadSheetParser
         {
             Error = -1,
 
-            type,
             comment,
             typename,
         }
@@ -150,7 +149,7 @@ namespace SpreadSheetParser
             for (int i = 0; i < listSheetSaved.Count; i++)
                 checkedListBox_SheetList.Items.Add(listSheetSaved[i], listSheetSaved[i].bEnable);
 
-            UpdateUI();
+            UpdateUI_Sheet();
             SetState(EState.IsConnected);
             WriteConsole("연결 성공");
         }
@@ -166,35 +165,51 @@ namespace SpreadSheetParser
                 foreach (var pItem in checkedListBox_SheetList.CheckedItems)
                 {
                     SaveData_Sheet pSheetData = (SaveData_Sheet)pItem;
+                    List<CommandLineArg> listCommandLine = Parsing_CommandLine(pSheetData.strCommandLine);
 
-                    var pCodeType = _pCodeFileBuilder.AddCodeType(pSheetData.ToString());
-                    pCodeType.IsClass = true;
+                    bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
+                    if(bIsEnum)
+                    {
+                        ParsingSheet(pSheetData.ToString(),
+                            (listRow, strText, iRow, iColumn) =>
+                            {
+                                if(iRow == 0)
+                                {
 
-                    ParsingSheet(pSheetData.ToString(),
-                        (listRow, strText, iRow, iColumn) =>
+                                }
+
+                                // pCodeType.AddEnumField(new EnumFieldData(strText));
+                            });
+                    }
+                    else
+                    {
+                        var pCodeType = _pCodeFileBuilder.AddCodeType(pSheetData.ToString());
+
+                        switch (pSheetData.eType)
                         {
-                            if (strText.StartsWith("-"))
-                            {
-                                if (listRow.Count < iColumn + 1)
-                                    Execute_CommandLine(pCodeType, strText, (string)listRow[iColumn + 1]);
-                                else
-                                    Execute_CommandLine(pCodeType, strText, "");
+                            case SaveData_Sheet.EType.Class: pCodeType.IsClass = true; break;
+                            case SaveData_Sheet.EType.Struct: pCodeType.IsStruct = true; break;
 
-                                return;
-                            }
+                            default:
+                                break;
+                        }
 
-                            if (strText.Contains(":"))
+                        ParsingSheet(pSheetData.ToString(),
+                            (listRow, strText, iRow, iColumn) =>
                             {
-                                string[] arrText = strText.Split(':');
-                                if (CheckIsEnum(arrText[1]))
-                                    pCodeType.AddEnumField(new EnumFieldData(arrText[0]));
-                                else
-                                    pCodeType.AddField(new FieldData(arrText[0], arrText[1]));
-                            }
-                        });
+                                if (strText.Contains(":"))
+                                {
+                                    string[] arrText = strText.Split(':');
+                                    if (CheckIsEnum(arrText[1]))
+                                        pCodeType.AddEnumField(new EnumFieldData(arrText[0]));
+                                    else
+                                        pCodeType.AddField(new FieldData(arrText[0], arrText[1]));
+                                }
+                            });
+                    }
                 }
             }
-            catch(System.Exception pException)
+            catch(Exception pException)
             {
                 WriteConsole("코드 파일 생성 실패.." + pException);
                 return;
@@ -220,43 +235,78 @@ namespace SpreadSheetParser
         {
             SaveData_Sheet pSheetData = GetCurrentSelectedTable_OrNull();
             WriteConsole("테이블 유효성 체크중.." + pSheetData.ToString());
+            int iErrorCount = 0;
+
             try
             {
-                ParsingSheet(pSheetData.ToString(), 
-                (listRow, strText, iRow, iColumn) =>
+                string strCommandLine = textBox_CommandLine.Text;
+                if (string.IsNullOrEmpty(strCommandLine) == false)
                 {
-                    if (strText.StartsWith("-"))
-                    {
-                        ECommandLine eCommandLine = Parsing_CommandLine(strText);
-                        switch (eCommandLine)
-                        {
-                            case ECommandLine.type:
-                            case ECommandLine.comment:
-                            case ECommandLine.typename:
-                                if(string.IsNullOrEmpty((string)listRow[iColumn + 1]))
-                                    throw new System.Exception("Command Parsing Error - Value Is Null");
-                                break;
+                    Parsing_CommandLine(strCommandLine);
 
-                            default: throw new System.Exception("Command Parsing Error - Parsing Error");
-                        }
-                        
-                        return;
-                    }
+                    // Parsing_CommandLine(strCommandLine);
+                    //if (eCommandLineText == ECommandLine.Error)
+                    //{
+                    //    WriteConsole($"커맨드라인 파싱 에러 - {strCommandLine}");
+                    //    return;
+                    //}
+                }
 
-                    if (strText.Contains(":"))
-                    {
-                    }
-                });
+                ParsingSheet(pSheetData.ToString(), null);
             }
             catch (Exception pException)
             {
-                WriteConsole("테이블 유효성 에러 " + pException);
+                WriteConsole("테이블 유효성 - 치명적인 에러 " + pException);
                 return;
             }
 
-            WriteConsole("테이블 유효성 체크 - 이상없음");
+            if(iErrorCount > 0)
+                WriteConsole($"테이블 유효성 체크 - 에러, 개수 : {iErrorCount}");
+            else
+                WriteConsole("테이블 유효성 체크 - 이상없음");
         }
 
+        private static List<CommandLineArg> Parsing_CommandLine(string strCommandLine)
+        {
+            return CommandLineParser.Parsing_CommandLine(strCommandLine,
+                (string strCommandLineText, out bool bHasValue) =>
+                {
+                    ECommandLine eCommandLine;
+                    bool bIsValid = Enum.TryParse(strCommandLineText, out eCommandLine);
+                    switch (eCommandLine)
+                    {
+                        case ECommandLine.comment:
+                        case ECommandLine.typename:
+                            bHasValue = true;
+                            break;
+
+                        default:
+                            bHasValue = false;
+                            break;
+                    }
+
+                    return bIsValid;
+                },
+                (string strCommandLineText, CommandLineParser.Error eError) =>
+                {
+                    WriteConsole($"테이블 유효성 에러 Text : {strCommandLineText} Error : {eError}");
+                    // iErrorCount++;
+                });
+        }
+
+        private static void Execute_CommandLine(ECommandLine eCommandLine, string strValue)
+        {
+            switch (eCommandLine)
+            {
+                case ECommandLine.comment:
+                case ECommandLine.typename:
+                    if (string.IsNullOrEmpty(strValue))
+                        throw new Exception("Command Parsing Error - Value Is Null");
+                    break;
+
+                default: throw new Exception("Command Parsing Error - Parsing Error");
+            }
+        }
 
         private SaveData_SpreadSheet GetSheet_LastEdit(Dictionary<string, SaveData_SpreadSheet> mapSaveData)
         {
@@ -280,23 +330,9 @@ namespace SpreadSheetParser
 
         private void Execute_CommandLine(System.CodeDom.CodeTypeDeclaration pCodeType, string strText, string strCommandLineValue)
         {
-            ECommandLine eCommandLine = Parsing_CommandLine(strText);
+            ECommandLine eCommandLine = ECommandLine.Error; //Parsing_CommandLine(strText);
             switch (eCommandLine)
             {
-                case ECommandLine.type:
-
-                    pCodeType.IsClass = false;
-                    pCodeType.IsStruct = false;
-                    pCodeType.IsEnum = false;
-
-                    switch (strCommandLineValue.ToLower())
-                    {
-                        case "class": pCodeType.IsClass = true; break;
-                        case "struct": pCodeType.IsStruct = true; break;
-                        case "enum": pCodeType.IsEnum = true; break;
-                    }
-                    break;
-
                 case ECommandLine.comment:
                     pCodeType.AddComment(strCommandLineValue);
                     break;
@@ -308,17 +344,6 @@ namespace SpreadSheetParser
                 default:
                     break;
             }
-        }
-
-        private static ECommandLine Parsing_CommandLine(string strText)
-        {
-            ECommandLine eCommandLine;
-            strText = strText.Remove(0, 1);
-
-            if (System.Enum.TryParse(strText, out eCommandLine) == false)
-                eCommandLine = ECommandLine.Error;
-
-            return eCommandLine;
         }
 
         private void Button_OpenPath_SaveSheet_Click(object sender, EventArgs e)
@@ -440,7 +465,7 @@ namespace SpreadSheetParser
             if (pData == null)
                 return;
 
-            if (OnParsingText == null)
+            if (OnParsingText == null) // For Loop에서 Null Check 방지
                 OnParsingText = (a, b, c, d) => { };
 
             for (int i = 0; i < pData.Count; i++)
@@ -457,7 +482,7 @@ namespace SpreadSheetParser
             }
         }
 
-        private void UpdateUI()
+        private void UpdateUI_Sheet()
         {
             textBox_Csharp_Path.Text = _pSpreadSheet_CurrentConnected.strOutputPath_Csharp;
             textBox_CSV_Path.Text = _pSpreadSheet_CurrentConnected.strOutputPath_CSV;
@@ -485,6 +510,9 @@ namespace SpreadSheetParser
 
         private void AutoSaveAsync_CurrentSheet()
         {
+            if (_bIsUpdating_TableUI)
+                return;
+
             WriteConsole("자동 저장 중.." + _pSpreadSheet_CurrentConnected.strSheetID);
             SaveDataManager.SaveSheet_Async(_pSpreadSheet_CurrentConnected, AutoSaveDone);
         }
@@ -513,14 +541,26 @@ namespace SpreadSheetParser
             return (SaveData_Sheet)checkedListBox_SheetList.SelectedItem;
         }
 
+        bool _bIsUpdating_TableUI;
         private void Update_Step_2_TableSetting(SaveData_Sheet pSheetData)
         {
+            _bIsUpdating_TableUI = true;
+
             _pSheet_CurrentConnected = pSheetData;
             if (pSheetData == null)
                 return;
 
             groupBox_SelectedTable.Text = pSheetData.ToString();
             textBox_CommandLine.Text = pSheetData.strCommandLine;
+
+            switch (pSheetData.eType)
+            {
+                case SaveData_Sheet.EType.Class: radioButton_Class.Checked = true; break;
+                case SaveData_Sheet.EType.Struct: radioButton_Struct.Checked = true; break;
+                case SaveData_Sheet.EType.Enum: radioButton_Enum.Checked = true; break;
+            }
+
+            _bIsUpdating_TableUI = false;
         }
 
         private void button_Save_FileName_Csharp_Click(object sender, EventArgs e)
@@ -528,5 +568,21 @@ namespace SpreadSheetParser
             _pSpreadSheet_CurrentConnected.strFileName_Csharp = textBox_FileName_Csharp.Text;
             AutoSaveAsync_CurrentSheet();
         }
+
+        const string const_SheetURL = "https://docs.google.com/spreadsheets/d/";
+
+        private void button_OpenLink_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start($"{const_SheetURL}/{textBox_SheetID.Text}");
+        }
+
+        private void button_Cancel_TableCommandLine_Click(object sender, EventArgs e)
+        {
+            textBox_CommandLine.Text = _pSheet_CurrentConnected.strCommandLine;
+        }
+
+        private void radioButton_class_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Class; AutoSaveAsync_CurrentSheet(); }
+        private void radioButton_Struct_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Struct; AutoSaveAsync_CurrentSheet(); }
+        private void radioButton_Enum_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Enum; AutoSaveAsync_CurrentSheet(); }
     }
 }

@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLineParser.cs" />
     <Compile Include="JsonSaveManager.cs" />
     <Compile Include="SaveData_Sheet.cs" />
     <Compile Include="CodeFileBuilder.cs" />

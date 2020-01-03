@@ -42,10 +42,11 @@
             this.groupBox_SelectedTable = new System.Windows.Forms.GroupBox();
             this.button_CheckTable = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button_Save_TableCommandLine = new System.Windows.Forms.Button();
+            this.button_Cancel_TableCommandLine = new System.Windows.Forms.Button();
             this.textBox_CommandLine = new System.Windows.Forms.TextBox();
             this.groupBox3_OutputSetting = new System.Windows.Forms.GroupBox();
+            this.button_Save_FileName_Csharp = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox_FileName_Csharp = new System.Windows.Forms.TextBox();
             this.checkBox_OpenFolder_AfterBuild_Csharp = new System.Windows.Forms.CheckBox();
@@ -60,24 +61,32 @@
             this.textBox_Csharp_Path = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoConnect = new System.Windows.Forms.CheckBox();
-            this.button_Save_FileName_Csharp = new System.Windows.Forms.Button();
+            this.button_OpenLink = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.radioButton_Class = new System.Windows.Forms.RadioButton();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radioButton_Struct = new System.Windows.Forms.RadioButton();
+            this.radioButton_Enum = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2_TableSetting.SuspendLayout();
             this.groupBox_SelectedTable.SuspendLayout();
             this.groupBox3_OutputSetting.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox_SheetID
             // 
             this.textBox_SheetID.Location = new System.Drawing.Point(116, 20);
             this.textBox_SheetID.Name = "textBox_SheetID";
-            this.textBox_SheetID.Size = new System.Drawing.Size(411, 21);
+            this.textBox_SheetID.Size = new System.Drawing.Size(400, 21);
             this.textBox_SheetID.TabIndex = 0;
             // 
             // button_Connect
             // 
-            this.button_Connect.Location = new System.Drawing.Point(452, 47);
+            this.button_Connect.Location = new System.Drawing.Point(522, 20);
             this.button_Connect.Name = "button_Connect";
             this.button_Connect.Size = new System.Drawing.Size(75, 23);
             this.button_Connect.TabIndex = 1;
@@ -88,6 +97,7 @@
             // checkedListBox_SheetList
             // 
             this.checkedListBox_SheetList.FormattingEnabled = true;
+            this.checkedListBox_SheetList.HorizontalScrollbar = true;
             this.checkedListBox_SheetList.Location = new System.Drawing.Point(20, 31);
             this.checkedListBox_SheetList.Name = "checkedListBox_SheetList";
             this.checkedListBox_SheetList.Size = new System.Drawing.Size(253, 276);
@@ -110,12 +120,12 @@
             this.textBox_Console.Multiline = true;
             this.textBox_Console.Name = "textBox_Console";
             this.textBox_Console.ReadOnly = true;
-            this.textBox_Console.Size = new System.Drawing.Size(984, 108);
+            this.textBox_Console.Size = new System.Drawing.Size(1060, 108);
             this.textBox_Console.TabIndex = 4;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button_OpenPath_SaveSheet);
+            this.groupBox1.Controls.Add(this.button_OpenLink);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.comboBox_SaveSheet);
@@ -123,14 +133,14 @@
             this.groupBox1.Controls.Add(this.button_Connect);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(533, 80);
+            this.groupBox1.Size = new System.Drawing.Size(609, 80);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "1. Connect";
             // 
             // button_OpenPath_SaveSheet
             // 
-            this.button_OpenPath_SaveSheet.Location = new System.Drawing.Point(363, 47);
+            this.button_OpenPath_SaveSheet.Location = new System.Drawing.Point(8, 48);
             this.button_OpenPath_SaveSheet.Name = "button_OpenPath_SaveSheet";
             this.button_OpenPath_SaveSheet.Size = new System.Drawing.Size(75, 23);
             this.button_OpenPath_SaveSheet.TabIndex = 5;
@@ -161,77 +171,80 @@
             this.comboBox_SaveSheet.FormattingEnabled = true;
             this.comboBox_SaveSheet.Location = new System.Drawing.Point(116, 50);
             this.comboBox_SaveSheet.Name = "comboBox_SaveSheet";
-            this.comboBox_SaveSheet.Size = new System.Drawing.Size(241, 20);
+            this.comboBox_SaveSheet.Size = new System.Drawing.Size(400, 20);
             this.comboBox_SaveSheet.TabIndex = 2;
             // 
             // groupBox2_TableSetting
             // 
+            this.groupBox2_TableSetting.Controls.Add(this.groupBox2);
             this.groupBox2_TableSetting.Controls.Add(this.groupBox_SelectedTable);
             this.groupBox2_TableSetting.Controls.Add(this.checkedListBox_SheetList);
             this.groupBox2_TableSetting.Location = new System.Drawing.Point(12, 98);
             this.groupBox2_TableSetting.Name = "groupBox2_TableSetting";
-            this.groupBox2_TableSetting.Size = new System.Drawing.Size(533, 313);
+            this.groupBox2_TableSetting.Size = new System.Drawing.Size(609, 313);
             this.groupBox2_TableSetting.TabIndex = 6;
             this.groupBox2_TableSetting.TabStop = false;
             this.groupBox2_TableSetting.Text = "2. TableSetting";
             // 
             // groupBox_SelectedTable
             // 
+            this.groupBox_SelectedTable.Controls.Add(this.groupBox3);
             this.groupBox_SelectedTable.Controls.Add(this.button_CheckTable);
             this.groupBox_SelectedTable.Controls.Add(this.label3);
-            this.groupBox_SelectedTable.Controls.Add(this.button1);
-            this.groupBox_SelectedTable.Controls.Add(this.button2);
+            this.groupBox_SelectedTable.Controls.Add(this.button_Save_TableCommandLine);
+            this.groupBox_SelectedTable.Controls.Add(this.button_Cancel_TableCommandLine);
             this.groupBox_SelectedTable.Controls.Add(this.textBox_CommandLine);
             this.groupBox_SelectedTable.Location = new System.Drawing.Point(279, 20);
             this.groupBox_SelectedTable.Name = "groupBox_SelectedTable";
-            this.groupBox_SelectedTable.Size = new System.Drawing.Size(248, 287);
+            this.groupBox_SelectedTable.Size = new System.Drawing.Size(324, 195);
             this.groupBox_SelectedTable.TabIndex = 9;
             this.groupBox_SelectedTable.TabStop = false;
             this.groupBox_SelectedTable.Text = "Selected Table Setting";
             // 
             // button_CheckTable
             // 
-            this.button_CheckTable.Location = new System.Drawing.Point(160, 256);
+            this.button_CheckTable.Location = new System.Drawing.Point(236, 166);
             this.button_CheckTable.Name = "button_CheckTable";
             this.button_CheckTable.Size = new System.Drawing.Size(82, 23);
             this.button_CheckTable.TabIndex = 9;
-            this.button_CheckTable.Text = "유효성 체크";
+            this.button_CheckTable.Text = "Check";
             this.button_CheckTable.UseVisualStyleBackColor = true;
             this.button_CheckTable.Click += new System.EventHandler(this.button_CheckTable_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 115);
+            this.label3.Location = new System.Drawing.Point(6, 91);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 12);
+            this.label3.Size = new System.Drawing.Size(88, 12);
             this.label3.TabIndex = 8;
-            this.label3.Text = "커맨드라인";
+            this.label3.Text = "CommandLine";
             // 
-            // button1
+            // button_Save_TableCommandLine
             // 
-            this.button1.Location = new System.Drawing.Point(160, 166);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(82, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Save";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button_TableSave_Click);
+            this.button_Save_TableCommandLine.Location = new System.Drawing.Point(236, 133);
+            this.button_Save_TableCommandLine.Name = "button_Save_TableCommandLine";
+            this.button_Save_TableCommandLine.Size = new System.Drawing.Size(82, 23);
+            this.button_Save_TableCommandLine.TabIndex = 6;
+            this.button_Save_TableCommandLine.Text = "Save";
+            this.button_Save_TableCommandLine.UseVisualStyleBackColor = true;
+            this.button_Save_TableCommandLine.Click += new System.EventHandler(this.button_TableSave_Click);
             // 
-            // button2
+            // button_Cancel_TableCommandLine
             // 
-            this.button2.Location = new System.Drawing.Point(8, 166);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(82, 23);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button_Cancel_TableCommandLine.Location = new System.Drawing.Point(8, 133);
+            this.button_Cancel_TableCommandLine.Name = "button_Cancel_TableCommandLine";
+            this.button_Cancel_TableCommandLine.Size = new System.Drawing.Size(82, 23);
+            this.button_Cancel_TableCommandLine.TabIndex = 7;
+            this.button_Cancel_TableCommandLine.Text = "Cancel";
+            this.button_Cancel_TableCommandLine.UseVisualStyleBackColor = true;
+            this.button_Cancel_TableCommandLine.Click += new System.EventHandler(this.button_Cancel_TableCommandLine_Click);
             // 
             // textBox_CommandLine
             // 
-            this.textBox_CommandLine.Location = new System.Drawing.Point(6, 139);
+            this.textBox_CommandLine.Location = new System.Drawing.Point(6, 106);
             this.textBox_CommandLine.Name = "textBox_CommandLine";
-            this.textBox_CommandLine.Size = new System.Drawing.Size(236, 21);
+            this.textBox_CommandLine.Size = new System.Drawing.Size(312, 21);
             this.textBox_CommandLine.TabIndex = 6;
             // 
             // groupBox3_OutputSetting
@@ -250,12 +263,22 @@
             this.groupBox3_OutputSetting.Controls.Add(this.label4);
             this.groupBox3_OutputSetting.Controls.Add(this.textBox_Csharp_Path);
             this.groupBox3_OutputSetting.Controls.Add(this.button_StartParsing);
-            this.groupBox3_OutputSetting.Location = new System.Drawing.Point(551, 98);
+            this.groupBox3_OutputSetting.Location = new System.Drawing.Point(627, 98);
             this.groupBox3_OutputSetting.Name = "groupBox3_OutputSetting";
             this.groupBox3_OutputSetting.Size = new System.Drawing.Size(445, 313);
             this.groupBox3_OutputSetting.TabIndex = 7;
             this.groupBox3_OutputSetting.TabStop = false;
             this.groupBox3_OutputSetting.Text = "3. Output Setting";
+            // 
+            // button_Save_FileName_Csharp
+            // 
+            this.button_Save_FileName_Csharp.Location = new System.Drawing.Point(357, 76);
+            this.button_Save_FileName_Csharp.Name = "button_Save_FileName_Csharp";
+            this.button_Save_FileName_Csharp.Size = new System.Drawing.Size(82, 23);
+            this.button_Save_FileName_Csharp.TabIndex = 19;
+            this.button_Save_FileName_Csharp.Text = "파일명 저장";
+            this.button_Save_FileName_Csharp.UseVisualStyleBackColor = true;
+            this.button_Save_FileName_Csharp.Click += new System.EventHandler(this.button_Save_FileName_Csharp_Click);
             // 
             // label6
             // 
@@ -372,7 +395,8 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.checkBox_AutoConnect);
-            this.groupBox5.Location = new System.Drawing.Point(551, 12);
+            this.groupBox5.Controls.Add(this.button_OpenPath_SaveSheet);
+            this.groupBox5.Location = new System.Drawing.Point(627, 12);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(445, 80);
             this.groupBox5.TabIndex = 13;
@@ -391,21 +415,85 @@
             this.checkBox_AutoConnect.UseVisualStyleBackColor = true;
             this.checkBox_AutoConnect.CheckedChanged += new System.EventHandler(this.checkBox_AutoConnect_CheckedChanged);
             // 
-            // button_Save_FileName_Csharp
+            // button_OpenLink
             // 
-            this.button_Save_FileName_Csharp.Location = new System.Drawing.Point(357, 76);
-            this.button_Save_FileName_Csharp.Name = "button_Save_FileName_Csharp";
-            this.button_Save_FileName_Csharp.Size = new System.Drawing.Size(82, 23);
-            this.button_Save_FileName_Csharp.TabIndex = 19;
-            this.button_Save_FileName_Csharp.Text = "파일명 저장";
-            this.button_Save_FileName_Csharp.UseVisualStyleBackColor = true;
-            this.button_Save_FileName_Csharp.Click += new System.EventHandler(this.button_Save_FileName_Csharp_Click);
+            this.button_OpenLink.Location = new System.Drawing.Point(522, 47);
+            this.button_OpenLink.Name = "button_OpenLink";
+            this.button_OpenLink.Size = new System.Drawing.Size(75, 23);
+            this.button_OpenLink.TabIndex = 6;
+            this.button_OpenLink.Text = "링크 열기";
+            this.button_OpenLink.UseVisualStyleBackColor = true;
+            this.button_OpenLink.Click += new System.EventHandler(this.button_OpenLink_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(236, 55);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(82, 23);
+            this.button3.TabIndex = 10;
+            this.button3.Text = "Check";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.button3);
+            this.groupBox2.Location = new System.Drawing.Point(279, 221);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(324, 86);
+            this.groupBox2.TabIndex = 11;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "All Checked Table";
+            // 
+            // radioButton_Class
+            // 
+            this.radioButton_Class.AutoSize = true;
+            this.radioButton_Class.Location = new System.Drawing.Point(6, 20);
+            this.radioButton_Class.Name = "radioButton_Class";
+            this.radioButton_Class.Size = new System.Drawing.Size(56, 16);
+            this.radioButton_Class.TabIndex = 10;
+            this.radioButton_Class.Text = "Class";
+            this.radioButton_Class.UseVisualStyleBackColor = true;
+            this.radioButton_Class.CheckedChanged += new System.EventHandler(this.radioButton_class_CheckedChanged);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.radioButton_Enum);
+            this.groupBox3.Controls.Add(this.radioButton_Struct);
+            this.groupBox3.Controls.Add(this.radioButton_Class);
+            this.groupBox3.Location = new System.Drawing.Point(8, 20);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(199, 51);
+            this.groupBox3.TabIndex = 11;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Type";
+            // 
+            // radioButton_Struct
+            // 
+            this.radioButton_Struct.AutoSize = true;
+            this.radioButton_Struct.Location = new System.Drawing.Point(71, 20);
+            this.radioButton_Struct.Name = "radioButton_Struct";
+            this.radioButton_Struct.Size = new System.Drawing.Size(55, 16);
+            this.radioButton_Struct.TabIndex = 11;
+            this.radioButton_Struct.Text = "Struct";
+            this.radioButton_Struct.UseVisualStyleBackColor = true;
+            this.radioButton_Struct.CheckedChanged += new System.EventHandler(this.radioButton_Struct_CheckedChanged);
+            // 
+            // radioButton_Enum
+            // 
+            this.radioButton_Enum.AutoSize = true;
+            this.radioButton_Enum.Location = new System.Drawing.Point(136, 20);
+            this.radioButton_Enum.Name = "radioButton_Enum";
+            this.radioButton_Enum.Size = new System.Drawing.Size(56, 16);
+            this.radioButton_Enum.TabIndex = 12;
+            this.radioButton_Enum.Text = "Enum";
+            this.radioButton_Enum.UseVisualStyleBackColor = true;
+            this.radioButton_Enum.CheckedChanged += new System.EventHandler(this.radioButton_Enum_CheckedChanged);
             // 
             // SpreadSheetParser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 537);
+            this.ClientSize = new System.Drawing.Size(1084, 537);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox3_OutputSetting);
             this.Controls.Add(this.groupBox2_TableSetting);
@@ -423,6 +511,9 @@
             this.groupBox3_OutputSetting.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -443,8 +534,8 @@
         private System.Windows.Forms.GroupBox groupBox3_OutputSetting;
         private System.Windows.Forms.TextBox textBox_Csharp_Path;
         private System.Windows.Forms.TextBox textBox_CommandLine;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_Cancel_TableCommandLine;
+        private System.Windows.Forms.Button button_Save_TableCommandLine;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox_SelectedTable;
         private System.Windows.Forms.Label label4;
@@ -463,6 +554,13 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox_FileName_Csharp;
         private System.Windows.Forms.Button button_Save_FileName_Csharp;
+        private System.Windows.Forms.Button button_OpenLink;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton radioButton_Class;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton radioButton_Enum;
+        private System.Windows.Forms.RadioButton radioButton_Struct;
     }
 }
 

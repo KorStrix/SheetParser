@@ -49,15 +49,24 @@ namespace SpreadSheetParser
 
     public class SaveData_Sheet
     {
+        public enum EType
+        {
+            Class,
+            Struct,
+            Enum,
+        }
+
         public string strSheetName;
         public bool bEnable = true;
 
         public string strCommandLine;
+        public EType eType;
 
         public SaveData_Sheet(string strSheetName)
         {
             this.strSheetName = strSheetName;
             bEnable = true;
+            eType = EType.Class;
         }
 
         public override string ToString()
