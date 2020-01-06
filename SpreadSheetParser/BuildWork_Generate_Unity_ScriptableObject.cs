@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,37 +11,28 @@ using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
-    public partial class BuildWork_Generate_CSharpForm : Form
+    public partial class BuildWork_Generate_Unity_ScriptableObject : Form
     {
-        Work_Generate_CSharpFile _pWork;
+        Work_Generate_Unity_ScriptableObject _pWork;
 
-        public BuildWork_Generate_CSharpForm()
+        public BuildWork_Generate_Unity_ScriptableObject()
         {
             InitializeComponent();
         }
 
-        public void DoInit(Work_Generate_CSharpFile pWork)
+        public void DoInit(Work_Generate_Unity_ScriptableObject pWork)
         {
             _pWork = null;
 
-            checkBox_OpenFolder_AfterBuild.Checked = pWork.bOpenPath_AfterBuild_CSharp;
-            textBox_Path.Text = pWork.strPath;
+            textBox_EditorPath.Text = pWork.strPath;
             textBox_FileName.Text = pWork.strFileName;
 
             _pWork = pWork;
         }
 
-        private void checkBox_OpenFolder_AfterBuild_CheckedChanged(object sender, EventArgs e)
-        {
-            if (_pWork == null)
-                return;
-
-            _pWork.bOpenPath_AfterBuild_CSharp = checkBox_OpenFolder_AfterBuild.Checked;
-        }
-
         private void Button_OpenPath_Click(object sender, EventArgs e)
         {
-            _pWork.DoOpenPath(textBox_Path.Text);
+            _pWork.DoOpenPath(textBox_EditorPath.Text);
         }
 
         private void button_SavePath_Click(object sender, EventArgs e)
@@ -48,8 +40,8 @@ namespace SpreadSheetParser
             if (_pWork == null)
                 return;
 
-            if (_pWork.DoShowFolderBrowser_And_SavePath(ref textBox_Path))
-                _pWork.strPath = textBox_Path.Text;
+            if (_pWork.DoShowFolderBrowser_And_SavePath(ref textBox_EditorPath))
+                _pWork.strPath = textBox_EditorPath.Text;
         }
 
         private void button_SaveAndClose_Click(object sender, EventArgs e)
@@ -62,7 +54,7 @@ namespace SpreadSheetParser
 
 
     [System.Serializable]
-    public class Work_Generate_CSharpFile : WorkBase
+    public class Work_Generate_Unity_ScriptableObject : WorkBase
     {
         public string strPath;
         public string strFileName;
@@ -76,12 +68,21 @@ namespace SpreadSheetParser
 
         public override string GetDisplayString()
         {
-            return "Generate CSharp File";
+            return "Generate Unity SO";
         }
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder)
         {
-            pCodeFileBuilder.Generate_CSharpCode($"{strPath}/{strFileName}.cs");
+            CodeTypeDeclarationCollection arrTypes = pCodeFileBuilder.pNameSpace.Types;
+            foreach (CodeTypeDeclaration pType in arrTypes)
+            {
+                if (pType.IsClass == false)
+                    continue;
+
+                pType.AddBaseClass(typeof(UnityEngine.ScriptableObject));
+            }
+
+            pCodeFileBuilder.Generate_CSharpCode($"{strPath}/{strFileName}");
         }
 
         public override void DoWorkAfter()
@@ -92,7 +93,7 @@ namespace SpreadSheetParser
 
         protected override void OnShowForm(Form pFormInstance)
         {
-            BuildWork_Generate_CSharpForm pForm = (BuildWork_Generate_CSharpForm)pFormInstance;
+            BuildWork_Generate_Unity_ScriptableObject pForm = (BuildWork_Generate_Unity_ScriptableObject)pFormInstance;
             pForm.DoInit(this);
         }
     }

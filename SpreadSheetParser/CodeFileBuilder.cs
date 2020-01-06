@@ -70,21 +70,18 @@ namespace SpreadSheetParser
 
     public class CodeFileBuilder
     {
-        CodeNamespace _pNameSpace;
-        CodeCompileUnit _pCompileUnit;
+        public CodeNamespace pNameSpace { get; private set; }
+        public CodeCompileUnit pCompileUnit { get; private set; }
 
         public CodeFileBuilder()
         {
-            _pCompileUnit = new CodeCompileUnit();
+            pNameSpace = new CodeNamespace();
 
-            _pNameSpace = new CodeNamespace();
-            _pCompileUnit.Namespaces.Add(_pNameSpace);
+            pCompileUnit = new CodeCompileUnit();
+            pCompileUnit.Namespaces.Add(pNameSpace);
         }
 
-        /// <summary>
-        /// Generate CSharp source code from the compile unit.
-        /// </summary>
-        public void GenerateCSharpCode(string strFilePath)
+        public void Generate_CSharpCode(string strFilePath)
         {
             if (strFilePath.Contains(".cs") == false)
                 strFilePath += ".cs";
@@ -95,14 +92,14 @@ namespace SpreadSheetParser
             using (StreamWriter sourceWriter = new StreamWriter(strFilePath))
             {
                 provider.GenerateCodeFromCompileUnit(
-                    _pCompileUnit, sourceWriter, options);
+                    pCompileUnit, sourceWriter, options);
             }
         }
 
         public CodeTypeDeclaration AddCodeType(string strTypeName, string strComment = "", TypeAttributes eTypeAttributeFlags = TypeAttributes.Public)
         {
             CodeTypeDeclaration pCodeType = new CodeTypeDeclaration(strTypeName);
-            _pNameSpace.Types.Add(pCodeType);
+            pNameSpace.Types.Add(pCodeType);
 
             pCodeType.TypeAttributes = eTypeAttributeFlags;
             pCodeType.AddComment(strComment);
@@ -115,16 +112,16 @@ namespace SpreadSheetParser
 
         public CodeFileBuilder Set_Namespace(string strNamespace)
         {
-            _pNameSpace.Name = strNamespace;
+            pNameSpace.Name = strNamespace;
 
             return this;
         }
 
         public CodeFileBuilder Set_UsingNameList(List<string> listImportName)
         {
-            _pNameSpace.Imports.Clear();
+            pNameSpace.Imports.Clear();
             for (int i = 0; i < listImportName.Count; i++)
-                _pNameSpace.Imports.Add(new CodeNamespaceImport(listImportName[i]));
+                pNameSpace.Imports.Add(new CodeNamespaceImport(listImportName[i]));
 
             return this;
         }
@@ -181,6 +178,12 @@ namespace SpreadSheetParser
             }
 
             pCodeType.Members.Add(pField);
+        }
+
+        public static void AddBaseClass(this CodeTypeDeclaration pCodeType, Type pBaseType)
+        {
+            CodeTypeReference pBaseTypeRef = new CodeTypeReference(pBaseType);
+            pCodeType.BaseTypes.Add(pBaseTypeRef);
         }
     }
 }

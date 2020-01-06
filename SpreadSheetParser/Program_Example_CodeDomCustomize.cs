@@ -31,7 +31,7 @@ namespace SpreadSheetParser
             pCodeFileBuilder.Set_Namespace("TestNameSpace");
             pCodeFileBuilder.Set_UsingNameList(new List<string>() { "System" });
 
-            pCodeFileBuilder.GenerateCSharpCode("test");
+            pCodeFileBuilder.Generate_CSharpCode("test");
         }
     }
 }
