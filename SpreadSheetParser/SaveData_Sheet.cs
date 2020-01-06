@@ -24,11 +24,7 @@ namespace SpreadSheetParser
         public string strSheetID;
         public DateTime date_LastEdit;
         public List<SaveData_Sheet> listTable = new List<SaveData_Sheet>();
-        public string strOutputPath_Csharp = Directory.GetCurrentDirectory();
-        public string strOutputPath_CSV = Directory.GetCurrentDirectory();
-
-        public string strFileName_Csharp = "DefualtCsharp";
-        public string strFileName_CSV = "DefaultCSV";
+        public List<WorkBase> listSaveWork = new List<WorkBase>();
 
         public SaveData_SpreadSheet(string strSheetID)
         {
@@ -79,6 +75,11 @@ namespace SpreadSheetParser
     {
         public static string const_strSaveFolderPath = Directory.GetCurrentDirectory() + "/SaveData/";
 
+        static public void SaveConfig(string strFilePath, object pData)
+        {
+            JsonSaveManager.SaveData(pData, GetFilePath(strFilePath));
+        }
+
         static public void SaveConfig(Config pData)
         {
             JsonSaveManager.SaveData(pData, GetFilePath("Config"));
@@ -109,10 +110,10 @@ namespace SpreadSheetParser
             JsonSaveManager.SaveData_Async(pSheet, GetFilePath(pSheet.strSheetID), OnFinishAsync);
         }
 
-        static public Dictionary<string, SaveData_SpreadSheet> LoadSheet()
+        static public Dictionary<string, SaveData_SpreadSheet> LoadSheet(System.Action<string> OnError)
         {
             Dictionary<string, SaveData_SpreadSheet> mapSaveSheet = new Dictionary<string, SaveData_SpreadSheet>();
-            List<SaveData_SpreadSheet> listSheet = JsonSaveManager.LoadData<SaveData_SpreadSheet>(const_strSaveFolderPath);
+            List<SaveData_SpreadSheet> listSheet = JsonSaveManager.LoadData<SaveData_SpreadSheet>(const_strSaveFolderPath, OnError);
 
             for (int i = 0; i < listSheet.Count; i++)
             {
@@ -140,6 +141,5 @@ namespace SpreadSheetParser
         {
             return const_strSaveFolderPath + strFileName + ".json";
         }
-
     }
 }

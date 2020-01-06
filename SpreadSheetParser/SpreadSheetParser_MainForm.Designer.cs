@@ -37,12 +37,12 @@
             this.button_OpenLink = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox_SaveSheet = new System.Windows.Forms.ComboBox();
             this.button_OpenPath_SaveSheet = new System.Windows.Forms.Button();
             this.groupBox2_TableSetting = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox_SelectedTable = new System.Windows.Forms.GroupBox();
+            this.button_Info = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.radioButton_Enum = new System.Windows.Forms.RadioButton();
             this.radioButton_Struct = new System.Windows.Forms.RadioButton();
@@ -53,22 +53,14 @@
             this.button_Cancel_TableCommandLine = new System.Windows.Forms.Button();
             this.textBox_CommandLine = new System.Windows.Forms.TextBox();
             this.groupBox3_OutputSetting = new System.Windows.Forms.GroupBox();
-            this.button_Save_FileName_Csharp = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox_FileName_Csharp = new System.Windows.Forms.TextBox();
-            this.checkBox_OpenFolder_AfterBuild_Csharp = new System.Windows.Forms.CheckBox();
-            this.checkBox_OpenFolder_AfterBuild_CSV = new System.Windows.Forms.CheckBox();
-            this.button_OpenPath_CSV = new System.Windows.Forms.Button();
-            this.button_OpenPath_Csharp = new System.Windows.Forms.Button();
-            this.button_CSV_PathSetting = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox_CSV_Path = new System.Windows.Forms.TextBox();
-            this.button_Csharp_PathSetting = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox_Csharp_Path = new System.Windows.Forms.TextBox();
+            this.button_EditWork = new System.Windows.Forms.Button();
+            this.button_AddWork = new System.Windows.Forms.Button();
+            this.checkedListBox_WorkList = new System.Windows.Forms.CheckedListBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoConnect = new System.Windows.Forms.CheckBox();
-            this.button_Info = new System.Windows.Forms.Button();
+            this.button_RemoveWork = new System.Windows.Forms.Button();
+            this.comboBox_WorkList = new System.Windows.Forms.ComboBox();
+            this.comboBox_SaveSheet = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2_TableSetting.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -99,24 +91,25 @@
             // 
             this.checkedListBox_SheetList.FormattingEnabled = true;
             this.checkedListBox_SheetList.HorizontalScrollbar = true;
-            this.checkedListBox_SheetList.Location = new System.Drawing.Point(20, 31);
+            this.checkedListBox_SheetList.Location = new System.Drawing.Point(20, 15);
             this.checkedListBox_SheetList.Name = "checkedListBox_SheetList";
-            this.checkedListBox_SheetList.Size = new System.Drawing.Size(253, 276);
+            this.checkedListBox_SheetList.Size = new System.Drawing.Size(253, 292);
             this.checkedListBox_SheetList.TabIndex = 2;
             this.checkedListBox_SheetList.SelectedIndexChanged += new System.EventHandler(this.checkedListBox_TableList_SelectedIndexChanged);
             // 
             // button_StartParsing
             // 
-            this.button_StartParsing.Location = new System.Drawing.Point(315, 267);
+            this.button_StartParsing.Location = new System.Drawing.Point(303, 251);
             this.button_StartParsing.Name = "button_StartParsing";
             this.button_StartParsing.Size = new System.Drawing.Size(124, 40);
             this.button_StartParsing.TabIndex = 3;
-            this.button_StartParsing.Text = "파일 생성";
+            this.button_StartParsing.Text = "빌드";
             this.button_StartParsing.UseVisualStyleBackColor = true;
             this.button_StartParsing.Click += new System.EventHandler(this.button_StartParsing_Click);
             // 
             // textBox_Console
             // 
+            this.textBox_Console.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.textBox_Console.Location = new System.Drawing.Point(12, 417);
             this.textBox_Console.Multiline = true;
             this.textBox_Console.Name = "textBox_Console";
@@ -168,14 +161,6 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "이전에 연결한 ID";
             // 
-            // comboBox_SaveSheet
-            // 
-            this.comboBox_SaveSheet.FormattingEnabled = true;
-            this.comboBox_SaveSheet.Location = new System.Drawing.Point(116, 50);
-            this.comboBox_SaveSheet.Name = "comboBox_SaveSheet";
-            this.comboBox_SaveSheet.Size = new System.Drawing.Size(400, 20);
-            this.comboBox_SaveSheet.TabIndex = 2;
-            // 
             // button_OpenPath_SaveSheet
             // 
             this.button_OpenPath_SaveSheet.Location = new System.Drawing.Point(8, 48);
@@ -188,6 +173,7 @@
             // 
             // groupBox2_TableSetting
             // 
+            this.groupBox2_TableSetting.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.groupBox2_TableSetting.Controls.Add(this.groupBox2);
             this.groupBox2_TableSetting.Controls.Add(this.groupBox_SelectedTable);
             this.groupBox2_TableSetting.Controls.Add(this.checkedListBox_SheetList);
@@ -196,7 +182,7 @@
             this.groupBox2_TableSetting.Size = new System.Drawing.Size(609, 313);
             this.groupBox2_TableSetting.TabIndex = 6;
             this.groupBox2_TableSetting.TabStop = false;
-            this.groupBox2_TableSetting.Text = "2. TableSetting";
+            this.groupBox2_TableSetting.Text = "2. Table Setting";
             // 
             // groupBox2
             // 
@@ -232,6 +218,16 @@
             this.groupBox_SelectedTable.TabIndex = 9;
             this.groupBox_SelectedTable.TabStop = false;
             this.groupBox_SelectedTable.Text = "Selected Table Setting";
+            // 
+            // button_Info
+            // 
+            this.button_Info.Location = new System.Drawing.Point(100, 86);
+            this.button_Info.Name = "button_Info";
+            this.button_Info.Size = new System.Drawing.Size(60, 23);
+            this.button_Info.TabIndex = 12;
+            this.button_Info.Text = "Info";
+            this.button_Info.UseVisualStyleBackColor = true;
+            this.button_Info.Click += new System.EventHandler(this.button_Info_Click);
             // 
             // groupBox3
             // 
@@ -326,151 +322,53 @@
             // 
             // groupBox3_OutputSetting
             // 
-            this.groupBox3_OutputSetting.Controls.Add(this.button_Save_FileName_Csharp);
-            this.groupBox3_OutputSetting.Controls.Add(this.label6);
-            this.groupBox3_OutputSetting.Controls.Add(this.textBox_FileName_Csharp);
-            this.groupBox3_OutputSetting.Controls.Add(this.checkBox_OpenFolder_AfterBuild_Csharp);
-            this.groupBox3_OutputSetting.Controls.Add(this.checkBox_OpenFolder_AfterBuild_CSV);
-            this.groupBox3_OutputSetting.Controls.Add(this.button_OpenPath_CSV);
-            this.groupBox3_OutputSetting.Controls.Add(this.button_OpenPath_Csharp);
-            this.groupBox3_OutputSetting.Controls.Add(this.button_CSV_PathSetting);
-            this.groupBox3_OutputSetting.Controls.Add(this.label5);
-            this.groupBox3_OutputSetting.Controls.Add(this.textBox_CSV_Path);
-            this.groupBox3_OutputSetting.Controls.Add(this.button_Csharp_PathSetting);
-            this.groupBox3_OutputSetting.Controls.Add(this.label4);
-            this.groupBox3_OutputSetting.Controls.Add(this.textBox_Csharp_Path);
+            this.groupBox3_OutputSetting.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.groupBox3_OutputSetting.AutoSize = true;
+            this.groupBox3_OutputSetting.Controls.Add(this.comboBox_WorkList);
+            this.groupBox3_OutputSetting.Controls.Add(this.button_RemoveWork);
+            this.groupBox3_OutputSetting.Controls.Add(this.button_EditWork);
+            this.groupBox3_OutputSetting.Controls.Add(this.button_AddWork);
+            this.groupBox3_OutputSetting.Controls.Add(this.checkedListBox_WorkList);
             this.groupBox3_OutputSetting.Controls.Add(this.button_StartParsing);
             this.groupBox3_OutputSetting.Location = new System.Drawing.Point(627, 98);
             this.groupBox3_OutputSetting.Name = "groupBox3_OutputSetting";
             this.groupBox3_OutputSetting.Size = new System.Drawing.Size(445, 313);
             this.groupBox3_OutputSetting.TabIndex = 7;
             this.groupBox3_OutputSetting.TabStop = false;
-            this.groupBox3_OutputSetting.Text = "3. Output Setting";
+            this.groupBox3_OutputSetting.Text = "3. Build Setting";
             // 
-            // button_Save_FileName_Csharp
+            // button_EditWork
             // 
-            this.button_Save_FileName_Csharp.Location = new System.Drawing.Point(357, 76);
-            this.button_Save_FileName_Csharp.Name = "button_Save_FileName_Csharp";
-            this.button_Save_FileName_Csharp.Size = new System.Drawing.Size(82, 23);
-            this.button_Save_FileName_Csharp.TabIndex = 19;
-            this.button_Save_FileName_Csharp.Text = "파일명 저장";
-            this.button_Save_FileName_Csharp.UseVisualStyleBackColor = true;
-            this.button_Save_FileName_Csharp.Click += new System.EventHandler(this.button_Save_FileName_Csharp_Click);
+            this.button_EditWork.Location = new System.Drawing.Point(303, 89);
+            this.button_EditWork.Name = "button_EditWork";
+            this.button_EditWork.Size = new System.Drawing.Size(124, 40);
+            this.button_EditWork.TabIndex = 14;
+            this.button_EditWork.Text = "작업 편집";
+            this.button_EditWork.UseVisualStyleBackColor = true;
+            this.button_EditWork.Click += new System.EventHandler(this.button_EditWork_Click);
             // 
-            // label6
+            // button_AddWork
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(84, 79);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(60, 12);
-            this.label6.TabIndex = 15;
-            this.label6.Text = "C# 파일명";
+            this.button_AddWork.Location = new System.Drawing.Point(303, 43);
+            this.button_AddWork.Name = "button_AddWork";
+            this.button_AddWork.Size = new System.Drawing.Size(124, 40);
+            this.button_AddWork.TabIndex = 13;
+            this.button_AddWork.Text = "작업 추가";
+            this.button_AddWork.UseVisualStyleBackColor = true;
+            this.button_AddWork.Click += new System.EventHandler(this.button_AddWork_Click);
             // 
-            // textBox_FileName_Csharp
+            // checkedListBox_WorkList
             // 
-            this.textBox_FileName_Csharp.Location = new System.Drawing.Point(150, 76);
-            this.textBox_FileName_Csharp.Name = "textBox_FileName_Csharp";
-            this.textBox_FileName_Csharp.Size = new System.Drawing.Size(178, 21);
-            this.textBox_FileName_Csharp.TabIndex = 14;
-            // 
-            // checkBox_OpenFolder_AfterBuild_Csharp
-            // 
-            this.checkBox_OpenFolder_AfterBuild_Csharp.AutoSize = true;
-            this.checkBox_OpenFolder_AfterBuild_Csharp.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox_OpenFolder_AfterBuild_Csharp.Location = new System.Drawing.Point(238, 22);
-            this.checkBox_OpenFolder_AfterBuild_Csharp.Name = "checkBox_OpenFolder_AfterBuild_Csharp";
-            this.checkBox_OpenFolder_AfterBuild_Csharp.Size = new System.Drawing.Size(72, 16);
-            this.checkBox_OpenFolder_AfterBuild_Csharp.TabIndex = 13;
-            this.checkBox_OpenFolder_AfterBuild_Csharp.Text = "자동연결";
-            this.checkBox_OpenFolder_AfterBuild_Csharp.UseVisualStyleBackColor = true;
-            this.checkBox_OpenFolder_AfterBuild_Csharp.CheckedChanged += new System.EventHandler(this.checkBox_OpenFolder_AfterBuild_Csharp_CheckedChanged);
-            // 
-            // checkBox_OpenFolder_AfterBuild_CSV
-            // 
-            this.checkBox_OpenFolder_AfterBuild_CSV.AutoSize = true;
-            this.checkBox_OpenFolder_AfterBuild_CSV.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox_OpenFolder_AfterBuild_CSV.Location = new System.Drawing.Point(238, 134);
-            this.checkBox_OpenFolder_AfterBuild_CSV.Name = "checkBox_OpenFolder_AfterBuild_CSV";
-            this.checkBox_OpenFolder_AfterBuild_CSV.Size = new System.Drawing.Size(72, 16);
-            this.checkBox_OpenFolder_AfterBuild_CSV.TabIndex = 8;
-            this.checkBox_OpenFolder_AfterBuild_CSV.Text = "자동연결";
-            this.checkBox_OpenFolder_AfterBuild_CSV.UseVisualStyleBackColor = true;
-            this.checkBox_OpenFolder_AfterBuild_CSV.CheckedChanged += new System.EventHandler(this.checkBox_OpenFolder_AfterBuild_CSV_CheckedChanged);
-            // 
-            // button_OpenPath_CSV
-            // 
-            this.button_OpenPath_CSV.Location = new System.Drawing.Point(150, 130);
-            this.button_OpenPath_CSV.Name = "button_OpenPath_CSV";
-            this.button_OpenPath_CSV.Size = new System.Drawing.Size(82, 23);
-            this.button_OpenPath_CSV.TabIndex = 12;
-            this.button_OpenPath_CSV.Text = "경로 열기";
-            this.button_OpenPath_CSV.UseVisualStyleBackColor = true;
-            this.button_OpenPath_CSV.Click += new System.EventHandler(this.Button_OpenPath_CSV_Click);
-            // 
-            // button_OpenPath_Csharp
-            // 
-            this.button_OpenPath_Csharp.Location = new System.Drawing.Point(150, 18);
-            this.button_OpenPath_Csharp.Name = "button_OpenPath_Csharp";
-            this.button_OpenPath_Csharp.Size = new System.Drawing.Size(82, 23);
-            this.button_OpenPath_Csharp.TabIndex = 11;
-            this.button_OpenPath_Csharp.Text = "경로 열기";
-            this.button_OpenPath_Csharp.UseVisualStyleBackColor = true;
-            this.button_OpenPath_Csharp.Click += new System.EventHandler(this.Button_OpenPath_Csharp_Click);
-            // 
-            // button_CSV_PathSetting
-            // 
-            this.button_CSV_PathSetting.Location = new System.Drawing.Point(357, 130);
-            this.button_CSV_PathSetting.Name = "button_CSV_PathSetting";
-            this.button_CSV_PathSetting.Size = new System.Drawing.Size(82, 23);
-            this.button_CSV_PathSetting.TabIndex = 10;
-            this.button_CSV_PathSetting.Text = "경로 세팅";
-            this.button_CSV_PathSetting.UseVisualStyleBackColor = true;
-            this.button_CSV_PathSetting.Click += new System.EventHandler(this.Button_CSV_PathSetting_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 135);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(109, 12);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "3-2. CSV File Path";
-            // 
-            // textBox_CSV_Path
-            // 
-            this.textBox_CSV_Path.Location = new System.Drawing.Point(8, 161);
-            this.textBox_CSV_Path.Name = "textBox_CSV_Path";
-            this.textBox_CSV_Path.Size = new System.Drawing.Size(431, 21);
-            this.textBox_CSV_Path.TabIndex = 8;
-            // 
-            // button_Csharp_PathSetting
-            // 
-            this.button_Csharp_PathSetting.Location = new System.Drawing.Point(357, 18);
-            this.button_Csharp_PathSetting.Name = "button_Csharp_PathSetting";
-            this.button_Csharp_PathSetting.Size = new System.Drawing.Size(82, 23);
-            this.button_Csharp_PathSetting.TabIndex = 7;
-            this.button_Csharp_PathSetting.Text = "경로 세팅";
-            this.button_Csharp_PathSetting.UseVisualStyleBackColor = true;
-            this.button_Csharp_PathSetting.Click += new System.EventHandler(this.Button_Csharp_PathSetting_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 23);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(99, 12);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "3-1. C# File Path";
-            // 
-            // textBox_Csharp_Path
-            // 
-            this.textBox_Csharp_Path.Location = new System.Drawing.Point(8, 49);
-            this.textBox_Csharp_Path.Name = "textBox_Csharp_Path";
-            this.textBox_Csharp_Path.Size = new System.Drawing.Size(431, 21);
-            this.textBox_Csharp_Path.TabIndex = 5;
+            this.checkedListBox_WorkList.FormattingEnabled = true;
+            this.checkedListBox_WorkList.HorizontalScrollbar = true;
+            this.checkedListBox_WorkList.Location = new System.Drawing.Point(8, 15);
+            this.checkedListBox_WorkList.Name = "checkedListBox_WorkList";
+            this.checkedListBox_WorkList.Size = new System.Drawing.Size(277, 276);
+            this.checkedListBox_WorkList.TabIndex = 12;
             // 
             // groupBox5
             // 
+            this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.Controls.Add(this.checkBox_AutoConnect);
             this.groupBox5.Controls.Add(this.button_OpenPath_SaveSheet);
             this.groupBox5.Location = new System.Drawing.Point(627, 12);
@@ -492,15 +390,31 @@
             this.checkBox_AutoConnect.UseVisualStyleBackColor = true;
             this.checkBox_AutoConnect.CheckedChanged += new System.EventHandler(this.checkBox_AutoConnect_CheckedChanged);
             // 
-            // button_Info
+            // button_RemoveWork
             // 
-            this.button_Info.Location = new System.Drawing.Point(100, 86);
-            this.button_Info.Name = "button_Info";
-            this.button_Info.Size = new System.Drawing.Size(60, 23);
-            this.button_Info.TabIndex = 12;
-            this.button_Info.Text = "Info";
-            this.button_Info.UseVisualStyleBackColor = true;
-            this.button_Info.Click += new System.EventHandler(this.button_Info_Click);
+            this.button_RemoveWork.Location = new System.Drawing.Point(303, 139);
+            this.button_RemoveWork.Name = "button_RemoveWork";
+            this.button_RemoveWork.Size = new System.Drawing.Size(124, 40);
+            this.button_RemoveWork.TabIndex = 15;
+            this.button_RemoveWork.Text = "작업 삭제";
+            this.button_RemoveWork.UseVisualStyleBackColor = true;
+            this.button_RemoveWork.Click += new System.EventHandler(this.button_RemoveWork_Click);
+            // 
+            // comboBox_WorkList
+            // 
+            this.comboBox_WorkList.FormattingEnabled = true;
+            this.comboBox_WorkList.Location = new System.Drawing.Point(303, 17);
+            this.comboBox_WorkList.Name = "comboBox_WorkList";
+            this.comboBox_WorkList.Size = new System.Drawing.Size(124, 20);
+            this.comboBox_WorkList.TabIndex = 7;
+            // 
+            // comboBox_SaveSheet
+            // 
+            this.comboBox_SaveSheet.FormattingEnabled = true;
+            this.comboBox_SaveSheet.Location = new System.Drawing.Point(116, 50);
+            this.comboBox_SaveSheet.Name = "comboBox_SaveSheet";
+            this.comboBox_SaveSheet.Size = new System.Drawing.Size(400, 20);
+            this.comboBox_SaveSheet.TabIndex = 2;
             // 
             // SpreadSheetParser_MainForm
             // 
@@ -524,7 +438,6 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox3_OutputSetting.ResumeLayout(false);
-            this.groupBox3_OutputSetting.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
@@ -543,30 +456,16 @@
         private System.Windows.Forms.GroupBox groupBox2_TableSetting;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox_SaveSheet;
         private System.Windows.Forms.GroupBox groupBox3_OutputSetting;
-        private System.Windows.Forms.TextBox textBox_Csharp_Path;
         private System.Windows.Forms.TextBox textBox_CommandLine;
         private System.Windows.Forms.Button button_Cancel_TableCommandLine;
         private System.Windows.Forms.Button button_Save_TableCommandLine;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox_SelectedTable;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button_Csharp_PathSetting;
-        private System.Windows.Forms.Button button_CSV_PathSetting;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox_CSV_Path;
-        private System.Windows.Forms.Button button_OpenPath_CSV;
-        private System.Windows.Forms.Button button_OpenPath_Csharp;
         private System.Windows.Forms.Button button_OpenPath_SaveSheet;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox checkBox_AutoConnect;
         private System.Windows.Forms.Button button_CheckTable;
-        private System.Windows.Forms.CheckBox checkBox_OpenFolder_AfterBuild_Csharp;
-        private System.Windows.Forms.CheckBox checkBox_OpenFolder_AfterBuild_CSV;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox_FileName_Csharp;
-        private System.Windows.Forms.Button button_Save_FileName_Csharp;
         private System.Windows.Forms.Button button_OpenLink;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.GroupBox groupBox2;
@@ -575,6 +474,12 @@
         private System.Windows.Forms.RadioButton radioButton_Enum;
         private System.Windows.Forms.RadioButton radioButton_Struct;
         private System.Windows.Forms.Button button_Info;
+        private System.Windows.Forms.CheckedListBox checkedListBox_WorkList;
+        private System.Windows.Forms.Button button_AddWork;
+        private System.Windows.Forms.Button button_EditWork;
+        private System.Windows.Forms.Button button_RemoveWork;
+        private System.Windows.Forms.ComboBox comboBox_WorkList;
+        private System.Windows.Forms.ComboBox comboBox_SaveSheet;
     }
 }
 

@@ -23,6 +23,7 @@ namespace SpreadSheetParser
             JsonSerializerSettings pSetting = new JsonSerializerSettings();
             pSetting.Formatting = Formatting.Indented;
             pSetting.MissingMemberHandling = MissingMemberHandling.Error;
+            pSetting.Converters.Add(new WorkJsonConverter());
 
             return pSetting;
         }
@@ -83,7 +84,7 @@ namespace SpreadSheetParser
             _set_AsyncSave.Remove(strFilePath);
         }
 
-        public static List<T> LoadData<T>(string strFolderPath)
+        public static List<T> LoadData<T>(string strFolderPath, System.Action<string> OnError = null)
             where T : class
         {
             List<T> listData = new List<T>();
@@ -102,8 +103,9 @@ namespace SpreadSheetParser
                 {
                     pData = JsonConvert.DeserializeObject<T>(strText, _pSetting);
                 }
-                catch
+                catch (System.Exception e)
                 {
+                    OnError?.Invoke($"Load Data Parsing Error - \nFileName : {pFile.FullName} Error : {e}");
                     continue;
                 }
 
