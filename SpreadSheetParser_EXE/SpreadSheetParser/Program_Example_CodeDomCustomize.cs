@@ -29,7 +29,7 @@ namespace SpreadSheetParser
 
 
             pCodeFileBuilder.Set_Namespace("TestNameSpace");
-            pCodeFileBuilder.Set_UsingNameList(new List<string>() { "System" });
+            pCodeFileBuilder.Set_UsingList("System");
 
             pCodeFileBuilder.Generate_CSharpCode("test");
         }

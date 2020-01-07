@@ -61,6 +61,7 @@
             this.button_RemoveWork = new System.Windows.Forms.Button();
             this.comboBox_WorkList = new System.Windows.Forms.ComboBox();
             this.comboBox_SaveSheet = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2_TableSetting.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -324,6 +325,7 @@
             // 
             this.groupBox3_OutputSetting.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.groupBox3_OutputSetting.AutoSize = true;
+            this.groupBox3_OutputSetting.Controls.Add(this.label4);
             this.groupBox3_OutputSetting.Controls.Add(this.comboBox_WorkList);
             this.groupBox3_OutputSetting.Controls.Add(this.button_RemoveWork);
             this.groupBox3_OutputSetting.Controls.Add(this.button_EditWork);
@@ -339,7 +341,7 @@
             // 
             // button_EditWork
             // 
-            this.button_EditWork.Location = new System.Drawing.Point(303, 89);
+            this.button_EditWork.Location = new System.Drawing.Point(303, 112);
             this.button_EditWork.Name = "button_EditWork";
             this.button_EditWork.Size = new System.Drawing.Size(124, 40);
             this.button_EditWork.TabIndex = 14;
@@ -349,7 +351,7 @@
             // 
             // button_AddWork
             // 
-            this.button_AddWork.Location = new System.Drawing.Point(303, 43);
+            this.button_AddWork.Location = new System.Drawing.Point(303, 66);
             this.button_AddWork.Name = "button_AddWork";
             this.button_AddWork.Size = new System.Drawing.Size(124, 40);
             this.button_AddWork.TabIndex = 13;
@@ -392,7 +394,7 @@
             // 
             // button_RemoveWork
             // 
-            this.button_RemoveWork.Location = new System.Drawing.Point(303, 139);
+            this.button_RemoveWork.Location = new System.Drawing.Point(303, 162);
             this.button_RemoveWork.Name = "button_RemoveWork";
             this.button_RemoveWork.Size = new System.Drawing.Size(124, 40);
             this.button_RemoveWork.TabIndex = 15;
@@ -403,7 +405,7 @@
             // comboBox_WorkList
             // 
             this.comboBox_WorkList.FormattingEnabled = true;
-            this.comboBox_WorkList.Location = new System.Drawing.Point(303, 17);
+            this.comboBox_WorkList.Location = new System.Drawing.Point(303, 32);
             this.comboBox_WorkList.Name = "comboBox_WorkList";
             this.comboBox_WorkList.Size = new System.Drawing.Size(124, 20);
             this.comboBox_WorkList.TabIndex = 7;
@@ -415,6 +417,15 @@
             this.comboBox_SaveSheet.Name = "comboBox_SaveSheet";
             this.comboBox_SaveSheet.Size = new System.Drawing.Size(400, 20);
             this.comboBox_SaveSheet.TabIndex = 2;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(303, 17);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(93, 12);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "추가할 작업이름";
             // 
             // SpreadSheetParser_MainForm
             // 
@@ -438,6 +449,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox3_OutputSetting.ResumeLayout(false);
+            this.groupBox3_OutputSetting.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
@@ -480,6 +492,7 @@
         private System.Windows.Forms.Button button_RemoveWork;
         private System.Windows.Forms.ComboBox comboBox_WorkList;
         private System.Windows.Forms.ComboBox comboBox_SaveSheet;
+        private System.Windows.Forms.Label label4;
     }
 }
 

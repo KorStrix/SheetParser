@@ -206,7 +206,6 @@ namespace SpreadSheetParser
             for (int i = 0; i < listWorkBase.Count; i++)
                 checkedListBox_WorkList.Items.Add(listWorkBase[i], listWorkBase[i].bEnable);
 
-            UpdateUI_Sheet();
             SetState(EState.IsConnected);
             WriteConsole("연결 성공");
         }
@@ -278,9 +277,6 @@ namespace SpreadSheetParser
             {
                 pWork.DoWork(_pCodeFileBuilder);
             }
-
-            //if (_pConfig.bOpenPath_AfterBuild_CSV)
-            //    Button_OpenPath_CSV_Click(null, null);
 
             WriteConsole("빌드 완료");
 
@@ -503,14 +499,6 @@ namespace SpreadSheetParser
             }
         }
 
-        private void UpdateUI_Sheet()
-        {
-            //textBox_Csharp_Path.Text = _pSpreadSheet_CurrentConnected.strOutputPath_Csharp;
-            //textBox_CSV_Path.Text = _pSpreadSheet_CurrentConnected.strOutputPath_CSV;
-
-            //textBox_FileName_Csharp.Text = _pSpreadSheet_CurrentConnected.strFileName_Csharp;
-        }
-
         private void checkBox_AutoConnect_CheckedChanged(object sender, EventArgs e)
         {
             if (_bIsLoading_CreateForm)
@@ -607,11 +595,15 @@ namespace SpreadSheetParser
 
         private void button_AddWork_Click(object sender, EventArgs e)
         {
-            Work_Generate_CSharpFile pWorkGenerateCsharp = new Work_Generate_CSharpFile();
-            pWorkGenerateCsharp.ShowForm();
+            WorkBase pWork = (WorkBase)comboBox_WorkList.SelectedItem;
+            if (pWork == null)
+                return;
 
-            pSpreadSheet_CurrentConnected.listSaveWork.Add(pWorkGenerateCsharp);
-            // AutoSaveAsync_CurrentSheet();
+            WorkBase pNewWork = pWork.CopyInstance();
+            pNewWork.ShowForm();
+            checkedListBox_WorkList.Items.Add(pNewWork);
+            pSpreadSheet_CurrentConnected.listSaveWork.Add(pNewWork);
+            AutoSaveAsync_CurrentSheet();
         }
 
         private void button_EditWork_Click(object sender, EventArgs e)

@@ -25,7 +25,6 @@ namespace SpreadSheetParser
                 case "string": pType = typeof(string); break;
 
                 default:
-
                     break;
             }
 
@@ -70,15 +69,17 @@ namespace SpreadSheetParser
 
     public class CodeFileBuilder
     {
-        public CodeNamespace pNameSpace { get; private set; }
+        public CodeNamespace pNamespaceCurrent { get; private set; }
         public CodeCompileUnit pCompileUnit { get; private set; }
+
+        CodeTypeDeclarationCollection _arrCodeTypeDeclaration = new CodeTypeDeclarationCollection();
 
         public CodeFileBuilder()
         {
-            pNameSpace = new CodeNamespace();
+            pNamespaceCurrent = new CodeNamespace();
 
             pCompileUnit = new CodeCompileUnit();
-            pCompileUnit.Namespaces.Add(pNameSpace);
+            pCompileUnit.Namespaces.Add(pNamespaceCurrent);
         }
 
         public void Generate_CSharpCode(string strFilePath)
@@ -86,20 +87,45 @@ namespace SpreadSheetParser
             if (strFilePath.Contains(".cs") == false)
                 strFilePath += ".cs";
 
-            CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
-            CodeGeneratorOptions options = new CodeGeneratorOptions();
-            options.BracingStyle = "C";
-            using (StreamWriter sourceWriter = new StreamWriter(strFilePath))
+            pNamespaceCurrent.Types.Clear();
+            pNamespaceCurrent.Types.AddRange(_arrCodeTypeDeclaration);
+
+            Generate_CSharpCode(pCompileUnit, strFilePath);
+        }
+
+        public void Generate_CSharpCode(CodeNamespace pNamespace, string strFilePath)
+        {
+            if (strFilePath.Contains(".cs") == false)
+                strFilePath += ".cs";
+
+            CodeCompileUnit pCompileUnit = new CodeCompileUnit();
+            pCompileUnit.Namespaces.Add(pNamespace);
+
+            Generate_CSharpCode(pCompileUnit, strFilePath);
+        }
+
+        private void Generate_CSharpCode(CodeCompileUnit pCompileUnit, string strFilePath)
+        {
+            CodeDomProvider pProvider = CodeDomProvider.CreateProvider("CSharp");
+            CodeGeneratorOptions pOptions = new CodeGeneratorOptions();
+            pOptions.BracingStyle = "C";
+            using (StreamWriter pSourceWriter = new StreamWriter(strFilePath))
             {
-                provider.GenerateCodeFromCompileUnit(
-                    pCompileUnit, sourceWriter, options);
+                pProvider.GenerateCodeFromCompileUnit(
+                    pCompileUnit, pSourceWriter, pOptions);
             }
+        }
+
+
+        public CodeTypeDeclarationCollection GetCodeTypeDeclarationCollection()
+        {
+            return _arrCodeTypeDeclaration;
         }
 
         public CodeTypeDeclaration AddCodeType(string strTypeName, string strComment = "", TypeAttributes eTypeAttributeFlags = TypeAttributes.Public)
         {
             CodeTypeDeclaration pCodeType = new CodeTypeDeclaration(strTypeName);
-            pNameSpace.Types.Add(pCodeType);
+            _arrCodeTypeDeclaration.Add(pCodeType);
 
             pCodeType.TypeAttributes = eTypeAttributeFlags;
             pCodeType.AddComment(strComment);
@@ -112,16 +138,16 @@ namespace SpreadSheetParser
 
         public CodeFileBuilder Set_Namespace(string strNamespace)
         {
-            pNameSpace.Name = strNamespace;
+            pNamespaceCurrent.Name = strNamespace;
 
             return this;
         }
 
-        public CodeFileBuilder Set_UsingNameList(List<string> listImportName)
+        public CodeFileBuilder Set_UsingList(params string[] arrImportName)
         {
-            pNameSpace.Imports.Clear();
-            for (int i = 0; i < listImportName.Count; i++)
-                pNameSpace.Imports.Add(new CodeNamespaceImport(listImportName[i]));
+            pNamespaceCurrent.Imports.Clear();
+            for (int i = 0; i < arrImportName.Length; i++)
+                pNamespaceCurrent.Imports.Add(new CodeNamespaceImport(arrImportName[i]));
 
             return this;
         }

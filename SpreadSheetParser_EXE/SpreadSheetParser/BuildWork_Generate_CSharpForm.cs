@@ -81,7 +81,7 @@ namespace SpreadSheetParser
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder)
         {
-            pCodeFileBuilder.Generate_CSharpCode($"{strPath}/{strFileName}.cs");
+            pCodeFileBuilder.Generate_CSharpCode($"{strPath}/{strFileName}");
         }
 
         public override void DoWorkAfter()
