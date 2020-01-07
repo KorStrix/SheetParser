@@ -37,7 +37,7 @@ namespace SpreadSheetParser
             return (WorkBase)this.MemberwiseClone();
         }
 
-        public bool DoShowFileBrowser_And_SavePath(ref TextBox pTextBox_Path, System.Func<string, bool> OnCheck_IsCorrect, string strOnErrorMsg)
+        public bool DoShowFileBrowser_And_SavePath(bool bIsAbsolutePath, ref TextBox pTextBox_Path, System.Func<string, bool> OnCheck_IsCorrect, string strOnErrorMsg)
         {
             if (OnCheck_IsCorrect == null)
                 OnCheck_IsCorrect = OnCheck_IsCorrect_Default;
@@ -48,7 +48,10 @@ namespace SpreadSheetParser
                 {
                     if(OnCheck_IsCorrect(pDialog.FileName))
                     {
-                        pTextBox_Path.Text = pDialog.FileName;
+                        if(bIsAbsolutePath)
+                            pTextBox_Path.Text = pDialog.FileName;
+                        else
+                            pTextBox_Path.Text = MakeRelativePath(pDialog.FileName);
                         return true;
                     }
                     else
@@ -61,13 +64,17 @@ namespace SpreadSheetParser
             return false;
         }
 
-        public bool DoShowFolderBrowser_And_SavePath(ref TextBox pTextBox_Path)
+        public bool DoShowFolderBrowser_And_SavePath(bool bIsAbsolutePath, ref TextBox pTextBox_Path)
         {
             using (FolderBrowserDialog pDialog = new FolderBrowserDialog())
             {
                 if (pDialog.ShowDialog() == DialogResult.OK)
                 {
-                    pTextBox_Path.Text = pDialog.SelectedPath;
+                    if(bIsAbsolutePath)
+                        pTextBox_Path.Text = pDialog.SelectedPath;
+                    else
+                        pTextBox_Path.Text = MakeRelativePath(pDialog.SelectedPath);
+
                     return true;
                 }
             }
@@ -83,10 +90,13 @@ namespace SpreadSheetParser
 
         public void DoOpenPath(string strPath)
         {
-            SpreadSheetParser_MainForm.DoOpenPath(strPath);
+            if(Path.IsPathRooted(strPath))
+                SpreadSheetParser_MainForm.DoOpenPath(strPath);
+            else
+                SpreadSheetParser_MainForm.DoOpenPath(new Uri(Directory.GetCurrentDirectory()).AbsolutePath + "/../" + strPath);
         }
 
-        abstract public void DoWork(CodeFileBuilder pCodeFileBuilder);
+        abstract public void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData);
         virtual public void DoWorkAfter() { }
 
         abstract protected void OnCreateInstance(out Type pFormType, out Type pType);
@@ -103,10 +113,10 @@ namespace SpreadSheetParser
         // https://stackoverflow.com/questions/13266756/absolute-to-relative-path
         public static string MakeRelativePath(string filePath)
         {
-            var fileUri = new Uri(filePath);
-            var referenceUri = new Uri(Directory.GetCurrentDirectory());
+            var pFileURI = new Uri(filePath);
+            var pCurrentURI = new Uri(Directory.GetCurrentDirectory());
 
-            return referenceUri.MakeRelativeUri(fileUri).ToString();
+            return pCurrentURI.MakeRelativeUri(pFileURI).ToString();
         }
 
         bool OnCheck_IsCorrect_Default(string strFileName)

@@ -10,16 +10,16 @@ using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
-    public partial class BuildWork_Generate_CSharpForm : Form
+    public partial class BuildWork_Generate_CSV : Form
     {
-        Work_Generate_CSharpFile _pWork;
+        Work_Generate_CSV _pWork;
 
-        public BuildWork_Generate_CSharpForm()
+        public BuildWork_Generate_CSV()
         {
             InitializeComponent();
         }
 
-        public void DoInit(Work_Generate_CSharpFile pWork)
+        public void DoInit(Work_Generate_CSV pWork)
         {
             _pWork = null;
 
@@ -62,7 +62,7 @@ namespace SpreadSheetParser
 
 
     [System.Serializable]
-    public class Work_Generate_CSharpFile : WorkBase
+    public class Work_Generate_CSV : WorkBase
     {
         public string strPath;
         public string strFileName;
@@ -70,13 +70,13 @@ namespace SpreadSheetParser
 
         protected override void OnCreateInstance(out Type pFormType, out Type pType)
         {
-            pFormType = typeof(BuildWork_Generate_CSharpForm);
+            pFormType = typeof(BuildWork_Generate_CSV);
             pType = GetType();
         }
 
         public override string GetDisplayString()
         {
-            return "Generate CSharp File";
+            return "Generate CSV";
         }
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData)
@@ -92,7 +92,7 @@ namespace SpreadSheetParser
 
         protected override void OnShowForm(Form pFormInstance)
         {
-            BuildWork_Generate_CSharpForm pForm = (BuildWork_Generate_CSharpForm)pFormInstance;
+            BuildWork_Generate_CSV pForm = (BuildWork_Generate_CSV)pFormInstance;
             pForm.DoInit(this);
         }
     }

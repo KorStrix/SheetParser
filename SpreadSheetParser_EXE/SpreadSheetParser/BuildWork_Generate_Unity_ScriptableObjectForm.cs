@@ -36,17 +36,20 @@ namespace SpreadSheetParser
             _pWork.DoOpenPath(textBox_EditorPath.Text);
         }
 
-        private void button_SavePath_Click(object sender, EventArgs e)
+        private void button_SavePath_EditorClick(object sender, EventArgs e)
         {
             if (_pWork == null)
                 return;
 
-            if (_pWork.DoShowFileBrowser_And_SavePath(ref textBox_EditorPath, (strFileName) => strFileName.Contains("Unity.exe"), "Unity 실행프로그램이 아닙니다"))
+            if (_pWork.DoShowFileBrowser_And_SavePath(true, ref textBox_EditorPath, (strFileName) => strFileName.Contains("Unity.exe"), "Unity 실행프로그램이 아닙니다"))
                 _pWork.strUnityEditorPath = textBox_EditorPath.Text;
         }
 
         private void checkBox_OpenFolder_AfterBuild_CheckedChanged(object sender, EventArgs e)
         {
+            if (_pWork == null)
+                return;
+
             _pWork.bOpenPath_AfterBuild_CSharp = checkBox_OpenFolder_AfterBuild.Checked;
         }
 
@@ -55,7 +58,7 @@ namespace SpreadSheetParser
             if (_pWork == null)
                 return;
 
-            if (_pWork.DoShowFolderBrowser_And_SavePath(ref textBox_ExportPath))
+            if (_pWork.DoShowFolderBrowser_And_SavePath(false, ref textBox_ExportPath))
                 _pWork.strExportPath = textBox_ExportPath.Text;
         }
 
@@ -90,7 +93,7 @@ namespace SpreadSheetParser
             return "Generate Unity SO";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder)
+        public override void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData)
         {
             CodeTypeDeclarationCollection arrTypes = pCodeFileBuilder.GetCodeTypeDeclarationCollection();
             CodeNamespace pNameSpace = new CodeNamespace();
@@ -104,7 +107,9 @@ namespace SpreadSheetParser
                 pType.AddBaseClass(typeof(UnityEngine.ScriptableObject));
                 pNameSpace.Types.Clear();
                 pNameSpace.Types.Add(pType);
-                pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{strExportPath}/{pType.Name}");
+
+                Uri pURI = new Uri($"{strExportPath}/{pType.Name}");
+                pCodeFileBuilder.Generate_CSharpCode(pNameSpace, pURI.AbsolutePath);
             }
 
             pNameSpace.Types.Clear();

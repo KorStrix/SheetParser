@@ -66,7 +66,7 @@
             this.button_SavePath_UnityEditor.TabIndex = 3;
             this.button_SavePath_UnityEditor.Text = "경로 세팅";
             this.button_SavePath_UnityEditor.UseVisualStyleBackColor = true;
-            this.button_SavePath_UnityEditor.Click += new System.EventHandler(this.button_SavePath_Click);
+            this.button_SavePath_UnityEditor.Click += new System.EventHandler(this.button_SavePath_EditorClick);
             // 
             // button_SaveAndClose
             // 

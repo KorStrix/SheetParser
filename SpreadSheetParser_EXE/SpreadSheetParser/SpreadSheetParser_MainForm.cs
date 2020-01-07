@@ -239,7 +239,6 @@ namespace SpreadSheetParser
                     else
                     {
                         var pCodeType = _pCodeFileBuilder.AddCodeType(pSheetData.ToString());
-
                         switch (pSheetData.eType)
                         {
                             case SaveData_Sheet.EType.Class: pCodeType.IsClass = true; break;
@@ -252,14 +251,7 @@ namespace SpreadSheetParser
                         ParsingSheet(pSheetData.ToString(),
                             (listRow, strText, iRow, iColumn) =>
                             {
-                                if (strText.Contains(":"))
-                                {
-                                    string[] arrText = strText.Split(':');
-                                    if (CheckIsEnum(arrText[1]))
-                                        pCodeType.AddEnumField(new EnumFieldData(arrText[0]));
-                                    else
-                                        pCodeType.AddField(new FieldData(arrText[0], arrText[1]));
-                                }
+
                             });
 
                         Execute_CommandLine(pCodeType, listCommandLine);
@@ -268,27 +260,23 @@ namespace SpreadSheetParser
             }
             catch (Exception pException)
             {
-                WriteConsole("코드 파일 생성 실패.." + pException);
+                WriteConsole("빌드 실패.." + pException);
                 return;
             }
 
+            var listSheetData = checkedListBox_SheetList.CheckedItems.Cast<SaveData_Sheet>();
             var listWork = checkedListBox_WorkList.CheckedItems;
             foreach(WorkBase pWork in listWork)
             {
-                pWork.DoWork(_pCodeFileBuilder);
+                pWork.DoWork(_pCodeFileBuilder, listSheetData);
             }
-
-            WriteConsole("빌드 완료");
 
             foreach (WorkBase pWork in listWork)
             {
                 pWork.DoWorkAfter();
             }
-        }
 
-        private static bool CheckIsEnum(string strText)
-        {
-            return strText.ToLower().Equals("enum");
+            WriteConsole("빌드 완료");
         }
 
         private void button_CheckTable_Click(object sender, EventArgs e)
