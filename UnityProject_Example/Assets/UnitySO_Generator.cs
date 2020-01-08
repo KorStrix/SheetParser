@@ -14,7 +14,7 @@ using UnityEditor;
 /// <summary>
 /// Editor 폴더 안에 위치해야 합니다.
 /// </summary>
-public class ScriptableObjectGenerator : EditorWindow
+public class UnitySO_Generator : EditorWindow
 {
     /* const & readonly declaration             */
 
@@ -34,9 +34,8 @@ public class ScriptableObjectGenerator : EditorWindow
     [MenuItem("Tools/Scriptable Object Generator")]
     static void Init()
     {
-
         // Get existing open window or if none, make a new one:
-        ScriptableObjectGenerator window = (ScriptableObjectGenerator)GetWindow(typeof(ScriptableObjectGenerator), false);
+        UnitySO_Generator window = (UnitySO_Generator)GetWindow(typeof(UnitySO_Generator), false);
 
         window.minSize = new Vector2(800, 600);
         window.Show();
