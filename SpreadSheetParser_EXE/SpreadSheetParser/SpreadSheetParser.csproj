@@ -119,7 +119,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpreadSheetConnector.cs" />
-    <Compile Include="WorkBase.cs" />
+    <Compile Include="WorkList\WorkBase.cs" />
     <EmbeddedResource Include="WorkList\Work_Generate_CSVForm.resx">
       <DependentUpon>Work_Generate_CSVForm.cs</DependentUpon>
     </EmbeddedResource>
