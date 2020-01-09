@@ -57,6 +57,26 @@ public class UnitySO_Generator : EditorWindow
 
     /* protected - Override & Unity API         */
 
+    private void OnGUI()
+    {
+        UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
+
+        GUILayout.Label(pConfig.strLastRootFolderPath);
+        if (GUILayout.Button("Root Folder Setting"))
+        {
+            pConfig.strLastRootFolderPath = EditorUtility.OpenFolderPanel("Root Folder", "", "");
+        }
+
+        bool bEditorEnable = string.IsNullOrEmpty(pConfig.strLastRootFolderPath) == false;
+        EditorGUI.BeginDisabledGroup(bEditorEnable == false);
+
+        if (GUILayout.Button("Test"))
+        {
+            Debug.Log("test");
+        }
+
+        EditorGUI.EndDisabledGroup();
+    }
 
     /* protected - [abstract & virtual]         */
 
