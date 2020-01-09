@@ -54,25 +54,25 @@
             this.button_Cancel_TableCommandLine = new System.Windows.Forms.Button();
             this.textBox_CommandLine = new System.Windows.Forms.TextBox();
             this.groupBox3_WorkSetting = new System.Windows.Forms.GroupBox();
+            this.groupBox_3_1_SelectedWork = new System.Windows.Forms.GroupBox();
+            this.button_WorkOrderDown = new System.Windows.Forms.Button();
+            this.button_WorkOrderUp = new System.Windows.Forms.Button();
+            this.button_EditWork = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBox_WorkList = new System.Windows.Forms.ComboBox();
             this.button_RemoveWork = new System.Windows.Forms.Button();
-            this.button_EditWork = new System.Windows.Forms.Button();
             this.button_AddWork = new System.Windows.Forms.Button();
             this.checkedListBox_WorkList = new System.Windows.Forms.CheckedListBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoConnect = new System.Windows.Forms.CheckBox();
-            this.groupBox_3_1_SelectedWork = new System.Windows.Forms.GroupBox();
-            this.button_WorkOrderUp = new System.Windows.Forms.Button();
-            this.button_WorkOrderDown = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2_TableSetting.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox_SelectedTable.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox3_WorkSetting.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             this.groupBox_3_1_SelectedWork.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox_SheetID
@@ -173,6 +173,7 @@
             this.comboBox_SaveSheet.Name = "comboBox_SaveSheet";
             this.comboBox_SaveSheet.Size = new System.Drawing.Size(400, 20);
             this.comboBox_SaveSheet.TabIndex = 2;
+            this.comboBox_SaveSheet.SelectedIndexChanged += new System.EventHandler(this.comboBox_SaveSheet_SelectedIndexChanged);
             // 
             // button_OpenPath_SaveSheet
             // 
@@ -350,6 +351,48 @@
             this.groupBox3_WorkSetting.TabStop = false;
             this.groupBox3_WorkSetting.Text = "3. Work Setting";
             // 
+            // groupBox_3_1_SelectedWork
+            // 
+            this.groupBox_3_1_SelectedWork.Controls.Add(this.button_WorkOrderDown);
+            this.groupBox_3_1_SelectedWork.Controls.Add(this.button_WorkOrderUp);
+            this.groupBox_3_1_SelectedWork.Controls.Add(this.button_EditWork);
+            this.groupBox_3_1_SelectedWork.Location = new System.Drawing.Point(8, 221);
+            this.groupBox_3_1_SelectedWork.Name = "groupBox_3_1_SelectedWork";
+            this.groupBox_3_1_SelectedWork.Size = new System.Drawing.Size(277, 86);
+            this.groupBox_3_1_SelectedWork.TabIndex = 16;
+            this.groupBox_3_1_SelectedWork.TabStop = false;
+            this.groupBox_3_1_SelectedWork.Text = "3-1. Selected Work";
+            // 
+            // button_WorkOrderDown
+            // 
+            this.button_WorkOrderDown.Location = new System.Drawing.Point(6, 57);
+            this.button_WorkOrderDown.Name = "button_WorkOrderDown";
+            this.button_WorkOrderDown.Size = new System.Drawing.Size(113, 23);
+            this.button_WorkOrderDown.TabIndex = 16;
+            this.button_WorkOrderDown.Text = "작업 순위 내리기";
+            this.button_WorkOrderDown.UseVisualStyleBackColor = true;
+            this.button_WorkOrderDown.Click += new System.EventHandler(this.button_WorkOrderDown_Click);
+            // 
+            // button_WorkOrderUp
+            // 
+            this.button_WorkOrderUp.Location = new System.Drawing.Point(6, 20);
+            this.button_WorkOrderUp.Name = "button_WorkOrderUp";
+            this.button_WorkOrderUp.Size = new System.Drawing.Size(113, 23);
+            this.button_WorkOrderUp.TabIndex = 15;
+            this.button_WorkOrderUp.Text = "작업 순위 올리기";
+            this.button_WorkOrderUp.UseVisualStyleBackColor = true;
+            this.button_WorkOrderUp.Click += new System.EventHandler(this.button_WorkOrderUp_Click);
+            // 
+            // button_EditWork
+            // 
+            this.button_EditWork.Location = new System.Drawing.Point(189, 55);
+            this.button_EditWork.Name = "button_EditWork";
+            this.button_EditWork.Size = new System.Drawing.Size(82, 23);
+            this.button_EditWork.TabIndex = 14;
+            this.button_EditWork.Text = "작업 편집";
+            this.button_EditWork.UseVisualStyleBackColor = true;
+            this.button_EditWork.Click += new System.EventHandler(this.button_EditWork_Click);
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -376,16 +419,6 @@
             this.button_RemoveWork.Text = "작업 삭제";
             this.button_RemoveWork.UseVisualStyleBackColor = true;
             this.button_RemoveWork.Click += new System.EventHandler(this.button_RemoveWork_Click);
-            // 
-            // button_EditWork
-            // 
-            this.button_EditWork.Location = new System.Drawing.Point(189, 55);
-            this.button_EditWork.Name = "button_EditWork";
-            this.button_EditWork.Size = new System.Drawing.Size(82, 23);
-            this.button_EditWork.TabIndex = 14;
-            this.button_EditWork.Text = "작업 편집";
-            this.button_EditWork.UseVisualStyleBackColor = true;
-            this.button_EditWork.Click += new System.EventHandler(this.button_EditWork_Click);
             // 
             // button_AddWork
             // 
@@ -430,38 +463,6 @@
             this.checkBox_AutoConnect.UseVisualStyleBackColor = true;
             this.checkBox_AutoConnect.CheckedChanged += new System.EventHandler(this.checkBox_AutoConnect_CheckedChanged);
             // 
-            // groupBox_3_1_SelectedWork
-            // 
-            this.groupBox_3_1_SelectedWork.Controls.Add(this.button_WorkOrderDown);
-            this.groupBox_3_1_SelectedWork.Controls.Add(this.button_WorkOrderUp);
-            this.groupBox_3_1_SelectedWork.Controls.Add(this.button_EditWork);
-            this.groupBox_3_1_SelectedWork.Location = new System.Drawing.Point(8, 221);
-            this.groupBox_3_1_SelectedWork.Name = "groupBox_3_1_SelectedWork";
-            this.groupBox_3_1_SelectedWork.Size = new System.Drawing.Size(277, 86);
-            this.groupBox_3_1_SelectedWork.TabIndex = 16;
-            this.groupBox_3_1_SelectedWork.TabStop = false;
-            this.groupBox_3_1_SelectedWork.Text = "3-1. Selected Work";
-            // 
-            // button_WorkOrderUp
-            // 
-            this.button_WorkOrderUp.Location = new System.Drawing.Point(6, 20);
-            this.button_WorkOrderUp.Name = "button_WorkOrderUp";
-            this.button_WorkOrderUp.Size = new System.Drawing.Size(113, 23);
-            this.button_WorkOrderUp.TabIndex = 15;
-            this.button_WorkOrderUp.Text = "작업 순위 올리기";
-            this.button_WorkOrderUp.UseVisualStyleBackColor = true;
-            this.button_WorkOrderUp.Click += new System.EventHandler(this.button_WorkOrderUp_Click);
-            // 
-            // button_WorkOrderDown
-            // 
-            this.button_WorkOrderDown.Location = new System.Drawing.Point(6, 57);
-            this.button_WorkOrderDown.Name = "button_WorkOrderDown";
-            this.button_WorkOrderDown.Size = new System.Drawing.Size(113, 23);
-            this.button_WorkOrderDown.TabIndex = 16;
-            this.button_WorkOrderDown.Text = "작업 순위 내리기";
-            this.button_WorkOrderDown.UseVisualStyleBackColor = true;
-            this.button_WorkOrderDown.Click += new System.EventHandler(this.button_WorkOrderDown_Click);
-            // 
             // SpreadSheetParser_MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -485,9 +486,9 @@
             this.groupBox3.PerformLayout();
             this.groupBox3_WorkSetting.ResumeLayout(false);
             this.groupBox3_WorkSetting.PerformLayout();
+            this.groupBox_3_1_SelectedWork.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.groupBox_3_1_SelectedWork.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

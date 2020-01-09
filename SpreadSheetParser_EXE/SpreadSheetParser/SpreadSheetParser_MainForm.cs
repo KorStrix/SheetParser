@@ -249,12 +249,6 @@ namespace SpreadSheetParser
                                 break;
                         }
 
-                        pSheetData.ParsingSheet(
-                            (listRow, strText, iRow, iColumn) =>
-                            {
-
-                            });
-
                         Execute_CommandLine(pCodeType, listCommandLine);
                     }
                 }
@@ -351,8 +345,11 @@ namespace SpreadSheetParser
             SaveData_SpreadSheet pSheet_LastEdit = null;
             foreach (var pSheet in mapSaveData.Values)
             {
-                if (pSheet.date_LastEdit > date_LastEdit)
+                if (date_LastEdit < pSheet.date_LastEdit)
+                {
+                    date_LastEdit = pSheet.date_LastEdit;
                     pSheet_LastEdit = pSheet;
+                }
             }
 
             if (pSheet_LastEdit != null)
@@ -461,6 +458,7 @@ namespace SpreadSheetParser
             if (_bIsUpdating_TableUI)
                 return;
 
+            pSpreadSheet_CurrentConnected.UpdateDate();
             WriteConsole("자동 저장 중.." + pSpreadSheet_CurrentConnected.strSheetID);
             SaveDataManager.SaveSheet_Async(pSpreadSheet_CurrentConnected, AutoSaveDone);
         }
@@ -614,6 +612,11 @@ namespace SpreadSheetParser
                 pWork.iWorkOrder = iSortOrder++;
 
             AutoSaveAsync_CurrentSheet();
+        }
+
+        private void comboBox_SaveSheet_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            textBox_SheetID.Text = comboBox_SaveSheet.Text;
         }
     }
 }

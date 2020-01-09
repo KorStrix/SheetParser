@@ -86,6 +86,7 @@ namespace SpreadSheetParser
             HashSet<int> setIgnoreColumnIndex = new HashSet<int>();
             for (int i = 0; i < pData.Count; i++)
             {
+                bool bIsIgnoreRow = false;
                 IList<object> listRow = pData[i];
                 for (int j = 0; j < listRow.Count; j++)
                 {
@@ -98,7 +99,7 @@ namespace SpreadSheetParser
 
                     if(strText.StartsWith(const_strCommandString))
                     {
-                        bool bIsBreak = false, bIsContinue = false;
+                        bool bIsContinue = false;
                         if (strText.Contains(const_strIgnoreString_Column))
                         {
                             setIgnoreColumnIndex.Add(j);
@@ -110,19 +111,22 @@ namespace SpreadSheetParser
                             if (strText.Contains(const_strStartString))
                             {
                                 bIsParsingStart = true;
-                                bIsBreak = true;
+                                bIsContinue = true;
                             }
                         }
 
-                        if (strText.Contains(const_strIgnoreString_Row))
-                            bIsBreak = true;
-
-                        if (bIsBreak)
-                            break;
+                        if (bIsIgnoreRow == false && strText.Contains(const_strIgnoreString_Row))
+                        {
+                            bIsContinue = true;
+                            bIsIgnoreRow = true;
+                        }
 
                         if (bIsContinue)
                             continue;
                     }
+
+                    if (bIsIgnoreRow)
+                        continue;
 
                     if (bIsParsingStart == false)
                         continue;

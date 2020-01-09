@@ -85,7 +85,7 @@ namespace SpreadSheetParser
             {
                 pStrBuilder.Clear();
 
-                StreamWriter pFileWriter = new StreamWriter($"{strExportPath}/{pSheet.strSheetName}.csv");
+                StreamWriter pFileWriter = new StreamWriter($"{strExportPath}/{pSheet.strSheetName.Trim()}.csv");
                 pSheet.ParsingSheet(
                 (IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
                 {
