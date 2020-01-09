@@ -46,6 +46,13 @@ public class UnitySO_Generator : EditorWindow
         ScriptableObject.CreateInstance("");
     }
 
+    static public void DoBuild()
+    {
+        UnitySO_GeneratorReceipt pReciept = null;
+
+
+    }
+
     // ========================================================================== //
 
     /* protected - Override & Unity API         */
