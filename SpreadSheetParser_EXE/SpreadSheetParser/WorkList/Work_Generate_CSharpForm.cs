@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,21 +10,22 @@ using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
-    public partial class BuildWork_Generate_CSV : Form
+    public partial class Work_Generate_CSharpForm : Form
     {
-        Work_Generate_CSV _pWork;
+        Work_Generate_CSharpFile _pWork;
 
-        public BuildWork_Generate_CSV()
+        public Work_Generate_CSharpForm()
         {
             InitializeComponent();
         }
 
-        public void DoInit(Work_Generate_CSV pWork)
+        public void DoInit(Work_Generate_CSharpFile pWork)
         {
             _pWork = null;
 
             checkBox_OpenFolder_AfterBuild.Checked = pWork.bOpenPath_AfterBuild_CSharp;
-            textBox_Path.Text = pWork.strExportPath;
+            textBox_Path.Text = pWork.strPath;
+            textBox_FileName.Text = pWork.strFileName;
 
             _pWork = pWork;
         }
@@ -49,11 +49,12 @@ namespace SpreadSheetParser
                 return;
 
             if (_pWork.DoShowFolderBrowser_And_SavePath(false, ref textBox_Path))
-                _pWork.strExportPath = textBox_Path.Text;
+                _pWork.strPath = textBox_Path.Text;
         }
 
         private void button_SaveAndClose_Click(object sender, EventArgs e)
         {
+            _pWork.strFileName = textBox_FileName.Text;
             _pWork.DoAutoSaveAsync();
             Close();
         }
@@ -61,68 +62,37 @@ namespace SpreadSheetParser
 
 
     [System.Serializable]
-    public class Work_Generate_CSV : WorkBase
+    public class Work_Generate_CSharpFile : WorkBase
     {
-        public string strExportPath;
+        public string strPath;
+        public string strFileName;
         public bool bOpenPath_AfterBuild_CSharp;
 
         protected override void OnCreateInstance(out Type pFormType, out Type pType)
         {
-            pFormType = typeof(BuildWork_Generate_CSV);
+            pFormType = typeof(Work_Generate_CSharpForm);
             pType = GetType();
         }
 
         public override string GetDisplayString()
         {
-            return "Generate CSV";
+            return "Generate CSharp File";
         }
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData)
         {
-            StringBuilder pStrBuilder = new StringBuilder();
-
-            foreach (var pSheet in listSheetData)
-            {
-                pStrBuilder.Clear();
-
-                StreamWriter pFileWriter = new StreamWriter($"{strExportPath}/{pSheet.strSheetName}.csv");
-                pSheet.ParsingSheet(
-                (IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
-                {
-                    if(strText.Contains(':'))
-                    {
-                        string[] arrText = strText.Split(':');
-                        strText = arrText[0];
-                    }
-
-                    pStrBuilder.Append(strText);
-                    if (iColumnIndex == listRow.Count - 1)
-                    {
-                        pFileWriter.WriteLine(pStrBuilder.ToString());
-                        pFileWriter.Flush();
-
-                        pStrBuilder.Clear();
-                    }
-                    else
-                    {
-                        pStrBuilder.Append(",");
-                    }
-                });
-
-                pFileWriter.Close();
-                pFileWriter.Dispose();
-            }
+            pCodeFileBuilder.Generate_CSharpCode($"{strPath}/{strFileName}");
         }
 
         public override void DoWorkAfter()
         {
             if (bOpenPath_AfterBuild_CSharp)
-                DoOpenPath(strExportPath);
+                DoOpenPath(strPath);
         }
 
         protected override void OnShowForm(Form pFormInstance)
         {
-            BuildWork_Generate_CSV pForm = (BuildWork_Generate_CSV)pFormInstance;
+            Work_Generate_CSharpForm pForm = (Work_Generate_CSharpForm)pFormInstance;
             pForm.DoInit(this);
         }
     }

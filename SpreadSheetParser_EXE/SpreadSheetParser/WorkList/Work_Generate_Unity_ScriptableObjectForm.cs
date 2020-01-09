@@ -11,11 +11,11 @@ using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
-    public partial class BuildWork_Generate_Unity_ScriptableObjectForm : Form
+    public partial class Work_Generate_Unity_ScriptableObjectForm : Form
     {
         Work_Generate_Unity_ScriptableObject _pWork;
 
-        public BuildWork_Generate_Unity_ScriptableObjectForm()
+        public Work_Generate_Unity_ScriptableObjectForm()
         {
             InitializeComponent();
         }
@@ -84,7 +84,7 @@ namespace SpreadSheetParser
 
         protected override void OnCreateInstance(out Type pFormType, out Type pType)
         {
-            pFormType = typeof(BuildWork_Generate_Unity_ScriptableObjectForm);
+            pFormType = typeof(Work_Generate_Unity_ScriptableObjectForm);
             pType = GetType();
         }
 
@@ -134,7 +134,7 @@ namespace SpreadSheetParser
 
         protected override void OnShowForm(Form pFormInstance)
         {
-            BuildWork_Generate_Unity_ScriptableObjectForm pForm = (BuildWork_Generate_Unity_ScriptableObjectForm)pFormInstance;
+            Work_Generate_Unity_ScriptableObjectForm pForm = (Work_Generate_Unity_ScriptableObjectForm)pFormInstance;
             pForm.DoInit(this);
         }
     }

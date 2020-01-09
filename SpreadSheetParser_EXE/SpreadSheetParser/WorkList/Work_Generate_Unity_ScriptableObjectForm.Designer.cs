@@ -1,6 +1,6 @@
 ﻿namespace SpreadSheetParser
 {
-    partial class BuildWork_Generate_Unity_ScriptableObjectForm
+    partial class Work_Generate_Unity_ScriptableObjectForm
     {
         /// <summary>
         /// Required designer variable.

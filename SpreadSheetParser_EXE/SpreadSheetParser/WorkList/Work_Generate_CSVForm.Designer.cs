@@ -1,6 +1,6 @@
 ﻿namespace SpreadSheetParser
 {
-    partial class BuildWork_Generate_CSharpForm
+    partial class Work_Generate_CSVForm
     {
         /// <summary>
         /// Required designer variable.
@@ -34,8 +34,6 @@
             this.button_SavePath = new System.Windows.Forms.Button();
             this.button_SaveAndClose = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox_FileName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox_Path
@@ -96,29 +94,11 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "파일 출력 경로";
             // 
-            // textBox_FileName
-            // 
-            this.textBox_FileName.Location = new System.Drawing.Point(12, 78);
-            this.textBox_FileName.Name = "textBox_FileName";
-            this.textBox_FileName.Size = new System.Drawing.Size(339, 21);
-            this.textBox_FileName.TabIndex = 6;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 63);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(113, 12);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "파일 이름(.cs 제외)";
-            // 
-            // BuildWork_Generate_CSharpForm
+            // BuildWork_Generate_CSV
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 261);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox_FileName);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button_SaveAndClose);
             this.Controls.Add(this.button_SavePath);
@@ -127,8 +107,8 @@
             this.Controls.Add(this.textBox_Path);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "BuildWork_Generate_CSharpForm";
-            this.Text = "BuildWork_Generate_CSharpForm";
+            this.Name = "BuildWork_Generate_CSV";
+            this.Text = "BuildWork_Generate_CSV";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,7 +122,5 @@
         private System.Windows.Forms.Button button_SavePath;
         private System.Windows.Forms.Button button_SaveAndClose;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox_FileName;
-        private System.Windows.Forms.Label label2;
     }
 }
