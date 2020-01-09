@@ -14,6 +14,7 @@ namespace SpreadSheetParser
 {
     abstract public class WorkBase
     {
+        public int iWorkOrder;
         public Type pType;
         public bool bEnable;
 
