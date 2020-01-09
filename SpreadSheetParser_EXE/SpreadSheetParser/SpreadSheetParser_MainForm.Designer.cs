@@ -37,6 +37,7 @@
             this.button_OpenLink = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.comboBox_SaveSheet = new System.Windows.Forms.ComboBox();
             this.button_OpenPath_SaveSheet = new System.Windows.Forms.Button();
             this.groupBox2_TableSetting = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -52,23 +53,26 @@
             this.button_Save_TableCommandLine = new System.Windows.Forms.Button();
             this.button_Cancel_TableCommandLine = new System.Windows.Forms.Button();
             this.textBox_CommandLine = new System.Windows.Forms.TextBox();
-            this.groupBox3_OutputSetting = new System.Windows.Forms.GroupBox();
+            this.groupBox3_WorkSetting = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBox_WorkList = new System.Windows.Forms.ComboBox();
+            this.button_RemoveWork = new System.Windows.Forms.Button();
             this.button_EditWork = new System.Windows.Forms.Button();
             this.button_AddWork = new System.Windows.Forms.Button();
             this.checkedListBox_WorkList = new System.Windows.Forms.CheckedListBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoConnect = new System.Windows.Forms.CheckBox();
-            this.button_RemoveWork = new System.Windows.Forms.Button();
-            this.comboBox_WorkList = new System.Windows.Forms.ComboBox();
-            this.comboBox_SaveSheet = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.groupBox_3_1_SelectedWork = new System.Windows.Forms.GroupBox();
+            this.button_WorkOrderUp = new System.Windows.Forms.Button();
+            this.button_WorkOrderDown = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2_TableSetting.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox_SelectedTable.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox3_OutputSetting.SuspendLayout();
+            this.groupBox3_WorkSetting.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox_3_1_SelectedWork.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox_SheetID
@@ -100,11 +104,11 @@
             // 
             // button_StartParsing
             // 
-            this.button_StartParsing.Location = new System.Drawing.Point(303, 251);
+            this.button_StartParsing.Location = new System.Drawing.Point(303, 259);
             this.button_StartParsing.Name = "button_StartParsing";
             this.button_StartParsing.Size = new System.Drawing.Size(124, 40);
             this.button_StartParsing.TabIndex = 3;
-            this.button_StartParsing.Text = "빌드";
+            this.button_StartParsing.Text = "작업 시작!!";
             this.button_StartParsing.UseVisualStyleBackColor = true;
             this.button_StartParsing.Click += new System.EventHandler(this.button_StartParsing_Click);
             // 
@@ -161,6 +165,14 @@
             this.label1.Size = new System.Drawing.Size(96, 12);
             this.label1.TabIndex = 3;
             this.label1.Text = "이전에 연결한 ID";
+            // 
+            // comboBox_SaveSheet
+            // 
+            this.comboBox_SaveSheet.FormattingEnabled = true;
+            this.comboBox_SaveSheet.Location = new System.Drawing.Point(116, 50);
+            this.comboBox_SaveSheet.Name = "comboBox_SaveSheet";
+            this.comboBox_SaveSheet.Size = new System.Drawing.Size(400, 20);
+            this.comboBox_SaveSheet.TabIndex = 2;
             // 
             // button_OpenPath_SaveSheet
             // 
@@ -321,29 +333,55 @@
             this.textBox_CommandLine.Size = new System.Drawing.Size(312, 21);
             this.textBox_CommandLine.TabIndex = 6;
             // 
-            // groupBox3_OutputSetting
+            // groupBox3_WorkSetting
             // 
-            this.groupBox3_OutputSetting.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.groupBox3_OutputSetting.AutoSize = true;
-            this.groupBox3_OutputSetting.Controls.Add(this.label4);
-            this.groupBox3_OutputSetting.Controls.Add(this.comboBox_WorkList);
-            this.groupBox3_OutputSetting.Controls.Add(this.button_RemoveWork);
-            this.groupBox3_OutputSetting.Controls.Add(this.button_EditWork);
-            this.groupBox3_OutputSetting.Controls.Add(this.button_AddWork);
-            this.groupBox3_OutputSetting.Controls.Add(this.checkedListBox_WorkList);
-            this.groupBox3_OutputSetting.Controls.Add(this.button_StartParsing);
-            this.groupBox3_OutputSetting.Location = new System.Drawing.Point(627, 98);
-            this.groupBox3_OutputSetting.Name = "groupBox3_OutputSetting";
-            this.groupBox3_OutputSetting.Size = new System.Drawing.Size(445, 313);
-            this.groupBox3_OutputSetting.TabIndex = 7;
-            this.groupBox3_OutputSetting.TabStop = false;
-            this.groupBox3_OutputSetting.Text = "3. Build Setting";
+            this.groupBox3_WorkSetting.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.groupBox3_WorkSetting.Controls.Add(this.groupBox_3_1_SelectedWork);
+            this.groupBox3_WorkSetting.Controls.Add(this.label4);
+            this.groupBox3_WorkSetting.Controls.Add(this.comboBox_WorkList);
+            this.groupBox3_WorkSetting.Controls.Add(this.button_RemoveWork);
+            this.groupBox3_WorkSetting.Controls.Add(this.button_AddWork);
+            this.groupBox3_WorkSetting.Controls.Add(this.checkedListBox_WorkList);
+            this.groupBox3_WorkSetting.Controls.Add(this.button_StartParsing);
+            this.groupBox3_WorkSetting.Location = new System.Drawing.Point(627, 98);
+            this.groupBox3_WorkSetting.Name = "groupBox3_WorkSetting";
+            this.groupBox3_WorkSetting.Size = new System.Drawing.Size(445, 313);
+            this.groupBox3_WorkSetting.TabIndex = 7;
+            this.groupBox3_WorkSetting.TabStop = false;
+            this.groupBox3_WorkSetting.Text = "3. Work Setting";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(303, 17);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(93, 12);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "추가할 작업이름";
+            // 
+            // comboBox_WorkList
+            // 
+            this.comboBox_WorkList.FormattingEnabled = true;
+            this.comboBox_WorkList.Location = new System.Drawing.Point(303, 32);
+            this.comboBox_WorkList.Name = "comboBox_WorkList";
+            this.comboBox_WorkList.Size = new System.Drawing.Size(124, 20);
+            this.comboBox_WorkList.TabIndex = 7;
+            // 
+            // button_RemoveWork
+            // 
+            this.button_RemoveWork.Location = new System.Drawing.Point(303, 162);
+            this.button_RemoveWork.Name = "button_RemoveWork";
+            this.button_RemoveWork.Size = new System.Drawing.Size(124, 40);
+            this.button_RemoveWork.TabIndex = 15;
+            this.button_RemoveWork.Text = "작업 삭제";
+            this.button_RemoveWork.UseVisualStyleBackColor = true;
+            this.button_RemoveWork.Click += new System.EventHandler(this.button_RemoveWork_Click);
             // 
             // button_EditWork
             // 
-            this.button_EditWork.Location = new System.Drawing.Point(303, 112);
+            this.button_EditWork.Location = new System.Drawing.Point(189, 55);
             this.button_EditWork.Name = "button_EditWork";
-            this.button_EditWork.Size = new System.Drawing.Size(124, 40);
+            this.button_EditWork.Size = new System.Drawing.Size(82, 23);
             this.button_EditWork.TabIndex = 14;
             this.button_EditWork.Text = "작업 편집";
             this.button_EditWork.UseVisualStyleBackColor = true;
@@ -365,7 +403,7 @@
             this.checkedListBox_WorkList.HorizontalScrollbar = true;
             this.checkedListBox_WorkList.Location = new System.Drawing.Point(8, 15);
             this.checkedListBox_WorkList.Name = "checkedListBox_WorkList";
-            this.checkedListBox_WorkList.Size = new System.Drawing.Size(277, 276);
+            this.checkedListBox_WorkList.Size = new System.Drawing.Size(277, 196);
             this.checkedListBox_WorkList.TabIndex = 12;
             // 
             // groupBox5
@@ -392,40 +430,37 @@
             this.checkBox_AutoConnect.UseVisualStyleBackColor = true;
             this.checkBox_AutoConnect.CheckedChanged += new System.EventHandler(this.checkBox_AutoConnect_CheckedChanged);
             // 
-            // button_RemoveWork
+            // groupBox_3_1_SelectedWork
             // 
-            this.button_RemoveWork.Location = new System.Drawing.Point(303, 162);
-            this.button_RemoveWork.Name = "button_RemoveWork";
-            this.button_RemoveWork.Size = new System.Drawing.Size(124, 40);
-            this.button_RemoveWork.TabIndex = 15;
-            this.button_RemoveWork.Text = "작업 삭제";
-            this.button_RemoveWork.UseVisualStyleBackColor = true;
-            this.button_RemoveWork.Click += new System.EventHandler(this.button_RemoveWork_Click);
+            this.groupBox_3_1_SelectedWork.Controls.Add(this.button_WorkOrderDown);
+            this.groupBox_3_1_SelectedWork.Controls.Add(this.button_WorkOrderUp);
+            this.groupBox_3_1_SelectedWork.Controls.Add(this.button_EditWork);
+            this.groupBox_3_1_SelectedWork.Location = new System.Drawing.Point(8, 221);
+            this.groupBox_3_1_SelectedWork.Name = "groupBox_3_1_SelectedWork";
+            this.groupBox_3_1_SelectedWork.Size = new System.Drawing.Size(277, 86);
+            this.groupBox_3_1_SelectedWork.TabIndex = 16;
+            this.groupBox_3_1_SelectedWork.TabStop = false;
+            this.groupBox_3_1_SelectedWork.Text = "3-1. Selected Work";
             // 
-            // comboBox_WorkList
+            // button_WorkOrderUp
             // 
-            this.comboBox_WorkList.FormattingEnabled = true;
-            this.comboBox_WorkList.Location = new System.Drawing.Point(303, 32);
-            this.comboBox_WorkList.Name = "comboBox_WorkList";
-            this.comboBox_WorkList.Size = new System.Drawing.Size(124, 20);
-            this.comboBox_WorkList.TabIndex = 7;
+            this.button_WorkOrderUp.Location = new System.Drawing.Point(6, 20);
+            this.button_WorkOrderUp.Name = "button_WorkOrderUp";
+            this.button_WorkOrderUp.Size = new System.Drawing.Size(113, 23);
+            this.button_WorkOrderUp.TabIndex = 15;
+            this.button_WorkOrderUp.Text = "작업 순위 올리기";
+            this.button_WorkOrderUp.UseVisualStyleBackColor = true;
+            this.button_WorkOrderUp.Click += new System.EventHandler(this.button_WorkOrderUp_Click);
             // 
-            // comboBox_SaveSheet
+            // button_WorkOrderDown
             // 
-            this.comboBox_SaveSheet.FormattingEnabled = true;
-            this.comboBox_SaveSheet.Location = new System.Drawing.Point(116, 50);
-            this.comboBox_SaveSheet.Name = "comboBox_SaveSheet";
-            this.comboBox_SaveSheet.Size = new System.Drawing.Size(400, 20);
-            this.comboBox_SaveSheet.TabIndex = 2;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(303, 17);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(93, 12);
-            this.label4.TabIndex = 13;
-            this.label4.Text = "추가할 작업이름";
+            this.button_WorkOrderDown.Location = new System.Drawing.Point(6, 57);
+            this.button_WorkOrderDown.Name = "button_WorkOrderDown";
+            this.button_WorkOrderDown.Size = new System.Drawing.Size(113, 23);
+            this.button_WorkOrderDown.TabIndex = 16;
+            this.button_WorkOrderDown.Text = "작업 순위 내리기";
+            this.button_WorkOrderDown.UseVisualStyleBackColor = true;
+            this.button_WorkOrderDown.Click += new System.EventHandler(this.button_WorkOrderDown_Click);
             // 
             // SpreadSheetParser_MainForm
             // 
@@ -433,7 +468,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 537);
             this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox3_OutputSetting);
+            this.Controls.Add(this.groupBox3_WorkSetting);
             this.Controls.Add(this.groupBox2_TableSetting);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.textBox_Console);
@@ -448,10 +483,11 @@
             this.groupBox_SelectedTable.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox3_OutputSetting.ResumeLayout(false);
-            this.groupBox3_OutputSetting.PerformLayout();
+            this.groupBox3_WorkSetting.ResumeLayout(false);
+            this.groupBox3_WorkSetting.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBox_3_1_SelectedWork.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -468,7 +504,7 @@
         private System.Windows.Forms.GroupBox groupBox2_TableSetting;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox3_OutputSetting;
+        private System.Windows.Forms.GroupBox groupBox3_WorkSetting;
         private System.Windows.Forms.TextBox textBox_CommandLine;
         private System.Windows.Forms.Button button_Cancel_TableCommandLine;
         private System.Windows.Forms.Button button_Save_TableCommandLine;
@@ -493,6 +529,9 @@
         private System.Windows.Forms.ComboBox comboBox_WorkList;
         private System.Windows.Forms.ComboBox comboBox_SaveSheet;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox groupBox_3_1_SelectedWork;
+        private System.Windows.Forms.Button button_WorkOrderUp;
+        private System.Windows.Forms.Button button_WorkOrderDown;
     }
 }
 

@@ -27,11 +27,10 @@ namespace SpreadSheetParser
         static private SpreadSheetParser_MainForm _instance;
 
         static public SaveData_SpreadSheet pSpreadSheet_CurrentConnected { get; private set; }
+        static public SpreadSheetConnector pSheetConnector { get; private set; } = new SpreadSheetConnector();
 
         delegate void SafeCallDelegate(string text);
-        delegate void delOnParsingText(IList<object> listRow, string strText, int iRowIndex, int iColumnIndex);
 
-        SpreadSheetConnector _pSheetConnector = new SpreadSheetConnector();
         SaveData_Sheet _pSheet_CurrentConnected;
         CodeFileBuilder _pCodeFileBuilder = new CodeFileBuilder();
         Config _pConfig;
@@ -123,8 +122,9 @@ namespace SpreadSheetParser
 
         private void CheckedListBox_WorkList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            button_EditWork.Enabled = checkedListBox_WorkList.SelectedIndex != -1;
-            button_RemoveWork.Enabled = checkedListBox_WorkList.SelectedIndex != -1;
+            bool bIsSelected = checkedListBox_WorkList.SelectedIndex != -1;
+            groupBox_3_1_SelectedWork.Enabled = bIsSelected;
+            button_RemoveWork.Enabled = bIsSelected;
         }
 
         private void CheckedListBox_WorkList_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -158,7 +158,7 @@ namespace SpreadSheetParser
 
             checkedListBox_WorkList.Items.Clear();
             checkedListBox_SheetList.Items.Clear();
-            await _pSheetConnector.DoConnect(strSheetID, OnFinishConnect);
+            await pSheetConnector.DoConnect(strSheetID, OnFinishConnect);
             _bIsConnecting = false;
         }
 
@@ -203,6 +203,7 @@ namespace SpreadSheetParser
 
             checkedListBox_WorkList.Items.Clear();
             List<WorkBase> listWorkBase = pSpreadSheet_CurrentConnected.listSaveWork;
+            listWorkBase.Sort((x, y) => x.iWorkOrder.CompareTo(y.iWorkOrder));
             for (int i = 0; i < listWorkBase.Count; i++)
                 checkedListBox_WorkList.Items.Add(listWorkBase[i], listWorkBase[i].bEnable);
 
@@ -225,7 +226,7 @@ namespace SpreadSheetParser
                     bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
                     if (bIsEnum)
                     {
-                        ParsingSheet(pSheetData.ToString(),
+                        pSheetData.ParsingSheet(
                             (listRow, strText, iRow, iColumn) =>
                             {
                                 if (iRow == 0)
@@ -248,7 +249,7 @@ namespace SpreadSheetParser
                                 break;
                         }
 
-                        ParsingSheet(pSheetData.ToString(),
+                        pSheetData.ParsingSheet(
                             (listRow, strText, iRow, iColumn) =>
                             {
 
@@ -300,7 +301,7 @@ namespace SpreadSheetParser
                     //}
                 }
 
-                ParsingSheet(pSheetData.ToString(), null);
+                pSheetData.ParsingSheet(null);
             }
             catch (Exception pException)
             {
@@ -419,13 +420,13 @@ namespace SpreadSheetParser
             {
                 case EState.None:
                     groupBox2_TableSetting.Enabled = false;
-                    groupBox3_OutputSetting.Enabled = false;
+                    groupBox3_WorkSetting.Enabled = false;
                     groupBox_SelectedTable.Enabled = false;
                     break;
 
                 case EState.IsConnected:
                     groupBox2_TableSetting.Enabled = true;
-                    groupBox3_OutputSetting.Enabled = true;
+                    groupBox3_WorkSetting.Enabled = true;
                     groupBox_SelectedTable.Enabled = false;
 
                     if (GetCurrentSelectedTable_OrNull() != null)
@@ -435,7 +436,7 @@ namespace SpreadSheetParser
 
                 case EState.IsConnected_And_SelectTable:
                     groupBox2_TableSetting.Enabled = true;
-                    groupBox3_OutputSetting.Enabled = true;
+                    groupBox3_WorkSetting.Enabled = true;
                     groupBox_SelectedTable.Enabled = true;
 
                     var pWrapper = GetCurrentSelectedTable_OrNull();
@@ -448,42 +449,6 @@ namespace SpreadSheetParser
 
                 default:
                     break;
-            }
-        }
-
-
-        void ParsingSheet(string strSheetName, delOnParsingText OnParsingText)
-        {
-            const string const_strIgnoreString = "#";
-
-            IList<IList<Object>> pData = _pSheetConnector.GetExcelData(strSheetName);
-            if (pData == null)
-                return;
-
-            if (OnParsingText == null) // For Loop에서 Null Check 방지
-                OnParsingText = (a, b, c, d) => { };
-
-            HashSet<int> setIgnoreColumnIndex = new HashSet<int>();
-            for (int i = 1; i < pData.Count; i++)
-            {
-                IList<object> listRow = pData[i];
-                for (int j = 0; j < listRow.Count; j++)
-                {
-                    if (setIgnoreColumnIndex.Contains(j))
-                        continue;
-
-                    string strText = (string)listRow[j];
-                    if (listRow[j].Equals(const_strIgnoreString))
-                    {
-                        setIgnoreColumnIndex.Add(j);
-                        continue;
-                    }
-
-                    if (string.IsNullOrEmpty(strText))
-                        continue;
-
-                    OnParsingText(listRow, strText, i, j);
-                }
             }
         }
 
@@ -591,7 +556,7 @@ namespace SpreadSheetParser
             pNewWork.ShowForm();
             checkedListBox_WorkList.Items.Add(pNewWork);
             pSpreadSheet_CurrentConnected.listSaveWork.Add(pNewWork);
-            AutoSaveAsync_CurrentSheet();
+            Update_WorkListOrder();
         }
 
         private void button_EditWork_Click(object sender, EventArgs e)
@@ -604,7 +569,7 @@ namespace SpreadSheetParser
         {
             pSpreadSheet_CurrentConnected.listSaveWork.RemoveAt(checkedListBox_WorkList.SelectedIndex);
             checkedListBox_WorkList.Items.RemoveAt(checkedListBox_WorkList.SelectedIndex);
-            AutoSaveAsync_CurrentSheet();
+            Update_WorkListOrder();
         }
 
         public static IEnumerable<T> GetEnumerableOfType<T>(params object[] constructorArgs)
@@ -618,6 +583,51 @@ namespace SpreadSheetParser
                 objects.Add((T)Activator.CreateInstance(type, constructorArgs));
             }
             return objects;
+        }
+
+        private void button_WorkOrderUp_Click(object sender, EventArgs e)
+        {
+            int iSelectedIndex = checkedListBox_WorkList.SelectedIndex;
+            object pSelectedItem = checkedListBox_WorkList.SelectedItem;
+
+            if (iSelectedIndex == 0)
+                return;
+
+            if (pSelectedItem == null)
+                return;
+
+            checkedListBox_WorkList.SelectedIndex = -1;
+            checkedListBox_WorkList.Items.RemoveAt(iSelectedIndex);
+            checkedListBox_WorkList.Items.Insert(iSelectedIndex - 1, pSelectedItem);
+            checkedListBox_WorkList.SelectedIndex = iSelectedIndex - 1;
+            Update_WorkListOrder();
+        }
+
+        private void button_WorkOrderDown_Click(object sender, EventArgs e)
+        {
+            int iSelectedIndex = checkedListBox_WorkList.SelectedIndex;
+            object pSelectedItem = checkedListBox_WorkList.SelectedItem;
+
+            if (iSelectedIndex == checkedListBox_WorkList.Items.Count - 1)
+                return;
+
+            if (pSelectedItem == null)
+                return;
+
+            checkedListBox_WorkList.SelectedIndex = -1;
+            checkedListBox_WorkList.Items.RemoveAt(iSelectedIndex);
+            checkedListBox_WorkList.Items.Insert(iSelectedIndex + 1, pSelectedItem);
+            checkedListBox_WorkList.SelectedIndex = iSelectedIndex + 1;
+            Update_WorkListOrder();
+        }
+
+        void Update_WorkListOrder()
+        {
+            int iSortOrder = 0;
+            foreach(WorkBase pWork in checkedListBox_WorkList.Items)
+                pWork.iWorkOrder = iSortOrder++;
+
+            AutoSaveAsync_CurrentSheet();
         }
     }
 }

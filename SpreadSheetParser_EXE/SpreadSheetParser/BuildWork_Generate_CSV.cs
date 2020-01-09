@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,8 +25,7 @@ namespace SpreadSheetParser
             _pWork = null;
 
             checkBox_OpenFolder_AfterBuild.Checked = pWork.bOpenPath_AfterBuild_CSharp;
-            textBox_Path.Text = pWork.strPath;
-            textBox_FileName.Text = pWork.strFileName;
+            textBox_Path.Text = pWork.strExportPath;
 
             _pWork = pWork;
         }
@@ -49,12 +49,11 @@ namespace SpreadSheetParser
                 return;
 
             if (_pWork.DoShowFolderBrowser_And_SavePath(false, ref textBox_Path))
-                _pWork.strPath = textBox_Path.Text;
+                _pWork.strExportPath = textBox_Path.Text;
         }
 
         private void button_SaveAndClose_Click(object sender, EventArgs e)
         {
-            _pWork.strFileName = textBox_FileName.Text;
             _pWork.DoAutoSaveAsync();
             Close();
         }
@@ -64,8 +63,7 @@ namespace SpreadSheetParser
     [System.Serializable]
     public class Work_Generate_CSV : WorkBase
     {
-        public string strPath;
-        public string strFileName;
+        public string strExportPath;
         public bool bOpenPath_AfterBuild_CSharp;
 
         protected override void OnCreateInstance(out Type pFormType, out Type pType)
@@ -81,13 +79,45 @@ namespace SpreadSheetParser
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData)
         {
-            pCodeFileBuilder.Generate_CSharpCode($"{strPath}/{strFileName}");
+            StringBuilder pStrBuilder = new StringBuilder();
+
+            foreach (var pSheet in listSheetData)
+            {
+                pStrBuilder.Clear();
+
+                StreamWriter pFileWriter = new StreamWriter($"{strExportPath}/{pSheet.strSheetName}.csv");
+                pSheet.ParsingSheet(
+                (IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
+                {
+                    if(strText.Contains(':'))
+                    {
+                        string[] arrText = strText.Split(':');
+                        strText = arrText[0];
+                    }
+
+                    pStrBuilder.Append(strText);
+                    if (iColumnIndex == listRow.Count - 1)
+                    {
+                        pFileWriter.WriteLine(pStrBuilder.ToString());
+                        pFileWriter.Flush();
+
+                        pStrBuilder.Clear();
+                    }
+                    else
+                    {
+                        pStrBuilder.Append(",");
+                    }
+                });
+
+                pFileWriter.Close();
+                pFileWriter.Dispose();
+            }
         }
 
         public override void DoWorkAfter()
         {
             if (bOpenPath_AfterBuild_CSharp)
-                DoOpenPath(strPath);
+                DoOpenPath(strExportPath);
         }
 
         protected override void OnShowForm(Form pFormInstance)

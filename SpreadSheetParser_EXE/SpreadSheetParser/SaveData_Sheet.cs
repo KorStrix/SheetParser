@@ -52,6 +52,8 @@ namespace SpreadSheetParser
             Enum,
         }
 
+        public delegate void delOnParsingText(IList<object> listRow, string strText, int iRowIndex, int iColumnIndex);
+
         public string strSheetName;
         public bool bEnable = true;
 
@@ -61,8 +63,73 @@ namespace SpreadSheetParser
         public SaveData_Sheet(string strSheetName)
         {
             this.strSheetName = strSheetName;
-            bEnable = true;
-            eType = EType.Class;
+        }
+
+        public void ParsingSheet(delOnParsingText OnParsingText)
+        {
+            const string const_strCommandString = "#";
+            const string const_strIgnoreString_Row = "R";
+            const string const_strIgnoreString_Column = "C";
+            const string const_strStartString = "Start";
+
+            if (SpreadSheetParser_MainForm.pSheetConnector == null)
+                return;
+
+            IList<IList<Object>> pData = SpreadSheetParser_MainForm.pSheetConnector.GetExcelData(strSheetName);
+            if (pData == null)
+                return;
+
+            if (OnParsingText == null) // For Loop에서 Null Check 방지
+                OnParsingText = (a, b, c, d) => { };
+
+            bool bIsParsingStart = false;
+            HashSet<int> setIgnoreColumnIndex = new HashSet<int>();
+            for (int i = 0; i < pData.Count; i++)
+            {
+                IList<object> listRow = pData[i];
+                for (int j = 0; j < listRow.Count; j++)
+                {
+                    if (setIgnoreColumnIndex.Contains(j))
+                        continue;
+
+                    string strText = (string)listRow[j];
+                    if (string.IsNullOrEmpty(strText))
+                        continue;
+
+                    if(strText.StartsWith(const_strCommandString))
+                    {
+                        bool bIsBreak = false, bIsContinue = false;
+                        if (strText.Contains(const_strIgnoreString_Column))
+                        {
+                            setIgnoreColumnIndex.Add(j);
+                            bIsContinue = true;
+                        }
+
+                        if (bIsParsingStart == false)
+                        {
+                            if (strText.Contains(const_strStartString))
+                            {
+                                bIsParsingStart = true;
+                                bIsBreak = true;
+                            }
+                        }
+
+                        if (strText.Contains(const_strIgnoreString_Row))
+                            bIsBreak = true;
+
+                        if (bIsBreak)
+                            break;
+
+                        if (bIsContinue)
+                            continue;
+                    }
+
+                    if (bIsParsingStart == false)
+                        continue;
+
+                    OnParsingText(listRow, strText, i, j);
+                }
+            }
         }
 
         public override string ToString()
