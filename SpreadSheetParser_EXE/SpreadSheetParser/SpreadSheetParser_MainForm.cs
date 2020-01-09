@@ -390,20 +390,6 @@ namespace SpreadSheetParser
             DoOpenPath(strSaveFolderPath.Remove(strSaveFolderPath.Length - 1, 1));
         }
 
-        //private void Button_OpenPath_CSV_Click(object sender, EventArgs e)
-        //{
-        //    OpenPath(textBox_CSV_Path.Text);
-        //}
-
-        //private void Button_CSV_PathSetting_Click(object sender, EventArgs e)
-        //{
-        //    if (SettingPath(ref textBox_CSV_Path))
-        //    {
-        //        _pSpreadSheet_CurrentConnected.strOutputPath_CSV = textBox_CSV_Path.Text;
-        //        AutoSaveAsync_CurrentSheet();
-        //    }
-        //}
-
 
         private void button_TableSave_Click(object sender, EventArgs e)
         {
@@ -524,10 +510,10 @@ namespace SpreadSheetParser
             _bIsUpdating_TableUI = false;
         }
 
-        const string const_SheetURL = "https://docs.google.com/spreadsheets/d/";
-
         private void button_OpenLink_Click(object sender, EventArgs e)
         {
+            const string const_SheetURL = "https://docs.google.com/spreadsheets/d/";
+
             System.Diagnostics.Process.Start($"{const_SheetURL}/{textBox_SheetID.Text}");
         }
 
