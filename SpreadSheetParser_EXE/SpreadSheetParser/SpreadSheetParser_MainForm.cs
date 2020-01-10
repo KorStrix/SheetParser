@@ -302,6 +302,16 @@ namespace SpreadSheetParser
                                 break;
                         }
 
+                        pSheetData.ParsingSheet(
+                          (listRow, strText, iRow, iColumn) =>
+                          {
+                              if (strText.Contains(":"))
+                              {
+                                  string[] arrText = strText.Split(':');
+                                  pCodeType.AddField(new FieldData(arrText[0], arrText[1]));
+                              }
+                          });
+
                         Execute_CommandLine(pCodeType, listCommandLine);
                     }
                 }
