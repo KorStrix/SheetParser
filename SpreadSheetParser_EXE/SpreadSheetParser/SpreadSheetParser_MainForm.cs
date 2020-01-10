@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -21,6 +22,16 @@ namespace SpreadSheetParser
             None,
             IsConnected,
             IsConnected_And_SelectTable,
+        }
+
+        public enum EEnumType
+        {
+            EnumNone,
+
+            EnumType,
+            EnumValue,
+            NumberValue,
+            Comment,
         }
 
         static public SpreadSheetParser_MainForm isntance => _instance;
@@ -226,15 +237,57 @@ namespace SpreadSheetParser
                     bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
                     if (bIsEnum)
                     {
+                        Dictionary<int, EEnumType> mapEnumType = new Dictionary<int, EEnumType>();
+                        Dictionary<string, CodeTypeDeclaration> mapEnumValue = new Dictionary<string, CodeTypeDeclaration>();
+
                         pSheetData.ParsingSheet(
                             (listRow, strText, iRow, iColumn) =>
                             {
-                                if (iRow == 0)
+                                EEnumType eType = EEnumType.EnumNone;
+                                if(System.Enum.TryParse(strText, out eType))
                                 {
+                                    if(eType == EEnumType.EnumType)
+                                    {
+                                        if (mapEnumType.ContainsKey(iColumn) == false)
+                                            mapEnumType.Add(iColumn, eType);
 
+                                        for (int i = iColumn; i < listRow.Count; i++)
+                                        {
+                                            string strTextOtherColumn = (string)listRow[i];
+                                            if (System.Enum.TryParse(strTextOtherColumn, out eType))
+                                            {
+                                                if (mapEnumType.ContainsKey(i) == false)
+                                                    mapEnumType.Add(i, eType);
+                                            }
+                                        }
+                                    }
+
+                                    return;
                                 }
 
-                                // pCodeType.AddEnumField(new EnumFieldData(strText));
+                                eType = mapEnumType[iColumn];
+                                if (eType != EEnumType.EnumType)
+                                    return;
+
+                                if (mapEnumValue.ContainsKey(strText) == false)
+                                    mapEnumValue.Add(strText, _pCodeFileBuilder.AddCodeType(strText));
+
+                                EnumFieldData pFieldData = new EnumFieldData();
+                                for (int i = iColumn; i < listRow.Count; i++)
+                                {
+                                    if(mapEnumType.TryGetValue(i, out eType))
+                                    {
+                                        string strNextText = (string)listRow[i];
+                                        switch (eType)
+                                        {
+                                            case EEnumType.EnumValue: pFieldData.strValue = strNextText; break;
+                                            case EEnumType.NumberValue: pFieldData.iNumber = int.Parse(strNextText); break;
+                                            case EEnumType.Comment: pFieldData.strComment = strNextText; break;
+                                        }
+                                    }
+                                }
+
+                                mapEnumValue[strText].AddEnumField(pFieldData);
                             });
                     }
                     else

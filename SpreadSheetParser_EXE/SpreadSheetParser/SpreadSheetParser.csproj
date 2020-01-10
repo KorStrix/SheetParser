@@ -79,6 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Util\CSVUtility.cs" />
     <Compile Include="WorkList\Work_Generate_CSVForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,16 +98,16 @@
     <Compile Include="WorkList\Work_Generate_CSharpForm.Designer.cs">
       <DependentUpon>Work_Generate_CSharpForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CommandLineParser.cs" />
+    <Compile Include="Util\CommandLineParser.cs" />
     <Compile Include="CommandLine_InfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CommandLine_InfoForm.Designer.cs">
       <DependentUpon>CommandLine_InfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="JsonSaveManager.cs" />
+    <Compile Include="Util\JsonSaveManager.cs" />
     <Compile Include="SaveData_Sheet.cs" />
-    <Compile Include="CodeFileBuilder.cs" />
+    <Compile Include="Util\CodeFileBuilder.cs" />
     <Compile Include="SpreadSheetParser_MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

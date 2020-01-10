@@ -46,23 +46,28 @@ namespace SpreadSheetParser
 
     public class EnumFieldData
     {
-        public string strFieldName;
+        public string strValue;
         public int iNumber;
         public string strComment;
 
-        public EnumFieldData(string strFieldName)
+        public EnumFieldData()
         {
-            this.strFieldName = strFieldName; this.iNumber = int.MaxValue; this.strComment = "";
+            this.strValue = strValue; this.iNumber = int.MaxValue; this.strComment = "";
         }
 
-        public EnumFieldData(string strFieldName, string strComment = "")
+        public EnumFieldData(string strValue)
         {
-            this.strFieldName = strFieldName; this.iNumber = int.MaxValue; this.strComment = strComment;
+            this.strValue = strValue; this.iNumber = int.MaxValue; this.strComment = "";
         }
 
-        public EnumFieldData(string strFieldName, int iNumber = int.MaxValue, string strComment = "")
+        public EnumFieldData(string strValue, string strComment = "")
         {
-            this.strFieldName = strFieldName; this.iNumber = iNumber; this.strComment = strComment;
+            this.strValue = strValue; this.iNumber = int.MaxValue; this.strComment = strComment;
+        }
+
+        public EnumFieldData(string strValue, int iNumber = int.MaxValue, string strComment = "")
+        {
+            this.strValue = strValue; this.iNumber = iNumber; this.strComment = strComment;
         }
     }
 
@@ -191,7 +196,7 @@ namespace SpreadSheetParser
 
         public static void AddEnumField(this CodeTypeDeclaration pCodeType, EnumFieldData pFieldData)
         {
-            CodeMemberField pField = new CodeMemberField(pCodeType.Name, pFieldData.strFieldName);
+            CodeMemberField pField = new CodeMemberField(pCodeType.Name, pFieldData.strValue);
 
             if(pFieldData.iNumber != int.MaxValue)
                 pField.InitExpression = new CodePrimitiveExpression(pFieldData.iNumber);
