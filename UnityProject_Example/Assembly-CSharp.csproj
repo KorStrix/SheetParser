@@ -63,11 +63,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\UnitySO_Generator.cs" />
-    <Compile Include="Assets\UnitySO_GeneratorConfig.cs" />
-    <Compile Include="Assets\UnitySO_GeneratorReceipt.cs" />
+    <Compile Include="Assets\UnitySO_Generator\UnitySO_Generator.cs" />
+    <Compile Include="Assets\UnitySO_Generator\UnitySO_GeneratorConfig.cs" />
+    <Compile Include="Assets\UnitySO_Generator\UnitySO_GeneratorReceipt.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/SpreadSheetParser/UnityProject_Example/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.PackageManagerUI.Editor">
+      <HintPath>D:/SpreadSheetParser/UnityProject_Example/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>D:/SpreadSheetParser/UnityProject_Example/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
@@ -77,9 +80,6 @@
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
       <HintPath>D:/SpreadSheetParser/UnityProject_Example/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>D:/SpreadSheetParser/UnityProject_Example/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.6f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

@@ -60,8 +60,12 @@ public class UnitySO_Generator : EditorWindow
     private void OnGUI()
     {
         UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
-
+        
+        GUILayout.BeginHorizontal();
+        AutoSizeLabel("Root Folder Path : ");
         GUILayout.Label(pConfig.strLastRootFolderPath);
+        GUILayout.EndHorizontal();
+
         if (GUILayout.Button("Root Folder Setting"))
         {
             pConfig.strLastRootFolderPath = EditorUtility.OpenFolderPanel("Root Folder", "", "");
@@ -84,6 +88,11 @@ public class UnitySO_Generator : EditorWindow
     // ========================================================================== //
 
     #region Private
+
+    void AutoSizeLabel(string strText)
+    {
+        GUILayout.Label(strText, GUILayout.Width(GUI.skin.label.CalcSize(new GUIContent(strText)).x));
+    }
 
     #endregion Private
 }

@@ -76,7 +76,7 @@ namespace SpreadSheetParser
                     OnFinishAsync?.Invoke(true);
                 }
             } 
-            catch(System.Exception pException)
+            catch
             {
                 OnFinishAsync?.Invoke(false);
             }

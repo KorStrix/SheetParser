@@ -52,7 +52,7 @@ namespace SpreadSheetParser
 
         public EnumFieldData()
         {
-            this.strValue = strValue; this.iNumber = int.MaxValue; this.strComment = "";
+            this.strValue = ""; this.iNumber = int.MaxValue; this.strComment = "";
         }
 
         public EnumFieldData(string strValue)
