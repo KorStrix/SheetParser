@@ -11,16 +11,16 @@ using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
-    public partial class Work_Generate_CSVForm : Form
+    public partial class Work_Generate_JsonForm : Form
     {
-        Work_Generate_CSV _pWork;
+        Work_Generate_Json _pWork;
 
-        public Work_Generate_CSVForm()
+        public Work_Generate_JsonForm()
         {
             InitializeComponent();
         }
 
-        public void DoInit(Work_Generate_CSV pWork)
+        public void DoInit(Work_Generate_Json pWork)
         {
             _pWork = null;
 
@@ -61,66 +61,65 @@ namespace SpreadSheetParser
 
 
     [System.Serializable]
-    public class Work_Generate_CSV : WorkBase
+    public class Work_Generate_Json : WorkBase
     {
         public string strExportPath;
         public bool bOpenPath_AfterBuild_CSharp;
 
         protected override void OnCreateInstance(out Type pFormType, out Type pType)
         {
-            pFormType = typeof(Work_Generate_CSVForm);
+            pFormType = typeof(Work_Generate_JsonForm);
             pType = GetType();
         }
 
         public override string GetDisplayString()
         {
-            return "Generate CSV";
+            return "Generate Json";
         }
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData)
         {
-            StringBuilder pStrBuilder = new StringBuilder();
-
             foreach (var pSheet in listSheetData)
             { 
-                pStrBuilder.Clear();
+                JsonFormat pJson = new JsonFormat();
+                JsonInstance pJsonInstance = new JsonInstance();
 
-                StreamWriter pFileWriter = new StreamWriter($"{GetRelative_To_AbsolutePath()}{strExportPath}/{pSheet.strSheetName.Trim()}.csv");
-
-                int iLastRowIndex = -1;
+                Dictionary<int, string> mapMemberName = new Dictionary<int, string>();
+                Dictionary<int, string> mapMemberType = new Dictionary<int, string>();
+                int iColumnStartIndex = -1;
+                
                 pSheet.ParsingSheet(
                     (IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
                     {
-                        if (iLastRowIndex == -1)
-                            iLastRowIndex = iRowIndex;
-
                         if (strText.Contains(':'))
                         {
+                            if (mapMemberName.ContainsKey(iColumnIndex))
+                                return;
+
                             string[] arrText = strText.Split(':');
-                            strText = arrText[0];
+                            mapMemberName.Add(iColumnIndex, arrText[0]);
+                            mapMemberType.Add(iColumnIndex, arrText[1]);
+
+                            if (iColumnStartIndex == -1)
+                                iColumnStartIndex = iColumnIndex;
+
+                            return;
                         }
 
-                        if (iLastRowIndex != iRowIndex)
+                        if (iColumnIndex != iColumnStartIndex)
+                            return;
+
+                        pJsonInstance = new JsonInstance();
+                        pJson.listInstance.Add(pJsonInstance);
+
+                        for (int i = iColumnIndex; i < listRow.Count; i++)
                         {
-                            iLastRowIndex = iRowIndex;
-
-                            pStrBuilder.Remove(pStrBuilder.Length - 1, 1);
-                            pFileWriter.WriteLine(pStrBuilder.ToString());
-                            pFileWriter.Flush();
-
-                            pStrBuilder.Clear();
+                            if(mapMemberName.ContainsKey(i))
+                                pJsonInstance.listMember.Add(new JsonMember(mapMemberName[i], mapMemberType[i], (string)listRow[i]));
                         }
-
-                        pStrBuilder.Append(strText);
-                        pStrBuilder.Append(",");
                     });
 
-                pStrBuilder.Remove(pStrBuilder.Length - 1, 1);
-                pFileWriter.WriteLine(pStrBuilder.ToString());
-                pFileWriter.Flush();
-
-                pFileWriter.Close();
-                pFileWriter.Dispose();
+                JsonSaveManager.SaveData(pJson, $"{GetRelative_To_AbsolutePath()}{strExportPath}/{pSheet.strSheetName}.json");
             }
         }
 
@@ -132,7 +131,7 @@ namespace SpreadSheetParser
 
         protected override void OnShowForm(Form pFormInstance)
         {
-            Work_Generate_CSVForm pForm = (Work_Generate_CSVForm)pFormInstance;
+            Work_Generate_JsonForm pForm = (Work_Generate_JsonForm)pFormInstance;
             pForm.DoInit(this);
         }
     }

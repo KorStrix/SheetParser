@@ -80,6 +80,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Util\CSVUtility.cs" />
+    <Compile Include="WorkList\Work_Generate_JsonForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkList\Work_Generate_JsonForm.Designer.cs">
+      <DependentUpon>Work_Generate_JsonForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="WorkList\Work_Generate_CSVForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpreadSheetConnector.cs" />
     <Compile Include="WorkList\WorkBase.cs" />
+    <EmbeddedResource Include="WorkList\Work_Generate_JsonForm.resx">
+      <DependentUpon>Work_Generate_JsonForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WorkList\Work_Generate_CSVForm.resx">
       <DependentUpon>Work_Generate_CSVForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -10,6 +10,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using System.Linq;
 
 /// <summary>
 /// Editor 폴더 안에 위치해야 합니다.
@@ -48,9 +49,29 @@ public class UnitySO_Generator : EditorWindow
 
     static public void DoBuild()
     {
-        UnitySO_GeneratorReceipt pReciept = null;
+        Debug.Log("Build");
 
+        UnitySO_GeneratorReceipt pReceipt = UnitySO_GeneratorReceipt.Dummy;
+        foreach(var pReciptType in pReceipt.arrReciptType)
+        {
+            System.Type pType = System.Type.GetType(pReciptType.strType);
+            object pSO = UnitySO_GeneratorConfig.CreateSOFile(pType);
+            Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo = pType.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
 
+            TextAsset pJsonFile = AssetDatabase.LoadAssetAtPath<TextAsset>($"Assets/{pReceipt.strJsonRootPath}{pType.Name}.json");
+
+            JsonFormat pJsonFormat = new JsonFormat();
+            EditorJsonUtility.FromJsonOverwrite(pJsonFile.text, pJsonFormat);
+
+            foreach (var pMemberExportInfo in pReciptType.arrMemberTypeInfo)
+            {
+                System.Reflection.FieldInfo pFieldInfo;
+                if (mapFieldInfo.TryGetValue(pMemberExportInfo.strMemberName, out pFieldInfo) == false)
+                    continue;
+
+                // pFieldInfo.SetValue()
+            }
+        }
     }
 
     // ========================================================================== //
@@ -74,9 +95,9 @@ public class UnitySO_Generator : EditorWindow
         bool bEditorEnable = string.IsNullOrEmpty(pConfig.strLastRootFolderPath) == false;
         EditorGUI.BeginDisabledGroup(bEditorEnable == false);
 
-        if (GUILayout.Button("Test"))
+        if (GUILayout.Button("Build!"))
         {
-            Debug.Log("test");
+            DoBuild();
         }
 
         EditorGUI.EndDisabledGroup();

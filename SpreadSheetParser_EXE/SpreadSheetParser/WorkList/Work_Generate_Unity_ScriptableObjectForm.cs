@@ -104,9 +104,17 @@ namespace SpreadSheetParser
                 if (pType.IsClass == false)
                     continue;
 
+                SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strSheetName == pType.Name).First();
+                if (pSaveData.bIsPureClass)
+                    continue;
+
                 pType.AddBaseClass(typeof(UnityEngine.ScriptableObject));
                 pNameSpace.Types.Clear();
                 pNameSpace.Types.Add(pType);
+
+                var listVirtualFieldOption = pSaveData.listExportOption.Where(pExportOption => pExportOption.bIsVirtual);
+                foreach(var pVirtualField in listVirtualFieldOption)
+                    pType.AddField(pVirtualField.ToFieldData());
 
                 pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath()}{strExportPath}/{pType.Name}");
             }
@@ -115,6 +123,10 @@ namespace SpreadSheetParser
             foreach (CodeTypeDeclaration pType in arrTypes)
             {
                 if (pType.IsClass)
+                    continue;
+
+                SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strSheetName == pType.Name).First();
+                if (pSaveData.bIsPureClass == false)
                     continue;
 
                 pNameSpace.Types.Add(pType);

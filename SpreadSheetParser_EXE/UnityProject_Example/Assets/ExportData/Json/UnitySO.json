@@ -1,0 +1,68 @@
+{
+  "listInstance": [
+    {
+      "listMember": [
+        {
+          "strMemberName": "MaterialPath",
+          "strValue": "Value"
+        }
+      ]
+    },
+    {
+      "listMember": [
+        {
+          "strMemberName": "strComment",
+          "strValue": "Value"
+        }
+      ]
+    },
+    {
+      "listMember": [
+        {
+          "strMemberName": "ExportData/Material/Blue.mat",
+          "strValue": "Value"
+        }
+      ]
+    },
+    {
+      "listMember": [
+        {
+          "strMemberName": "파랑색 메테리얼",
+          "strValue": "Value"
+        }
+      ]
+    },
+    {
+      "listMember": [
+        {
+          "strMemberName": "ExportData/Material/Green.mat",
+          "strValue": "Value"
+        }
+      ]
+    },
+    {
+      "listMember": [
+        {
+          "strMemberName": "초록색 메테리얼",
+          "strValue": "Value"
+        }
+      ]
+    },
+    {
+      "listMember": [
+        {
+          "strMemberName": "ExportData/Material/Red.mat",
+          "strValue": "Value"
+        }
+      ]
+    },
+    {
+      "listMember": [
+        {
+          "strMemberName": "빨간색 메테리얼",
+          "strValue": "Value"
+        }
+      ]
+    }
+  ]
+}

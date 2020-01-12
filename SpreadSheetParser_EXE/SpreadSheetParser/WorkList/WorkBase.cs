@@ -30,6 +30,8 @@ namespace SpreadSheetParser
         {
             Form pForm = (Form)Activator.CreateInstance(pFormType);
             pForm.Show();
+            pForm.Name = ToString();
+
             OnShowForm(pForm);
         }
 

@@ -100,6 +100,7 @@ namespace SpreadSheetParser
             _pConfig = SaveDataManager.LoadConfig();
             _mapSaveData = SaveDataManager.LoadSheet(WriteConsole);
 
+            comboBox_DependencyField.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_SaveSheet.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_SaveSheet.Items.Clear();
             foreach (var pData in _mapSaveData.Values)
@@ -116,6 +117,7 @@ namespace SpreadSheetParser
                 }
             }
 
+            
             checkBox_AutoConnect.Checked = _pConfig.bAutoConnect;
             checkedListBox_SheetList.ItemCheck += CheckedListBox_TableList_ItemCheck;
             checkedListBox_SheetList.SelectedIndexChanged += CheckedListBox_SheetList_SelectedIndexChanged;
@@ -145,13 +147,7 @@ namespace SpreadSheetParser
             }
 
             groupBox_3_2_SelectedField.Enabled = bEnable;
-            if (bEnable)
-            {
-                textBox_FieldName.Text = pFieldOption.strFieldName;
-                textBox_Type.Text = pFieldOption.strTypeName;
-                comboBox_DependencyField.SelectedText = pFieldOption.strDependencyFieldName;
-            }
-            else
+            if (bEnable == false)
             {
                 textBox_FieldName.Text = "";
                 textBox_Type.Text = "";
@@ -166,13 +162,23 @@ namespace SpreadSheetParser
             if (bIsEnum)
                 return;
 
-            comboBox_DependencyField.Items.AddRange(pSheetData.listExportOption.Where((pOption) => pOption.strTypeName == "string").ToArray());
+            comboBox_DependencyField.Items.Clear();
+            comboBox_DependencyField.Items.AddRange(pSheetData.listExportOption.Where((pOption) => pOption.strTypeName == "string").Select((pOption) => pOption.strFieldName).ToArray());
+            if(bEnable)
+            {
+                textBox_FieldName.Text = pFieldOption.strFieldName;
+                textBox_Type.Text = pFieldOption.strTypeName;
+
+                if(string.IsNullOrEmpty(pFieldOption.strDependencyFieldName) == false)
+                    comboBox_DependencyField.SelectedIndex = comboBox_DependencyField.Items.IndexOf(pFieldOption.strDependencyFieldName);
+            }
         }
 
         private void CheckedListBox_SheetList_SelectedIndexChanged(object sender, EventArgs e)
         {
             listView_Field.Items.Clear();
 
+            ListView_Field_SelectedIndexChanged(null, null);
             SaveData_Sheet pSheetData = (SaveData_Sheet)checkedListBox_SheetList.SelectedItem;
             if (pSheetData == null)
                 return;
@@ -660,6 +666,7 @@ namespace SpreadSheetParser
 
             groupBox_SelectedTable.Text = pSheetData.ToString();
             textBox_CommandLine.Text = pSheetData.strCommandLine;
+            checkBox_IsPureClass.Checked = pSheetData.bIsPureClass;
 
             switch (pSheetData.eType)
             {
@@ -683,9 +690,9 @@ namespace SpreadSheetParser
             textBox_CommandLine.Text = _pSheet_CurrentConnected.strCommandLine;
         }
 
-        private void radioButton_class_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Class; AutoSaveAsync_CurrentSheet(); }
-        private void radioButton_Struct_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Struct; AutoSaveAsync_CurrentSheet(); }
-        private void radioButton_Enum_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Enum; AutoSaveAsync_CurrentSheet(); }
+        private void radioButton_class_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Class; checkBox_IsPureClass.Enabled = true; AutoSaveAsync_CurrentSheet(); }
+        private void radioButton_Struct_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Struct; checkBox_IsPureClass.Enabled = false; AutoSaveAsync_CurrentSheet(); }
+        private void radioButton_Enum_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Enum; checkBox_IsPureClass.Enabled = false; AutoSaveAsync_CurrentSheet(); }
 
         private void button_AddWork_Click(object sender, EventArgs e)
         {
@@ -809,13 +816,19 @@ namespace SpreadSheetParser
             var pSelectedItem = listView_Field.SelectedItems[0];
             FieldExportOption pFieldOption = (FieldExportOption)pSelectedItem.Tag;
 
-            pFieldOption.strDependencyFieldName = comboBox_DependencyField.SelectedText;
+            pFieldOption.strDependencyFieldName = (string)comboBox_DependencyField.SelectedItem;
             pFieldOption.strFieldName = textBox_FieldName.Text;
             pFieldOption.strTypeName = textBox_Type.Text;
 
             pSelectedItem.Text = pFieldOption.strFieldName;
             pFieldOption.Reset_ListViewItem(pSelectedItem);
 
+            AutoSaveAsync_CurrentSheet();
+        }
+
+        private void checkBox_IsPureClass_CheckedChanged(object sender, EventArgs e)
+        {
+            _pSheet_CurrentConnected.bIsPureClass = checkBox_IsPureClass.Checked;
             AutoSaveAsync_CurrentSheet();
         }
     }

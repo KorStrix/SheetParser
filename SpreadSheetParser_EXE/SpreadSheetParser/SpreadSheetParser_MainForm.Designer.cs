@@ -47,6 +47,7 @@
             this.ColumnHeader_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_IsVirtual = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox_3_2_SelectedField = new System.Windows.Forms.GroupBox();
+            this.button_Save_Field = new System.Windows.Forms.Button();
             this.label_Type = new System.Windows.Forms.Label();
             this.textBox_Type = new System.Windows.Forms.TextBox();
             this.label_FieldName = new System.Windows.Forms.Label();
@@ -75,7 +76,7 @@
             this.checkedListBox_WorkList = new System.Windows.Forms.CheckedListBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoConnect = new System.Windows.Forms.CheckBox();
-            this.button_Save_Field = new System.Windows.Forms.Button();
+            this.checkBox_IsPureClass = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox_2_1_TableSetting.SuspendLayout();
             this.groupBox_SelectedTable.SuspendLayout();
@@ -210,6 +211,7 @@
             // 
             // groupBox_SelectedTable
             // 
+            this.groupBox_SelectedTable.Controls.Add(this.checkBox_IsPureClass);
             this.groupBox_SelectedTable.Controls.Add(this.button_Add_VirtualField);
             this.groupBox_SelectedTable.Controls.Add(this.listView_Field);
             this.groupBox_SelectedTable.Controls.Add(this.groupBox_3_2_SelectedField);
@@ -282,6 +284,16 @@
             this.groupBox_3_2_SelectedField.TabIndex = 17;
             this.groupBox_3_2_SelectedField.TabStop = false;
             this.groupBox_3_2_SelectedField.Text = "2-2. Selected Virtual Field";
+            // 
+            // button_Save_Field
+            // 
+            this.button_Save_Field.Location = new System.Drawing.Point(160, 76);
+            this.button_Save_Field.Name = "button_Save_Field";
+            this.button_Save_Field.Size = new System.Drawing.Size(42, 23);
+            this.button_Save_Field.TabIndex = 22;
+            this.button_Save_Field.Text = "저장";
+            this.button_Save_Field.UseVisualStyleBackColor = true;
+            this.button_Save_Field.Click += new System.EventHandler(this.button_Save_Field_Click);
             // 
             // label_Type
             // 
@@ -562,15 +574,16 @@
             this.checkBox_AutoConnect.UseVisualStyleBackColor = true;
             this.checkBox_AutoConnect.CheckedChanged += new System.EventHandler(this.checkBox_AutoConnect_CheckedChanged);
             // 
-            // button_Save_Field
+            // checkBox_IsPureClass
             // 
-            this.button_Save_Field.Location = new System.Drawing.Point(160, 76);
-            this.button_Save_Field.Name = "button_Save_Field";
-            this.button_Save_Field.Size = new System.Drawing.Size(42, 23);
-            this.button_Save_Field.TabIndex = 22;
-            this.button_Save_Field.Text = "저장";
-            this.button_Save_Field.UseVisualStyleBackColor = true;
-            this.button_Save_Field.Click += new System.EventHandler(this.button_Save_Field_Click);
+            this.checkBox_IsPureClass.AutoSize = true;
+            this.checkBox_IsPureClass.Location = new System.Drawing.Point(308, 66);
+            this.checkBox_IsPureClass.Name = "checkBox_IsPureClass";
+            this.checkBox_IsPureClass.Size = new System.Drawing.Size(87, 16);
+            this.checkBox_IsPureClass.TabIndex = 18;
+            this.checkBox_IsPureClass.Text = "Pure Class";
+            this.checkBox_IsPureClass.UseVisualStyleBackColor = true;
+            this.checkBox_IsPureClass.CheckedChanged += new System.EventHandler(this.checkBox_IsPureClass_CheckedChanged);
             // 
             // SpreadSheetParser_MainForm
             // 
@@ -654,6 +667,7 @@
         private System.Windows.Forms.Label label_Type;
         private System.Windows.Forms.TextBox textBox_Type;
         private System.Windows.Forms.Button button_Save_Field;
+        private System.Windows.Forms.CheckBox checkBox_IsPureClass;
     }
 }
 

@@ -27,7 +27,7 @@ public class UnitySO_GeneratorConfig : ScriptableObject
                 if(arrConfig.Length == 0)
                 {
                     arrConfig = new UnitySO_GeneratorConfig[1];
-                    arrConfig[0] = CreateAsset<UnitySO_GeneratorConfig>();
+                    arrConfig[0] = CreateSOFile<UnitySO_GeneratorConfig>();
                 }
 
                 _instance = arrConfig[0];
@@ -59,7 +59,7 @@ public class UnitySO_GeneratorConfig : ScriptableObject
     ///	This makes it easy to create, name and place unique new ScriptableObject asset files.
     // https://wiki.unity3d.com/index.php/CreateScriptableObjectAsset
     /// </summary>
-    public static T CreateAsset<T>() where T : ScriptableObject
+    public static T CreateSOFile<T>() where T : ScriptableObject
     {
         T pAsset = ScriptableObject.CreateInstance<T>();
         string strPath = "Assets";
@@ -69,7 +69,33 @@ public class UnitySO_GeneratorConfig : ScriptableObject
             strPath = strPath.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
         }
 
-        string strAssetPathAndName = AssetDatabase.GenerateUniqueAssetPath(strPath + "/New " + typeof(T).ToString() + ".asset");
+        string strAssetPathAndName = AssetDatabase.GenerateUniqueAssetPath(strPath + "/New " + typeof(T).Name + ".asset");
+
+        AssetDatabase.CreateAsset(pAsset, strAssetPathAndName);
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        EditorUtility.FocusProjectWindow();
+        Selection.activeObject = pAsset;
+
+        return pAsset;
+    }
+
+    /// <summary>
+    ///	This makes it easy to create, name and place unique new ScriptableObject asset files.
+    // https://wiki.unity3d.com/index.php/CreateScriptableObjectAsset
+    /// </summary>
+    public static object CreateSOFile(System.Type pType)
+    {
+        ScriptableObject pAsset = ScriptableObject.CreateInstance(pType);
+        string strPath = "Assets";
+
+        if (Path.GetExtension(strPath) != "")
+        {
+            strPath = strPath.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
+        }
+
+        string strAssetPathAndName = AssetDatabase.GenerateUniqueAssetPath(strPath + "/New " + pType.Name + ".asset");
 
         AssetDatabase.CreateAsset(pAsset, strAssetPathAndName);
 

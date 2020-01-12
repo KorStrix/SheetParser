@@ -62,6 +62,11 @@ namespace SpreadSheetParser
             return strFieldName;
         }
 
+        public FieldData ToFieldData()
+        {
+            return new FieldData(strFieldName, strTypeName, $"자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"{strDependencyFieldName}\"/>");
+        }
+
         public ListViewItem ConvertListViewItem()
         {
             ListViewItem pViewItem = new ListViewItem();
@@ -98,6 +103,7 @@ namespace SpreadSheetParser
 
         public string strSheetName;
         public bool bEnable = true;
+        public bool bIsPureClass;
 
         public string strCommandLine;
         public EType eType;
