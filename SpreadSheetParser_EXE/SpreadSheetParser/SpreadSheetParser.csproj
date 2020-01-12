@@ -99,11 +99,11 @@
       <DependentUpon>Work_Generate_CSharpForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Util\CommandLineParser.cs" />
-    <Compile Include="CommandLine_InfoForm.cs">
+    <Compile Include="EditFieldForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CommandLine_InfoForm.Designer.cs">
-      <DependentUpon>CommandLine_InfoForm.cs</DependentUpon>
+    <Compile Include="EditFieldForm.Designer.cs">
+      <DependentUpon>EditFieldForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Util\JsonSaveManager.cs" />
     <Compile Include="SaveData_Sheet.cs" />
@@ -130,8 +130,8 @@
     <EmbeddedResource Include="WorkList\Work_Generate_CSharpForm.resx">
       <DependentUpon>Work_Generate_CSharpForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CommandLine_InfoForm.resx">
-      <DependentUpon>CommandLine_InfoForm.cs</DependentUpon>
+    <EmbeddedResource Include="EditFieldForm.resx">
+      <DependentUpon>EditFieldForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SpreadSheetParser_MainForm.resx">
       <DependentUpon>SpreadSheetParser_MainForm.cs</DependentUpon>

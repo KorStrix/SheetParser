@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
-    public partial class CommandLine_InfoForm : Form
+    public partial class EditFieldForm : Form
     {
-        public CommandLine_InfoForm()
+        public EditFieldForm()
         {
             InitializeComponent();
+        }
+
+        public void DoInit(SaveData_Sheet pSheet)
+        {
+
         }
     }
 }

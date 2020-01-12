@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
@@ -43,6 +44,47 @@ namespace SpreadSheetParser
         }
     }
 
+    public class FieldExportOption
+    {
+        public string strFieldName;
+        public string strTypeName;
+
+        public bool bIsVirtual;
+        public string strDependencyFieldName;
+
+        public FieldExportOption(string strFieldName, string strTypeName)
+        {
+            this.strFieldName = strFieldName; this.strTypeName = strTypeName;
+        }
+
+        public override string ToString()
+        {
+            return strFieldName;
+        }
+
+        public ListViewItem ConvertListViewItem()
+        {
+            ListViewItem pViewItem = new ListViewItem();
+            Reset_ListViewItem(pViewItem);
+            pViewItem.Tag = this;
+
+            return pViewItem;
+
+        }
+
+        public void Reset_ListViewItem(ListViewItem pViewItem)
+        {
+            pViewItem.SubItems.Clear();
+            pViewItem.SubItems.Add(strTypeName);
+            if (bIsVirtual)
+                pViewItem.SubItems.Add(strDependencyFieldName);
+            else
+                pViewItem.SubItems.Add("X");
+
+            pViewItem.Text = strFieldName;
+        }
+    }
+
     public class SaveData_Sheet
     {
         public enum EType
@@ -59,6 +101,8 @@ namespace SpreadSheetParser
 
         public string strCommandLine;
         public EType eType;
+
+        public List<FieldExportOption> listExportOption = new List<FieldExportOption>();
 
         public SaveData_Sheet(string strSheetName)
         {

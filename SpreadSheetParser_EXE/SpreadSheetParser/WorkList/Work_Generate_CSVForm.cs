@@ -82,32 +82,38 @@ namespace SpreadSheetParser
             StringBuilder pStrBuilder = new StringBuilder();
 
             foreach (var pSheet in listSheetData)
-            {
+            { 
                 pStrBuilder.Clear();
 
-                StreamWriter pFileWriter = new StreamWriter($"{strExportPath}/{pSheet.strSheetName.Trim()}.csv");
+                StreamWriter pFileWriter = new StreamWriter($"{GetRelative_To_AbsolutePath()}{strExportPath}/{pSheet.strSheetName.Trim()}.csv");
+
+                int iLastRowIndex = -1;
                 pSheet.ParsingSheet(
-                (IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
-                {
-                    if(strText.Contains(':'))
+                    (IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
                     {
-                        string[] arrText = strText.Split(':');
-                        strText = arrText[0];
-                    }
+                        if (iLastRowIndex == -1)
+                            iLastRowIndex = iRowIndex;
 
-                    pStrBuilder.Append(strText);
-                    if (iColumnIndex == listRow.Count - 1)
-                    {
-                        pFileWriter.WriteLine(pStrBuilder.ToString());
-                        pFileWriter.Flush();
+                        if (strText.Contains(':'))
+                        {
+                            string[] arrText = strText.Split(':');
+                            strText = arrText[0];
+                        }
 
-                        pStrBuilder.Clear();
-                    }
-                    else
-                    {
+                        if (iLastRowIndex != iRowIndex)
+                        {
+                            iLastRowIndex = iRowIndex;
+
+                            pStrBuilder.Remove(pStrBuilder.Length - 1, 1);
+                            pFileWriter.WriteLine(pStrBuilder.ToString());
+                            pFileWriter.Flush();
+
+                            pStrBuilder.Clear();
+                        }
+
+                        pStrBuilder.Append(strText);
                         pStrBuilder.Append(",");
-                    }
-                });
+                    });
 
                 pFileWriter.Close();
                 pFileWriter.Dispose();

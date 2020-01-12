@@ -39,11 +39,21 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox_SaveSheet = new System.Windows.Forms.ComboBox();
             this.button_OpenPath_SaveSheet = new System.Windows.Forms.Button();
-            this.groupBox2_TableSetting = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.groupBox_2_1_TableSetting = new System.Windows.Forms.GroupBox();
             this.groupBox_SelectedTable = new System.Windows.Forms.GroupBox();
-            this.button_Info = new System.Windows.Forms.Button();
+            this.button_Add_VirtualField = new System.Windows.Forms.Button();
+            this.listView_Field = new System.Windows.Forms.ListView();
+            this.ColumnHeader_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ColumnHeader_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader_IsVirtual = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.groupBox_3_2_SelectedField = new System.Windows.Forms.GroupBox();
+            this.label_Type = new System.Windows.Forms.Label();
+            this.textBox_Type = new System.Windows.Forms.TextBox();
+            this.label_FieldName = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox_FieldName = new System.Windows.Forms.TextBox();
+            this.comboBox_DependencyField = new System.Windows.Forms.ComboBox();
+            this.button_Remove_VirtualField = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.radioButton_Enum = new System.Windows.Forms.RadioButton();
             this.radioButton_Struct = new System.Windows.Forms.RadioButton();
@@ -58,17 +68,18 @@
             this.button_WorkOrderDown = new System.Windows.Forms.Button();
             this.button_WorkOrderUp = new System.Windows.Forms.Button();
             this.button_EditWork = new System.Windows.Forms.Button();
+            this.button_RemoveWork = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBox_WorkList = new System.Windows.Forms.ComboBox();
-            this.button_RemoveWork = new System.Windows.Forms.Button();
             this.button_AddWork = new System.Windows.Forms.Button();
             this.checkedListBox_WorkList = new System.Windows.Forms.CheckedListBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoConnect = new System.Windows.Forms.CheckBox();
+            this.button_Save_Field = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            this.groupBox2_TableSetting.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.groupBox_2_1_TableSetting.SuspendLayout();
             this.groupBox_SelectedTable.SuspendLayout();
+            this.groupBox_3_2_SelectedField.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox3_WorkSetting.SuspendLayout();
             this.groupBox_3_1_SelectedWork.SuspendLayout();
@@ -96,17 +107,17 @@
             // 
             this.checkedListBox_SheetList.FormattingEnabled = true;
             this.checkedListBox_SheetList.HorizontalScrollbar = true;
-            this.checkedListBox_SheetList.Location = new System.Drawing.Point(20, 15);
+            this.checkedListBox_SheetList.Location = new System.Drawing.Point(6, 15);
             this.checkedListBox_SheetList.Name = "checkedListBox_SheetList";
-            this.checkedListBox_SheetList.Size = new System.Drawing.Size(253, 292);
+            this.checkedListBox_SheetList.Size = new System.Drawing.Size(171, 292);
             this.checkedListBox_SheetList.TabIndex = 2;
             this.checkedListBox_SheetList.SelectedIndexChanged += new System.EventHandler(this.checkedListBox_TableList_SelectedIndexChanged);
             // 
             // button_StartParsing
             // 
-            this.button_StartParsing.Location = new System.Drawing.Point(303, 259);
+            this.button_StartParsing.Location = new System.Drawing.Point(249, 259);
             this.button_StartParsing.Name = "button_StartParsing";
-            this.button_StartParsing.Size = new System.Drawing.Size(124, 40);
+            this.button_StartParsing.Size = new System.Drawing.Size(106, 40);
             this.button_StartParsing.TabIndex = 3;
             this.button_StartParsing.Text = "작업 시작!!";
             this.button_StartParsing.UseVisualStyleBackColor = true;
@@ -133,7 +144,7 @@
             this.groupBox1.Controls.Add(this.button_Connect);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(609, 80);
+            this.groupBox1.Size = new System.Drawing.Size(681, 80);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "1. Connect";
@@ -185,72 +196,160 @@
             this.button_OpenPath_SaveSheet.UseVisualStyleBackColor = true;
             this.button_OpenPath_SaveSheet.Click += new System.EventHandler(this.Button_OpenPath_SaveSheet_Click);
             // 
-            // groupBox2_TableSetting
+            // groupBox_2_1_TableSetting
             // 
-            this.groupBox2_TableSetting.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.groupBox2_TableSetting.Controls.Add(this.groupBox2);
-            this.groupBox2_TableSetting.Controls.Add(this.groupBox_SelectedTable);
-            this.groupBox2_TableSetting.Controls.Add(this.checkedListBox_SheetList);
-            this.groupBox2_TableSetting.Location = new System.Drawing.Point(12, 98);
-            this.groupBox2_TableSetting.Name = "groupBox2_TableSetting";
-            this.groupBox2_TableSetting.Size = new System.Drawing.Size(609, 313);
-            this.groupBox2_TableSetting.TabIndex = 6;
-            this.groupBox2_TableSetting.TabStop = false;
-            this.groupBox2_TableSetting.Text = "2. Table Setting";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.button3);
-            this.groupBox2.Location = new System.Drawing.Point(279, 221);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(324, 86);
-            this.groupBox2.TabIndex = 11;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "All Checked Table";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(236, 55);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(82, 23);
-            this.button3.TabIndex = 10;
-            this.button3.Text = "Check";
-            this.button3.UseVisualStyleBackColor = true;
+            this.groupBox_2_1_TableSetting.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.groupBox_2_1_TableSetting.Controls.Add(this.groupBox_SelectedTable);
+            this.groupBox_2_1_TableSetting.Controls.Add(this.checkedListBox_SheetList);
+            this.groupBox_2_1_TableSetting.Location = new System.Drawing.Point(12, 98);
+            this.groupBox_2_1_TableSetting.Name = "groupBox_2_1_TableSetting";
+            this.groupBox_2_1_TableSetting.Size = new System.Drawing.Size(681, 313);
+            this.groupBox_2_1_TableSetting.TabIndex = 6;
+            this.groupBox_2_1_TableSetting.TabStop = false;
+            this.groupBox_2_1_TableSetting.Text = "2. Table Setting";
             // 
             // groupBox_SelectedTable
             // 
-            this.groupBox_SelectedTable.Controls.Add(this.button_Info);
+            this.groupBox_SelectedTable.Controls.Add(this.button_Add_VirtualField);
+            this.groupBox_SelectedTable.Controls.Add(this.listView_Field);
+            this.groupBox_SelectedTable.Controls.Add(this.groupBox_3_2_SelectedField);
             this.groupBox_SelectedTable.Controls.Add(this.groupBox3);
             this.groupBox_SelectedTable.Controls.Add(this.button_CheckTable);
             this.groupBox_SelectedTable.Controls.Add(this.label3);
             this.groupBox_SelectedTable.Controls.Add(this.button_Save_TableCommandLine);
             this.groupBox_SelectedTable.Controls.Add(this.button_Cancel_TableCommandLine);
             this.groupBox_SelectedTable.Controls.Add(this.textBox_CommandLine);
-            this.groupBox_SelectedTable.Location = new System.Drawing.Point(279, 20);
+            this.groupBox_SelectedTable.Location = new System.Drawing.Point(183, 20);
             this.groupBox_SelectedTable.Name = "groupBox_SelectedTable";
-            this.groupBox_SelectedTable.Size = new System.Drawing.Size(324, 195);
+            this.groupBox_SelectedTable.Size = new System.Drawing.Size(492, 287);
             this.groupBox_SelectedTable.TabIndex = 9;
             this.groupBox_SelectedTable.TabStop = false;
             this.groupBox_SelectedTable.Text = "Selected Table Setting";
             // 
-            // button_Info
+            // button_Add_VirtualField
             // 
-            this.button_Info.Location = new System.Drawing.Point(100, 86);
-            this.button_Info.Name = "button_Info";
-            this.button_Info.Size = new System.Drawing.Size(60, 23);
-            this.button_Info.TabIndex = 12;
-            this.button_Info.Text = "Info";
-            this.button_Info.UseVisualStyleBackColor = true;
-            this.button_Info.Click += new System.EventHandler(this.button_Info_Click);
+            this.button_Add_VirtualField.Location = new System.Drawing.Point(420, 66);
+            this.button_Add_VirtualField.Name = "button_Add_VirtualField";
+            this.button_Add_VirtualField.Size = new System.Drawing.Size(65, 57);
+            this.button_Add_VirtualField.TabIndex = 15;
+            this.button_Add_VirtualField.Text = "가상 필드 추가";
+            this.button_Add_VirtualField.UseVisualStyleBackColor = true;
+            this.button_Add_VirtualField.Click += new System.EventHandler(this.button_Add_VirtualField_Click);
+            // 
+            // listView_Field
+            // 
+            this.listView_Field.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ColumnHeader_Name,
+            this.ColumnHeader_Type,
+            this.columnHeader_IsVirtual});
+            this.listView_Field.HideSelection = false;
+            this.listView_Field.Location = new System.Drawing.Point(6, 14);
+            this.listView_Field.MultiSelect = false;
+            this.listView_Field.Name = "listView_Field";
+            this.listView_Field.Size = new System.Drawing.Size(296, 152);
+            this.listView_Field.TabIndex = 12;
+            this.listView_Field.UseCompatibleStateImageBehavior = false;
+            this.listView_Field.View = System.Windows.Forms.View.Details;
+            // 
+            // ColumnHeader_Name
+            // 
+            this.ColumnHeader_Name.Text = "Name";
+            this.ColumnHeader_Name.Width = 170;
+            // 
+            // ColumnHeader_Type
+            // 
+            this.ColumnHeader_Type.Text = "Type";
+            this.ColumnHeader_Type.Width = 70;
+            // 
+            // columnHeader_IsVirtual
+            // 
+            this.columnHeader_IsVirtual.Text = "Virtual";
+            this.columnHeader_IsVirtual.Width = 50;
+            // 
+            // groupBox_3_2_SelectedField
+            // 
+            this.groupBox_3_2_SelectedField.Controls.Add(this.button_Save_Field);
+            this.groupBox_3_2_SelectedField.Controls.Add(this.label_Type);
+            this.groupBox_3_2_SelectedField.Controls.Add(this.textBox_Type);
+            this.groupBox_3_2_SelectedField.Controls.Add(this.label_FieldName);
+            this.groupBox_3_2_SelectedField.Controls.Add(this.label5);
+            this.groupBox_3_2_SelectedField.Controls.Add(this.textBox_FieldName);
+            this.groupBox_3_2_SelectedField.Controls.Add(this.comboBox_DependencyField);
+            this.groupBox_3_2_SelectedField.Controls.Add(this.button_Remove_VirtualField);
+            this.groupBox_3_2_SelectedField.Location = new System.Drawing.Point(6, 172);
+            this.groupBox_3_2_SelectedField.Name = "groupBox_3_2_SelectedField";
+            this.groupBox_3_2_SelectedField.Size = new System.Drawing.Size(296, 111);
+            this.groupBox_3_2_SelectedField.TabIndex = 17;
+            this.groupBox_3_2_SelectedField.TabStop = false;
+            this.groupBox_3_2_SelectedField.Text = "2-2. Selected Virtual Field";
+            // 
+            // label_Type
+            // 
+            this.label_Type.AutoSize = true;
+            this.label_Type.Location = new System.Drawing.Point(158, 17);
+            this.label_Type.Name = "label_Type";
+            this.label_Type.Size = new System.Drawing.Size(34, 12);
+            this.label_Type.TabIndex = 21;
+            this.label_Type.Text = "Type";
+            // 
+            // textBox_Type
+            // 
+            this.textBox_Type.Location = new System.Drawing.Point(160, 32);
+            this.textBox_Type.Name = "textBox_Type";
+            this.textBox_Type.Size = new System.Drawing.Size(130, 21);
+            this.textBox_Type.TabIndex = 20;
+            // 
+            // label_FieldName
+            // 
+            this.label_FieldName.AutoSize = true;
+            this.label_FieldName.Location = new System.Drawing.Point(6, 17);
+            this.label_FieldName.Name = "label_FieldName";
+            this.label_FieldName.Size = new System.Drawing.Size(70, 12);
+            this.label_FieldName.TabIndex = 19;
+            this.label_FieldName.Text = "Field Name";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 62);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(107, 12);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "Dependency Field";
+            // 
+            // textBox_FieldName
+            // 
+            this.textBox_FieldName.Location = new System.Drawing.Point(8, 32);
+            this.textBox_FieldName.Name = "textBox_FieldName";
+            this.textBox_FieldName.Size = new System.Drawing.Size(130, 21);
+            this.textBox_FieldName.TabIndex = 18;
+            // 
+            // comboBox_DependencyField
+            // 
+            this.comboBox_DependencyField.FormattingEnabled = true;
+            this.comboBox_DependencyField.Location = new System.Drawing.Point(6, 78);
+            this.comboBox_DependencyField.Name = "comboBox_DependencyField";
+            this.comboBox_DependencyField.Size = new System.Drawing.Size(132, 20);
+            this.comboBox_DependencyField.TabIndex = 7;
+            // 
+            // button_Remove_VirtualField
+            // 
+            this.button_Remove_VirtualField.Location = new System.Drawing.Point(250, 76);
+            this.button_Remove_VirtualField.Name = "button_Remove_VirtualField";
+            this.button_Remove_VirtualField.Size = new System.Drawing.Size(40, 23);
+            this.button_Remove_VirtualField.TabIndex = 14;
+            this.button_Remove_VirtualField.Text = "삭제";
+            this.button_Remove_VirtualField.UseVisualStyleBackColor = true;
+            this.button_Remove_VirtualField.Click += new System.EventHandler(this.button_Remove_VirtualField_Click);
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.radioButton_Enum);
             this.groupBox3.Controls.Add(this.radioButton_Struct);
             this.groupBox3.Controls.Add(this.radioButton_Class);
-            this.groupBox3.Location = new System.Drawing.Point(8, 20);
+            this.groupBox3.Location = new System.Drawing.Point(308, 14);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(199, 51);
+            this.groupBox3.Size = new System.Drawing.Size(178, 46);
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Type";
@@ -258,7 +357,7 @@
             // radioButton_Enum
             // 
             this.radioButton_Enum.AutoSize = true;
-            this.radioButton_Enum.Location = new System.Drawing.Point(136, 20);
+            this.radioButton_Enum.Location = new System.Drawing.Point(121, 20);
             this.radioButton_Enum.Name = "radioButton_Enum";
             this.radioButton_Enum.Size = new System.Drawing.Size(56, 16);
             this.radioButton_Enum.TabIndex = 12;
@@ -269,7 +368,7 @@
             // radioButton_Struct
             // 
             this.radioButton_Struct.AutoSize = true;
-            this.radioButton_Struct.Location = new System.Drawing.Point(71, 20);
+            this.radioButton_Struct.Location = new System.Drawing.Point(60, 20);
             this.radioButton_Struct.Name = "radioButton_Struct";
             this.radioButton_Struct.Size = new System.Drawing.Size(55, 16);
             this.radioButton_Struct.TabIndex = 11;
@@ -290,7 +389,7 @@
             // 
             // button_CheckTable
             // 
-            this.button_CheckTable.Location = new System.Drawing.Point(236, 166);
+            this.button_CheckTable.Location = new System.Drawing.Point(403, 256);
             this.button_CheckTable.Name = "button_CheckTable";
             this.button_CheckTable.Size = new System.Drawing.Size(82, 23);
             this.button_CheckTable.TabIndex = 9;
@@ -301,7 +400,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 91);
+            this.label3.Location = new System.Drawing.Point(305, 130);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(88, 12);
             this.label3.TabIndex = 8;
@@ -309,7 +408,7 @@
             // 
             // button_Save_TableCommandLine
             // 
-            this.button_Save_TableCommandLine.Location = new System.Drawing.Point(236, 137);
+            this.button_Save_TableCommandLine.Location = new System.Drawing.Point(403, 172);
             this.button_Save_TableCommandLine.Name = "button_Save_TableCommandLine";
             this.button_Save_TableCommandLine.Size = new System.Drawing.Size(82, 23);
             this.button_Save_TableCommandLine.TabIndex = 6;
@@ -319,7 +418,7 @@
             // 
             // button_Cancel_TableCommandLine
             // 
-            this.button_Cancel_TableCommandLine.Location = new System.Drawing.Point(8, 137);
+            this.button_Cancel_TableCommandLine.Location = new System.Drawing.Point(307, 172);
             this.button_Cancel_TableCommandLine.Name = "button_Cancel_TableCommandLine";
             this.button_Cancel_TableCommandLine.Size = new System.Drawing.Size(82, 23);
             this.button_Cancel_TableCommandLine.TabIndex = 7;
@@ -329,9 +428,9 @@
             // 
             // textBox_CommandLine
             // 
-            this.textBox_CommandLine.Location = new System.Drawing.Point(6, 110);
+            this.textBox_CommandLine.Location = new System.Drawing.Point(307, 145);
             this.textBox_CommandLine.Name = "textBox_CommandLine";
-            this.textBox_CommandLine.Size = new System.Drawing.Size(312, 21);
+            this.textBox_CommandLine.Size = new System.Drawing.Size(177, 21);
             this.textBox_CommandLine.TabIndex = 6;
             // 
             // groupBox3_WorkSetting
@@ -340,13 +439,12 @@
             this.groupBox3_WorkSetting.Controls.Add(this.groupBox_3_1_SelectedWork);
             this.groupBox3_WorkSetting.Controls.Add(this.label4);
             this.groupBox3_WorkSetting.Controls.Add(this.comboBox_WorkList);
-            this.groupBox3_WorkSetting.Controls.Add(this.button_RemoveWork);
             this.groupBox3_WorkSetting.Controls.Add(this.button_AddWork);
             this.groupBox3_WorkSetting.Controls.Add(this.checkedListBox_WorkList);
             this.groupBox3_WorkSetting.Controls.Add(this.button_StartParsing);
-            this.groupBox3_WorkSetting.Location = new System.Drawing.Point(627, 98);
+            this.groupBox3_WorkSetting.Location = new System.Drawing.Point(699, 98);
             this.groupBox3_WorkSetting.Name = "groupBox3_WorkSetting";
-            this.groupBox3_WorkSetting.Size = new System.Drawing.Size(445, 313);
+            this.groupBox3_WorkSetting.Size = new System.Drawing.Size(373, 313);
             this.groupBox3_WorkSetting.TabIndex = 7;
             this.groupBox3_WorkSetting.TabStop = false;
             this.groupBox3_WorkSetting.Text = "3. Work Setting";
@@ -356,9 +454,10 @@
             this.groupBox_3_1_SelectedWork.Controls.Add(this.button_WorkOrderDown);
             this.groupBox_3_1_SelectedWork.Controls.Add(this.button_WorkOrderUp);
             this.groupBox_3_1_SelectedWork.Controls.Add(this.button_EditWork);
+            this.groupBox_3_1_SelectedWork.Controls.Add(this.button_RemoveWork);
             this.groupBox_3_1_SelectedWork.Location = new System.Drawing.Point(8, 221);
             this.groupBox_3_1_SelectedWork.Name = "groupBox_3_1_SelectedWork";
-            this.groupBox_3_1_SelectedWork.Size = new System.Drawing.Size(277, 86);
+            this.groupBox_3_1_SelectedWork.Size = new System.Drawing.Size(232, 86);
             this.groupBox_3_1_SelectedWork.TabIndex = 16;
             this.groupBox_3_1_SelectedWork.TabStop = false;
             this.groupBox_3_1_SelectedWork.Text = "3-1. Selected Work";
@@ -385,7 +484,7 @@
             // 
             // button_EditWork
             // 
-            this.button_EditWork.Location = new System.Drawing.Point(189, 55);
+            this.button_EditWork.Location = new System.Drawing.Point(144, 20);
             this.button_EditWork.Name = "button_EditWork";
             this.button_EditWork.Size = new System.Drawing.Size(82, 23);
             this.button_EditWork.TabIndex = 14;
@@ -393,10 +492,20 @@
             this.button_EditWork.UseVisualStyleBackColor = true;
             this.button_EditWork.Click += new System.EventHandler(this.button_EditWork_Click);
             // 
+            // button_RemoveWork
+            // 
+            this.button_RemoveWork.Location = new System.Drawing.Point(144, 55);
+            this.button_RemoveWork.Name = "button_RemoveWork";
+            this.button_RemoveWork.Size = new System.Drawing.Size(82, 23);
+            this.button_RemoveWork.TabIndex = 15;
+            this.button_RemoveWork.Text = "작업 삭제";
+            this.button_RemoveWork.UseVisualStyleBackColor = true;
+            this.button_RemoveWork.Click += new System.EventHandler(this.button_RemoveWork_Click);
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(303, 17);
+            this.label4.Location = new System.Drawing.Point(249, 19);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(93, 12);
             this.label4.TabIndex = 13;
@@ -405,26 +514,16 @@
             // comboBox_WorkList
             // 
             this.comboBox_WorkList.FormattingEnabled = true;
-            this.comboBox_WorkList.Location = new System.Drawing.Point(303, 32);
+            this.comboBox_WorkList.Location = new System.Drawing.Point(249, 34);
             this.comboBox_WorkList.Name = "comboBox_WorkList";
-            this.comboBox_WorkList.Size = new System.Drawing.Size(124, 20);
+            this.comboBox_WorkList.Size = new System.Drawing.Size(100, 20);
             this.comboBox_WorkList.TabIndex = 7;
-            // 
-            // button_RemoveWork
-            // 
-            this.button_RemoveWork.Location = new System.Drawing.Point(303, 162);
-            this.button_RemoveWork.Name = "button_RemoveWork";
-            this.button_RemoveWork.Size = new System.Drawing.Size(124, 40);
-            this.button_RemoveWork.TabIndex = 15;
-            this.button_RemoveWork.Text = "작업 삭제";
-            this.button_RemoveWork.UseVisualStyleBackColor = true;
-            this.button_RemoveWork.Click += new System.EventHandler(this.button_RemoveWork_Click);
             // 
             // button_AddWork
             // 
-            this.button_AddWork.Location = new System.Drawing.Point(303, 66);
+            this.button_AddWork.Location = new System.Drawing.Point(249, 60);
             this.button_AddWork.Name = "button_AddWork";
-            this.button_AddWork.Size = new System.Drawing.Size(124, 40);
+            this.button_AddWork.Size = new System.Drawing.Size(106, 40);
             this.button_AddWork.TabIndex = 13;
             this.button_AddWork.Text = "작업 추가";
             this.button_AddWork.UseVisualStyleBackColor = true;
@@ -436,7 +535,7 @@
             this.checkedListBox_WorkList.HorizontalScrollbar = true;
             this.checkedListBox_WorkList.Location = new System.Drawing.Point(8, 15);
             this.checkedListBox_WorkList.Name = "checkedListBox_WorkList";
-            this.checkedListBox_WorkList.Size = new System.Drawing.Size(277, 196);
+            this.checkedListBox_WorkList.Size = new System.Drawing.Size(232, 196);
             this.checkedListBox_WorkList.TabIndex = 12;
             // 
             // groupBox5
@@ -444,9 +543,9 @@
             this.groupBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.Controls.Add(this.checkBox_AutoConnect);
             this.groupBox5.Controls.Add(this.button_OpenPath_SaveSheet);
-            this.groupBox5.Location = new System.Drawing.Point(627, 12);
+            this.groupBox5.Location = new System.Drawing.Point(699, 12);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(445, 80);
+            this.groupBox5.Size = new System.Drawing.Size(373, 80);
             this.groupBox5.TabIndex = 13;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "0. Config";
@@ -463,6 +562,16 @@
             this.checkBox_AutoConnect.UseVisualStyleBackColor = true;
             this.checkBox_AutoConnect.CheckedChanged += new System.EventHandler(this.checkBox_AutoConnect_CheckedChanged);
             // 
+            // button_Save_Field
+            // 
+            this.button_Save_Field.Location = new System.Drawing.Point(160, 76);
+            this.button_Save_Field.Name = "button_Save_Field";
+            this.button_Save_Field.Size = new System.Drawing.Size(42, 23);
+            this.button_Save_Field.TabIndex = 22;
+            this.button_Save_Field.Text = "저장";
+            this.button_Save_Field.UseVisualStyleBackColor = true;
+            this.button_Save_Field.Click += new System.EventHandler(this.button_Save_Field_Click);
+            // 
             // SpreadSheetParser_MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -470,7 +579,7 @@
             this.ClientSize = new System.Drawing.Size(1084, 537);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox3_WorkSetting);
-            this.Controls.Add(this.groupBox2_TableSetting);
+            this.Controls.Add(this.groupBox_2_1_TableSetting);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.textBox_Console);
             this.Name = "SpreadSheetParser_MainForm";
@@ -478,10 +587,11 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2_TableSetting.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
+            this.groupBox_2_1_TableSetting.ResumeLayout(false);
             this.groupBox_SelectedTable.ResumeLayout(false);
             this.groupBox_SelectedTable.PerformLayout();
+            this.groupBox_3_2_SelectedField.ResumeLayout(false);
+            this.groupBox_3_2_SelectedField.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox3_WorkSetting.ResumeLayout(false);
@@ -502,7 +612,7 @@
         private System.Windows.Forms.Button button_StartParsing;
         private System.Windows.Forms.TextBox textBox_Console;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2_TableSetting;
+        private System.Windows.Forms.GroupBox groupBox_2_1_TableSetting;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox3_WorkSetting;
@@ -516,13 +626,10 @@
         private System.Windows.Forms.CheckBox checkBox_AutoConnect;
         private System.Windows.Forms.Button button_CheckTable;
         private System.Windows.Forms.Button button_OpenLink;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton radioButton_Class;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton radioButton_Enum;
         private System.Windows.Forms.RadioButton radioButton_Struct;
-        private System.Windows.Forms.Button button_Info;
         private System.Windows.Forms.CheckedListBox checkedListBox_WorkList;
         private System.Windows.Forms.Button button_AddWork;
         private System.Windows.Forms.Button button_EditWork;
@@ -533,6 +640,20 @@
         private System.Windows.Forms.GroupBox groupBox_3_1_SelectedWork;
         private System.Windows.Forms.Button button_WorkOrderUp;
         private System.Windows.Forms.Button button_WorkOrderDown;
+        private System.Windows.Forms.ListView listView_Field;
+        private System.Windows.Forms.ColumnHeader ColumnHeader_Name;
+        private System.Windows.Forms.ColumnHeader ColumnHeader_Type;
+        private System.Windows.Forms.ColumnHeader columnHeader_IsVirtual;
+        private System.Windows.Forms.GroupBox groupBox_3_2_SelectedField;
+        private System.Windows.Forms.Button button_Remove_VirtualField;
+        private System.Windows.Forms.ComboBox comboBox_DependencyField;
+        private System.Windows.Forms.Button button_Add_VirtualField;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label_FieldName;
+        private System.Windows.Forms.TextBox textBox_FieldName;
+        private System.Windows.Forms.Label label_Type;
+        private System.Windows.Forms.TextBox textBox_Type;
+        private System.Windows.Forms.Button button_Save_Field;
     }
 }
 

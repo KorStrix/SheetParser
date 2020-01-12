@@ -118,6 +118,7 @@ namespace SpreadSheetParser
 
             checkBox_AutoConnect.Checked = _pConfig.bAutoConnect;
             checkedListBox_SheetList.ItemCheck += CheckedListBox_TableList_ItemCheck;
+            checkedListBox_SheetList.SelectedIndexChanged += CheckedListBox_SheetList_SelectedIndexChanged;
             checkedListBox_WorkList.ItemCheck += CheckedListBox_WorkList_ItemCheck;
             checkedListBox_WorkList.SelectedIndexChanged += CheckedListBox_WorkList_SelectedIndexChanged;
             CheckedListBox_WorkList_SelectedIndexChanged(null, null);
@@ -128,7 +129,93 @@ namespace SpreadSheetParser
             foreach(var pWork in listWork)
                 comboBox_WorkList.Items.Add(pWork);
 
+            listView_Field.SelectedIndexChanged += ListView_Field_SelectedIndexChanged;
+
             _bIsLoading_CreateForm = false;
+        }
+
+        private void ListView_Field_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FieldExportOption pFieldOption = null;
+            bool bEnable = listView_Field.SelectedIndices.Count > 0;
+            if (bEnable)
+            {
+                pFieldOption = (FieldExportOption)listView_Field.SelectedItems[0].Tag;
+                bEnable = pFieldOption.bIsVirtual;
+            }
+
+            groupBox_3_2_SelectedField.Enabled = bEnable;
+            if (bEnable)
+            {
+                textBox_FieldName.Text = pFieldOption.strFieldName;
+                textBox_Type.Text = pFieldOption.strTypeName;
+                comboBox_DependencyField.SelectedText = pFieldOption.strDependencyFieldName;
+            }
+            else
+            {
+                textBox_FieldName.Text = "";
+                textBox_Type.Text = "";
+                comboBox_DependencyField.SelectedText = "";
+            }
+
+            SaveData_Sheet pSheetData = (SaveData_Sheet)checkedListBox_SheetList.SelectedItem;
+            if (pSheetData == null)
+                return;
+
+            bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
+            if (bIsEnum)
+                return;
+
+            comboBox_DependencyField.Items.AddRange(pSheetData.listExportOption.Where((pOption) => pOption.strTypeName == "string").ToArray());
+        }
+
+        private void CheckedListBox_SheetList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            listView_Field.Items.Clear();
+
+            SaveData_Sheet pSheetData = (SaveData_Sheet)checkedListBox_SheetList.SelectedItem;
+            if (pSheetData == null)
+                return;
+
+            bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
+            if (bIsEnum)
+                return;
+
+            List<FieldExportOption> listFieldOption = pSheetData.listExportOption;
+            HashSet<string> setRealField = new HashSet<string>();
+            pSheetData.ParsingSheet((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
+            {
+                if (strText.Contains(":") == false)
+                    return;
+
+                string[] arrText = strText.Split(':');
+                string strField = arrText[0];
+                setRealField.Add(strField);
+                FieldExportOption[] arrExportOption = pSheetData.listExportOption.Where((pField) => pField.strFieldName == strField).ToArray();
+                if (arrExportOption.Length == 0)
+                {
+                    arrExportOption = new FieldExportOption[1];
+                    arrExportOption[0] = new FieldExportOption(strField, arrText[1]);
+                    pSheetData.listExportOption.Add(arrExportOption[0]);
+                }
+
+                if(arrExportOption.Length > 1)
+                {
+                    for(int i = 1; i < arrExportOption.Length; i++)
+                        pSheetData.listExportOption.Remove(arrExportOption[i]);
+                }
+
+                listView_Field.Items.Add(arrExportOption[0].ConvertListViewItem());
+            });
+
+            IEnumerable<FieldExportOption> pDeleteFieldOption = listFieldOption.Where((pFieldOption) => setRealField.Contains(pFieldOption.strFieldName) == false);
+            foreach (FieldExportOption pFieldOption in pDeleteFieldOption)
+            {
+                pFieldOption.bIsVirtual = true;
+                listView_Field.Items.Add(pFieldOption.ConvertListViewItem());
+            }
+
+            AutoSaveAsync_CurrentSheet();
         }
 
         private void CheckedListBox_WorkList_SelectedIndexChanged(object sender, EventArgs e)
@@ -209,6 +296,19 @@ namespace SpreadSheetParser
 
             checkedListBox_SheetList.Items.Clear();
             List<SaveData_Sheet> listSheetSaved = pSpreadSheet_CurrentConnected.listTable;
+
+            SaveData_Sheet[] arrSheetDelete = listSheetSaved.Where((pSheet) =>
+                listSheet.Where((pSheetWrapper) => 
+                    pSheetWrapper.ToString() == pSheet.strSheetName).Count() == 0).ToArray();
+
+            if(arrSheetDelete.Length > 0)
+            {
+                for (int i = 0; i < arrSheetDelete.Length; i++)
+                    listSheetSaved.Remove(arrSheetDelete[i]);
+
+                AutoSaveAsync_CurrentSheet();
+            }
+
             for (int i = 0; i < listSheetSaved.Count; i++)
                 checkedListBox_SheetList.Items.Add(listSheetSaved[i], listSheetSaved[i].bEnable);
 
@@ -465,13 +565,13 @@ namespace SpreadSheetParser
             switch (_eState)
             {
                 case EState.None:
-                    groupBox2_TableSetting.Enabled = false;
+                    groupBox_2_1_TableSetting.Enabled = false;
                     groupBox3_WorkSetting.Enabled = false;
                     groupBox_SelectedTable.Enabled = false;
                     break;
 
                 case EState.IsConnected:
-                    groupBox2_TableSetting.Enabled = true;
+                    groupBox_2_1_TableSetting.Enabled = true;
                     groupBox3_WorkSetting.Enabled = true;
                     groupBox_SelectedTable.Enabled = false;
 
@@ -481,7 +581,7 @@ namespace SpreadSheetParser
                     break;
 
                 case EState.IsConnected_And_SelectTable:
-                    groupBox2_TableSetting.Enabled = true;
+                    groupBox_2_1_TableSetting.Enabled = true;
                     groupBox3_WorkSetting.Enabled = true;
                     groupBox_SelectedTable.Enabled = true;
 
@@ -587,12 +687,6 @@ namespace SpreadSheetParser
         private void radioButton_Struct_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Struct; AutoSaveAsync_CurrentSheet(); }
         private void radioButton_Enum_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Enum; AutoSaveAsync_CurrentSheet(); }
 
-        private void button_Info_Click(object sender, EventArgs e)
-        {
-            CommandLine_InfoForm secondForm = new CommandLine_InfoForm();
-            secondForm.Show();
-        }
-
         private void button_AddWork_Click(object sender, EventArgs e)
         {
             WorkBase pWork = (WorkBase)comboBox_WorkList.SelectedItem;
@@ -680,6 +774,49 @@ namespace SpreadSheetParser
         private void comboBox_SaveSheet_SelectedIndexChanged(object sender, EventArgs e)
         {
             textBox_SheetID.Text = comboBox_SaveSheet.Text;
+        }
+
+        private void button_Add_VirtualField_Click(object sender, EventArgs e)
+        {
+            FieldExportOption pFieldOption = new FieldExportOption("None", "None");
+            pFieldOption.bIsVirtual = true;
+
+            _pSheet_CurrentConnected.listExportOption.Add(pFieldOption);
+            listView_Field.Items.Add(pFieldOption.ConvertListViewItem());
+
+            AutoSaveAsync_CurrentSheet();
+        }
+
+        private void button_Remove_VirtualField_Click(object sender, EventArgs e)
+        {
+            if (listView_Field.SelectedItems.Count == 0)
+                return;
+
+            var pSelectedItem = listView_Field.SelectedItems[0];
+            FieldExportOption pFieldOption = (FieldExportOption)pSelectedItem.Tag;
+
+            _pSheet_CurrentConnected.listExportOption.Remove(pFieldOption);
+            listView_Field.Items.Remove(pSelectedItem);
+
+            AutoSaveAsync_CurrentSheet();
+        }
+
+        private void button_Save_Field_Click(object sender, EventArgs e)
+        {
+            if (listView_Field.SelectedItems.Count == 0)
+                return;
+
+            var pSelectedItem = listView_Field.SelectedItems[0];
+            FieldExportOption pFieldOption = (FieldExportOption)pSelectedItem.Tag;
+
+            pFieldOption.strDependencyFieldName = comboBox_DependencyField.SelectedText;
+            pFieldOption.strFieldName = textBox_FieldName.Text;
+            pFieldOption.strTypeName = textBox_Type.Text;
+
+            pSelectedItem.Text = pFieldOption.strFieldName;
+            pFieldOption.Reset_ListViewItem(pSelectedItem);
+
+            AutoSaveAsync_CurrentSheet();
         }
     }
 }

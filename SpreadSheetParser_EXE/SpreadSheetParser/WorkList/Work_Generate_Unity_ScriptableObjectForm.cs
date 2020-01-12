@@ -108,8 +108,7 @@ namespace SpreadSheetParser
                 pNameSpace.Types.Clear();
                 pNameSpace.Types.Add(pType);
 
-                Uri pURI = new Uri($"{strExportPath}/{pType.Name}");
-                pCodeFileBuilder.Generate_CSharpCode(pNameSpace, pURI.AbsolutePath);
+                pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath()}{strExportPath}/{pType.Name}");
             }
 
             pNameSpace.Types.Clear();
@@ -121,7 +120,8 @@ namespace SpreadSheetParser
                 pNameSpace.Types.Add(pType);
             }
 
-            pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{strExportPath}/Others");
+            if(pNameSpace.Types.Count != 0)
+                pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath()}{strExportPath}/Others");
         }
 
         public override void DoWorkAfter()

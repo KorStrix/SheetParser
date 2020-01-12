@@ -1,6 +1,6 @@
 ﻿namespace SpreadSheetParser
 {
-    partial class CommandLine_InfoForm
+    partial class EditFieldForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // CommandLine_InfoForm
+            // EditFieldForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 361);
-            this.Name = "CommandLine_InfoForm";
-            this.Text = "커맨드라인 도움말";
+            this.Name = "EditFieldForm";
+            this.Text = "Edit Field Form";
             this.ResumeLayout(false);
 
         }
