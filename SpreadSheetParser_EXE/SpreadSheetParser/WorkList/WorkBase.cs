@@ -93,10 +93,7 @@ namespace SpreadSheetParser
 
         public void DoOpenPath(string strPath)
         {
-            if(Path.IsPathRooted(strPath))
-                SpreadSheetParser_MainForm.DoOpenPath(strPath);
-            else
-                SpreadSheetParser_MainForm.DoOpenPath(GetRelative_To_AbsolutePath() + strPath);
+            SpreadSheetParser_MainForm.DoOpenPath(GetRelative_To_AbsolutePath(strPath));
         }
 
         abstract public void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData);
@@ -122,9 +119,13 @@ namespace SpreadSheetParser
             return pCurrentURI.MakeRelativeUri(pFileURI).ToString();
         }
 
-        public string GetRelative_To_AbsolutePath()
+        public string GetRelative_To_AbsolutePath(string strPath)
         {
-            return $"{new Uri(Directory.GetCurrentDirectory()).AbsolutePath}{"/../"}";
+            if (Path.IsPathRooted(strPath))
+                return strPath;
+
+            string strRelativePath = $"{new Uri(Directory.GetCurrentDirectory()).AbsolutePath}{"/../"}";
+            return strRelativePath + strPath;
         }
 
         bool OnCheck_IsCorrect_Default(string strFileName)

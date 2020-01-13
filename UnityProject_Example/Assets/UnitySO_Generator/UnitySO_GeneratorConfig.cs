@@ -38,7 +38,7 @@ public class UnitySO_GeneratorConfig : ScriptableObject
     }
     static UnitySO_GeneratorConfig _instance = null;
 
-    public string strLastRootFolderPath;
+    public string strJsonRootFolderPath;
 
 
     #region Helper

@@ -32,18 +32,6 @@ namespace SpreadSheetParser
         }
     }
 
-    public class FieldData
-    {
-        public string strFieldName;
-        public string strTypeName;
-        public string strComment;
-
-        public FieldData(string strFieldName, string strTypeName, string strComment = "")
-        {
-            this.strFieldName = strFieldName; this.strTypeName = strTypeName; this.strComment = strComment;
-        }
-    }
-
     public class EnumFieldData
     {
         public string strValue;
@@ -172,15 +160,15 @@ namespace SpreadSheetParser
             pCodeType.Comments.Add(new CodeCommentStatement("</summary>", true));
         }
 
-        public static void AddField(this CodeTypeDeclaration pCodeType, FieldData pFieldData)
+        public static void AddField(this CodeTypeDeclaration pCodeType, global::FieldData pFieldData)
         {
             CodeMemberField pField = new CodeMemberField();
             pField.Attributes = MemberAttributes.Public;
             pField.Name = pFieldData.strFieldName;
 
-            Type pType = TypeParser.GetFieldType_OrNull(pFieldData.strTypeName);
+            Type pType = TypeParser.GetFieldType_OrNull(pFieldData.strFieldType);
             if (pType == null)
-                pField.Type = new CodeTypeReference(pFieldData.strTypeName);
+                pField.Type = new CodeTypeReference(pFieldData.strFieldType);
             else
                 pField.Type = new CodeTypeReference(pType);
 

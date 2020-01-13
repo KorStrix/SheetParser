@@ -79,6 +79,7 @@ namespace SpreadSheetParser
     public class Work_Generate_Unity_ScriptableObject : WorkBase
     {
         public string strExportPath;
+        public string strUnityProjectPath;
         public string strUnityEditorPath;
         public bool bOpenPath_AfterBuild_CSharp;
 
@@ -108,15 +109,8 @@ namespace SpreadSheetParser
                 if (pSaveData.bIsPureClass)
                     continue;
 
-                pType.AddBaseClass(typeof(UnityEngine.ScriptableObject));
-                pNameSpace.Types.Clear();
-                pNameSpace.Types.Add(pType);
-
-                var listVirtualFieldOption = pSaveData.listExportOption.Where(pExportOption => pExportOption.bIsVirtual);
-                foreach(var pVirtualField in listVirtualFieldOption)
-                    pType.AddField(pVirtualField.ToFieldData());
-
-                pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath()}{strExportPath}/{pType.Name}");
+                Create_SO(pCodeFileBuilder, pNameSpace, pType, pSaveData);
+                Create_SOContainer(pCodeFileBuilder, pNameSpace, pType, pSaveData);
             }
 
             pNameSpace.Types.Clear();
@@ -133,12 +127,42 @@ namespace SpreadSheetParser
             }
 
             if(pNameSpace.Types.Count != 0)
-                pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath()}{strExportPath}/Others");
+                pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/Others");
+        }
+
+        private void Create_SO(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, SaveData_Sheet pSaveData)
+        {
+            pType.AddBaseClass(typeof(UnityEngine.ScriptableObject));
+            pNameSpace.Types.Clear();
+            pNameSpace.Types.Add(pType);
+
+            var listVirtualFieldOption = pSaveData.listFieldData.Where(pExportOption => pExportOption.bIsVirtualField);
+            foreach (var pVirtualField in listVirtualFieldOption)
+                pType.AddField(pVirtualField);
+
+            pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pType.Name}");
+        }
+
+        private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, SaveData_Sheet pSaveData)
+        {
+            CodeTypeDeclaration pContainerType = new CodeTypeDeclaration(pType.Name + "_Container");
+            pContainerType.AddBaseClass(typeof(UnityEngine.ScriptableObject));
+            pNameSpace.Imports.Clear();
+            pNameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
+            pNameSpace.Imports.Add(new CodeNamespaceImport("UnityEngine"));
+            pNameSpace.Types.Clear();
+            pNameSpace.Types.Add(pContainerType);
+
+            pContainerType.AddField(new global::FieldData("listData", $"List<{pType.Name}>"));
+
+            pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pContainerType.Name}");
         }
 
         public override void DoWorkAfter()
         {
-            System.Diagnostics.Process.Start(strUnityEditorPath, "-quit -batchmode");
+            const string const_BuildMethodeName = "UnitySO_Generator.DoBuild";
+
+            System.Diagnostics.Process.Start(strUnityEditorPath, $"-quit -batchmode -executeMethod {const_BuildMethodeName}");
 
             if (bOpenPath_AfterBuild_CSharp)
                 DoOpenPath(strExportPath);

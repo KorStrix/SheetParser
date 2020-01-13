@@ -1,59 +1,111 @@
 {
+  "strType": "UnitySO",
   "listInstance": [
     {
-      "listMember": [
+      "listField": [
         {
-          "strMemberName": "MaterialPath",
-          "strMemberType": "string",
-          "strValue": "ExportData/Material/Blue.mat"
+          "strFieldName": "MaterialPath",
+          "strFieldType": "string",
+          "strValue": "Assets/ExportData/Material/Blue.mat",
+          "bIsVirtualField": false,
+          "strComment": null,
+          "strDependencyFieldName": null
         },
         {
-          "strMemberName": "strComment",
-          "strMemberType": "string",
-          "strValue": "파랑색 메테리얼"
+          "strFieldName": "strComment",
+          "strFieldType": "string",
+          "strValue": "파랑색 메테리얼",
+          "bIsVirtualField": false,
+          "strComment": null,
+          "strDependencyFieldName": null
         },
         {
-          "strMemberName": "intValue",
-          "strMemberType": "int",
-          "strValue": "2"
+          "strFieldName": "intValue",
+          "strFieldType": "int",
+          "strValue": "2",
+          "bIsVirtualField": false,
+          "strComment": null,
+          "strDependencyFieldName": null
+        },
+        {
+          "strFieldName": "pMaterial",
+          "strFieldType": "UnityEngine.Material",
+          "strValue": null,
+          "bIsVirtualField": true,
+          "strComment": null,
+          "strDependencyFieldName": "MaterialPath"
         }
       ]
     },
     {
-      "listMember": [
+      "listField": [
         {
-          "strMemberName": "MaterialPath",
-          "strMemberType": "string",
-          "strValue": "ExportData/Material/Green.mat"
+          "strFieldName": "MaterialPath",
+          "strFieldType": "string",
+          "strValue": "Assets/ExportData/Material/Green.mat",
+          "bIsVirtualField": false,
+          "strComment": null,
+          "strDependencyFieldName": null
         },
         {
-          "strMemberName": "strComment",
-          "strMemberType": "string",
-          "strValue": "초록색 메테리얼"
+          "strFieldName": "strComment",
+          "strFieldType": "string",
+          "strValue": "초록색 메테리얼",
+          "bIsVirtualField": false,
+          "strComment": null,
+          "strDependencyFieldName": null
         },
         {
-          "strMemberName": "intValue",
-          "strMemberType": "int",
-          "strValue": "4"
+          "strFieldName": "intValue",
+          "strFieldType": "int",
+          "strValue": "4",
+          "bIsVirtualField": false,
+          "strComment": null,
+          "strDependencyFieldName": null
+        },
+        {
+          "strFieldName": "pMaterial",
+          "strFieldType": "UnityEngine.Material",
+          "strValue": null,
+          "bIsVirtualField": true,
+          "strComment": null,
+          "strDependencyFieldName": "MaterialPath"
         }
       ]
     },
     {
-      "listMember": [
+      "listField": [
         {
-          "strMemberName": "MaterialPath",
-          "strMemberType": "string",
-          "strValue": "ExportData/Material/Red.mat"
+          "strFieldName": "MaterialPath",
+          "strFieldType": "string",
+          "strValue": "Assets/ExportData/Material/Red.mat",
+          "bIsVirtualField": false,
+          "strComment": null,
+          "strDependencyFieldName": null
         },
         {
-          "strMemberName": "strComment",
-          "strMemberType": "string",
-          "strValue": "빨간색 메테리얼"
+          "strFieldName": "strComment",
+          "strFieldType": "string",
+          "strValue": "빨간색 메테리얼",
+          "bIsVirtualField": false,
+          "strComment": null,
+          "strDependencyFieldName": null
         },
         {
-          "strMemberName": "intValue",
-          "strMemberType": "int",
-          "strValue": "8"
+          "strFieldName": "intValue",
+          "strFieldType": "int",
+          "strValue": "8",
+          "bIsVirtualField": false,
+          "strComment": null,
+          "strDependencyFieldName": null
+        },
+        {
+          "strFieldName": "pMaterial",
+          "strFieldType": "UnityEngine.Material",
+          "strValue": null,
+          "bIsVirtualField": true,
+          "strComment": null,
+          "strDependencyFieldName": "MaterialPath"
         }
       ]
     }

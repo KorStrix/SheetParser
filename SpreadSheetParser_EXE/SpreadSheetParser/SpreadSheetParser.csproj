@@ -80,7 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Util\CSVUtility.cs" />
-    <Compile Include="Util\JsonFormat.cs" />
+    <Compile Include="Util\TypeData.cs" />
     <Compile Include="WorkList\Work_Generate_JsonForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,7 +121,6 @@
     <Compile Include="SpreadSheetParser_MainForm.Designer.cs">
       <DependentUpon>SpreadSheetParser_MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Example\Program_Example_CodeDomCustomize.cs" />
     <Compile Include="Example\Program_Example_CodeDom.cs" />
     <Compile Include="Example\Program_Example_QuickStart.cs" />
     <Compile Include="Program.cs" />

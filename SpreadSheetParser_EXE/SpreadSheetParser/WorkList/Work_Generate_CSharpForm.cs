@@ -81,7 +81,7 @@ namespace SpreadSheetParser
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData)
         {
-            pCodeFileBuilder.Generate_CSharpCode($"{GetRelative_To_AbsolutePath()}{strPath}/{strFileName}");
+            pCodeFileBuilder.Generate_CSharpCode($"{GetRelative_To_AbsolutePath(strPath)}/{strFileName}");
         }
 
         public override void DoWorkAfter()

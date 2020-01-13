@@ -138,12 +138,12 @@ namespace SpreadSheetParser
 
         private void ListView_Field_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FieldExportOption pFieldOption = null;
+            FieldData pFieldOption = null;
             bool bEnable = listView_Field.SelectedIndices.Count > 0;
             if (bEnable)
             {
-                pFieldOption = (FieldExportOption)listView_Field.SelectedItems[0].Tag;
-                bEnable = pFieldOption.bIsVirtual;
+                pFieldOption = (FieldData)listView_Field.SelectedItems[0].Tag;
+                bEnable = pFieldOption.bIsVirtualField;
             }
 
             groupBox_3_2_SelectedField.Enabled = bEnable;
@@ -163,11 +163,11 @@ namespace SpreadSheetParser
                 return;
 
             comboBox_DependencyField.Items.Clear();
-            comboBox_DependencyField.Items.AddRange(pSheetData.listExportOption.Where((pOption) => pOption.strTypeName == "string").Select((pOption) => pOption.strFieldName).ToArray());
+            comboBox_DependencyField.Items.AddRange(pSheetData.listFieldData.Where((pOption) => pOption.strFieldType == "string").Select((pOption) => pOption.strFieldName).ToArray());
             if(bEnable)
             {
                 textBox_FieldName.Text = pFieldOption.strFieldName;
-                textBox_Type.Text = pFieldOption.strTypeName;
+                textBox_Type.Text = pFieldOption.strFieldType;
 
                 if(string.IsNullOrEmpty(pFieldOption.strDependencyFieldName) == false)
                     comboBox_DependencyField.SelectedIndex = comboBox_DependencyField.Items.IndexOf(pFieldOption.strDependencyFieldName);
@@ -187,7 +187,7 @@ namespace SpreadSheetParser
             if (bIsEnum)
                 return;
 
-            List<FieldExportOption> listFieldOption = pSheetData.listExportOption;
+            List<FieldData> listFieldOption = pSheetData.listFieldData;
             HashSet<string> setRealField = new HashSet<string>();
             pSheetData.ParsingSheet((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
             {
@@ -197,27 +197,27 @@ namespace SpreadSheetParser
                 string[] arrText = strText.Split(':');
                 string strField = arrText[0];
                 setRealField.Add(strField);
-                FieldExportOption[] arrExportOption = pSheetData.listExportOption.Where((pField) => pField.strFieldName == strField).ToArray();
+                FieldData[] arrExportOption = pSheetData.listFieldData.Where((pField) => pField.strFieldName == strField).ToArray();
                 if (arrExportOption.Length == 0)
                 {
-                    arrExportOption = new FieldExportOption[1];
-                    arrExportOption[0] = new FieldExportOption(strField, arrText[1]);
-                    pSheetData.listExportOption.Add(arrExportOption[0]);
+                    arrExportOption = new FieldData[1];
+                    arrExportOption[0] = new FieldData(strField, arrText[1]);
+                    pSheetData.listFieldData.Add(arrExportOption[0]);
                 }
 
                 if(arrExportOption.Length > 1)
                 {
                     for(int i = 1; i < arrExportOption.Length; i++)
-                        pSheetData.listExportOption.Remove(arrExportOption[i]);
+                        pSheetData.listFieldData.Remove(arrExportOption[i]);
                 }
 
                 listView_Field.Items.Add(arrExportOption[0].ConvertListViewItem());
             });
 
-            IEnumerable<FieldExportOption> pDeleteFieldOption = listFieldOption.Where((pFieldOption) => setRealField.Contains(pFieldOption.strFieldName) == false);
-            foreach (FieldExportOption pFieldOption in pDeleteFieldOption)
+            IEnumerable<FieldData> pDeleteFieldOption = listFieldOption.Where((pFieldOption) => setRealField.Contains(pFieldOption.strFieldName) == false);
+            foreach (FieldData pFieldOption in pDeleteFieldOption)
             {
-                pFieldOption.bIsVirtual = true;
+                pFieldOption.bIsVirtualField = true;
                 listView_Field.Items.Add(pFieldOption.ConvertListViewItem());
             }
 
@@ -414,7 +414,7 @@ namespace SpreadSheetParser
                               if (strText.Contains(":"))
                               {
                                   string[] arrText = strText.Split(':');
-                                  pCodeType.AddField(new FieldData(arrText[0], arrText[1]));
+                                  pCodeType.AddField(new global::FieldData(arrText[0], arrText[1]));
                               }
                           });
 
@@ -785,10 +785,10 @@ namespace SpreadSheetParser
 
         private void button_Add_VirtualField_Click(object sender, EventArgs e)
         {
-            FieldExportOption pFieldOption = new FieldExportOption("None", "None");
-            pFieldOption.bIsVirtual = true;
+            FieldData pFieldOption = new FieldData("None", "None");
+            pFieldOption.bIsVirtualField = true;
 
-            _pSheet_CurrentConnected.listExportOption.Add(pFieldOption);
+            _pSheet_CurrentConnected.listFieldData.Add(pFieldOption);
             listView_Field.Items.Add(pFieldOption.ConvertListViewItem());
 
             AutoSaveAsync_CurrentSheet();
@@ -800,9 +800,9 @@ namespace SpreadSheetParser
                 return;
 
             var pSelectedItem = listView_Field.SelectedItems[0];
-            FieldExportOption pFieldOption = (FieldExportOption)pSelectedItem.Tag;
+            FieldData pFieldOption = (FieldData)pSelectedItem.Tag;
 
-            _pSheet_CurrentConnected.listExportOption.Remove(pFieldOption);
+            _pSheet_CurrentConnected.listFieldData.Remove(pFieldOption);
             listView_Field.Items.Remove(pSelectedItem);
 
             AutoSaveAsync_CurrentSheet();
@@ -814,11 +814,11 @@ namespace SpreadSheetParser
                 return;
 
             var pSelectedItem = listView_Field.SelectedItems[0];
-            FieldExportOption pFieldOption = (FieldExportOption)pSelectedItem.Tag;
+            FieldData pFieldOption = (FieldData)pSelectedItem.Tag;
 
             pFieldOption.strDependencyFieldName = (string)comboBox_DependencyField.SelectedItem;
             pFieldOption.strFieldName = textBox_FieldName.Text;
-            pFieldOption.strTypeName = textBox_Type.Text;
+            pFieldOption.strFieldType = textBox_Type.Text;
 
             pSelectedItem.Text = pFieldOption.strFieldName;
             pFieldOption.Reset_ListViewItem(pSelectedItem);

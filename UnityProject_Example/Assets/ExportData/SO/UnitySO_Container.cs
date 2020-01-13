@@ -8,18 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using UnityEngine;
 
 
 
-public class UnitySO : UnityEngine.ScriptableObject
+public class UnitySO_Container : UnityEngine.ScriptableObject
 {
     
-    public string MaterialPath;
-    
-    public string strComment;
-    
-    public int intValue;
-    
-    public UnityEngine.Material pMaterial;
+    public List<UnitySO> listData;
 }

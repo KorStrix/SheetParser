@@ -44,50 +44,32 @@ namespace SpreadSheetParser
         }
     }
 
-    public class FieldExportOption
+    static public class FieldDataHelper
     {
-        public string strFieldName;
-        public string strTypeName;
-
-        public bool bIsVirtual;
-        public string strDependencyFieldName;
-
-        public FieldExportOption(string strFieldName, string strTypeName)
-        {
-            this.strFieldName = strFieldName; this.strTypeName = strTypeName;
-        }
-
-        public override string ToString()
-        {
-            return strFieldName;
-        }
-
-        public FieldData ToFieldData()
-        {
-            return new FieldData(strFieldName, strTypeName, $"자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"{strDependencyFieldName}\"/>");
-        }
-
-        public ListViewItem ConvertListViewItem()
+        static public ListViewItem ConvertListViewItem(this global::FieldData pFieldData)
         {
             ListViewItem pViewItem = new ListViewItem();
-            Reset_ListViewItem(pViewItem);
-            pViewItem.Tag = this;
+            pFieldData.Reset_ListViewItem(pViewItem);
+            pViewItem.Tag = pFieldData;
 
             return pViewItem;
 
         }
 
-        public void Reset_ListViewItem(ListViewItem pViewItem)
+        static public void Reset_ListViewItem(this global::FieldData pFieldData, ListViewItem pViewItem)
         {
             pViewItem.SubItems.Clear();
-            pViewItem.SubItems.Add(strTypeName);
-            if (bIsVirtual)
-                pViewItem.SubItems.Add(strDependencyFieldName);
+            pViewItem.SubItems.Add(pFieldData.strFieldType);
+            if (pFieldData.bIsVirtualField)
+                pViewItem.SubItems.Add(pFieldData.strDependencyFieldName);
             else
                 pViewItem.SubItems.Add("X");
 
-            pViewItem.Text = strFieldName;
+            pViewItem.Text = pFieldData.strFieldName;
         }
+
+        //return new FieldData(strFieldName, strTypeName, $"자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"{strDependencyFieldName}\"/>");
+
     }
 
     public class SaveData_Sheet
@@ -108,7 +90,7 @@ namespace SpreadSheetParser
         public string strCommandLine;
         public EType eType;
 
-        public List<FieldExportOption> listExportOption = new List<FieldExportOption>();
+        public List<FieldData> listFieldData = new List<FieldData>();
 
         public SaveData_Sheet(string strSheetName)
         {

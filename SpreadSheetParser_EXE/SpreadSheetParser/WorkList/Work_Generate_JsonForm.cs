@@ -79,48 +79,60 @@ namespace SpreadSheetParser
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData)
         {
+            TypeDataList pTypeDataList = new TypeDataList();
             foreach (var pSheet in listSheetData)
             { 
-                JsonFormat pJson = new JsonFormat();
-                JsonInstance pJsonInstance = new JsonInstance();
+                TypeData pJson = new TypeData();
+                pJson.strType = pSheet.strSheetName;
 
                 Dictionary<int, string> mapMemberName = new Dictionary<int, string>();
                 Dictionary<int, string> mapMemberType = new Dictionary<int, string>();
                 int iColumnStartIndex = -1;
                 
                 pSheet.ParsingSheet(
-                    (IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
+                ((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
+                {
+                    if (strText.Contains(':'))
                     {
-                        if (strText.Contains(':'))
-                        {
-                            if (mapMemberName.ContainsKey(iColumnIndex))
-                                return;
-
-                            string[] arrText = strText.Split(':');
-                            mapMemberName.Add(iColumnIndex, arrText[0]);
-                            mapMemberType.Add(iColumnIndex, arrText[1]);
-
-                            if (iColumnStartIndex == -1)
-                                iColumnStartIndex = iColumnIndex;
-
-                            return;
-                        }
-
-                        if (iColumnIndex != iColumnStartIndex)
+                        if (mapMemberName.ContainsKey(iColumnIndex))
                             return;
 
-                        pJsonInstance = new JsonInstance();
-                        pJson.listInstance.Add(pJsonInstance);
+                        string[] arrText = strText.Split(':');
+                        mapMemberName.Add(iColumnIndex, arrText[0]);
+                        mapMemberType.Add(iColumnIndex, arrText[1]);
 
-                        for (int i = iColumnIndex; i < listRow.Count; i++)
-                        {
-                            if(mapMemberName.ContainsKey(i))
-                                pJsonInstance.listMember.Add(new JsonMember(mapMemberName[i], mapMemberType[i], (string)listRow[i]));
-                        }
-                    });
+                        if (iColumnStartIndex == -1)
+                            iColumnStartIndex = iColumnIndex;
 
-                JsonSaveManager.SaveData(pJson, $"{GetRelative_To_AbsolutePath()}{strExportPath}/{pSheet.strSheetName}.json");
+                        return;
+                    }
+
+                    if (iColumnIndex != iColumnStartIndex)
+                        return;
+
+                    InstanceData pJsonInstance = new InstanceData();
+                    pJson.listInstance.Add(pJsonInstance);
+
+                    // 실제 변수값
+                    for (int i = iColumnIndex; i < listRow.Count; i++)
+                    {
+                        if(mapMemberName.ContainsKey(i))
+                            pJsonInstance.listField.Add(new FieldData(mapMemberName[i], mapMemberType[i], (string)listRow[i]));
+                    }
+
+                    // 가상 변수
+                    var listVirtualField = pSheet.listFieldData.Where((pFieldData) => pFieldData.bIsVirtualField);
+                    foreach (var pFieldData in listVirtualField)
+                        pJsonInstance.listField.AddRange(listVirtualField);
+                }));
+
+                string strFileName = $"{pSheet.strSheetName}.json";
+                JsonSaveManager.SaveData(pJson, $"{GetRelative_To_AbsolutePath(strExportPath)}/{strFileName}");
+
+                pTypeDataList.listFileName.Add(strFileName);
             }
+
+            JsonSaveManager.SaveData(pTypeDataList, $"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json");
         }
 
         public override void DoWorkAfter()

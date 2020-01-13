@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 477f0b4a5aa02fb438ef2cf58d701032, type: 3}
-  m_Name: New UnitySO
+  m_Script: {fileID: 11500000, guid: 4662b732b6d1a52439634df44ea3f676, type: 3}
+  m_Name: New UnitySO_Container
   m_EditorClassIdentifier: 
-  MaterialPath: 
-  strComment: 
-  pMaterial: {fileID: 0}
+  listData: []
