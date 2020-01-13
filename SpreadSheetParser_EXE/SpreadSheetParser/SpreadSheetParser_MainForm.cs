@@ -476,11 +476,32 @@ namespace SpreadSheetParser
                                     {
                                         string strTextOtherColumn = (string)listRow[i];
                                         if (System.Enum.TryParse(strTextOtherColumn, out eType) == false)
+                                        {
                                             WriteConsole($"테이블 유효성 체크 - 이넘 파싱 에러");
+                                            return;
+                                        }
+
+                                        if(mapEnumType.ContainsKey(iColumn) == false)
+                                            mapEnumType.Add(iColumn, eType);
                                     }
                                 }
 
                                 return;
+                            }
+
+                            if(mapEnumType.ContainsKey(iColumn) == false)
+                                return;
+
+                            switch (mapEnumType[iColumn])
+                            {
+                                case EEnumType.EnumType:
+                                case EEnumType.EnumValue:
+                                    if(string.IsNullOrEmpty(strText))
+                                    {
+                                        WriteConsole($"테이블 유효성 체크 - 이넘 파싱 에러");
+                                        return;
+                                    }
+                                    break;
                             }
                         }
                         else
