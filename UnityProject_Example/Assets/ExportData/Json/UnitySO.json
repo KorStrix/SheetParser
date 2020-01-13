@@ -8,6 +8,7 @@
           "strFieldType": "string",
           "strValue": "Assets/ExportData/Material/Blue.mat",
           "bIsVirtualField": false,
+          "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
         },
@@ -16,6 +17,7 @@
           "strFieldType": "string",
           "strValue": "파랑색 메테리얼",
           "bIsVirtualField": false,
+          "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
         },
@@ -24,6 +26,7 @@
           "strFieldType": "int",
           "strValue": "2",
           "bIsVirtualField": false,
+          "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
         },
@@ -32,6 +35,7 @@
           "strFieldType": "UnityEngine.Material",
           "strValue": null,
           "bIsVirtualField": true,
+          "bNullOrEmpty_IsError": false,
           "strComment": null,
           "strDependencyFieldName": "MaterialPath"
         }
@@ -44,6 +48,7 @@
           "strFieldType": "string",
           "strValue": "Assets/ExportData/Material/Green.mat",
           "bIsVirtualField": false,
+          "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
         },
@@ -52,6 +57,7 @@
           "strFieldType": "string",
           "strValue": "초록색 메테리얼",
           "bIsVirtualField": false,
+          "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
         },
@@ -60,6 +66,7 @@
           "strFieldType": "int",
           "strValue": "4",
           "bIsVirtualField": false,
+          "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
         },
@@ -68,6 +75,7 @@
           "strFieldType": "UnityEngine.Material",
           "strValue": null,
           "bIsVirtualField": true,
+          "bNullOrEmpty_IsError": false,
           "strComment": null,
           "strDependencyFieldName": "MaterialPath"
         }
@@ -80,6 +88,7 @@
           "strFieldType": "string",
           "strValue": "Assets/ExportData/Material/Red.mat",
           "bIsVirtualField": false,
+          "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
         },
@@ -88,6 +97,7 @@
           "strFieldType": "string",
           "strValue": "빨간색 메테리얼",
           "bIsVirtualField": false,
+          "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
         },
@@ -96,6 +106,7 @@
           "strFieldType": "int",
           "strValue": "8",
           "bIsVirtualField": false,
+          "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
         },
@@ -104,6 +115,7 @@
           "strFieldType": "UnityEngine.Material",
           "strValue": null,
           "bIsVirtualField": true,
+          "bNullOrEmpty_IsError": false,
           "strComment": null,
           "strDependencyFieldName": "MaterialPath"
         }

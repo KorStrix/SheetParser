@@ -153,7 +153,7 @@ namespace SpreadSheetParser
             pNameSpace.Types.Clear();
             pNameSpace.Types.Add(pContainerType);
 
-            pContainerType.AddField(new global::FieldData("listData", $"List<{pType.Name}>"));
+            pContainerType.AddField(new FieldData("listData", $"List<{pType.Name}>"));
 
             pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pContainerType.Name}");
         }

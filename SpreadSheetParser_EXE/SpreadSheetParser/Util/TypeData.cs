@@ -37,16 +37,24 @@ public class FieldData
     public string strValue;
 
     public bool bIsVirtualField;
+    public bool bNullOrEmpty_IsError = true;
     public string strComment;
     public string strDependencyFieldName;
+
+    public FieldData()
+    {
+
+    }
 
     public FieldData(string strMemberName, string strMemberType)
     {
         this.strFieldName = strMemberName; this.strFieldType = strMemberType;
+        bNullOrEmpty_IsError = true;
     }
 
     public FieldData(string strMemberName, string strMemberType, string strValue)
     {
         this.strFieldName = strMemberName; this.strFieldType = strMemberType; this.strValue = strValue;
+        bNullOrEmpty_IsError = true;
     }
 }

@@ -138,20 +138,24 @@ namespace SpreadSheetParser
 
         private void ListView_Field_SelectedIndexChanged(object sender, EventArgs e)
         {
-            FieldData pFieldOption = null;
+            FieldData pFieldData = null;
             bool bEnable = listView_Field.SelectedIndices.Count > 0;
             if (bEnable)
             {
-                pFieldOption = (FieldData)listView_Field.SelectedItems[0].Tag;
-                bEnable = pFieldOption.bIsVirtualField;
+                pFieldData = (FieldData)listView_Field.SelectedItems[0].Tag;
+                checkBox_Field_NullOrEmtpy_IsError.Checked = pFieldData.bNullOrEmpty_IsError;
             }
-
-            groupBox_3_2_SelectedField.Enabled = bEnable;
-            if (bEnable == false)
+            else
             {
+                groupBox_2_2_SelectedField.Enabled = false;
+                groupBox_2_2_SelectedField_Virtual.Enabled = false;
+                checkBox_Field_NullOrEmtpy_IsError.Checked = false;
+
                 textBox_FieldName.Text = "";
                 textBox_Type.Text = "";
                 comboBox_DependencyField.SelectedText = "";
+
+                return;
             }
 
             SaveData_Sheet pSheetData = (SaveData_Sheet)checkedListBox_SheetList.SelectedItem;
@@ -164,14 +168,16 @@ namespace SpreadSheetParser
 
             comboBox_DependencyField.Items.Clear();
             comboBox_DependencyField.Items.AddRange(pSheetData.listFieldData.Where((pOption) => pOption.strFieldType == "string").Select((pOption) => pOption.strFieldName).ToArray());
-            if(bEnable)
-            {
-                textBox_FieldName.Text = pFieldOption.strFieldName;
-                textBox_Type.Text = pFieldOption.strFieldType;
 
-                if(string.IsNullOrEmpty(pFieldOption.strDependencyFieldName) == false)
-                    comboBox_DependencyField.SelectedIndex = comboBox_DependencyField.Items.IndexOf(pFieldOption.strDependencyFieldName);
-            }
+            groupBox_2_2_SelectedField.Enabled = true;
+            groupBox_2_2_SelectedField_Virtual.Enabled = pFieldData.bIsVirtualField;
+
+            textBox_FieldName.Text = pFieldData.strFieldName;
+            textBox_Type.Text = pFieldData.strFieldType;
+            checkBox_Field_NullOrEmtpy_IsError.Checked = pFieldData.bNullOrEmpty_IsError;
+
+            if (string.IsNullOrEmpty(pFieldData.strDependencyFieldName) == false)
+                comboBox_DependencyField.SelectedIndex = comboBox_DependencyField.Items.IndexOf(pFieldData.strDependencyFieldName);
         }
 
         private void CheckedListBox_SheetList_SelectedIndexChanged(object sender, EventArgs e)
@@ -414,7 +420,7 @@ namespace SpreadSheetParser
                               if (strText.Contains(":"))
                               {
                                   string[] arrText = strText.Split(':');
-                                  pCodeType.AddField(new global::FieldData(arrText[0], arrText[1]));
+                                  pCodeType.AddField(new FieldData(arrText[0], arrText[1]));
                               }
                           });
 
@@ -451,20 +457,37 @@ namespace SpreadSheetParser
 
             try
             {
-                string strCommandLine = textBox_CommandLine.Text;
-                if (string.IsNullOrEmpty(strCommandLine) == false)
-                {
-                    Parsing_CommandLine(strCommandLine);
+                bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
 
-                    // Parsing_CommandLine(strCommandLine);
-                    //if (eCommandLineText == ECommandLine.Error)
-                    //{
-                    //    WriteConsole($"커맨드라인 파싱 에러 - {strCommandLine}");
-                    //    return;
-                    //}
-                }
+                pSheetData.ParsingSheet(
+                    (listRow, strText, iRow, iColumn) => 
+                    {
+                        if(bIsEnum)
+                        {
+                            Dictionary<int, EEnumType> mapEnumType = new Dictionary<int, EEnumType>();
 
-                pSheetData.ParsingSheet(null);
+                            EEnumType eType = EEnumType.EnumNone;
+                            if (System.Enum.TryParse(strText, out eType))
+                            {
+                                // mapEnumType.Add(,eType)
+                                if (eType == EEnumType.EnumType)
+                                {
+                                    for (int i = iColumn; i < listRow.Count; i++)
+                                    {
+                                        string strTextOtherColumn = (string)listRow[i];
+                                        if (System.Enum.TryParse(strTextOtherColumn, out eType) == false)
+                                            WriteConsole($"테이블 유효성 체크 - 이넘 파싱 에러");
+                                    }
+                                }
+
+                                return;
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    });
             }
             catch (Exception pException)
             {
@@ -610,15 +633,6 @@ namespace SpreadSheetParser
                 return;
 
             _pConfig.bAutoConnect = checkBox_AutoConnect.Checked;
-            AutoSaveAsync_Config();
-        }
-
-        private void checkBox_OpenFolder_AfterBuild_CSV_CheckedChanged(object sender, EventArgs e)
-        {
-            if (_bIsLoading_CreateForm)
-                return;
-
-            // _pConfig.bOpenPath_AfterBuild_CSV = checkBox_OpenFolder_AfterBuild_CSV.Checked;
             AutoSaveAsync_Config();
         }
 
@@ -830,6 +844,24 @@ namespace SpreadSheetParser
         {
             _pSheet_CurrentConnected.bIsPureClass = checkBox_IsPureClass.Checked;
             AutoSaveAsync_CurrentSheet();
+        }
+
+        private void checkBox_Field_NullOrEmtpy_IsError_CheckedChanged(object sender, EventArgs e)
+        {
+            if (listView_Field.SelectedItems.Count == 0)
+                return;
+
+            var pSelectedItem = listView_Field.SelectedItems[0];
+            FieldData pFieldData = (FieldData)pSelectedItem.Tag;
+
+            pFieldData.bNullOrEmpty_IsError = checkBox_Field_NullOrEmtpy_IsError.Checked;
+
+            AutoSaveAsync_CurrentSheet();
+        }
+
+        private void button_Check_TableAll_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

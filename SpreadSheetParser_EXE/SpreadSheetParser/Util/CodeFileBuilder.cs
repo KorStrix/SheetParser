@@ -160,7 +160,7 @@ namespace SpreadSheetParser
             pCodeType.Comments.Add(new CodeCommentStatement("</summary>", true));
         }
 
-        public static void AddField(this CodeTypeDeclaration pCodeType, global::FieldData pFieldData)
+        public static void AddField(this CodeTypeDeclaration pCodeType, FieldData pFieldData)
         {
             CodeMemberField pField = new CodeMemberField();
             pField.Attributes = MemberAttributes.Public;
@@ -171,6 +171,11 @@ namespace SpreadSheetParser
                 pField.Type = new CodeTypeReference(pFieldData.strFieldType);
             else
                 pField.Type = new CodeTypeReference(pType);
+
+            if(pFieldData.bIsVirtualField)
+            {
+                pFieldData.strComment = $"자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"{pFieldData.strDependencyFieldName}\"/>";
+            }
 
             if (string.IsNullOrEmpty(pFieldData.strComment) == false)
             {

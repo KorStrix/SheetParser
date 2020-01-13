@@ -67,9 +67,6 @@ namespace SpreadSheetParser
 
             pViewItem.Text = pFieldData.strFieldName;
         }
-
-        //return new FieldData(strFieldName, strTypeName, $"자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"{strDependencyFieldName}\"/>");
-
     }
 
     public class SaveData_Sheet
