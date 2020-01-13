@@ -72,7 +72,7 @@ public class UnitySO_Generator : EditorWindow
 
             System.Type pType_SO = System.Type.GetType(pTypeData.strType);
             System.Type pType_Container = System.Type.GetType(pTypeData.strType + "_Container");
-            Object pContainerInstance = (Object)UnitySO_GeneratorConfig.CreateSOFile(pType_Container);
+            ScriptableObject pContainerInstance = (ScriptableObject)UnitySO_GeneratorConfig.CreateSOFile(pType_Container, pTypeData.strType + "_Container");
 
             Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_Container = pType_Container.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
             Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_SO = pType_SO.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
@@ -88,7 +88,7 @@ public class UnitySO_Generator : EditorWindow
             int iLoopIndex = 0;
             foreach (var pInstance in pTypeData.listInstance)
             {
-                Object pSO = (Object)UnitySO_GeneratorConfig.CreateInstance(pType_SO);
+                ScriptableObject pSO = (ScriptableObject)UnitySO_GeneratorConfig.CreateInstance(pType_SO);
                 pSO.name = $"{strFileName}_{iLoopIndex}";
 
                 AssetDatabase.AddObjectToAsset(pSO, pContainerInstance);
@@ -102,10 +102,24 @@ public class UnitySO_Generator : EditorWindow
                 {
                     System.Reflection.FieldInfo pFieldInfo = mapFieldInfo_SO[pMember.strFieldName];
 
-                    switch (pMember.strFieldType)
+                    try
                     {
-                        case "int": pFieldInfo.SetValue(pSO, int.Parse(pMember.strValue)); break;
-                        case "string": pFieldInfo.SetValue(pSO, pMember.strValue); break;
+                        switch (pMember.strFieldType)
+                        {
+                            case "int": pFieldInfo.SetValue(pSO, int.Parse(pMember.strValue)); break;
+                            case "float": pFieldInfo.SetValue(pSO, float.Parse(pMember.strValue)); break;
+
+                            case "string": pFieldInfo.SetValue(pSO, pMember.strValue); break;
+
+                            default:
+                                Debug.LogWarning($"아직 지원되지 않은 형식.. {pMember.strFieldType}");
+                                break;
+                        }
+                    }
+                    catch(System.Exception e)
+                    {
+                        Debug.LogError($"Parsing  Fail - {pTypeData.strType}/{pMember.strFieldType} {pMember.strFieldName} : {pMember.strValue}\n" +
+                            $"Exception : {e}");
                     }
                 }
 
@@ -118,6 +132,11 @@ public class UnitySO_Generator : EditorWindow
 
                     System.Reflection.FieldInfo pFieldInfo_Depedency = mapFieldInfo_SO[pMember.strDependencyFieldName];
                     Object pObject = AssetDatabase.LoadAssetAtPath((string)pFieldInfo_Depedency.GetValue(pSO), pType_Field);
+                    if(pObject == null)
+                    {
+                        Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {(string)pFieldInfo_Depedency.GetValue(pSO)}");
+                    }
+
                     pFieldInfo.SetValue(pSO, pObject);
                 }
 

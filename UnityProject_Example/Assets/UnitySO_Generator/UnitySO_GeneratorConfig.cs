@@ -85,7 +85,7 @@ public class UnitySO_GeneratorConfig : ScriptableObject
     ///	This makes it easy to create, name and place unique new ScriptableObject asset files.
     // https://wiki.unity3d.com/index.php/CreateScriptableObjectAsset
     /// </summary>
-    public static object CreateSOFile(System.Type pType)
+    public static object CreateSOFile(System.Type pType, string strFileName)
     {
         ScriptableObject pAsset = ScriptableObject.CreateInstance(pType);
         string strPath = "Assets";
@@ -95,7 +95,7 @@ public class UnitySO_GeneratorConfig : ScriptableObject
             strPath = strPath.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
         }
 
-        string strAssetPathAndName = AssetDatabase.GenerateUniqueAssetPath(strPath + "/New " + pType.Name + ".asset");
+        string strAssetPathAndName = AssetDatabase.GenerateUniqueAssetPath(strPath + "/" + strFileName + ".asset");
 
         AssetDatabase.CreateAsset(pAsset, strAssetPathAndName);
 
