@@ -1,34 +1,10 @@
 {
-  "strType": "UnitySOCustom",
+  "strType": "class1",
   "listInstance": [
     {
       "listField": [
         {
-          "strFieldName": "MaterialPath",
-          "strFieldType": "string",
-          "strValue": "Assets/ExportData/Material/Blue.mat",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strComment",
-          "strFieldType": "string",
-          "strValue": "파랑색 메테리얼",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "intValue",
+          "strFieldName": "IntCalculate",
           "strFieldType": "int",
           "strValue": "2",
           "strComment": null,
@@ -40,9 +16,21 @@
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "strAutoEnum",
+          "strFieldName": "Int",
+          "strFieldType": "int",
+          "strValue": "7",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "stringmember",
           "strFieldType": "string",
-          "strValue": "AutoEnum_1",
+          "strValue": "stringValue7",
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
@@ -52,25 +40,13 @@
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "AutoEnumValue",
-          "strFieldType": "AutoEnumTest",
-          "strValue": "AutoEnum_1",
+          "strFieldName": "enummember",
+          "strFieldType": "TestEnum",
+          "strValue": "Minus_One",
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
           "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "pMaterial",
-          "strFieldType": "UnityEngine.Material",
-          "strValue": null,
-          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"MaterialPath\"/>",
-          "strDependencyFieldName": "MaterialPath",
-          "strEnumName": null,
-          "bIsVirtualField": true,
           "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
           "bConvertStringToEnum": false
@@ -80,9 +56,9 @@
     {
       "listField": [
         {
-          "strFieldName": "MaterialPath",
-          "strFieldType": "string",
-          "strValue": "Assets/ExportData/Material/Green.mat",
+          "strFieldName": "IntCalculate",
+          "strFieldType": "int",
+          "strValue": "3",
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
@@ -92,9 +68,9 @@
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "strComment",
-          "strFieldType": "string",
-          "strValue": "초록색 메테리얼",
+          "strFieldName": "Int",
+          "strFieldType": "int",
+          "strValue": "3",
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
@@ -104,7 +80,35 @@
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "intValue",
+          "strFieldName": "stringmember",
+          "strFieldType": "string",
+          "strValue": "stringValue3",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "enummember",
+          "strFieldType": "TestEnum",
+          "strValue": "Zero",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        }
+      ]
+    },
+    {
+      "listField": [
+        {
+          "strFieldName": "IntCalculate",
           "strFieldType": "int",
           "strValue": "4",
           "strComment": null,
@@ -116,9 +120,21 @@
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "strAutoEnum",
+          "strFieldName": "Int",
+          "strFieldType": "int",
+          "strValue": "-1",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "stringmember",
           "strFieldType": "string",
-          "strValue": "AutoEnum_2",
+          "strValue": "asdf",
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
@@ -128,25 +144,13 @@
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "AutoEnumValue",
-          "strFieldType": "AutoEnumTest",
-          "strValue": "AutoEnum_2",
+          "strFieldName": "enummember",
+          "strFieldType": "TestEnum",
+          "strValue": "One",
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
           "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "pMaterial",
-          "strFieldType": "UnityEngine.Material",
-          "strValue": null,
-          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"MaterialPath\"/>",
-          "strDependencyFieldName": "MaterialPath",
-          "strEnumName": null,
-          "bIsVirtualField": true,
           "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
           "bConvertStringToEnum": false
@@ -156,33 +160,9 @@
     {
       "listField": [
         {
-          "strFieldName": "MaterialPath",
-          "strFieldType": "string",
-          "strValue": "Assets/ExportData/Material/Red.mat",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strComment",
-          "strFieldType": "string",
-          "strValue": "빨간색 메테리얼",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "intValue",
+          "strFieldName": "IntCalculate",
           "strFieldType": "int",
-          "strValue": "8",
+          "strValue": "5",
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
@@ -192,9 +172,21 @@
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "strAutoEnum",
+          "strFieldName": "Int",
+          "strFieldType": "int",
+          "strValue": "-5",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "stringmember",
           "strFieldType": "string",
-          "strValue": "AutoEnum_3",
+          "strValue": "fdsa",
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
@@ -204,9 +196,25 @@
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "AutoEnumValue",
-          "strFieldType": "AutoEnumTest",
-          "strValue": "AutoEnum_3",
+          "strFieldName": "enummember",
+          "strFieldType": "TestEnum",
+          "strValue": "Zero",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        }
+      ]
+    },
+    {
+      "listField": [
+        {
+          "strFieldName": "IntCalculate",
+          "strFieldType": "int",
+          "strValue": "6",
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
@@ -216,13 +224,37 @@
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "pMaterial",
-          "strFieldType": "UnityEngine.Material",
-          "strValue": null,
-          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"MaterialPath\"/>",
-          "strDependencyFieldName": "MaterialPath",
+          "strFieldName": "Int",
+          "strFieldType": "int",
+          "strValue": "-9",
+          "strComment": null,
+          "strDependencyFieldName": null,
           "strEnumName": null,
-          "bIsVirtualField": true,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "stringmember",
+          "strFieldType": "string",
+          "strValue": "qwer",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "enummember",
+          "strFieldType": "TestEnum",
+          "strValue": "One",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
           "bConvertStringToEnum": false

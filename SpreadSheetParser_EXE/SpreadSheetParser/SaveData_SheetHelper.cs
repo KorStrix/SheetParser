@@ -83,29 +83,42 @@ namespace SpreadSheetParser
 
         private static void Parsing_OnCode(SaveData_Sheet pSheetData, CodeFileBuilder pCodeFileBuilder, List<CommandLineArg> listCommandLine)
         {
-            var pCodeType = pCodeFileBuilder.AddCodeType(pSheetData.strFileName);
-            switch (pSheetData.eType)
-            {
-                case SaveData_Sheet.EType.Class: pCodeType.IsClass = true; break;
-                case SaveData_Sheet.EType.Struct: pCodeType.IsStruct = true; break;
+            var pCodeType = pCodeFileBuilder.AddCodeType(pSheetData.strFileName, pSheetData.eType);
+            var mapFieldData_ConvertStringToEnum = pSheetData.listFieldData.Where((pFieldData) => pFieldData.bConvertStringToEnum).ToDictionary(((pFieldData) => pFieldData.strFieldName));
+            var listFieldData_DeleteThisField_OnCode = pSheetData.listFieldData.Where((pFieldData) => pFieldData.bDeleteThisField_InCode).Select((pFieldData) => pFieldData.strFieldName);
+            Dictionary<int, CodeTypeDeclaration> mapEnumType = new Dictionary<int, CodeTypeDeclaration>();
 
-                default:
-                    break;
-            }
-
-            var listFieldData_DeleteThisField_OnCode = pSheetData.listFieldData.Where((pFieldData) => pFieldData.bDeleteThisField_InCode);
             pSheetData.ParsingSheet(
               (listRow, strText, iRow, iColumn) =>
               {
+                  // 변수 선언 형식인경우
                   if (strText.Contains(":"))
                   {
                       string[] arrText = strText.Split(':');
                       string strFieldName = arrText[0];
 
-                      if (listFieldData_DeleteThisField_OnCode.Where((pFieldData) => pFieldData.strFieldName == strFieldName).Count() > 0)
-                          return;
+                      if(mapFieldData_ConvertStringToEnum.ContainsKey(strFieldName))
+                      {
+                          FieldData pFieldData = mapFieldData_ConvertStringToEnum[strFieldName];
+                          mapEnumType.Add(iColumn, pCodeFileBuilder.AddCodeType(pFieldData.strEnumName, SaveData_Sheet.EType.Enum));
+                      }
+                      else
+                      {
+                          // 삭제되는 코드인 경우
+                          if (listFieldData_DeleteThisField_OnCode.Contains(strFieldName))
+                              return;
 
-                      pCodeType.AddField(new FieldData(strFieldName, arrText[1]));
+                          pCodeType.AddField(new FieldData(strFieldName, arrText[1]));
+                      }
+
+                      return;
+                  }
+
+                  // 이넘 Column인 경우 이넘 생성
+                  if (mapEnumType.ContainsKey(iColumn))
+                  {
+                      mapEnumType[iColumn].AddEnumField(new EnumFieldData(strText));
+                      return;
                   }
               });
 
@@ -147,7 +160,7 @@ namespace SpreadSheetParser
                         return;
 
                     if (mapEnumValue.ContainsKey(strText) == false)
-                        mapEnumValue.Add(strText, pCodeFileBuilder.AddCodeType(strText));
+                        mapEnumValue.Add(strText, pCodeFileBuilder.AddCodeType(strText, SaveData_Sheet.EType.Enum));
 
                     EnumFieldData pFieldData = new EnumFieldData();
                     for (int i = iColumn; i < listRow.Count; i++)
@@ -157,12 +170,17 @@ namespace SpreadSheetParser
                             string strNextText = (string)listRow[i];
                             switch (eType)
                             {
-                                case EEnumHeaderType.EnumValue: pFieldData.strValue = strNextText; break;
+                                case EEnumHeaderType.EnumValue: pFieldData.strValue = strNextText; 
+                                    break;
+
                                 case EEnumHeaderType.NumberValue: pFieldData.iNumber = int.Parse(strNextText); break;
                                 case EEnumHeaderType.Comment: pFieldData.strComment = strNextText; break;
                             }
                         }
                     }
+
+                    if (string.IsNullOrEmpty(pFieldData.strValue))
+                        throw new System.Exception($"이넘인데 값이 없습니다 - 타입 : {mapEnumValue[strText].Name}");
 
                     mapEnumValue[strText].AddEnumField(pFieldData);
                 });

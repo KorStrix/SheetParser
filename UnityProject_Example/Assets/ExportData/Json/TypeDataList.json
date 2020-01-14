@@ -1,5 +1,7 @@
 {
   "listFileName": [
-    "UnitySOCustom.json"
+    "class1.json",
+    "UnitySOCustom.json",
+    "struct1.json"
   ]
 }

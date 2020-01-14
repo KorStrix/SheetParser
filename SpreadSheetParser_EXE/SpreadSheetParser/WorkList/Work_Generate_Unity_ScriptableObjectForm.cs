@@ -109,7 +109,7 @@ namespace SpreadSheetParser
                 if (pSaveData == null || pSaveData.bIsPureClass)
                     continue;
 
-                SpreadSheetParser_MainForm.WriteConsole($"Unity SO - Working {pType.Name}");
+                SpreadSheetParser_MainForm.WriteConsole($"UnitySO - Working SO {pType.Name}");
 
                 Create_SO(pCodeFileBuilder, pNameSpace, pType, pSaveData);
                 Create_SOContainer(pCodeFileBuilder, pNameSpace, pType, pSaveData);
@@ -119,14 +119,13 @@ namespace SpreadSheetParser
             foreach (CodeTypeDeclaration pType in arrTypes)
             {
                 if (pType.IsClass)
-                    continue;
+                {
+                    SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();
+                    if (pSaveData == null || pSaveData.bIsPureClass == false)
+                        continue;
+                }
 
-                SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();
-                if (pSaveData == null || pSaveData.bIsPureClass == false)
-                    continue;
-
-                SpreadSheetParser_MainForm.WriteConsole($"Unity SO - Working {pType.Name}");
-
+                SpreadSheetParser_MainForm.WriteConsole($"UnitySO - Working Others {pType.Name}");
                 pNameSpace.Types.Add(pType);
             }
 

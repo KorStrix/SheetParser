@@ -115,12 +115,19 @@ namespace SpreadSheetParser
             return _arrCodeTypeDeclaration;
         }
 
-        public CodeTypeDeclaration AddCodeType(string strTypeName, string strComment = "", TypeAttributes eTypeAttributeFlags = TypeAttributes.Public)
+        public CodeTypeDeclaration AddCodeType(string strTypeName, SaveData_Sheet.EType eType, string strComment = "")
         {
             CodeTypeDeclaration pCodeType = new CodeTypeDeclaration(strTypeName);
             _arrCodeTypeDeclaration.Add(pCodeType);
 
-            pCodeType.TypeAttributes = eTypeAttributeFlags;
+            switch (eType)
+            {
+                case SaveData_Sheet.EType.Class: pCodeType.IsClass = true; break;
+                case SaveData_Sheet.EType.Struct: pCodeType.IsStruct = true; break;
+                case SaveData_Sheet.EType.Enum: pCodeType.IsEnum = true; break;
+            }
+
+            pCodeType.TypeAttributes = TypeAttributes.Public;
             pCodeType.AddComment(strComment);
 
             return pCodeType;

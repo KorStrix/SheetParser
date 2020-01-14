@@ -1,0 +1,85 @@
+{
+  "strType": "struct1",
+  "listInstance": [
+    {
+      "listField": [
+        {
+          "strFieldName": "Int",
+          "strFieldType": "int",
+          "strValue": "7",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "stringmember",
+          "strFieldType": "string",
+          "strValue": "stringValue7",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "enummember",
+          "strFieldType": "TestEnum",
+          "strValue": "A",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        }
+      ]
+    },
+    {
+      "listField": [
+        {
+          "strFieldName": "Int",
+          "strFieldType": "int",
+          "strValue": "3",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "stringmember",
+          "strFieldType": "string",
+          "strValue": "stringValue3",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "enummember",
+          "strFieldType": "TestEnum",
+          "strValue": "B",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "bConvertStringToEnum": false
+        }
+      ]
+    }
+  ]
+}

@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ExportData\SO\Others.cs" />
     <Compile Include="Assets\ExportData\SO\UnitySOCustom.cs" />
     <Compile Include="Assets\ExportData\SO\UnitySOCustom_Container.cs" />
     <Compile Include="Assets\UnitySO_Generator\TypeData.cs" />

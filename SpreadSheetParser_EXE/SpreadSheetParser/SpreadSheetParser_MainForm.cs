@@ -174,6 +174,11 @@ namespace SpreadSheetParser
 
             textBox_FieldName.Text = pFieldData.strFieldName;
             textBox_Type.Text = pFieldData.strFieldType;
+
+            checkBox_ConvertStringToEnum.Enabled = pFieldData.strFieldType == "string";
+            textBox_EnumName.Enabled = pFieldData.bConvertStringToEnum;
+            textBox_EnumName.Text = pFieldData.strEnumName;
+
             checkBox_Field_NullOrEmtpy_IsError.Checked = pFieldData.bNullOrEmpty_IsError;
             checkBox_DeleteField_OnCode.Checked = pFieldData.bDeleteThisField_InCode; 
 
@@ -549,7 +554,6 @@ namespace SpreadSheetParser
             textBox_CommandLine.Text = _pSheet_CurrentConnected.strCommandLine;
         }
 
-
         private void OnChangeValue_TypeRadioButton(object sender, EventArgs e)
         {
             if (radioButton_Class.Checked)
@@ -689,14 +693,18 @@ namespace SpreadSheetParser
                 return;
 
             var pSelectedItem = listView_Field.SelectedItems[0];
-            FieldData pFieldOption = (FieldData)pSelectedItem.Tag;
+            FieldData pFieldData = (FieldData)pSelectedItem.Tag;
 
-            pFieldOption.strDependencyFieldName = (string)comboBox_DependencyField.SelectedItem;
-            pFieldOption.strFieldName = textBox_FieldName.Text;
-            pFieldOption.strFieldType = textBox_Type.Text;
+            pFieldData.strDependencyFieldName = (string)comboBox_DependencyField.SelectedItem;
+            pFieldData.strFieldName = textBox_FieldName.Text;
+            pFieldData.strFieldType = textBox_Type.Text;
 
-            pSelectedItem.Text = pFieldOption.strFieldName;
-            pFieldOption.Reset_ListViewItem(pSelectedItem);
+            pFieldData.bConvertStringToEnum = checkBox_ConvertStringToEnum.Checked;
+            pFieldData.strEnumName = textBox_EnumName.Text;
+
+
+            pSelectedItem.Text = pFieldData.strFieldName;
+            pFieldData.Reset_ListViewItem(pSelectedItem);
 
             AutoSaveAsync_CurrentSheet();
         }
@@ -745,6 +753,20 @@ namespace SpreadSheetParser
             FieldData pFieldData = (FieldData)pSelectedItem.Tag;
 
             pFieldData.bDeleteThisField_InCode = checkBox_DeleteField_OnCode.Checked;
+
+            AutoSaveAsync_CurrentSheet();
+        }
+
+        private void checkBox_ConvertStringToEnum_CheckedChanged(object sender, EventArgs e)
+        {
+            if (listView_Field.SelectedItems.Count == 0)
+                return;
+
+            var pSelectedItem = listView_Field.SelectedItems[0];
+            FieldData pFieldData = (FieldData)pSelectedItem.Tag;
+
+            pFieldData.bConvertStringToEnum = checkBox_ConvertStringToEnum.Checked;
+            textBox_EnumName.Enabled = checkBox_ConvertStringToEnum.Checked;
 
             AutoSaveAsync_CurrentSheet();
         }

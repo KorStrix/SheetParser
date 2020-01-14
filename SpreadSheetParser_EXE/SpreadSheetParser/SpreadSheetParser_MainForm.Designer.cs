@@ -41,8 +41,13 @@
             this.button_OpenPath_SaveSheet = new System.Windows.Forms.Button();
             this.groupBox_2_1_TableSetting = new System.Windows.Forms.GroupBox();
             this.groupBox_SelectedTable = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button_Save_FileName = new System.Windows.Forms.Button();
+            this.button_Cancel_FileName = new System.Windows.Forms.Button();
+            this.textBox_TableFileName = new System.Windows.Forms.TextBox();
             this.button_Check_TableAll = new System.Windows.Forms.Button();
             this.groupBox_2_2_SelectedField = new System.Windows.Forms.GroupBox();
+            this.checkBox_DeleteField_OnCode = new System.Windows.Forms.CheckBox();
             this.button_Save_Field = new System.Windows.Forms.Button();
             this.groupBox_2_2_SelectedField_Virtual = new System.Windows.Forms.GroupBox();
             this.label_Type = new System.Windows.Forms.Label();
@@ -81,11 +86,9 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoConnect = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBox_DeleteField_OnCode = new System.Windows.Forms.CheckBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.button_Save_FileName = new System.Windows.Forms.Button();
-            this.button_Cancel_FileName = new System.Windows.Forms.Button();
-            this.textBox_TableFileName = new System.Windows.Forms.TextBox();
+            this.checkBox_ConvertStringToEnum = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBox_EnumName = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox_2_1_TableSetting.SuspendLayout();
             this.groupBox_SelectedTable.SuspendLayout();
@@ -124,13 +127,14 @@
             this.checkedListBox_SheetList.HorizontalScrollbar = true;
             this.checkedListBox_SheetList.Location = new System.Drawing.Point(6, 15);
             this.checkedListBox_SheetList.Name = "checkedListBox_SheetList";
-            this.checkedListBox_SheetList.Size = new System.Drawing.Size(171, 356);
+            this.checkedListBox_SheetList.Size = new System.Drawing.Size(171, 340);
             this.checkedListBox_SheetList.TabIndex = 2;
             this.checkedListBox_SheetList.SelectedIndexChanged += new System.EventHandler(this.checkedListBox_TableList_SelectedIndexChanged);
             // 
             // button_StartParsing
             // 
-            this.button_StartParsing.Location = new System.Drawing.Point(249, 249);
+            this.button_StartParsing.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_StartParsing.Location = new System.Drawing.Point(246, 252);
             this.button_StartParsing.Name = "button_StartParsing";
             this.button_StartParsing.Size = new System.Drawing.Size(106, 40);
             this.button_StartParsing.TabIndex = 3;
@@ -218,26 +222,23 @@
             // groupBox_2_1_TableSetting
             // 
             this.groupBox_2_1_TableSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox_2_1_TableSetting.AutoSize = true;
             this.groupBox_2_1_TableSetting.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox_2_1_TableSetting.Controls.Add(this.groupBox_SelectedTable);
             this.groupBox_2_1_TableSetting.Controls.Add(this.checkedListBox_SheetList);
             this.groupBox_2_1_TableSetting.Location = new System.Drawing.Point(12, 180);
             this.groupBox_2_1_TableSetting.Name = "groupBox_2_1_TableSetting";
-            this.groupBox_2_1_TableSetting.Size = new System.Drawing.Size(681, 393);
+            this.groupBox_2_1_TableSetting.Size = new System.Drawing.Size(693, 373);
             this.groupBox_2_1_TableSetting.TabIndex = 6;
             this.groupBox_2_1_TableSetting.TabStop = false;
             this.groupBox_2_1_TableSetting.Text = "2. Table Setting";
             // 
             // groupBox_SelectedTable
             // 
-            this.groupBox_SelectedTable.AutoSize = true;
             this.groupBox_SelectedTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox_SelectedTable.Controls.Add(this.label6);
             this.groupBox_SelectedTable.Controls.Add(this.button_Save_FileName);
             this.groupBox_SelectedTable.Controls.Add(this.button_Cancel_FileName);
             this.groupBox_SelectedTable.Controls.Add(this.textBox_TableFileName);
-            this.groupBox_SelectedTable.Controls.Add(this.button_Check_TableAll);
             this.groupBox_SelectedTable.Controls.Add(this.groupBox_2_2_SelectedField);
             this.groupBox_SelectedTable.Controls.Add(this.checkBox_IsPureClass);
             this.groupBox_SelectedTable.Controls.Add(this.button_Add_VirtualField);
@@ -250,16 +251,53 @@
             this.groupBox_SelectedTable.Controls.Add(this.textBox_CommandLine);
             this.groupBox_SelectedTable.Location = new System.Drawing.Point(183, 12);
             this.groupBox_SelectedTable.Name = "groupBox_SelectedTable";
-            this.groupBox_SelectedTable.Size = new System.Drawing.Size(492, 361);
+            this.groupBox_SelectedTable.Size = new System.Drawing.Size(504, 355);
             this.groupBox_SelectedTable.TabIndex = 9;
             this.groupBox_SelectedTable.TabStop = false;
             this.groupBox_SelectedTable.Text = "Selected Table Setting";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(318, 120);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 12);
+            this.label6.TabIndex = 28;
+            this.label6.Text = "파일명";
+            // 
+            // button_Save_FileName
+            // 
+            this.button_Save_FileName.Location = new System.Drawing.Point(416, 162);
+            this.button_Save_FileName.Name = "button_Save_FileName";
+            this.button_Save_FileName.Size = new System.Drawing.Size(82, 23);
+            this.button_Save_FileName.TabIndex = 25;
+            this.button_Save_FileName.Text = "Save";
+            this.button_Save_FileName.UseVisualStyleBackColor = true;
+            this.button_Save_FileName.Click += new System.EventHandler(this.button_Save_FileName_Click);
+            // 
+            // button_Cancel_FileName
+            // 
+            this.button_Cancel_FileName.Location = new System.Drawing.Point(320, 162);
+            this.button_Cancel_FileName.Name = "button_Cancel_FileName";
+            this.button_Cancel_FileName.Size = new System.Drawing.Size(82, 23);
+            this.button_Cancel_FileName.TabIndex = 27;
+            this.button_Cancel_FileName.Text = "Cancel";
+            this.button_Cancel_FileName.UseVisualStyleBackColor = true;
+            this.button_Cancel_FileName.Click += new System.EventHandler(this.button_Cancel_FileName_Click);
+            // 
+            // textBox_TableFileName
+            // 
+            this.textBox_TableFileName.Location = new System.Drawing.Point(320, 135);
+            this.textBox_TableFileName.Name = "textBox_TableFileName";
+            this.textBox_TableFileName.Size = new System.Drawing.Size(177, 21);
+            this.textBox_TableFileName.TabIndex = 26;
+            // 
             // button_Check_TableAll
             // 
-            this.button_Check_TableAll.Location = new System.Drawing.Point(308, 318);
+            this.button_Check_TableAll.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_Check_TableAll.Location = new System.Drawing.Point(246, 194);
             this.button_Check_TableAll.Name = "button_Check_TableAll";
-            this.button_Check_TableAll.Size = new System.Drawing.Size(177, 23);
+            this.button_Check_TableAll.Size = new System.Drawing.Size(105, 23);
             this.button_Check_TableAll.TabIndex = 24;
             this.button_Check_TableAll.Text = "Check All Table";
             this.button_Check_TableAll.UseVisualStyleBackColor = true;
@@ -267,8 +305,10 @@
             // 
             // groupBox_2_2_SelectedField
             // 
-            this.groupBox_2_2_SelectedField.AutoSize = true;
             this.groupBox_2_2_SelectedField.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox_2_2_SelectedField.Controls.Add(this.label7);
+            this.groupBox_2_2_SelectedField.Controls.Add(this.checkBox_ConvertStringToEnum);
+            this.groupBox_2_2_SelectedField.Controls.Add(this.textBox_EnumName);
             this.groupBox_2_2_SelectedField.Controls.Add(this.checkBox_DeleteField_OnCode);
             this.groupBox_2_2_SelectedField.Controls.Add(this.button_Save_Field);
             this.groupBox_2_2_SelectedField.Controls.Add(this.groupBox_2_2_SelectedField_Virtual);
@@ -276,14 +316,25 @@
             this.groupBox_2_2_SelectedField.Controls.Add(this.button_Remove_VirtualField);
             this.groupBox_2_2_SelectedField.Location = new System.Drawing.Point(6, 133);
             this.groupBox_2_2_SelectedField.Name = "groupBox_2_2_SelectedField";
-            this.groupBox_2_2_SelectedField.Size = new System.Drawing.Size(292, 208);
+            this.groupBox_2_2_SelectedField.Size = new System.Drawing.Size(308, 216);
             this.groupBox_2_2_SelectedField.TabIndex = 23;
             this.groupBox_2_2_SelectedField.TabStop = false;
             this.groupBox_2_2_SelectedField.Text = "2-2. Selected Field";
             // 
+            // checkBox_DeleteField_OnCode
+            // 
+            this.checkBox_DeleteField_OnCode.AutoSize = true;
+            this.checkBox_DeleteField_OnCode.Location = new System.Drawing.Point(7, 173);
+            this.checkBox_DeleteField_OnCode.Name = "checkBox_DeleteField_OnCode";
+            this.checkBox_DeleteField_OnCode.Size = new System.Drawing.Size(112, 16);
+            this.checkBox_DeleteField_OnCode.TabIndex = 23;
+            this.checkBox_DeleteField_OnCode.Text = "코드에서는 안씀";
+            this.checkBox_DeleteField_OnCode.UseVisualStyleBackColor = true;
+            this.checkBox_DeleteField_OnCode.CheckedChanged += new System.EventHandler(this.checkBox_DeleteField_OnAfterBuild_CheckedChanged);
+            // 
             // button_Save_Field
             // 
-            this.button_Save_Field.Location = new System.Drawing.Point(156, 148);
+            this.button_Save_Field.Location = new System.Drawing.Point(153, 185);
             this.button_Save_Field.Name = "button_Save_Field";
             this.button_Save_Field.Size = new System.Drawing.Size(42, 23);
             this.button_Save_Field.TabIndex = 22;
@@ -293,7 +344,6 @@
             // 
             // groupBox_2_2_SelectedField_Virtual
             // 
-            this.groupBox_2_2_SelectedField_Virtual.AutoSize = true;
             this.groupBox_2_2_SelectedField_Virtual.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox_2_2_SelectedField_Virtual.Controls.Add(this.label_Type);
             this.groupBox_2_2_SelectedField_Virtual.Controls.Add(this.textBox_Type);
@@ -303,7 +353,7 @@
             this.groupBox_2_2_SelectedField_Virtual.Controls.Add(this.comboBox_DependencyField);
             this.groupBox_2_2_SelectedField_Virtual.Location = new System.Drawing.Point(6, 20);
             this.groupBox_2_2_SelectedField_Virtual.Name = "groupBox_2_2_SelectedField_Virtual";
-            this.groupBox_2_2_SelectedField_Virtual.Size = new System.Drawing.Size(280, 122);
+            this.groupBox_2_2_SelectedField_Virtual.Size = new System.Drawing.Size(296, 106);
             this.groupBox_2_2_SelectedField_Virtual.TabIndex = 17;
             this.groupBox_2_2_SelectedField_Virtual.TabStop = false;
             this.groupBox_2_2_SelectedField_Virtual.Text = "2-2. Virtual Field Option";
@@ -321,7 +371,7 @@
             // 
             this.textBox_Type.Location = new System.Drawing.Point(144, 32);
             this.textBox_Type.Name = "textBox_Type";
-            this.textBox_Type.Size = new System.Drawing.Size(130, 21);
+            this.textBox_Type.Size = new System.Drawing.Size(146, 21);
             this.textBox_Type.TabIndex = 20;
             // 
             // label_FieldName
@@ -336,7 +386,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 66);
+            this.label5.Location = new System.Drawing.Point(8, 63);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(107, 12);
             this.label5.TabIndex = 18;
@@ -346,21 +396,21 @@
             // 
             this.textBox_FieldName.Location = new System.Drawing.Point(8, 32);
             this.textBox_FieldName.Name = "textBox_FieldName";
-            this.textBox_FieldName.Size = new System.Drawing.Size(130, 21);
+            this.textBox_FieldName.Size = new System.Drawing.Size(107, 21);
             this.textBox_FieldName.TabIndex = 18;
             // 
             // comboBox_DependencyField
             // 
             this.comboBox_DependencyField.FormattingEnabled = true;
-            this.comboBox_DependencyField.Location = new System.Drawing.Point(8, 82);
+            this.comboBox_DependencyField.Location = new System.Drawing.Point(8, 79);
             this.comboBox_DependencyField.Name = "comboBox_DependencyField";
-            this.comboBox_DependencyField.Size = new System.Drawing.Size(132, 20);
+            this.comboBox_DependencyField.Size = new System.Drawing.Size(107, 20);
             this.comboBox_DependencyField.TabIndex = 7;
             // 
             // checkBox_Field_NullOrEmtpy_IsError
             // 
             this.checkBox_Field_NullOrEmtpy_IsError.AutoSize = true;
-            this.checkBox_Field_NullOrEmtpy_IsError.Location = new System.Drawing.Point(6, 152);
+            this.checkBox_Field_NullOrEmtpy_IsError.Location = new System.Drawing.Point(7, 151);
             this.checkBox_Field_NullOrEmtpy_IsError.Name = "checkBox_Field_NullOrEmtpy_IsError";
             this.checkBox_Field_NullOrEmtpy_IsError.Size = new System.Drawing.Size(144, 16);
             this.checkBox_Field_NullOrEmtpy_IsError.TabIndex = 19;
@@ -370,7 +420,7 @@
             // 
             // button_Remove_VirtualField
             // 
-            this.button_Remove_VirtualField.Location = new System.Drawing.Point(246, 148);
+            this.button_Remove_VirtualField.Location = new System.Drawing.Point(262, 185);
             this.button_Remove_VirtualField.Name = "button_Remove_VirtualField";
             this.button_Remove_VirtualField.Size = new System.Drawing.Size(40, 23);
             this.button_Remove_VirtualField.TabIndex = 14;
@@ -381,7 +431,7 @@
             // checkBox_IsPureClass
             // 
             this.checkBox_IsPureClass.AutoSize = true;
-            this.checkBox_IsPureClass.Location = new System.Drawing.Point(308, 66);
+            this.checkBox_IsPureClass.Location = new System.Drawing.Point(320, 66);
             this.checkBox_IsPureClass.Name = "checkBox_IsPureClass";
             this.checkBox_IsPureClass.Size = new System.Drawing.Size(87, 16);
             this.checkBox_IsPureClass.TabIndex = 18;
@@ -391,7 +441,7 @@
             // 
             // button_Add_VirtualField
             // 
-            this.button_Add_VirtualField.Location = new System.Drawing.Point(420, 66);
+            this.button_Add_VirtualField.Location = new System.Drawing.Point(432, 66);
             this.button_Add_VirtualField.Name = "button_Add_VirtualField";
             this.button_Add_VirtualField.Size = new System.Drawing.Size(65, 57);
             this.button_Add_VirtualField.TabIndex = 15;
@@ -409,7 +459,7 @@
             this.listView_Field.Location = new System.Drawing.Point(6, 14);
             this.listView_Field.MultiSelect = false;
             this.listView_Field.Name = "listView_Field";
-            this.listView_Field.Size = new System.Drawing.Size(296, 113);
+            this.listView_Field.Size = new System.Drawing.Size(308, 113);
             this.listView_Field.TabIndex = 12;
             this.listView_Field.UseCompatibleStateImageBehavior = false;
             this.listView_Field.View = System.Windows.Forms.View.Details;
@@ -434,7 +484,7 @@
             this.groupBox3.Controls.Add(this.radioButton_Enum);
             this.groupBox3.Controls.Add(this.radioButton_Struct);
             this.groupBox3.Controls.Add(this.radioButton_Class);
-            this.groupBox3.Location = new System.Drawing.Point(308, 14);
+            this.groupBox3.Location = new System.Drawing.Point(320, 14);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(178, 46);
             this.groupBox3.TabIndex = 11;
@@ -476,7 +526,7 @@
             // 
             // button_Check_TableSelected
             // 
-            this.button_Check_TableSelected.Location = new System.Drawing.Point(308, 278);
+            this.button_Check_TableSelected.Location = new System.Drawing.Point(320, 278);
             this.button_Check_TableSelected.Name = "button_Check_TableSelected";
             this.button_Check_TableSelected.Size = new System.Drawing.Size(177, 23);
             this.button_Check_TableSelected.TabIndex = 9;
@@ -487,7 +537,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(306, 194);
+            this.label3.Location = new System.Drawing.Point(318, 194);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(88, 12);
             this.label3.TabIndex = 8;
@@ -495,7 +545,7 @@
             // 
             // button_Save_TableCommandLine
             // 
-            this.button_Save_TableCommandLine.Location = new System.Drawing.Point(404, 236);
+            this.button_Save_TableCommandLine.Location = new System.Drawing.Point(416, 236);
             this.button_Save_TableCommandLine.Name = "button_Save_TableCommandLine";
             this.button_Save_TableCommandLine.Size = new System.Drawing.Size(82, 23);
             this.button_Save_TableCommandLine.TabIndex = 6;
@@ -505,7 +555,7 @@
             // 
             // button_Cancel_TableCommandLine
             // 
-            this.button_Cancel_TableCommandLine.Location = new System.Drawing.Point(308, 236);
+            this.button_Cancel_TableCommandLine.Location = new System.Drawing.Point(320, 236);
             this.button_Cancel_TableCommandLine.Name = "button_Cancel_TableCommandLine";
             this.button_Cancel_TableCommandLine.Size = new System.Drawing.Size(82, 23);
             this.button_Cancel_TableCommandLine.TabIndex = 7;
@@ -515,7 +565,7 @@
             // 
             // textBox_CommandLine
             // 
-            this.textBox_CommandLine.Location = new System.Drawing.Point(308, 209);
+            this.textBox_CommandLine.Location = new System.Drawing.Point(320, 209);
             this.textBox_CommandLine.Name = "textBox_CommandLine";
             this.textBox_CommandLine.Size = new System.Drawing.Size(177, 21);
             this.textBox_CommandLine.TabIndex = 6;
@@ -529,9 +579,10 @@
             this.groupBox3_WorkSetting.Controls.Add(this.label4);
             this.groupBox3_WorkSetting.Controls.Add(this.comboBox_WorkList);
             this.groupBox3_WorkSetting.Controls.Add(this.button_AddWork);
+            this.groupBox3_WorkSetting.Controls.Add(this.button_Check_TableAll);
             this.groupBox3_WorkSetting.Controls.Add(this.checkedListBox_WorkList);
             this.groupBox3_WorkSetting.Controls.Add(this.button_StartParsing);
-            this.groupBox3_WorkSetting.Location = new System.Drawing.Point(699, 12);
+            this.groupBox3_WorkSetting.Location = new System.Drawing.Point(711, 12);
             this.groupBox3_WorkSetting.Name = "groupBox3_WorkSetting";
             this.groupBox3_WorkSetting.Size = new System.Drawing.Size(361, 312);
             this.groupBox3_WorkSetting.TabIndex = 7;
@@ -660,65 +711,45 @@
             this.groupBox2.AutoSize = true;
             this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.groupBox2.Controls.Add(this.textBox_Console);
-            this.groupBox2.Location = new System.Drawing.Point(699, 330);
+            this.groupBox2.Location = new System.Drawing.Point(711, 330);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(361, 223);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Log";
             // 
-            // checkBox_DeleteField_OnCode
+            // checkBox_ConvertStringToEnum
             // 
-            this.checkBox_DeleteField_OnCode.AutoSize = true;
-            this.checkBox_DeleteField_OnCode.Location = new System.Drawing.Point(6, 172);
-            this.checkBox_DeleteField_OnCode.Name = "checkBox_DeleteField_OnCode";
-            this.checkBox_DeleteField_OnCode.Size = new System.Drawing.Size(112, 16);
-            this.checkBox_DeleteField_OnCode.TabIndex = 23;
-            this.checkBox_DeleteField_OnCode.Text = "코드에서는 안씀";
-            this.checkBox_DeleteField_OnCode.UseVisualStyleBackColor = true;
-            this.checkBox_DeleteField_OnCode.CheckedChanged += new System.EventHandler(this.checkBox_DeleteField_OnAfterBuild_CheckedChanged);
+            this.checkBox_ConvertStringToEnum.AutoSize = true;
+            this.checkBox_ConvertStringToEnum.Location = new System.Drawing.Point(7, 129);
+            this.checkBox_ConvertStringToEnum.Name = "checkBox_ConvertStringToEnum";
+            this.checkBox_ConvertStringToEnum.Size = new System.Drawing.Size(104, 16);
+            this.checkBox_ConvertStringToEnum.TabIndex = 24;
+            this.checkBox_ConvertStringToEnum.Text = "Convert Enum";
+            this.checkBox_ConvertStringToEnum.UseVisualStyleBackColor = true;
+            this.checkBox_ConvertStringToEnum.CheckedChanged += new System.EventHandler(this.checkBox_ConvertStringToEnum_CheckedChanged);
             // 
-            // label6
+            // label7
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(306, 120);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(41, 12);
-            this.label6.TabIndex = 28;
-            this.label6.Text = "파일명";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(155, 130);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(76, 12);
+            this.label7.TabIndex = 23;
+            this.label7.Text = "Enum Name";
             // 
-            // button_Save_FileName
+            // textBox_EnumName
             // 
-            this.button_Save_FileName.Location = new System.Drawing.Point(404, 162);
-            this.button_Save_FileName.Name = "button_Save_FileName";
-            this.button_Save_FileName.Size = new System.Drawing.Size(82, 23);
-            this.button_Save_FileName.TabIndex = 25;
-            this.button_Save_FileName.Text = "Save";
-            this.button_Save_FileName.UseVisualStyleBackColor = true;
-            this.button_Save_FileName.Click += new System.EventHandler(this.button_Save_FileName_Click);
-            // 
-            // button_Cancel_FileName
-            // 
-            this.button_Cancel_FileName.Location = new System.Drawing.Point(308, 162);
-            this.button_Cancel_FileName.Name = "button_Cancel_FileName";
-            this.button_Cancel_FileName.Size = new System.Drawing.Size(82, 23);
-            this.button_Cancel_FileName.TabIndex = 27;
-            this.button_Cancel_FileName.Text = "Cancel";
-            this.button_Cancel_FileName.UseVisualStyleBackColor = true;
-            this.button_Cancel_FileName.Click += new System.EventHandler(this.button_Cancel_FileName_Click);
-            // 
-            // textBox_TableFileName
-            // 
-            this.textBox_TableFileName.Location = new System.Drawing.Point(308, 135);
-            this.textBox_TableFileName.Name = "textBox_TableFileName";
-            this.textBox_TableFileName.Size = new System.Drawing.Size(177, 21);
-            this.textBox_TableFileName.TabIndex = 26;
+            this.textBox_EnumName.Location = new System.Drawing.Point(157, 145);
+            this.textBox_EnumName.Name = "textBox_EnumName";
+            this.textBox_EnumName.Size = new System.Drawing.Size(145, 21);
+            this.textBox_EnumName.TabIndex = 22;
             // 
             // SpreadSheetParser_MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1072, 561);
+            this.ClientSize = new System.Drawing.Size(1084, 561);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox3_WorkSetting);
@@ -730,7 +761,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox_2_1_TableSetting.ResumeLayout(false);
-            this.groupBox_2_1_TableSetting.PerformLayout();
             this.groupBox_SelectedTable.ResumeLayout(false);
             this.groupBox_SelectedTable.PerformLayout();
             this.groupBox_2_2_SelectedField.ResumeLayout(false);
@@ -811,6 +841,9 @@
         private System.Windows.Forms.Button button_Save_FileName;
         private System.Windows.Forms.Button button_Cancel_FileName;
         private System.Windows.Forms.TextBox textBox_TableFileName;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox checkBox_ConvertStringToEnum;
+        private System.Windows.Forms.TextBox textBox_EnumName;
     }
 }
 
