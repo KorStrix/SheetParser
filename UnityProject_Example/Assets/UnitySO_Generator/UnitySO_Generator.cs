@@ -75,7 +75,7 @@ public class UnitySO_Generator : EditorWindow
                 continue;
 
             System.Type pType_Container = System.Type.GetType(pTypeData.strType + "_Container");
-            ScriptableObject pContainerInstance = (ScriptableObject)UnitySO_GeneratorConfig.CreateSOFile(pType_Container, pTypeData.strType + "_Container");
+            ScriptableObject pContainerInstance = (ScriptableObject)UnitySO_GeneratorConfig.CreateSOFile(pType_Container, pConfig.strExportFolderPath + "/" + pTypeData.strType + "_Container");
 
             Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_SO = pType_SO.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
             Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_Container = pType_Container.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
@@ -194,18 +194,9 @@ public class UnitySO_Generator : EditorWindow
     private void OnGUI()
     {
         UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
-        
-        GUILayout.BeginHorizontal();
-        AutoSizeLabel("Root Folder Path : ");
-        GUILayout.Label(pConfig.strJsonRootFolderPath);
-        GUILayout.EndHorizontal();
 
-        if (GUILayout.Button("Root Folder Setting"))
-        {
-            string strPath = EditorUtility.OpenFolderPanel("Root Folder", "", "");
-            System.Uri pCurrentURI = new System.Uri(Application.dataPath);
-            pConfig.strJsonRootFolderPath = pCurrentURI.MakeRelativeUri(new System.Uri(strPath)).ToString();
-        }
+        DrawRootPath(pConfig);
+        DrawExportPath(pConfig);
 
         bool bEditorEnable = string.IsNullOrEmpty(pConfig.strJsonRootFolderPath) == false;
         EditorGUI.BeginDisabledGroup(bEditorEnable == false);
@@ -216,6 +207,39 @@ public class UnitySO_Generator : EditorWindow
         }
 
         EditorGUI.EndDisabledGroup();
+    }
+
+    private void DrawRootPath(UnitySO_GeneratorConfig pConfig)
+    {
+        GUILayout.BeginHorizontal();
+
+        GUILayout.Label("Root Folder Path : ", GUILayout.Width(200f));
+        GUILayout.Label(pConfig.strJsonRootFolderPath, GUILayout.Width(200f));
+
+        if (GUILayout.Button("Root Folder Setting"))
+        {
+            string strPath = EditorUtility.OpenFolderPanel("Root Folder", "", "");
+            System.Uri pCurrentURI = new System.Uri(Application.dataPath);
+            pConfig.strJsonRootFolderPath = pCurrentURI.MakeRelativeUri(new System.Uri(strPath)).ToString();
+        }
+
+        GUILayout.EndHorizontal();
+    }
+    private void DrawExportPath(UnitySO_GeneratorConfig pConfig)
+    {
+        GUILayout.BeginHorizontal();
+
+        GUILayout.Label("Export Folder Path : ", GUILayout.Width(200f));
+        GUILayout.Label(pConfig.strExportFolderPath, GUILayout.Width(200f));
+
+        if (GUILayout.Button("Export Folder Setting"))
+        {
+            string strPath = EditorUtility.OpenFolderPanel("Root Folder", "", "");
+            System.Uri pCurrentURI = new System.Uri(Application.dataPath);
+            pConfig.strExportFolderPath = pCurrentURI.MakeRelativeUri(new System.Uri(strPath)).ToString();
+        }
+
+        GUILayout.EndHorizontal();
     }
 
     /* protected - [abstract & virtual]         */

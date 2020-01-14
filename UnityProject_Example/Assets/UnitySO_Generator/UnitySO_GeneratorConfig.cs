@@ -39,7 +39,7 @@ public class UnitySO_GeneratorConfig : ScriptableObject
     static UnitySO_GeneratorConfig _instance = null;
 
     public string strJsonRootFolderPath;
-
+    public string strExportFolderPath;
 
     #region Helper
     public static T[] GetAllInstances<T>() where T : ScriptableObject
@@ -88,15 +88,12 @@ public class UnitySO_GeneratorConfig : ScriptableObject
     public static object CreateSOFile(System.Type pType, string strFileName)
     {
         ScriptableObject pAsset = ScriptableObject.CreateInstance(pType);
-        string strPath = "Assets";
 
-        if (Path.GetExtension(strPath) != "")
-        {
-            strPath = strPath.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
-        }
+        string strPrefixPath = "";
+        if (strFileName.Contains("Assets/") == false)
+            strPrefixPath = strPrefixPath.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "") + "/";
 
-        string strAssetPathAndName = AssetDatabase.GenerateUniqueAssetPath(strPath + "/" + strFileName + ".asset");
-
+        string strAssetPathAndName = AssetDatabase.GenerateUniqueAssetPath(strPrefixPath + strFileName + ".asset");
         AssetDatabase.CreateAsset(pAsset, strAssetPathAndName);
 
         AssetDatabase.SaveAssets();
