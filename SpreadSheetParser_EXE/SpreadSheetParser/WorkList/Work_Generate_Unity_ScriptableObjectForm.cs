@@ -102,7 +102,7 @@ namespace SpreadSheetParser
 
             foreach (CodeTypeDeclaration pType in arrTypes)
             {
-                if (pType.IsClass == false)
+                if (string.IsNullOrEmpty(pType.Name) || pType.IsClass == false)
                     continue;
 
                 SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();
@@ -118,6 +118,9 @@ namespace SpreadSheetParser
             pNameSpace.Types.Clear();
             foreach (CodeTypeDeclaration pType in arrTypes)
             {
+                if (string.IsNullOrEmpty(pType.Name))
+                    continue;
+
                 if (pType.IsClass)
                 {
                     SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();

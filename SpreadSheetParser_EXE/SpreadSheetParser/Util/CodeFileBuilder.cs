@@ -216,5 +216,18 @@ namespace SpreadSheetParser
             CodeTypeReference pBaseTypeRef = new CodeTypeReference(pBaseType);
             pCodeType.BaseTypes.Add(pBaseTypeRef);
         }
+
+
+        public static CodeMemberMethod AddMethod(this CodeTypeDeclaration pCodeType, string strMethodName, MemberAttributes eAttribute = MemberAttributes.Static | MemberAttributes.Public)
+        {
+            CodeMemberMethod pMethod = new CodeMemberMethod();
+            pMethod.Attributes = eAttribute;
+            pMethod.Name = strMethodName;
+
+            pCodeType.Members.Add(pMethod);
+
+            return pMethod;
+        }
+
     }
 }

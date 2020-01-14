@@ -75,16 +75,16 @@ public class UnitySO_Generator : EditorWindow
                 continue;
 
             System.Type pType_Container = System.Type.GetType(pTypeData.strType + "_Container");
-            ScriptableObject pContainerInstance = (ScriptableObject)UnitySO_GeneratorConfig.CreateSOFile(pType_Container, pConfig.strExportFolderPath + "/" + pTypeData.strType + "_Container");
+            ScriptableObject pContainerInstance = (ScriptableObject)UnitySO_GeneratorConfig.CreateSOFile(pType_Container, pConfig.strExportFolderPath + "/" + pTypeData.strType + "_Container", true);
 
             Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_SO = pType_SO.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
             Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_Container = pType_Container.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
 
 
             System.Reflection.FieldInfo pField_ListData = mapFieldInfo_Container["listData"];
+
             var Method_ListAdd = pField_ListData.FieldType.GetMethod("Add");
             var pInstanceList = System.Activator.CreateInstance(pField_ListData.FieldType);
-
             pField_ListData.SetValue(pContainerInstance, pInstanceList);
 
             string strHeaderField = pTypeData.strHeaderFieldName;
@@ -153,13 +153,17 @@ public class UnitySO_Generator : EditorWindow
                         continue;
                     }
 
-                    Object pObject = AssetDatabase.LoadAssetAtPath(pFieldData_Dependency.strValue, pType_Field);
-                    if(pObject == null)
+                    if (pType_Field.IsEnum)
                     {
-                        Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {pFieldData_Dependency.strValue}");
+                        pFieldInfo.SetValue(pSO, System.Enum.Parse(pType_Field, pFieldData_Dependency.strValue));
                     }
-
-                    pFieldInfo.SetValue(pSO, pObject);
+                    else
+                    {
+                        Object pObject = AssetDatabase.LoadAssetAtPath(pFieldData_Dependency.strValue, pType_Field);
+                        if (pObject == null)
+                            Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {pFieldData_Dependency.strValue}");
+                        pFieldInfo.SetValue(pSO, pObject);
+                    }
                 }
 
                 iLoopIndex++;
