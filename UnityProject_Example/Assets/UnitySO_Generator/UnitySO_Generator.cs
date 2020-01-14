@@ -71,11 +71,14 @@ public class UnitySO_Generator : EditorWindow
             }
 
             System.Type pType_SO = System.Type.GetType(pTypeData.strType);
+            if (pType_SO.BaseType != typeof(UnityEngine.ScriptableObject))
+                continue;
+
             System.Type pType_Container = System.Type.GetType(pTypeData.strType + "_Container");
             ScriptableObject pContainerInstance = (ScriptableObject)UnitySO_GeneratorConfig.CreateSOFile(pType_Container, pTypeData.strType + "_Container");
 
-            Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_Container = pType_Container.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
             Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_SO = pType_SO.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
+            Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_Container = pType_Container.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
 
 
             System.Reflection.FieldInfo pField_ListData = mapFieldInfo_Container["listData"];
@@ -84,12 +87,18 @@ public class UnitySO_Generator : EditorWindow
 
             pField_ListData.SetValue(pContainerInstance, pInstanceList);
 
+            string strHeaderField = pTypeData.strHeaderFieldName;
             string strFileName = pType_SO.Name;
             int iLoopIndex = 0;
             foreach (var pInstance in pTypeData.listInstance)
             {
                 ScriptableObject pSO = (ScriptableObject)UnitySO_GeneratorConfig.CreateInstance(pType_SO);
-                pSO.name = $"{strFileName}_{iLoopIndex}";
+
+                FieldData pFieldData_Header = pInstance.listField.Where((pFieldData) => pFieldData.strFieldName == strHeaderField).FirstOrDefault();
+                if (pFieldData_Header != null)
+                    pSO.name = pFieldData_Header.strValue;
+                else
+                    pSO.name = $"{strFileName}_{iLoopIndex}";
 
                 AssetDatabase.AddObjectToAsset(pSO, pContainerInstance);
                 AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(pContainerInstance));
@@ -100,6 +109,9 @@ public class UnitySO_Generator : EditorWindow
                 var listRealField = pInstance.listField.Where((pFieldData) => pFieldData.bIsVirtualField == false);
                 foreach(var pMember in listRealField)
                 {
+                    if (pMember.bDeleteThisField_InCode || pMember.bConvertStringToEnum)
+                        continue;
+
                     System.Reflection.FieldInfo pFieldInfo = mapFieldInfo_SO[pMember.strFieldName];
 
                     try
@@ -108,11 +120,15 @@ public class UnitySO_Generator : EditorWindow
                         {
                             case "int": pFieldInfo.SetValue(pSO, int.Parse(pMember.strValue)); break;
                             case "float": pFieldInfo.SetValue(pSO, float.Parse(pMember.strValue)); break;
-
                             case "string": pFieldInfo.SetValue(pSO, pMember.strValue); break;
 
                             default:
-                                Debug.LogWarning($"아직 지원되지 않은 형식.. {pMember.strFieldType}");
+                                System.Type pType_Field = System.Type.GetType(pMember.strFieldType);
+                                if(pType_Field.IsEnum)
+                                    pFieldInfo.SetValue(pSO, System.Enum.Parse(pType_Field, pMember.strValue));
+
+                                if(pType_Field == null)
+                                    Debug.LogWarning($"아직 지원되지 않은 형식.. {pMember.strFieldType}");
                                 break;
                         }
                     }
@@ -130,11 +146,17 @@ public class UnitySO_Generator : EditorWindow
                     System.Reflection.FieldInfo pFieldInfo = mapFieldInfo_SO[pMember.strFieldName];
                     System.Type pType_Field = GetTypeFromAssemblies(pMember.strFieldType);
 
-                    System.Reflection.FieldInfo pFieldInfo_Depedency = mapFieldInfo_SO[pMember.strDependencyFieldName];
-                    Object pObject = AssetDatabase.LoadAssetAtPath((string)pFieldInfo_Depedency.GetValue(pSO), pType_Field);
+                    FieldData pFieldData_Dependency = pInstance.listField.Where(pFieldData => pFieldData.strFieldName == pMember.strDependencyFieldName).FirstOrDefault();
+                    if(pFieldData_Dependency == null)
+                    {
+                        Debug.LogError($"Error Not Found Field {pMember.strDependencyFieldName}");
+                        continue;
+                    }
+
+                    Object pObject = AssetDatabase.LoadAssetAtPath(pFieldData_Dependency.strValue, pType_Field);
                     if(pObject == null)
                     {
-                        Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {(string)pFieldInfo_Depedency.GetValue(pSO)}");
+                        Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {pFieldData_Dependency.strValue}");
                     }
 
                     pFieldInfo.SetValue(pSO, pObject);

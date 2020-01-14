@@ -13,18 +13,6 @@ using UnityEngine;
 
 
 
-public class class1
-{
-    
-    public int IntCalculate;
-    
-    public int Int;
-    
-    public string stringmember;
-    
-    public TestEnum enummember;
-}
-
 public enum AutoEnumTest
 {
     
@@ -33,58 +21,4 @@ public enum AutoEnumTest
     AutoEnum_2,
     
     AutoEnum_3,
-}
-
-public struct struct1
-{
-    
-    public int Int;
-    
-    public string stringmember;
-    
-    public TestEnum enummember;
-}
-
-public enum TestEnum
-{
-    
-    /// <summary>
-    /// 마이너스일
-    /// </summary>
-    Minus_One = -1,
-    
-    /// <summary>
-    /// 제로
-    /// </summary>
-    Zero = 0,
-    
-    /// <summary>
-    /// 원
-    /// </summary>
-    One = 1,
-}
-
-public enum TestEnum2
-{
-    
-    /// <summary>
-    /// 111
-    /// </summary>
-    MO = -1,
-    
-    /// <summary>
-    /// 0
-    /// </summary>
-    ZO = 0,
-    
-    /// <summary>
-    /// 11
-    /// </summary>
-    O = 1,
-}
-
-public enum TestEnum3
-{
-    
-    A,
 }

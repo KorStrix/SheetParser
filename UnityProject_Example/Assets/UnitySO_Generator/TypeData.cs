@@ -19,6 +19,7 @@ public class TypeDataList
 public class TypeData
 {
     public string strType;
+    public string strHeaderFieldName;
     public List<InstanceData> listInstance = new List<InstanceData>();
 }
 
@@ -36,9 +37,18 @@ public class FieldData
     public string strFieldType;
     public string strValue;
 
-    public bool bIsVirtualField;
     public string strComment;
     public string strDependencyFieldName;
+    public string strEnumName;
+
+    public bool bIsVirtualField;
+    public bool bDeleteThisField_InCode = false;
+    public bool bNullOrEmpty_IsError = true;
+    public bool bConvertStringToEnum = false;
+
+    public FieldData()
+    {
+    }
 
     public FieldData(string strMemberName, string strMemberType)
     {
@@ -48,5 +58,13 @@ public class FieldData
     public FieldData(string strMemberName, string strMemberType, string strValue)
     {
         this.strFieldName = strMemberName; this.strFieldType = strMemberType; this.strValue = strValue;
+    }
+
+    static public FieldData Clone(FieldData pCopy, object pValue)
+    {
+        FieldData pNewFieldData = (FieldData)pCopy.MemberwiseClone();
+        pNewFieldData.strValue = (string)pValue;
+
+        return pNewFieldData;
     }
 }

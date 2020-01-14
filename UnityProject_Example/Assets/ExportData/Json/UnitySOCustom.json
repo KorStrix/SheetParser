@@ -1,5 +1,6 @@
 {
   "strType": "UnitySOCustom",
+  "strHeaderFieldName": "strComment",
   "listInstance": [
     {
       "listField": [
@@ -11,7 +12,7 @@
           "strDependencyFieldName": null,
           "strEnumName": null,
           "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
+          "bDeleteThisField_InCode": true,
           "bNullOrEmpty_IsError": true,
           "bConvertStringToEnum": false
         },
@@ -21,10 +22,10 @@
           "strValue": "파랑색 메테리얼",
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": null,
+          "strEnumName": "",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
+          "bNullOrEmpty_IsError": false,
           "bConvertStringToEnum": false
         },
         {
@@ -45,11 +46,11 @@
           "strValue": "AutoEnum_1",
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": null,
+          "strEnumName": "AutoEnumTest",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
-          "bConvertStringToEnum": false
+          "bConvertStringToEnum": true
         },
         {
           "strFieldName": "AutoEnumValue",
@@ -87,7 +88,7 @@
           "strDependencyFieldName": null,
           "strEnumName": null,
           "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
+          "bDeleteThisField_InCode": true,
           "bNullOrEmpty_IsError": true,
           "bConvertStringToEnum": false
         },
@@ -97,10 +98,10 @@
           "strValue": "초록색 메테리얼",
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": null,
+          "strEnumName": "",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
+          "bNullOrEmpty_IsError": false,
           "bConvertStringToEnum": false
         },
         {
@@ -121,11 +122,11 @@
           "strValue": "AutoEnum_2",
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": null,
+          "strEnumName": "AutoEnumTest",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
-          "bConvertStringToEnum": false
+          "bConvertStringToEnum": true
         },
         {
           "strFieldName": "AutoEnumValue",
@@ -163,7 +164,7 @@
           "strDependencyFieldName": null,
           "strEnumName": null,
           "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
+          "bDeleteThisField_InCode": true,
           "bNullOrEmpty_IsError": true,
           "bConvertStringToEnum": false
         },
@@ -173,10 +174,10 @@
           "strValue": "빨간색 메테리얼",
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": null,
+          "strEnumName": "",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
+          "bNullOrEmpty_IsError": false,
           "bConvertStringToEnum": false
         },
         {
@@ -197,11 +198,11 @@
           "strValue": "AutoEnum_3",
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": null,
+          "strEnumName": "AutoEnumTest",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
-          "bConvertStringToEnum": false
+          "bConvertStringToEnum": true
         },
         {
           "strFieldName": "AutoEnumValue",

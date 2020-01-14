@@ -180,7 +180,12 @@ namespace SpreadSheetParser
             textBox_EnumName.Text = pFieldData.strEnumName;
 
             checkBox_Field_NullOrEmtpy_IsError.Checked = pFieldData.bNullOrEmpty_IsError;
-            checkBox_DeleteField_OnCode.Checked = pFieldData.bDeleteThisField_InCode; 
+            checkBox_DeleteField_OnCode.Checked = pFieldData.bDeleteThisField_InCode;
+            checkBox_IsHeaderField.Enabled = pFieldData.bDeleteThisField_InCode == false;
+            if (checkBox_IsHeaderField.Enabled)
+                checkBox_IsHeaderField.Checked = pSheetData.strHeaderFieldName == pFieldData.strFieldName;
+            else
+                checkBox_IsHeaderField.Checked = false;
 
             if (string.IsNullOrEmpty(pFieldData.strDependencyFieldName) == false)
                 comboBox_DependencyField.SelectedIndex = comboBox_DependencyField.Items.IndexOf(pFieldData.strDependencyFieldName);
@@ -767,6 +772,22 @@ namespace SpreadSheetParser
 
             pFieldData.bConvertStringToEnum = checkBox_ConvertStringToEnum.Checked;
             textBox_EnumName.Enabled = checkBox_ConvertStringToEnum.Checked;
+
+            AutoSaveAsync_CurrentSheet();
+        }
+
+        private void checkBox_IsHeaderField_CheckedChanged(object sender, EventArgs e)
+        {
+            if (listView_Field.SelectedItems.Count == 0)
+                return;
+
+            var pSelectedItem = listView_Field.SelectedItems[0];
+            FieldData pFieldData = (FieldData)pSelectedItem.Tag;
+
+            if (checkBox_IsHeaderField.Checked)
+                _pSheet_CurrentConnected.strHeaderFieldName = pFieldData.strFieldName;
+            else if(_pSheet_CurrentConnected.strHeaderFieldName == pFieldData.strFieldName)
+                _pSheet_CurrentConnected.strHeaderFieldName = "";
 
             AutoSaveAsync_CurrentSheet();
         }

@@ -82,9 +82,11 @@ namespace SpreadSheetParser
 
         public string strSheetName;
         public string strFileName;
+        public string strHeaderFieldName;
+
         public bool bEnable = true;
         public bool bIsPureClass;
-
+        
         public string strCommandLine;
         public EType eType;
 

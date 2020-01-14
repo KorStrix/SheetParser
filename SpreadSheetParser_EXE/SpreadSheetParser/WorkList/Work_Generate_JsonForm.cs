@@ -84,11 +84,14 @@ namespace SpreadSheetParser
             { 
                 TypeData pJson = new TypeData();
                 pJson.strType = pSheet.strFileName;
+                pJson.strHeaderFieldName = pSheet.strHeaderFieldName;
 
+                Dictionary<string, FieldData> mapFieldData = pSheet.listFieldData.ToDictionary(p => p.strFieldName);
                 Dictionary<int, string> mapMemberName = new Dictionary<int, string>();
                 Dictionary<int, string> mapMemberType = new Dictionary<int, string>();
                 int iColumnStartIndex = -1;
-                
+
+
                 pSheet.ParsingSheet(
                 ((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
                 {
@@ -117,7 +120,7 @@ namespace SpreadSheetParser
                     for (int i = iColumnIndex; i < listRow.Count; i++)
                     {
                         if(mapMemberName.ContainsKey(i))
-                            pJsonInstance.listField.Add(new FieldData(mapMemberName[i], mapMemberType[i], (string)listRow[i]));
+                            pJsonInstance.listField.Add(FieldData.Clone(mapFieldData[mapMemberName[i]], listRow[i]));
                     }
 
                     // 가상 변수

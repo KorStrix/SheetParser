@@ -89,6 +89,7 @@
             this.checkBox_ConvertStringToEnum = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox_EnumName = new System.Windows.Forms.TextBox();
+            this.checkBox_IsHeaderField = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox_2_1_TableSetting.SuspendLayout();
             this.groupBox_SelectedTable.SuspendLayout();
@@ -306,6 +307,7 @@
             // groupBox_2_2_SelectedField
             // 
             this.groupBox_2_2_SelectedField.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox_2_2_SelectedField.Controls.Add(this.checkBox_IsHeaderField);
             this.groupBox_2_2_SelectedField.Controls.Add(this.label7);
             this.groupBox_2_2_SelectedField.Controls.Add(this.checkBox_ConvertStringToEnum);
             this.groupBox_2_2_SelectedField.Controls.Add(this.textBox_EnumName);
@@ -477,7 +479,7 @@
             // columnHeader_IsVirtual
             // 
             this.columnHeader_IsVirtual.Text = "Virtual";
-            this.columnHeader_IsVirtual.Width = 50;
+            this.columnHeader_IsVirtual.Width = 61;
             // 
             // groupBox3
             // 
@@ -745,6 +747,17 @@
             this.textBox_EnumName.Size = new System.Drawing.Size(145, 21);
             this.textBox_EnumName.TabIndex = 22;
             // 
+            // checkBox_IsHeaderField
+            // 
+            this.checkBox_IsHeaderField.AutoSize = true;
+            this.checkBox_IsHeaderField.Location = new System.Drawing.Point(7, 194);
+            this.checkBox_IsHeaderField.Name = "checkBox_IsHeaderField";
+            this.checkBox_IsHeaderField.Size = new System.Drawing.Size(128, 16);
+            this.checkBox_IsHeaderField.TabIndex = 25;
+            this.checkBox_IsHeaderField.Text = "이 필드값을 헤더로";
+            this.checkBox_IsHeaderField.UseVisualStyleBackColor = true;
+            this.checkBox_IsHeaderField.CheckedChanged += new System.EventHandler(this.checkBox_IsHeaderField_CheckedChanged);
+            // 
             // SpreadSheetParser_MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -844,6 +857,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox checkBox_ConvertStringToEnum;
         private System.Windows.Forms.TextBox textBox_EnumName;
+        private System.Windows.Forms.CheckBox checkBox_IsHeaderField;
     }
 }
 

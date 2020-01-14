@@ -19,6 +19,7 @@ public class TypeDataList
 public class TypeData
 {
     public string strType;
+    public string strHeaderFieldName;
     public List<InstanceData> listInstance = new List<InstanceData>();
 }
 
@@ -47,7 +48,6 @@ public class FieldData
 
     public FieldData()
     {
-
     }
 
     public FieldData(string strMemberName, string strMemberType)
@@ -58,5 +58,13 @@ public class FieldData
     public FieldData(string strMemberName, string strMemberType, string strValue)
     {
         this.strFieldName = strMemberName; this.strFieldType = strMemberType; this.strValue = strValue;
+    }
+
+    static public FieldData Clone(FieldData pCopy, object pValue)
+    {
+        FieldData pNewFieldData = (FieldData)pCopy.MemberwiseClone();
+        pNewFieldData.strValue = (string)pValue;
+
+        return pNewFieldData;
     }
 }
