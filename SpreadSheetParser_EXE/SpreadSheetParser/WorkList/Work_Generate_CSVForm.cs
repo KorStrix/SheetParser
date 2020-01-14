@@ -85,7 +85,7 @@ namespace SpreadSheetParser
             { 
                 pStrBuilder.Clear();
 
-                StreamWriter pFileWriter = new StreamWriter($"{GetRelative_To_AbsolutePath(strExportPath)}/{pSheet.strSheetName.Trim()}.csv");
+                StreamWriter pFileWriter = new StreamWriter($"{GetRelative_To_AbsolutePath(strExportPath)}/{pSheet.strFileName.Trim()}.csv");
 
                 int iLastRowIndex = -1;
                 pSheet.ParsingSheet(

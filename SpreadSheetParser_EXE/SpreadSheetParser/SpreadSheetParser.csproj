@@ -79,6 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SaveData_SheetHelper.cs" />
     <Compile Include="Util\CSVUtility.cs" />
     <Compile Include="Util\TypeData.cs" />
     <Compile Include="WorkList\Work_Generate_JsonForm.cs">

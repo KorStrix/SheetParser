@@ -1,5 +1,5 @@
 {
-  "strType": "UnitySO",
+  "strType": "UnitySOCustom",
   "listInstance": [
     {
       "listField": [
@@ -8,6 +8,7 @@
           "strFieldType": "string",
           "strValue": "Assets/ExportData/Material/Blue.mat",
           "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
@@ -17,6 +18,7 @@
           "strFieldType": "string",
           "strValue": "파랑색 메테리얼",
           "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
@@ -26,6 +28,7 @@
           "strFieldType": "int",
           "strValue": "2",
           "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
@@ -35,8 +38,9 @@
           "strFieldType": "UnityEngine.Material",
           "strValue": null,
           "bIsVirtualField": true,
-          "bNullOrEmpty_IsError": false,
-          "strComment": null,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"MaterialPath\"/>",
           "strDependencyFieldName": "MaterialPath"
         }
       ]
@@ -48,6 +52,7 @@
           "strFieldType": "string",
           "strValue": "Assets/ExportData/Material/Green.mat",
           "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
@@ -57,6 +62,7 @@
           "strFieldType": "string",
           "strValue": "초록색 메테리얼",
           "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
@@ -66,6 +72,7 @@
           "strFieldType": "int",
           "strValue": "4",
           "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
@@ -75,8 +82,9 @@
           "strFieldType": "UnityEngine.Material",
           "strValue": null,
           "bIsVirtualField": true,
-          "bNullOrEmpty_IsError": false,
-          "strComment": null,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"MaterialPath\"/>",
           "strDependencyFieldName": "MaterialPath"
         }
       ]
@@ -88,6 +96,7 @@
           "strFieldType": "string",
           "strValue": "Assets/ExportData/Material/Red.mat",
           "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
@@ -97,6 +106,7 @@
           "strFieldType": "string",
           "strValue": "빨간색 메테리얼",
           "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
@@ -106,6 +116,7 @@
           "strFieldType": "int",
           "strValue": "8",
           "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
           "bNullOrEmpty_IsError": true,
           "strComment": null,
           "strDependencyFieldName": null
@@ -115,8 +126,9 @@
           "strFieldType": "UnityEngine.Material",
           "strValue": null,
           "bIsVirtualField": true,
-          "bNullOrEmpty_IsError": false,
-          "strComment": null,
+          "bDeleteThisField_InCode": false,
+          "bNullOrEmpty_IsError": true,
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"MaterialPath\"/>",
           "strDependencyFieldName": "MaterialPath"
         }
       ]

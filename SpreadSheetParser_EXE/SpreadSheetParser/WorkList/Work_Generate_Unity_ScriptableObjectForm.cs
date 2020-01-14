@@ -105,9 +105,11 @@ namespace SpreadSheetParser
                 if (pType.IsClass == false)
                     continue;
 
-                SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strSheetName == pType.Name).First();
-                if (pSaveData.bIsPureClass)
+                SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();
+                if (pSaveData == null || pSaveData.bIsPureClass)
                     continue;
+
+                SpreadSheetParser_MainForm.WriteConsole($"Unity SO - Working {pType.Name}");
 
                 Create_SO(pCodeFileBuilder, pNameSpace, pType, pSaveData);
                 Create_SOContainer(pCodeFileBuilder, pNameSpace, pType, pSaveData);
@@ -119,9 +121,11 @@ namespace SpreadSheetParser
                 if (pType.IsClass)
                     continue;
 
-                SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strSheetName == pType.Name).First();
-                if (pSaveData.bIsPureClass == false)
+                SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();
+                if (pSaveData == null || pSaveData.bIsPureClass == false)
                     continue;
+
+                SpreadSheetParser_MainForm.WriteConsole($"Unity SO - Working {pType.Name}");
 
                 pNameSpace.Types.Add(pType);
             }

@@ -24,7 +24,7 @@ namespace SpreadSheetParser
             IsConnected_And_SelectTable,
         }
 
-        public enum EEnumType
+        public enum EEnumHeaderType
         {
             EnumNone,
 
@@ -175,6 +175,7 @@ namespace SpreadSheetParser
             textBox_FieldName.Text = pFieldData.strFieldName;
             textBox_Type.Text = pFieldData.strFieldType;
             checkBox_Field_NullOrEmtpy_IsError.Checked = pFieldData.bNullOrEmpty_IsError;
+            checkBox_DeleteField_OnCode.Checked = pFieldData.bDeleteThisField_InCode; 
 
             if (string.IsNullOrEmpty(pFieldData.strDependencyFieldName) == false)
                 comboBox_DependencyField.SelectedIndex = comboBox_DependencyField.Items.IndexOf(pFieldData.strDependencyFieldName);
@@ -342,91 +343,7 @@ namespace SpreadSheetParser
             try
             {
                 foreach (var pItem in checkedListBox_SheetList.CheckedItems)
-                {
-                    SaveData_Sheet pSheetData = (SaveData_Sheet)pItem;
-                    List<CommandLineArg> listCommandLine = Parsing_CommandLine(pSheetData.strCommandLine);
-
-                    bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
-                    if (bIsEnum)
-                    {
-                        Dictionary<int, EEnumType> mapEnumType = new Dictionary<int, EEnumType>();
-                        Dictionary<string, CodeTypeDeclaration> mapEnumValue = new Dictionary<string, CodeTypeDeclaration>();
-
-                        pSheetData.ParsingSheet(
-                            (listRow, strText, iRow, iColumn) =>
-                            {
-                                EEnumType eType = EEnumType.EnumNone;
-                                if(System.Enum.TryParse(strText, out eType))
-                                {
-                                    if(eType == EEnumType.EnumType)
-                                    {
-                                        if (mapEnumType.ContainsKey(iColumn) == false)
-                                            mapEnumType.Add(iColumn, eType);
-
-                                        for (int i = iColumn; i < listRow.Count; i++)
-                                        {
-                                            string strTextOtherColumn = (string)listRow[i];
-                                            if (System.Enum.TryParse(strTextOtherColumn, out eType))
-                                            {
-                                                if (mapEnumType.ContainsKey(i) == false)
-                                                    mapEnumType.Add(i, eType);
-                                            }
-                                        }
-                                    }
-
-                                    return;
-                                }
-
-                                eType = mapEnumType[iColumn];
-                                if (eType != EEnumType.EnumType)
-                                    return;
-
-                                if (mapEnumValue.ContainsKey(strText) == false)
-                                    mapEnumValue.Add(strText, _pCodeFileBuilder.AddCodeType(strText));
-
-                                EnumFieldData pFieldData = new EnumFieldData();
-                                for (int i = iColumn; i < listRow.Count; i++)
-                                {
-                                    if(mapEnumType.TryGetValue(i, out eType))
-                                    {
-                                        string strNextText = (string)listRow[i];
-                                        switch (eType)
-                                        {
-                                            case EEnumType.EnumValue: pFieldData.strValue = strNextText; break;
-                                            case EEnumType.NumberValue: pFieldData.iNumber = int.Parse(strNextText); break;
-                                            case EEnumType.Comment: pFieldData.strComment = strNextText; break;
-                                        }
-                                    }
-                                }
-
-                                mapEnumValue[strText].AddEnumField(pFieldData);
-                            });
-                    }
-                    else
-                    {
-                        var pCodeType = _pCodeFileBuilder.AddCodeType(pSheetData.ToString());
-                        switch (pSheetData.eType)
-                        {
-                            case SaveData_Sheet.EType.Class: pCodeType.IsClass = true; break;
-                            case SaveData_Sheet.EType.Struct: pCodeType.IsStruct = true; break;
-
-                            default:
-                                break;
-                        }
-
-                        pSheetData.ParsingSheet(
-                          (listRow, strText, iRow, iColumn) =>
-                          {
-                              if (strText.Contains(":"))
-                              {
-                                  string[] arrText = strText.Split(':');
-                                  pCodeType.AddField(new FieldData(arrText[0], arrText[1]));
-                              }
-                          });
-
-                        Execute_CommandLine(pCodeType, listCommandLine);
-                    }
-                }
+                    ((SaveData_Sheet)pItem).DoWork(_pCodeFileBuilder);
             }
             catch (Exception pException)
             {
@@ -438,13 +355,19 @@ namespace SpreadSheetParser
             var listWork = checkedListBox_WorkList.CheckedItems;
             foreach(WorkBase pWork in listWork)
             {
-                pWork.DoWork(_pCodeFileBuilder, listSheetData);
+                try
+                {
+                    pWork.DoWork(_pCodeFileBuilder, listSheetData);
+                }
+                catch(Exception pException)
+                {
+                    WriteConsole($"빌드 중 에러 - Work : {pWork.pType} // Error : {pException}");
+                    return;
+                }
             }
 
             foreach (WorkBase pWork in listWork)
-            {
                 pWork.DoWorkAfter();
-            }
 
             WriteConsole("빌드 완료");
         }
@@ -457,58 +380,7 @@ namespace SpreadSheetParser
 
             try
             {
-                bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
-
-                pSheetData.ParsingSheet(
-                    (listRow, strText, iRow, iColumn) => 
-                    {
-                        if(bIsEnum)
-                        {
-                            Dictionary<int, EEnumType> mapEnumType = new Dictionary<int, EEnumType>();
-
-                            EEnumType eType = EEnumType.EnumNone;
-                            if (System.Enum.TryParse(strText, out eType))
-                            {
-                                // mapEnumType.Add(,eType)
-                                if (eType == EEnumType.EnumType)
-                                {
-                                    for (int i = iColumn; i < listRow.Count; i++)
-                                    {
-                                        string strTextOtherColumn = (string)listRow[i];
-                                        if (System.Enum.TryParse(strTextOtherColumn, out eType) == false)
-                                        {
-                                            WriteConsole($"테이블 유효성 체크 - 이넘 파싱 에러");
-                                            return;
-                                        }
-
-                                        if(mapEnumType.ContainsKey(iColumn) == false)
-                                            mapEnumType.Add(iColumn, eType);
-                                    }
-                                }
-
-                                return;
-                            }
-
-                            if(mapEnumType.ContainsKey(iColumn) == false)
-                                return;
-
-                            switch (mapEnumType[iColumn])
-                            {
-                                case EEnumType.EnumType:
-                                case EEnumType.EnumValue:
-                                    if(string.IsNullOrEmpty(strText))
-                                    {
-                                        WriteConsole($"테이블 유효성 체크 - 이넘 파싱 에러");
-                                        return;
-                                    }
-                                    break;
-                            }
-                        }
-                        else
-                        {
-
-                        }
-                    });
+                SaveData_SheetHelper.DoCheck_IsValid_Table(pSheetData);
             }
             catch (Exception pException)
             {
@@ -520,34 +392,6 @@ namespace SpreadSheetParser
                 WriteConsole($"테이블 유효성 체크 - 에러, 개수 : {iErrorCount}");
             else
                 WriteConsole("테이블 유효성 체크 - 이상없음");
-        }
-
-        private static List<CommandLineArg> Parsing_CommandLine(string strCommandLine)
-        {
-            return CommandLineParser.Parsing_CommandLine(strCommandLine,
-                (string strCommandLineText, out bool bHasValue) =>
-                {
-                    ECommandLine eCommandLine;
-                    bool bIsValid = Enum.TryParse(strCommandLineText, out eCommandLine);
-                    switch (eCommandLine)
-                    {
-                        case ECommandLine.comment:
-                        case ECommandLine.typename:
-                            bHasValue = true;
-                            break;
-
-                        default:
-                            bHasValue = false;
-                            break;
-                    }
-
-                    return bIsValid;
-                },
-                (string strCommandLineText, CommandLineParser.Error eError) =>
-                {
-                    WriteConsole($"테이블 유효성 에러 Text : {strCommandLineText} Error : {eError}");
-                    // iErrorCount++;
-                });
         }
 
         private SaveData_SpreadSheet GetSheet_LastEdit(Dictionary<string, SaveData_SpreadSheet> mapSaveData)
@@ -571,27 +415,6 @@ namespace SpreadSheetParser
                 WriteConsole(string.Format("마지막에 수정한 시트를 못찾았다.."));
 
             return pSheet_LastEdit;
-        }
-
-        private void Execute_CommandLine(System.CodeDom.CodeTypeDeclaration pCodeType, List<CommandLineArg> listCommandLine)
-        {
-            for(int i = 0; i < listCommandLine.Count; i++)
-            {
-                ECommandLine eCommandLine = (ECommandLine)Enum.Parse(typeof(ECommandLine), listCommandLine[i].strArgName);
-                switch (eCommandLine)
-                {
-                    case ECommandLine.comment:
-                        pCodeType.AddComment(listCommandLine[i].strArgValue);
-                        break;
-
-                    case ECommandLine.typename:
-                        pCodeType.Name = listCommandLine[i].strArgValue;
-                        break;
-
-                    default:
-                        break;
-                }
-            }
         }
 
         private void Button_OpenPath_SaveSheet_Click(object sender, EventArgs e)
@@ -701,6 +524,7 @@ namespace SpreadSheetParser
 
             groupBox_SelectedTable.Text = pSheetData.ToString();
             textBox_CommandLine.Text = pSheetData.strCommandLine;
+            textBox_TableFileName.Text = pSheetData.strFileName; ;
             checkBox_IsPureClass.Checked = pSheetData.bIsPureClass;
 
             switch (pSheetData.eType)
@@ -725,9 +549,25 @@ namespace SpreadSheetParser
             textBox_CommandLine.Text = _pSheet_CurrentConnected.strCommandLine;
         }
 
-        private void radioButton_class_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Class; checkBox_IsPureClass.Enabled = true; AutoSaveAsync_CurrentSheet(); }
-        private void radioButton_Struct_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Struct; checkBox_IsPureClass.Enabled = false; AutoSaveAsync_CurrentSheet(); }
-        private void radioButton_Enum_CheckedChanged(object sender, EventArgs e) { _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Enum; checkBox_IsPureClass.Enabled = false; AutoSaveAsync_CurrentSheet(); }
+
+        private void OnChangeValue_TypeRadioButton(object sender, EventArgs e)
+        {
+            if (radioButton_Class.Checked)
+            {
+                _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Class;
+                checkBox_IsPureClass.Enabled = true;
+            }
+            else if(radioButton_Struct.Checked)
+            {
+                _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Struct;
+            }
+            else if (radioButton_Enum.Checked)
+            {
+                _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Enum;
+            }
+
+            AutoSaveAsync_CurrentSheet();
+        }
 
         private void button_AddWork_Click(object sender, EventArgs e)
         {
@@ -883,6 +723,30 @@ namespace SpreadSheetParser
         private void button_Check_TableAll_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button_Save_FileName_Click(object sender, EventArgs e)
+        {
+            _pSheet_CurrentConnected.strFileName = textBox_TableFileName.Text;
+            AutoSaveAsync_CurrentSheet();
+        }
+
+        private void button_Cancel_FileName_Click(object sender, EventArgs e)
+        {
+            textBox_TableFileName.Text= _pSheet_CurrentConnected.strFileName;
+        }
+
+        private void checkBox_DeleteField_OnAfterBuild_CheckedChanged(object sender, EventArgs e)
+        {
+            if (listView_Field.SelectedItems.Count == 0)
+                return;
+
+            var pSelectedItem = listView_Field.SelectedItems[0];
+            FieldData pFieldData = (FieldData)pSelectedItem.Tag;
+
+            pFieldData.bDeleteThisField_InCode = checkBox_DeleteField_OnCode.Checked;
+
+            AutoSaveAsync_CurrentSheet();
         }
     }
 }

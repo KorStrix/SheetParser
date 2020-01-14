@@ -12,10 +12,8 @@ using UnityEngine;
 
 
 
-public class UnitySO : UnityEngine.ScriptableObject
+public class UnitySOCustom : UnityEngine.ScriptableObject
 {
-    
-    public string MaterialPath;
     
     public string strComment;
     

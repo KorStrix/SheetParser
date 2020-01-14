@@ -83,7 +83,7 @@ namespace SpreadSheetParser
             foreach (var pSheet in listSheetData)
             { 
                 TypeData pJson = new TypeData();
-                pJson.strType = pSheet.strSheetName;
+                pJson.strType = pSheet.strFileName;
 
                 Dictionary<int, string> mapMemberName = new Dictionary<int, string>();
                 Dictionary<int, string> mapMemberType = new Dictionary<int, string>();
@@ -126,7 +126,10 @@ namespace SpreadSheetParser
                         pJsonInstance.listField.AddRange(listVirtualField);
                 }));
 
-                string strFileName = $"{pSheet.strSheetName}.json";
+                if (pJson.listInstance.Count == 0)
+                    continue;
+
+                string strFileName = $"{pSheet.strFileName}.json";
                 JsonSaveManager.SaveData(pJson, $"{GetRelative_To_AbsolutePath(strExportPath)}/{strFileName}");
 
                 pTypeDataList.listFileName.Add(strFileName);

@@ -81,6 +81,7 @@ namespace SpreadSheetParser
         public delegate void delOnParsingText(IList<object> listRow, string strText, int iRowIndex, int iColumnIndex);
 
         public string strSheetName;
+        public string strFileName;
         public bool bEnable = true;
         public bool bIsPureClass;
 
@@ -92,6 +93,7 @@ namespace SpreadSheetParser
         public SaveData_Sheet(string strSheetName)
         {
             this.strSheetName = strSheetName;
+            this.strFileName = strSheetName;
         }
 
         public void ParsingSheet(delOnParsingText OnParsingText)
