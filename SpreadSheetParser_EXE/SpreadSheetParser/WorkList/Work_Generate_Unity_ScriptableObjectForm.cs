@@ -118,15 +118,8 @@ namespace SpreadSheetParser
             pNameSpace.Types.Clear();
             foreach (CodeTypeDeclaration pType in arrTypes)
             {
-                if (string.IsNullOrEmpty(pType.Name))
+                if (string.IsNullOrEmpty(pType.Name) || pType.IsClass)
                     continue;
-
-                if (pType.IsClass)
-                {
-                    SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();
-                    if (pSaveData == null)
-                        continue;
-                }
 
                 SpreadSheetParser_MainForm.WriteConsole($"UnitySO - Working Others {pType.Name}");
                 pNameSpace.Types.Add(pType);

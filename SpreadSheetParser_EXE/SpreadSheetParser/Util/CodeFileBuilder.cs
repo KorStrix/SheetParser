@@ -198,7 +198,7 @@ namespace SpreadSheetParser
         {
             CodeMemberField pField = new CodeMemberField(pCodeType.Name, pFieldData.strValue);
 
-            if(pFieldData.iNumber != int.MaxValue)
+            if (pFieldData.iNumber != int.MaxValue)
                 pField.InitExpression = new CodePrimitiveExpression(pFieldData.iNumber);
 
             if (string.IsNullOrEmpty(pFieldData.strComment) == false)

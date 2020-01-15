@@ -112,7 +112,12 @@ public class UnitySO_Generator : EditorWindow
                     if (pMember.bDeleteThisField_InCode || pMember.bConvertStringToEnum)
                         continue;
 
-                    System.Reflection.FieldInfo pFieldInfo = mapFieldInfo_SO[pMember.strFieldName];
+                    System.Reflection.FieldInfo pFieldInfo;
+                    if (mapFieldInfo_SO.TryGetValue(pMember.strFieldName, out pFieldInfo) == false)
+                    {
+                        Debug.LogError($"Not Found Real Field {pMember.strFieldType} {pMember.strFieldName}");
+                        continue;
+                    }
 
                     try
                     {
@@ -138,18 +143,23 @@ public class UnitySO_Generator : EditorWindow
                             $"Exception : {e}");
                     }
                 }
-
+                
                 // 가상 멤버
                 var listVirtualField = pInstance.listField.Where((pFieldData) => pFieldData.bIsVirtualField);
                 foreach (var pMember in listVirtualField)
                 {
                     System.Reflection.FieldInfo pFieldInfo = mapFieldInfo_SO[pMember.strFieldName];
                     System.Type pType_Field = GetTypeFromAssemblies(pMember.strFieldType);
+                    if(pType_Field == null)
+                    {
+                        Debug.LogError($"Error {pMember.strFieldName} - Field Type Not Found - {pMember.strFieldType}");
+                        continue;
+                    }
 
                     FieldData pFieldData_Dependency = pInstance.listField.Where(pFieldData => pFieldData.strFieldName == pMember.strDependencyFieldName).FirstOrDefault();
                     if(pFieldData_Dependency == null)
                     {
-                        Debug.LogError($"Error Not Found Field {pMember.strDependencyFieldName}");
+                        Debug.LogError($"Error {pMember.strFieldName} - Dependency Not Found - Name : {pMember.strDependencyFieldName}");
                         continue;
                     }
 

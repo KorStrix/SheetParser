@@ -22,7 +22,7 @@ namespace SpreadSheetParser
         {
             JsonSerializerSettings pSetting = new JsonSerializerSettings();
             pSetting.Formatting = Formatting.Indented;
-            pSetting.MissingMemberHandling = MissingMemberHandling.Error;
+            pSetting.MissingMemberHandling = MissingMemberHandling.Ignore;
             pSetting.Converters.Add(new WorkJsonConverter());
 
             return pSetting;
