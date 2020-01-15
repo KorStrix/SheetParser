@@ -71,6 +71,7 @@ namespace SpreadSheetParser
         {
             using (FolderBrowserDialog pDialog = new FolderBrowserDialog())
             {
+                pDialog.SelectedPath = Directory.GetCurrentDirectory();
                 if (pDialog.ShowDialog() == DialogResult.OK)
                 {
                     if(bIsAbsolutePath)

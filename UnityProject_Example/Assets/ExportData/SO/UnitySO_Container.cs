@@ -17,4 +17,10 @@ public class UnitySO_Container : UnityEngine.ScriptableObject
 {
     
     public List<UnitySO> listData;
+    
+    public Dictionary<string, UnitySO> mapData_Key_Is_strComment;
+    
+    public Dictionary<int, List<UnitySO>> mapData_Key_Is_intValue;
+    
+    public Dictionary<string, List<UnitySO>> mapData_Key_Is_strAutoEnum;
 }

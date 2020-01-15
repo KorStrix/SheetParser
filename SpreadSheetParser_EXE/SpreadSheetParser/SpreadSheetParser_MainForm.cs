@@ -143,13 +143,12 @@ namespace SpreadSheetParser
             if (bEnable)
             {
                 pFieldData = (FieldData)listView_Field.SelectedItems[0].Tag;
-                checkBox_Field_NullOrEmtpy_IsError.Checked = pFieldData.bNullOrEmpty_IsError;
             }
             else
             {
                 groupBox_2_2_SelectedField.Enabled = false;
                 groupBox_2_2_SelectedField_Virtual.Enabled = false;
-                checkBox_Field_NullOrEmtpy_IsError.Checked = false;
+                checkBox_Field_ThisIsKey.Checked = false;
 
                 textBox_FieldName.Text = "";
                 textBox_Type.Text = "";
@@ -179,13 +178,20 @@ namespace SpreadSheetParser
             textBox_EnumName.Enabled = pFieldData.bConvertStringToEnum;
             textBox_EnumName.Text = pFieldData.strEnumName;
 
-            checkBox_Field_NullOrEmtpy_IsError.Checked = pFieldData.bNullOrEmpty_IsError;
+
             checkBox_DeleteField_OnCode.Checked = pFieldData.bDeleteThisField_InCode;
             checkBox_IsHeaderField.Enabled = pFieldData.bDeleteThisField_InCode == false;
             if (checkBox_IsHeaderField.Enabled)
                 checkBox_IsHeaderField.Checked = pSheetData.strHeaderFieldName == pFieldData.strFieldName;
             else
                 checkBox_IsHeaderField.Checked = false;
+
+            checkBox_Field_ThisIsKey.Checked = pFieldData.bIsKeyField;
+            checkBox_FieldKey_IsOverlap.Enabled = pFieldData.bIsKeyField;
+            if (checkBox_FieldKey_IsOverlap.Enabled)
+                checkBox_FieldKey_IsOverlap.Checked = pFieldData.bIsOverlapKey;
+            else
+                checkBox_FieldKey_IsOverlap.Enabled = false;
 
             if (string.IsNullOrEmpty(pFieldData.strDependencyFieldName) == false)
                 comboBox_DependencyField.SelectedIndex = comboBox_DependencyField.Items.IndexOf(pFieldData.strDependencyFieldName);
@@ -434,13 +440,6 @@ namespace SpreadSheetParser
         }
 
 
-        private void button_TableSave_Click(object sender, EventArgs e)
-        {
-            _pSheet_CurrentConnected.strCommandLine = textBox_CommandLine.Text;
-            AutoSaveAsync_CurrentSheet();
-        }
-
-
         private void SetState(EState eState)
         {
             _eState = eState;
@@ -533,9 +532,7 @@ namespace SpreadSheetParser
                 return;
 
             groupBox_SelectedTable.Text = pSheetData.ToString();
-            textBox_CommandLine.Text = pSheetData.strCommandLine;
-            textBox_TableFileName.Text = pSheetData.strFileName; ;
-            checkBox_IsPureClass.Checked = pSheetData.bIsPureClass;
+            textBox_TableFileName.Text = pSheetData.strFileName;
 
             switch (pSheetData.eType)
             {
@@ -554,17 +551,11 @@ namespace SpreadSheetParser
             System.Diagnostics.Process.Start($"{const_SheetURL}/{textBox_SheetID.Text}");
         }
 
-        private void button_Cancel_TableCommandLine_Click(object sender, EventArgs e)
-        {
-            textBox_CommandLine.Text = _pSheet_CurrentConnected.strCommandLine;
-        }
-
         private void OnChangeValue_TypeRadioButton(object sender, EventArgs e)
         {
             if (radioButton_Class.Checked)
             {
                 _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Class;
-                checkBox_IsPureClass.Enabled = true;
             }
             else if(radioButton_Struct.Checked)
             {
@@ -573,6 +564,10 @@ namespace SpreadSheetParser
             else if (radioButton_Enum.Checked)
             {
                 _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Enum;
+            }
+            else if (radioButton_Global.Checked)
+            {
+                _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Global;
             }
 
             AutoSaveAsync_CurrentSheet();
@@ -714,12 +709,6 @@ namespace SpreadSheetParser
             AutoSaveAsync_CurrentSheet();
         }
 
-        private void checkBox_IsPureClass_CheckedChanged(object sender, EventArgs e)
-        {
-            _pSheet_CurrentConnected.bIsPureClass = checkBox_IsPureClass.Checked;
-            AutoSaveAsync_CurrentSheet();
-        }
-
         private void checkBox_Field_NullOrEmtpy_IsError_CheckedChanged(object sender, EventArgs e)
         {
             if (listView_Field.SelectedItems.Count == 0)
@@ -728,7 +717,8 @@ namespace SpreadSheetParser
             var pSelectedItem = listView_Field.SelectedItems[0];
             FieldData pFieldData = (FieldData)pSelectedItem.Tag;
 
-            pFieldData.bNullOrEmpty_IsError = checkBox_Field_NullOrEmtpy_IsError.Checked;
+            pFieldData.bIsKeyField = checkBox_Field_ThisIsKey.Checked;
+            checkBox_FieldKey_IsOverlap.Enabled = pFieldData.bIsKeyField;
 
             AutoSaveAsync_CurrentSheet();
         }
@@ -788,6 +778,19 @@ namespace SpreadSheetParser
                 _pSheet_CurrentConnected.strHeaderFieldName = pFieldData.strFieldName;
             else if(_pSheet_CurrentConnected.strHeaderFieldName == pFieldData.strFieldName)
                 _pSheet_CurrentConnected.strHeaderFieldName = "";
+
+            AutoSaveAsync_CurrentSheet();
+        }
+
+        private void checkBox_FieldKey_IsOverlap_CheckedChanged(object sender, EventArgs e)
+        {
+            if (listView_Field.SelectedItems.Count == 0)
+                return;
+
+            var pSelectedItem = listView_Field.SelectedItems[0];
+            FieldData pFieldData = (FieldData)pSelectedItem.Tag;
+
+            pFieldData.bIsOverlapKey = checkBox_FieldKey_IsOverlap.Checked;
 
             AutoSaveAsync_CurrentSheet();
         }

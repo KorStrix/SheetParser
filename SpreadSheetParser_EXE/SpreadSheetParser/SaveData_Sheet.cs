@@ -76,6 +76,7 @@ namespace SpreadSheetParser
             Class,
             Struct,
             Enum,
+            Global,
         }
 
         public delegate void delOnParsingText(IList<object> listRow, string strText, int iRowIndex, int iColumnIndex);
@@ -85,7 +86,6 @@ namespace SpreadSheetParser
         public string strHeaderFieldName;
 
         public bool bEnable = true;
-        public bool bIsPureClass;
         
         public string strCommandLine;
         public EType eType;

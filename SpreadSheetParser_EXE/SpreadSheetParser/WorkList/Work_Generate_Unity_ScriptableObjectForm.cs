@@ -106,7 +106,7 @@ namespace SpreadSheetParser
                     continue;
 
                 SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();
-                if (pSaveData == null || pSaveData.bIsPureClass)
+                if (pSaveData == null)
                     continue;
 
                 SpreadSheetParser_MainForm.WriteConsole($"UnitySO - Working SO {pType.Name}");
@@ -124,7 +124,7 @@ namespace SpreadSheetParser
                 if (pType.IsClass)
                 {
                     SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();
-                    if (pSaveData == null || pSaveData.bIsPureClass == false)
+                    if (pSaveData == null)
                         continue;
                 }
 
@@ -160,6 +160,16 @@ namespace SpreadSheetParser
             pNameSpace.Types.Add(pContainerType);
 
             pContainerType.AddField(new FieldData("listData", $"List<{pType.Name}>"));
+
+
+            IEnumerable<FieldData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
+            foreach(var pFieldData in listKeyField)
+            {
+                if(pFieldData.bIsOverlapKey)
+                    pContainerType.AddField(new FieldData($"mapData_Key_Is_{pFieldData.strFieldName}", $"Dictionary<{pFieldData.strFieldType}, List<{pType.Name}>>"));
+                else
+                    pContainerType.AddField(new FieldData($"mapData_Key_Is_{pFieldData.strFieldName}", $"Dictionary<{pFieldData.strFieldType}, {pType.Name}>"));
+            }
 
             pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pContainerType.Name}");
         }

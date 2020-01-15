@@ -13,12 +13,16 @@ using UnityEngine;
 
 
 
-public enum AutoEnumTest
+public class UnitySO : UnityEngine.ScriptableObject
 {
     
-    AutoEnum_1,
+    public string MaterialPath;
     
-    AutoEnum_2,
+    public string strComment;
     
-    AutoEnum_3,
+    public int intValue;
+    
+    public string strAutoEnum;
+    
+    public AutoEnumTest AutoEnumValue;
 }
