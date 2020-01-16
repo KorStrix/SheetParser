@@ -22,8 +22,6 @@ public class UnitySO : UnityEngine.ScriptableObject
     
     public int intValue;
     
-    public AutoEnumTest AutoEnumValue;
-    
     /// <summary>
     /// 자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref="MaterialPath"/>
     /// </summary>

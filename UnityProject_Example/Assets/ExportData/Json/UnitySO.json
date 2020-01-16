@@ -52,7 +52,7 @@
           "strEnumName": "AutoEnumTest",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": true,
+          "bIsKeyField": false,
           "bIsOverlapKey": true,
           "bConvertStringToEnum": true
         },
@@ -62,12 +62,12 @@
           "strValue": "AutoEnum_1",
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": null,
+          "strEnumName": "",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
+          "bIsKeyField": true,
           "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
+          "bConvertStringToEnum": true
         },
         {
           "strFieldName": "pMaterial",
@@ -134,7 +134,7 @@
           "strEnumName": "AutoEnumTest",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": true,
+          "bIsKeyField": false,
           "bIsOverlapKey": true,
           "bConvertStringToEnum": true
         },
@@ -144,12 +144,12 @@
           "strValue": "AutoEnum_2",
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": null,
+          "strEnumName": "",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
+          "bIsKeyField": true,
           "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
+          "bConvertStringToEnum": true
         },
         {
           "strFieldName": "pMaterial",
@@ -216,7 +216,7 @@
           "strEnumName": "AutoEnumTest",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": true,
+          "bIsKeyField": false,
           "bIsOverlapKey": true,
           "bConvertStringToEnum": true
         },
@@ -226,12 +226,12 @@
           "strValue": "AutoEnum_3",
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": null,
+          "strEnumName": "",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
+          "bIsKeyField": true,
           "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
+          "bConvertStringToEnum": true
         },
         {
           "strFieldName": "pMaterial",

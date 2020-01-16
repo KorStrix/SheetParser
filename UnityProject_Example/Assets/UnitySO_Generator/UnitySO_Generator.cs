@@ -75,10 +75,17 @@ public class UnitySO_Generator : EditorWindow
 
             string strContainTargetName = pFieldInfo_CashedContainer.Name.Replace("mapData_Key_Is_", "");
             _pKeyFieldInfo_Instance = mapFieldInfo_SO.Where(p => p.Key == strContainTargetName).FirstOrDefault().Value;
+            if (_pKeyFieldInfo_Instance == null)
+            {
+                Debug.LogError($"Not Found Field Instance {strContainTargetName}");
+            }
         }
 
         public override void Process_CashingLogic(object pObject, List<FieldData> listFieldData)
         {
+            if (_pKeyFieldInfo_Instance == null)
+                return;
+
             object pKeyValue = _pKeyFieldInfo_Instance.GetValue(pObject);
             _pMethod_Add.Invoke(_pInstance, new object[] { pKeyValue, pObject });
         }
@@ -233,8 +240,18 @@ public class UnitySO_Generator : EditorWindow
                 Process_VirtualField(mapFieldInfo_SO, pInstance, pSO);
 
                 List<FieldData> listFieldData = pInstance.listField;
+
                 for (int i = 0; i < listCashingLogic.Count; i++)
-                    listCashingLogic[i].Process_CashingLogic(pSO, listFieldData);
+                {
+                    try
+                    {
+                        listCashingLogic[i].Process_CashingLogic(pSO, listFieldData);
+                    }
+                    catch (System.Exception e)
+                    {
+                        listCashingLogic[i].Process_CashingLogic(pSO, listFieldData);
+                    }
+                }
 
                 iLoopIndex++;
             }

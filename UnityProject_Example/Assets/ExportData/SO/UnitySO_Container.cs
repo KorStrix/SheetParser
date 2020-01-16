@@ -22,5 +22,5 @@ public class UnitySO_Container : UnityEngine.ScriptableObject
     
     public Dictionary<int, List<UnitySO>> mapData_Key_Is_intValue;
     
-    public Dictionary<string, List<UnitySO>> mapData_Key_Is_strAutoEnum;
+    public Dictionary<AutoEnumTest, UnitySO> mapData_Key_Is_AutoEnumValue;
 }
