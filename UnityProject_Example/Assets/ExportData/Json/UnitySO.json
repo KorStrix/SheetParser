@@ -1,5 +1,6 @@
 {
   "strType": "UnitySO",
+  "strHeaderFieldName": "",
   "listInstance": [
     {
       "listField": [
@@ -7,37 +8,79 @@
           "strFieldName": "MaterialPath",
           "strFieldType": "string",
           "strValue": "Assets/ExportData/Material/Blue.mat",
-          "bIsVirtualField": false,
-          "bNullOrEmpty_IsError": true,
           "strComment": null,
-          "strDependencyFieldName": null
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
         },
         {
           "strFieldName": "strComment",
           "strFieldType": "string",
           "strValue": "파랑색 메테리얼",
-          "bIsVirtualField": false,
-          "bNullOrEmpty_IsError": true,
           "strComment": null,
-          "strDependencyFieldName": null
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
         },
         {
           "strFieldName": "intValue",
           "strFieldType": "int",
           "strValue": "2",
-          "bIsVirtualField": false,
-          "bNullOrEmpty_IsError": true,
           "strComment": null,
-          "strDependencyFieldName": null
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strAutoEnum",
+          "strFieldType": "string",
+          "strValue": "AutoEnum_1",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "AutoEnumTest",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bConvertStringToEnum": true
+        },
+        {
+          "strFieldName": "AutoEnumValue",
+          "strFieldType": "AutoEnumTest",
+          "strValue": "AutoEnum_1",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
         },
         {
           "strFieldName": "pMaterial",
           "strFieldType": "UnityEngine.Material",
           "strValue": null,
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"MaterialPath\"/>",
+          "strDependencyFieldName": "MaterialPath",
+          "strEnumName": "",
           "bIsVirtualField": true,
-          "bNullOrEmpty_IsError": false,
-          "strComment": null,
-          "strDependencyFieldName": "MaterialPath"
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": true
         }
       ]
     },
@@ -47,37 +90,79 @@
           "strFieldName": "MaterialPath",
           "strFieldType": "string",
           "strValue": "Assets/ExportData/Material/Green.mat",
-          "bIsVirtualField": false,
-          "bNullOrEmpty_IsError": true,
           "strComment": null,
-          "strDependencyFieldName": null
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
         },
         {
           "strFieldName": "strComment",
           "strFieldType": "string",
           "strValue": "초록색 메테리얼",
-          "bIsVirtualField": false,
-          "bNullOrEmpty_IsError": true,
           "strComment": null,
-          "strDependencyFieldName": null
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
         },
         {
           "strFieldName": "intValue",
           "strFieldType": "int",
           "strValue": "4",
-          "bIsVirtualField": false,
-          "bNullOrEmpty_IsError": true,
           "strComment": null,
-          "strDependencyFieldName": null
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strAutoEnum",
+          "strFieldType": "string",
+          "strValue": "AutoEnum_2",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "AutoEnumTest",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bConvertStringToEnum": true
+        },
+        {
+          "strFieldName": "AutoEnumValue",
+          "strFieldType": "AutoEnumTest",
+          "strValue": "AutoEnum_2",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
         },
         {
           "strFieldName": "pMaterial",
           "strFieldType": "UnityEngine.Material",
           "strValue": null,
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"MaterialPath\"/>",
+          "strDependencyFieldName": "MaterialPath",
+          "strEnumName": "",
           "bIsVirtualField": true,
-          "bNullOrEmpty_IsError": false,
-          "strComment": null,
-          "strDependencyFieldName": "MaterialPath"
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": true
         }
       ]
     },
@@ -87,37 +172,79 @@
           "strFieldName": "MaterialPath",
           "strFieldType": "string",
           "strValue": "Assets/ExportData/Material/Red.mat",
-          "bIsVirtualField": false,
-          "bNullOrEmpty_IsError": true,
           "strComment": null,
-          "strDependencyFieldName": null
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
         },
         {
           "strFieldName": "strComment",
           "strFieldType": "string",
           "strValue": "빨간색 메테리얼",
-          "bIsVirtualField": false,
-          "bNullOrEmpty_IsError": true,
           "strComment": null,
-          "strDependencyFieldName": null
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
         },
         {
           "strFieldName": "intValue",
           "strFieldType": "int",
           "strValue": "8",
-          "bIsVirtualField": false,
-          "bNullOrEmpty_IsError": true,
           "strComment": null,
-          "strDependencyFieldName": null
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strAutoEnum",
+          "strFieldType": "string",
+          "strValue": "AutoEnum_3",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "AutoEnumTest",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bConvertStringToEnum": true
+        },
+        {
+          "strFieldName": "AutoEnumValue",
+          "strFieldType": "AutoEnumTest",
+          "strValue": "AutoEnum_3",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
         },
         {
           "strFieldName": "pMaterial",
           "strFieldType": "UnityEngine.Material",
           "strValue": null,
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"MaterialPath\"/>",
+          "strDependencyFieldName": "MaterialPath",
+          "strEnumName": "",
           "bIsVirtualField": true,
-          "bNullOrEmpty_IsError": false,
-          "strComment": null,
-          "strDependencyFieldName": "MaterialPath"
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": true
         }
       ]
     }

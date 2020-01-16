@@ -13,16 +13,66 @@ using UnityEngine;
 
 
 
-public class UnitySO : UnityEngine.ScriptableObject
+public enum AutoEnumTest
 {
     
-    public string MaterialPath;
+    AutoEnum_1,
     
-    public string strComment;
+    AutoEnum_2,
     
-    public int intValue;
+    AutoEnum_3,
+}
+
+public struct struct1
+{
     
-    public string strAutoEnum;
+    public int Int;
     
-    public AutoEnumTest AutoEnumValue;
+    public string stringmember;
+    
+    public TestEnum enummember;
+}
+
+public enum TestEnum
+{
+    
+    /// <summary>
+    /// 마이너스일
+    /// </summary>
+    Minus_One = -1,
+    
+    /// <summary>
+    /// 제로
+    /// </summary>
+    Zero = 0,
+    
+    /// <summary>
+    /// 원
+    /// </summary>
+    One = 1,
+}
+
+public enum TestEnum2
+{
+    
+    /// <summary>
+    /// 111
+    /// </summary>
+    MO = -1,
+    
+    /// <summary>
+    /// 0
+    /// </summary>
+    ZO = 0,
+    
+    /// <summary>
+    /// 11
+    /// </summary>
+    O = 1,
+}
+
+public enum TestEnum3
+{
+    
+    A,
 }

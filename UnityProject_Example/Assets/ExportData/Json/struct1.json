@@ -1,5 +1,6 @@
 {
   "strType": "struct1",
+  "strHeaderFieldName": null,
   "listInstance": [
     {
       "listField": [
@@ -12,7 +13,8 @@
           "strEnumName": null,
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
           "bConvertStringToEnum": false
         },
         {
@@ -24,7 +26,8 @@
           "strEnumName": null,
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
           "bConvertStringToEnum": false
         },
         {
@@ -36,7 +39,8 @@
           "strEnumName": null,
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
           "bConvertStringToEnum": false
         }
       ]
@@ -52,7 +56,8 @@
           "strEnumName": null,
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
           "bConvertStringToEnum": false
         },
         {
@@ -64,7 +69,8 @@
           "strEnumName": null,
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
           "bConvertStringToEnum": false
         },
         {
@@ -76,7 +82,8 @@
           "strEnumName": null,
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bNullOrEmpty_IsError": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
           "bConvertStringToEnum": false
         }
       ]

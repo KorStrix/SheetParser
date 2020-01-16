@@ -12,17 +12,14 @@ using UnityEngine;
 
 
 
-public class UnitySOCustom : UnityEngine.ScriptableObject
+public class class1 : UnityEngine.ScriptableObject
 {
     
-    public string strComment;
+    public int IntCalculate;
     
-    public int intValue;
+    public int Int;
     
-    public AutoEnumTest AutoEnumValue;
+    public string stringmember;
     
-    /// <summary>
-    /// 자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref="MaterialPath"/>
-    /// </summary>
-    public UnityEngine.Material pMaterial;
+    public TestEnum enummember;
 }

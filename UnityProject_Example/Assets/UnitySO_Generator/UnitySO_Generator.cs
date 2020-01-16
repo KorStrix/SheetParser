@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using System.Linq;
 using System.IO;
+using System.Reflection;
 
 /// <summary>
 /// Editor 폴더 안에 위치해야 합니다.
@@ -24,6 +25,122 @@ public class UnitySO_Generator : EditorWindow
 
     /* public - Field declaration            */
 
+    public abstract class Container_CashingLogicBase
+    {
+        protected ScriptableObject _pContainerInstance { get; private set; }
+        protected FieldInfo _pFieldInfo { get; private set; }
+        protected Dictionary<string, FieldInfo> mapFieldInfo_SO { get; private set; }
+
+        public Container_CashingLogicBase(ScriptableObject pContainerInstance, FieldInfo pFieldInfo_CashedContainer, Dictionary<string, FieldInfo> mapFieldInfo_SO)
+        {
+            this._pContainerInstance = pContainerInstance;
+            this._pFieldInfo = pFieldInfo_CashedContainer;
+        }
+
+        abstract public void Process_CashingLogic(object pObject, List<FieldData> listFieldData);
+    }
+
+    public class Container_CashingLogic_List : Container_CashingLogicBase
+    {
+        MethodInfo _pMethod_Add;
+        object _pInstance;
+
+        public Container_CashingLogic_List(ScriptableObject pContainerInstance, FieldInfo pFieldInfo_CashedContainer, Dictionary<string, FieldInfo> mapFieldInfo_SO) : base(pContainerInstance, pFieldInfo_CashedContainer, mapFieldInfo_SO)
+        {
+            _pMethod_Add = pFieldInfo_CashedContainer.FieldType.GetMethod("Add");
+            _pInstance = System.Activator.CreateInstance(pFieldInfo_CashedContainer.FieldType);
+            pFieldInfo_CashedContainer.SetValue(pContainerInstance, _pInstance);
+        }
+
+        public override void Process_CashingLogic(object pObject, List<FieldData> listFieldData)
+        {
+            _pMethod_Add.Invoke(_pInstance, new object[] { pObject });
+        }
+    }
+
+    public class Container_CashingLogic_Dictionary_Single : Container_CashingLogicBase
+    {
+        MethodInfo _pMethod_Add;
+        FieldInfo _pKeyFieldInfo_Instance;
+        object _pInstance;
+
+        public Container_CashingLogic_Dictionary_Single(ScriptableObject pContainerInstance, FieldInfo pFieldInfo_CashedContainer, Dictionary<string, FieldInfo> mapFieldInfo_SO) : base(pContainerInstance, pFieldInfo_CashedContainer, mapFieldInfo_SO)
+        {
+            System.Type[] arrGenericArguments = pFieldInfo_CashedContainer.FieldType.GetGenericArguments();
+
+            _pMethod_Add = pFieldInfo_CashedContainer.FieldType.GetMethod("Add", new[] {
+                                arrGenericArguments[0], arrGenericArguments[1]});
+            _pInstance = System.Activator.CreateInstance(pFieldInfo_CashedContainer.FieldType);
+            pFieldInfo_CashedContainer.SetValue(pContainerInstance, _pInstance);
+
+            string strContainTargetName = pFieldInfo_CashedContainer.Name.Replace("mapData_Key_Is_", "");
+            _pKeyFieldInfo_Instance = mapFieldInfo_SO.Where(p => p.Key == strContainTargetName).FirstOrDefault().Value;
+        }
+
+        public override void Process_CashingLogic(object pObject, List<FieldData> listFieldData)
+        {
+            object pKeyValue = _pKeyFieldInfo_Instance.GetValue(pObject);
+            _pMethod_Add.Invoke(_pInstance, new object[] { pKeyValue, pObject });
+        }
+    }
+
+    public class Container_CashingLogic_Dictionary_List : Container_CashingLogicBase
+    {
+        MethodInfo _pMethod_Dictionary_Add;
+        MethodInfo _pMethod_Dictionary_ContainKey;
+        MethodInfo _pMethod_Dictionary_GetItem;
+
+        MethodInfo _pMethod_List_Add;
+
+
+        FieldInfo _pKeyFieldInfo_Instance;
+
+        System.Type _pTypeList;
+        object _pInstance;
+
+        public Container_CashingLogic_Dictionary_List(ScriptableObject pContainerInstance, FieldInfo pFieldInfo_CashedContainer, Dictionary<string, FieldInfo> mapFieldInfo_SO) : base(pContainerInstance, pFieldInfo_CashedContainer, mapFieldInfo_SO)
+        {
+            System.Type pDictionaryType = pFieldInfo_CashedContainer.FieldType;
+
+            System.Type[] arrGenericArguments = pDictionaryType.GetGenericArguments();
+            _pTypeList = arrGenericArguments[1];
+
+            _pMethod_Dictionary_Add = pDictionaryType.GetMethod("Add");
+            _pMethod_Dictionary_ContainKey = pDictionaryType.GetMethod("ContainsKey");
+            _pMethod_Dictionary_GetItem = pDictionaryType.GetMethod("get_Item");
+            _pMethod_List_Add = _pTypeList.GetMethod("Add");
+
+            _pInstance = System.Activator.CreateInstance(pFieldInfo_CashedContainer.FieldType);
+
+            pFieldInfo_CashedContainer.SetValue(pContainerInstance, _pInstance);
+
+            string strContainTargetName = pFieldInfo_CashedContainer.Name.Replace("mapData_Key_Is_", "");
+            _pKeyFieldInfo_Instance = mapFieldInfo_SO.Where(p => p.Key == strContainTargetName).FirstOrDefault().Value;
+            if(_pKeyFieldInfo_Instance == null)
+            {
+                Debug.LogError($"Not Found Field Instance {strContainTargetName}");
+            }
+        }
+
+        public override void Process_CashingLogic(object pObject, List<FieldData> listFieldData)
+        {
+            if (_pKeyFieldInfo_Instance == null)
+                return;
+
+            object pKeyValue = _pKeyFieldInfo_Instance.GetValue(pObject);
+
+            object[] pKey = new object[] { pKeyValue };
+            bool bIsContainKey = (bool)_pMethod_Dictionary_ContainKey.Invoke(_pInstance, pKey);
+            if(bIsContainKey == false)
+            {
+                var pListInstanceNew = System.Activator.CreateInstance(_pTypeList);
+                _pMethod_Dictionary_Add.Invoke(_pInstance, new object[] { pKeyValue, pListInstanceNew });
+            }
+
+            object pListInstance = _pMethod_Dictionary_GetItem.Invoke(_pInstance, pKey);
+            _pMethod_List_Add.Invoke(pListInstance, new object[] { pObject });
+        }
+    }
 
     /* protected & private - Field declaration         */
 
@@ -50,7 +167,7 @@ public class UnitySO_Generator : EditorWindow
 
     static public void DoBuild()
     {
-        Debug.Log("Build");
+        Debug.Log("Build Start");
 
         UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
 
@@ -71,6 +188,12 @@ public class UnitySO_Generator : EditorWindow
             }
 
             System.Type pType_SO = System.Type.GetType(pTypeData.strType);
+            if(pType_SO == null)
+            {
+                Debug.LogError("Error");
+                continue;
+            }
+
             if (pType_SO.BaseType != typeof(UnityEngine.ScriptableObject))
                 continue;
 
@@ -78,127 +201,48 @@ public class UnitySO_Generator : EditorWindow
             ScriptableObject pContainerInstance = (ScriptableObject)UnitySO_GeneratorConfig.CreateSOFile(pType_Container, pConfig.strExportFolderPath + "/" + pTypeData.strType + "_Container", true);
 
             Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_SO = pType_SO.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
-            Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_Container = pType_Container.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
 
+            List<Container_CashingLogicBase> listCashingLogic = new List<Container_CashingLogicBase>();
+            IEnumerable<System.Reflection.FieldInfo> arrFieldInfo_Container = pType_Container.GetFields();
+            foreach(var pFieldInfo in arrFieldInfo_Container)
+            {
+                System.Type pTypeField = pFieldInfo.FieldType;
+                System.Type pTypeField_Generic = pTypeField.GetGenericTypeDefinition();
+                if (pTypeField_Generic == typeof(List<>))
+                {
+                    listCashingLogic.Add(new Container_CashingLogic_List(pContainerInstance, pFieldInfo, mapFieldInfo_SO));
+                }
+                else if (pTypeField_Generic == typeof(Dictionary<,>))
+                {
+                    System.Type[] arrGenericArguments = pTypeField.GetGenericArguments();
 
-            System.Reflection.FieldInfo pField_ListData = mapFieldInfo_Container["listData"];
-
-            var Method_ListAdd = pField_ListData.FieldType.GetMethod("Add");
-            var pInstanceList = System.Activator.CreateInstance(pField_ListData.FieldType);
-            pField_ListData.SetValue(pContainerInstance, pInstanceList);
+                    if(arrGenericArguments[1].IsGenericType)
+                        listCashingLogic.Add(new Container_CashingLogic_Dictionary_List(pContainerInstance, pFieldInfo, mapFieldInfo_SO));
+                    else
+                        listCashingLogic.Add(new Container_CashingLogic_Dictionary_Single(pContainerInstance, pFieldInfo, mapFieldInfo_SO));
+                }
+            }
 
             string strHeaderField = pTypeData.strHeaderFieldName;
             string strFileName = pType_SO.Name;
             int iLoopIndex = 0;
             foreach (var pInstance in pTypeData.listInstance)
             {
-                ScriptableObject pSO = (ScriptableObject)UnitySO_GeneratorConfig.CreateInstance(pType_SO);
+                ScriptableObject pSO = GenerateSO(pType_SO, pContainerInstance, strHeaderField, strFileName, iLoopIndex, pInstance);
+                Process_RealField(pTypeData, mapFieldInfo_SO, pInstance, pSO);
+                Process_VirtualField(mapFieldInfo_SO, pInstance, pSO);
 
-                FieldData pFieldData_Header = pInstance.listField.Where((pFieldData) => pFieldData.strFieldName == strHeaderField).FirstOrDefault();
-                if (pFieldData_Header != null)
-                    pSO.name = pFieldData_Header.strValue;
-                else
-                    pSO.name = $"{strFileName}_{iLoopIndex}";
-
-                AssetDatabase.AddObjectToAsset(pSO, pContainerInstance);
-                AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(pContainerInstance));
-
-                Method_ListAdd.Invoke(pInstanceList, new object[] { pSO });
-
-                // 실제 멤버
-                var listRealField = pInstance.listField.Where((pFieldData) => pFieldData.bIsVirtualField == false);
-                foreach(var pMember in listRealField)
-                {
-                    if (pMember.bDeleteThisField_InCode || pMember.bConvertStringToEnum)
-                        continue;
-
-                    System.Reflection.FieldInfo pFieldInfo;
-                    if (mapFieldInfo_SO.TryGetValue(pMember.strFieldName, out pFieldInfo) == false)
-                    {
-                        Debug.LogError($"Not Found Real Field {pMember.strFieldType} {pMember.strFieldName}");
-                        continue;
-                    }
-
-                    try
-                    {
-                        switch (pMember.strFieldType)
-                        {
-                            case "int": pFieldInfo.SetValue(pSO, int.Parse(pMember.strValue)); break;
-                            case "float": pFieldInfo.SetValue(pSO, float.Parse(pMember.strValue)); break;
-                            case "string": pFieldInfo.SetValue(pSO, pMember.strValue); break;
-
-                            default:
-                                System.Type pType_Field = System.Type.GetType(pMember.strFieldType);
-                                if(pType_Field.IsEnum)
-                                    pFieldInfo.SetValue(pSO, System.Enum.Parse(pType_Field, pMember.strValue));
-
-                                if(pType_Field == null)
-                                    Debug.LogWarning($"아직 지원되지 않은 형식.. {pMember.strFieldType}");
-                                break;
-                        }
-                    }
-                    catch(System.Exception e)
-                    {
-                        Debug.LogError($"Parsing  Fail - {pTypeData.strType}/{pMember.strFieldType} {pMember.strFieldName} : {pMember.strValue}\n" +
-                            $"Exception : {e}");
-                    }
-                }
-                
-                // 가상 멤버
-                var listVirtualField = pInstance.listField.Where((pFieldData) => pFieldData.bIsVirtualField);
-                foreach (var pMember in listVirtualField)
-                {
-                    System.Reflection.FieldInfo pFieldInfo = mapFieldInfo_SO[pMember.strFieldName];
-                    System.Type pType_Field = GetTypeFromAssemblies(pMember.strFieldType);
-                    if(pType_Field == null)
-                    {
-                        Debug.LogError($"Error {pMember.strFieldName} - Field Type Not Found - {pMember.strFieldType}");
-                        continue;
-                    }
-
-                    FieldData pFieldData_Dependency = pInstance.listField.Where(pFieldData => pFieldData.strFieldName == pMember.strDependencyFieldName).FirstOrDefault();
-                    if(pFieldData_Dependency == null)
-                    {
-                        Debug.LogError($"Error {pMember.strFieldName} - Dependency Not Found - Name : {pMember.strDependencyFieldName}");
-                        continue;
-                    }
-
-                    if (pType_Field.IsEnum)
-                    {
-                        pFieldInfo.SetValue(pSO, System.Enum.Parse(pType_Field, pFieldData_Dependency.strValue));
-                    }
-                    else
-                    {
-                        Object pObject = AssetDatabase.LoadAssetAtPath(pFieldData_Dependency.strValue, pType_Field);
-                        if (pObject == null)
-                            Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {pFieldData_Dependency.strValue}");
-                        pFieldInfo.SetValue(pSO, pObject);
-                    }
-                }
+                List<FieldData> listFieldData = pInstance.listField;
+                for (int i = 0; i < listCashingLogic.Count; i++)
+                    listCashingLogic[i].Process_CashingLogic(pSO, listFieldData);
 
                 iLoopIndex++;
             }
 
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
         }
-    }
 
-    private static bool GetData_FromJson<T>(string strFileName, ref T pData)
-    {
-        try
-        {
-            if (strFileName.Contains(".json") == false)
-                strFileName += ".json";
-
-            TextAsset pJsonFile = AssetDatabase.LoadAssetAtPath<TextAsset>($"{UnitySO_GeneratorConfig.instance.strJsonRootFolderPath}/{strFileName}");
-            EditorJsonUtility.FromJsonOverwrite(pJsonFile.text, pData);
-        }
-        catch
-        {
-            return false;
-        }
-
-        return true;
+        Debug.Log("Build Finish");
     }
 
     // ========================================================================== //
@@ -262,6 +306,123 @@ public class UnitySO_Generator : EditorWindow
     // ========================================================================== //
 
     #region Private
+
+
+    private static ScriptableObject GenerateSO(System.Type pType_SO, ScriptableObject pContainerInstance, string strHeaderField, string strFileName, int iLoopIndex, InstanceData pInstance)
+    {
+        ScriptableObject pSO = (ScriptableObject)UnitySO_GeneratorConfig.CreateInstance(pType_SO);
+
+        List<FieldData> listFieldData = pInstance.listField;
+        FieldData pFieldData_Header = listFieldData.Where((pFieldData) => pFieldData.strFieldName == strHeaderField).FirstOrDefault();
+        if (pFieldData_Header != null)
+            pSO.name = pFieldData_Header.strValue;
+        else
+            pSO.name = $"{strFileName}_{iLoopIndex}";
+
+        AssetDatabase.AddObjectToAsset(pSO, pContainerInstance);
+        AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(pContainerInstance));
+
+        return pSO;
+    }
+
+    private static void Process_VirtualField(Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_SO, InstanceData pInstance, ScriptableObject pSO)
+    {
+        var listVirtualField = pInstance.listField.Where((pFieldData) => pFieldData.bIsVirtualField);
+        foreach (var pMember in listVirtualField)
+        {
+            System.Reflection.FieldInfo pFieldInfo = mapFieldInfo_SO[pMember.strFieldName];
+            System.Type pType_Field = GetTypeFromAssemblies(pMember.strFieldType);
+            if (pType_Field == null)
+            {
+                Debug.LogError($"Error {pMember.strFieldName} - Field Type Not Found - {pMember.strFieldType}");
+                continue;
+            }
+
+            FieldData pFieldData_Dependency = pInstance.listField.Where(pFieldData => pFieldData.strFieldName == pMember.strDependencyFieldName).FirstOrDefault();
+            if (pFieldData_Dependency == null)
+            {
+                Debug.LogError($"Error {pMember.strFieldName} - Dependency Not Found - Name : {pMember.strDependencyFieldName}");
+                continue;
+            }
+
+            if (pType_Field.IsEnum)
+            {
+                pFieldInfo.SetValue(pSO, System.Enum.Parse(pType_Field, pFieldData_Dependency.strValue));
+            }
+            else
+            {
+                Object pObject = AssetDatabase.LoadAssetAtPath(pFieldData_Dependency.strValue, pType_Field);
+                if (pObject == null)
+                    Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {pFieldData_Dependency.strValue}");
+                pFieldInfo.SetValue(pSO, pObject);
+            }
+        }
+    }
+
+    private static void Process_RealField(TypeData pTypeData, Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_SO, InstanceData pInstance, ScriptableObject pSO)
+    {
+        var listRealField = pInstance.listField.Where((pFieldData) => pFieldData.bIsVirtualField == false);
+        foreach (var pMember in listRealField)
+        {
+            if (pMember.bDeleteThisField_InCode || pMember.bConvertStringToEnum)
+                continue;
+
+            System.Reflection.FieldInfo pFieldInfo;
+            if (mapFieldInfo_SO.TryGetValue(pMember.strFieldName, out pFieldInfo) == false)
+            {
+                Debug.LogError($"Not Found Real Field {pMember.strFieldType} {pMember.strFieldName}");
+                continue;
+            }
+
+            try
+            {
+                switch (pMember.strFieldType)
+                {
+                    case "int": pFieldInfo.SetValue(pSO, int.Parse(pMember.strValue)); break;
+                    case "float": pFieldInfo.SetValue(pSO, float.Parse(pMember.strValue)); break;
+                    case "string": pFieldInfo.SetValue(pSO, pMember.strValue); break;
+
+                    default:
+                        System.Type pType_Field = System.Type.GetType(pMember.strFieldType);
+                        if (pType_Field.IsEnum)
+                            pFieldInfo.SetValue(pSO, System.Enum.Parse(pType_Field, pMember.strValue));
+
+                        if (pType_Field == null)
+                            Debug.LogWarning($"아직 지원되지 않은 형식.. {pMember.strFieldType}");
+                        break;
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Parsing  Fail - {pTypeData.strType}/{pMember.strFieldType} {pMember.strFieldName} : {pMember.strValue}\n" +
+                    $"Exception : {e}");
+            }
+        }
+    }
+
+    private static void Process_Container()
+    {
+
+    }
+
+    private static bool GetData_FromJson<T>(string strFileName, ref T pData)
+    {
+        try
+        {
+            if (strFileName.Contains(".json") == false)
+                strFileName += ".json";
+
+            TextAsset pJsonFile = AssetDatabase.LoadAssetAtPath<TextAsset>($"{UnitySO_GeneratorConfig.instance.strJsonRootFolderPath}/{strFileName}");
+            EditorJsonUtility.FromJsonOverwrite(pJsonFile.text, pData);
+        }
+        catch
+        {
+            return false;
+        }
+
+        return true;
+    }
+
 
     void AutoSizeLabel(string strText)
     {

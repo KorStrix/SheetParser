@@ -13,8 +13,8 @@ using UnityEngine;
 
 
 
-public class UnitySOCustom_Container : UnityEngine.ScriptableObject
+public class class1_Container : UnityEngine.ScriptableObject
 {
     
-    public List<UnitySOCustom> listData;
+    public List<class1> listData;
 }
