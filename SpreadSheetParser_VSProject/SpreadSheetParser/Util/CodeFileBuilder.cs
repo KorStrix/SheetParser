@@ -196,6 +196,12 @@ namespace SpreadSheetParser
 
         public static void AddEnumField(this CodeTypeDeclaration pCodeType, EnumFieldData pFieldData)
         {
+            foreach(CodeTypeMember pMember in pCodeType.Members)
+            {
+                if (pMember.Name == pFieldData.strValue)
+                    return;
+            }
+
             CodeMemberField pField = new CodeMemberField(pCodeType.Name, pFieldData.strValue);
 
             if (pFieldData.iNumber != int.MaxValue)

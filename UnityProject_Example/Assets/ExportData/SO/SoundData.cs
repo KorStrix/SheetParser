@@ -13,70 +13,16 @@ using UnityEngine;
 
 
 
-public enum LanguageKey
-{
-    
-    Character,
-    
-    Character_A,
-    
-    Character_B,
-    
-    Character_C,
-    
-    Character_D,
-    
-    Goblin,
-    
-    Orc,
-    
-    Troll,
-    
-    Oger,
-    
-    Slime,
-}
-
-public enum CharacrerName
-{
-    
-    Character_A,
-    
-    Character_B,
-    
-    Character_C,
-    
-    Character_D,
-}
-
-public enum SoundName
-{
-    
-    Town,
-    
-    Boss,
-    
-    InGame,
-}
-
-public enum EffectName
-{
-    
-    bullet,
-    
-    bullethit,
-}
-
-public enum EStageEvent
+public class SoundData : UnityEngine.ScriptableObject
 {
     
     /// <summary>
-    /// 오브젝트 소환
+    /// 자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref="strSoundPath"/>
     /// </summary>
-    Spawn,
+    public UnityEngine.AudioClip pFile;
     
     /// <summary>
-    /// 다음 스테이지로
+    /// 자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref="strSoundKey"/>
     /// </summary>
-    NextStage,
+    public SoundName eSoundKey;
 }

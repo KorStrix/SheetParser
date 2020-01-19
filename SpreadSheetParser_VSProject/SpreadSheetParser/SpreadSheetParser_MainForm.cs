@@ -175,8 +175,16 @@ namespace SpreadSheetParser
             textBox_Type.Text = pFieldData.strFieldType;
 
             checkBox_ConvertStringToEnum.Enabled = pFieldData.strFieldType == "string";
+            if (checkBox_ConvertStringToEnum.Enabled)
+                checkBox_ConvertStringToEnum.Checked = pFieldData.bConvertStringToEnum;
+            else
+                checkBox_ConvertStringToEnum.Checked = false;
+
             textBox_EnumName.Enabled = pFieldData.bConvertStringToEnum;
-            textBox_EnumName.Text = pFieldData.strEnumName;
+            if (pFieldData.bConvertStringToEnum)
+                textBox_EnumName.Text = pFieldData.strEnumName;
+            else
+                textBox_EnumName.Text = "";
 
 
             checkBox_DeleteField_OnCode.Checked = pFieldData.bDeleteThisField_InCode;
@@ -709,20 +717,6 @@ namespace SpreadSheetParser
             AutoSaveAsync_CurrentSheet();
         }
 
-        private void checkBox_Field_NullOrEmtpy_IsError_CheckedChanged(object sender, EventArgs e)
-        {
-            if (listView_Field.SelectedItems.Count == 0)
-                return;
-
-            var pSelectedItem = listView_Field.SelectedItems[0];
-            FieldData pFieldData = (FieldData)pSelectedItem.Tag;
-
-            pFieldData.bIsKeyField = checkBox_Field_ThisIsKey.Checked;
-            checkBox_FieldKey_IsOverlap.Enabled = pFieldData.bIsKeyField;
-
-            AutoSaveAsync_CurrentSheet();
-        }
-
         private void button_Check_TableAll_Click(object sender, EventArgs e)
         {
 
@@ -739,6 +733,18 @@ namespace SpreadSheetParser
             textBox_TableFileName.Text= _pSheet_CurrentConnected.strFileName;
         }
 
+        private void checkBox_Field_NullOrEmtpy_IsError_CheckedChanged(object sender, EventArgs e)
+        {
+            if (listView_Field.SelectedItems.Count == 0)
+                return;
+
+            var pSelectedItem = listView_Field.SelectedItems[0];
+            FieldData pFieldData = (FieldData)pSelectedItem.Tag;
+
+            pFieldData.bIsKeyField = checkBox_Field_ThisIsKey.Checked;
+            checkBox_FieldKey_IsOverlap.Enabled = pFieldData.bIsKeyField;
+        }
+
         private void checkBox_DeleteField_OnAfterBuild_CheckedChanged(object sender, EventArgs e)
         {
             if (listView_Field.SelectedItems.Count == 0)
@@ -748,8 +754,6 @@ namespace SpreadSheetParser
             FieldData pFieldData = (FieldData)pSelectedItem.Tag;
 
             pFieldData.bDeleteThisField_InCode = checkBox_DeleteField_OnCode.Checked;
-
-            AutoSaveAsync_CurrentSheet();
         }
 
         private void checkBox_ConvertStringToEnum_CheckedChanged(object sender, EventArgs e)
@@ -762,8 +766,6 @@ namespace SpreadSheetParser
 
             pFieldData.bConvertStringToEnum = checkBox_ConvertStringToEnum.Checked;
             textBox_EnumName.Enabled = checkBox_ConvertStringToEnum.Checked;
-
-            AutoSaveAsync_CurrentSheet();
         }
 
         private void checkBox_IsHeaderField_CheckedChanged(object sender, EventArgs e)
@@ -778,8 +780,6 @@ namespace SpreadSheetParser
                 _pSheet_CurrentConnected.strHeaderFieldName = pFieldData.strFieldName;
             else if(_pSheet_CurrentConnected.strHeaderFieldName == pFieldData.strFieldName)
                 _pSheet_CurrentConnected.strHeaderFieldName = "";
-
-            AutoSaveAsync_CurrentSheet();
         }
 
         private void checkBox_FieldKey_IsOverlap_CheckedChanged(object sender, EventArgs e)
@@ -791,8 +791,6 @@ namespace SpreadSheetParser
             FieldData pFieldData = (FieldData)pSelectedItem.Tag;
 
             pFieldData.bIsOverlapKey = checkBox_FieldKey_IsOverlap.Checked;
-
-            AutoSaveAsync_CurrentSheet();
         }
     }
 }

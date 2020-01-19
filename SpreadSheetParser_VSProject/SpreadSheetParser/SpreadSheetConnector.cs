@@ -63,7 +63,6 @@ namespace SpreadSheetParser
                         "user",
                         CancellationToken.None,
                         new FileDataStore(credPath, true)).Result;
-                    Console.WriteLine("Credential file saved to: " + credPath);
                 }
 
                 pService = new SheetsService(new BaseClientService.Initializer()
@@ -75,6 +74,8 @@ namespace SpreadSheetParser
             catch (Exception pException)
             {
                 pException_OnError = pException;
+                OnFinishConnect(strSheetID, listSheet, pException_OnError);
+                return;
             }
 
             var pRequest_HandShake = pService.Spreadsheets.Get(strSheetID);

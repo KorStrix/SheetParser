@@ -1,0 +1,416 @@
+{
+  "strType": "MonsterData",
+  "strHeaderFieldName": "strMonsterKey",
+  "listInstance": [
+    {
+      "listField": [
+        {
+          "strFieldName": "strMonsterKey",
+          "strFieldType": "string",
+          "strValue": "Goblin",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "MonsterName",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitHP",
+          "strFieldType": "float",
+          "strValue": "14.72",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitDamage",
+          "strFieldType": "float",
+          "strValue": "2.6",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitArmor",
+          "strFieldType": "float",
+          "strValue": "1.6",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strModelPath",
+          "strFieldType": "string",
+          "strValue": "Assets/00.AssetBundlePath/CharacterModel/Monster/monster_02/monster_02_SkeletonData.asset",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "pModel",
+          "strFieldType": "Spine.Unity.SkeletonDataAsset",
+          "strValue": null,
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strModelPath\"/>",
+          "strDependencyFieldName": "strModelPath",
+          "strEnumName": "",
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        }
+      ]
+    },
+    {
+      "listField": [
+        {
+          "strFieldName": "strMonsterKey",
+          "strFieldType": "string",
+          "strValue": "Orc",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "MonsterName",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitHP",
+          "strFieldType": "float",
+          "strValue": "38.4",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitDamage",
+          "strFieldType": "float",
+          "strValue": "6.2",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitArmor",
+          "strFieldType": "float",
+          "strValue": "2",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strModelPath",
+          "strFieldType": "string",
+          "strValue": "Assets/00.AssetBundlePath/CharacterModel/Monster/monster_03/monster_03_SkeletonData.asset",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "pModel",
+          "strFieldType": "Spine.Unity.SkeletonDataAsset",
+          "strValue": null,
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strModelPath\"/>",
+          "strDependencyFieldName": "strModelPath",
+          "strEnumName": "",
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        }
+      ]
+    },
+    {
+      "listField": [
+        {
+          "strFieldName": "strMonsterKey",
+          "strFieldType": "string",
+          "strValue": "Troll",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "MonsterName",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitHP",
+          "strFieldType": "float",
+          "strValue": "150",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitDamage",
+          "strFieldType": "float",
+          "strValue": "2.6",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitArmor",
+          "strFieldType": "float",
+          "strValue": "6",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strModelPath",
+          "strFieldType": "string",
+          "strValue": "Assets/00.AssetBundlePath/CharacterModel/Monster/monster_04/monster_04_SkeletonData.asset",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "pModel",
+          "strFieldType": "Spine.Unity.SkeletonDataAsset",
+          "strValue": null,
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strModelPath\"/>",
+          "strDependencyFieldName": "strModelPath",
+          "strEnumName": "",
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        }
+      ]
+    },
+    {
+      "listField": [
+        {
+          "strFieldName": "strMonsterKey",
+          "strFieldType": "string",
+          "strValue": "Oger",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "MonsterName",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitHP",
+          "strFieldType": "float",
+          "strValue": "140",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitDamage",
+          "strFieldType": "float",
+          "strValue": "28.1",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitArmor",
+          "strFieldType": "float",
+          "strValue": "4",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strModelPath",
+          "strFieldType": "string",
+          "strValue": "Assets/00.AssetBundlePath/CharacterModel/Monster/monster_05/monster_05_SkeletonData.asset",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "pModel",
+          "strFieldType": "Spine.Unity.SkeletonDataAsset",
+          "strValue": null,
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strModelPath\"/>",
+          "strDependencyFieldName": "strModelPath",
+          "strEnumName": "",
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        }
+      ]
+    },
+    {
+      "listField": [
+        {
+          "strFieldName": "strMonsterKey",
+          "strFieldType": "string",
+          "strValue": "Slime",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "MonsterName",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitHP",
+          "strFieldType": "float",
+          "strValue": "26.5",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitDamage",
+          "strFieldType": "float",
+          "strValue": "0.9",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fInitArmor",
+          "strFieldType": "float",
+          "strValue": "1",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strModelPath",
+          "strFieldType": "string",
+          "strValue": "Assets/00.AssetBundlePath/CharacterModel/Monster/monster_01/monster_01_SkeletonData.asset",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": "",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "pModel",
+          "strFieldType": "Spine.Unity.SkeletonDataAsset",
+          "strValue": null,
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strModelPath\"/>",
+          "strDependencyFieldName": "strModelPath",
+          "strEnumName": "",
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        }
+      ]
+    }
+  ]
+}

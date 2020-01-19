@@ -1,7 +1,10 @@
 {
   "listFileName": [
-    "class1.json",
-    "UnitySO.json",
-    "struct1.json"
+    "LanguageData.json",
+    "CharacterData.json",
+    "MonsterData.json",
+    "StageData.json",
+    "SoundData.json",
+    "EffectData.json"
   ]
 }

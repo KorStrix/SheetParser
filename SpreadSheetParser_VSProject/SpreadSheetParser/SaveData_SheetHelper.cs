@@ -97,19 +97,17 @@ namespace SpreadSheetParser
                       string[] arrText = strText.Split(':');
                       string strFieldName = arrText[0];
 
-                      if(mapFieldData_ConvertStringToEnum.ContainsKey(strFieldName))
+                      if (mapFieldData_ConvertStringToEnum.ContainsKey(strFieldName))
                       {
                           FieldData pFieldData = mapFieldData_ConvertStringToEnum[strFieldName];
                           mapEnumType.Add(iColumn, pCodeFileBuilder.AddCodeType(pFieldData.strEnumName, SaveData_Sheet.EType.Enum));
                       }
-                      else
-                      {
-                          // 삭제되는 코드인 경우
-                          if (listFieldData_DeleteThisField_OnCode.Contains(strFieldName))
-                              return;
 
-                          pCodeType.AddField(new FieldData(strFieldName, arrText[1]));
-                      }
+                      // 삭제되는 코드인 경우
+                      if (listFieldData_DeleteThisField_OnCode.Contains(strFieldName))
+                          return;
+
+                      pCodeType.AddField(new FieldData(strFieldName, arrText[1]));
 
                       return;
                   }
@@ -170,7 +168,8 @@ namespace SpreadSheetParser
                             string strNextText = (string)listRow[i];
                             switch (eType)
                             {
-                                case EEnumHeaderType.EnumValue: pFieldData.strValue = strNextText; 
+                                case EEnumHeaderType.EnumValue:
+                                    pFieldData.strValue = strNextText;
                                     break;
 
                                 case EEnumHeaderType.NumberValue: pFieldData.iNumber = int.Parse(strNextText); break;
