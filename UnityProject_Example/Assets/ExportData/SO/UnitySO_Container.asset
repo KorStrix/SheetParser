@@ -12,4 +12,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21152ad9d4e5d924892613a46bdb2bc2, type: 3}
   m_Name: UnitySO_Container
   m_EditorClassIdentifier: 
-  listData: []
+  listData:
+  - {fileID: 114625401121915270}
+  - {fileID: 114973991580442862}
+  - {fileID: 114696765164269434}
+--- !u!114 &114625401121915270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769ffd730250c3d448c764eb58470dfa, type: 3}
+  m_Name: UnitySO_0
+  m_EditorClassIdentifier: 
+  MaterialPath: Assets/ExportData/Material/Blue.mat
+  strComment: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
+  intValue: 2
+  strAutoEnum: AutoEnum_1
+  AutoEnumValue: 0
+--- !u!114 &114696765164269434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769ffd730250c3d448c764eb58470dfa, type: 3}
+  m_Name: UnitySO_2
+  m_EditorClassIdentifier: 
+  MaterialPath: Assets/ExportData/Material/Red.mat
+  strComment: "\uBE68\uAC04\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
+  intValue: 8
+  strAutoEnum: AutoEnum_3
+  AutoEnumValue: 2
+--- !u!114 &114973991580442862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769ffd730250c3d448c764eb58470dfa, type: 3}
+  m_Name: UnitySO_1
+  m_EditorClassIdentifier: 
+  MaterialPath: Assets/ExportData/Material/Green.mat
+  strComment: "\uCD08\uB85D\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
+  intValue: 4
+  strAutoEnum: AutoEnum_2
+  AutoEnumValue: 1

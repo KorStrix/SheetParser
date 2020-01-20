@@ -1,13 +1,81 @@
 {
-  "strType": "UnitySO",
-  "strHeaderFieldName": null,
-  "listInstance": [
+  "strSheetID": "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4",
+  "date_LastEdit": "2020-01-20T12:00:08.4558252+09:00",
+  "listTable": [
     {
-      "listField": [
+      "strSheetName": "class1",
+      "strFileName": "class1",
+      "strHeaderFieldName": null,
+      "bEnable": false,
+      "strCommandLine": null,
+      "eType": 0,
+      "listFieldData": [
+        {
+          "strFieldName": "IntCalculate",
+          "strFieldType": "int",
+          "strValue": null,
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "Int",
+          "strFieldType": "int",
+          "strValue": null,
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "stringmember",
+          "strFieldType": "string",
+          "strValue": null,
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "enummember",
+          "strFieldType": "TestEnum",
+          "strValue": null,
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        }
+      ]
+    },
+    {
+      "strSheetName": "UnitySO",
+      "strFileName": "UnitySO",
+      "strHeaderFieldName": null,
+      "bEnable": true,
+      "strCommandLine": null,
+      "eType": 0,
+      "listFieldData": [
         {
           "strFieldName": "MaterialPath",
           "strFieldType": "string",
-          "strValue": "Assets/ExportData/Material/Blue.mat",
+          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
@@ -20,7 +88,7 @@
         {
           "strFieldName": "strComment",
           "strFieldType": "string",
-          "strValue": "파랑색 메테리얼",
+          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
@@ -33,7 +101,7 @@
         {
           "strFieldName": "intValue",
           "strFieldType": "int",
-          "strValue": "2",
+          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
@@ -46,7 +114,7 @@
         {
           "strFieldName": "strAutoEnum",
           "strFieldType": "string",
-          "strValue": "AutoEnum_1",
+          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": "AutoEnumTest",
@@ -59,7 +127,7 @@
         {
           "strFieldName": "AutoEnumValue",
           "strFieldType": "AutoEnumTest",
-          "strValue": "AutoEnum_1",
+          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": "",
@@ -72,37 +140,17 @@
       ]
     },
     {
-      "listField": [
+      "strSheetName": "struct1",
+      "strFileName": "struct1",
+      "strHeaderFieldName": null,
+      "bEnable": false,
+      "strCommandLine": null,
+      "eType": 0,
+      "listFieldData": [
         {
-          "strFieldName": "MaterialPath",
-          "strFieldType": "string",
-          "strValue": "Assets/ExportData/Material/Green.mat",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strComment",
-          "strFieldType": "string",
-          "strValue": "초록색 메테리얼",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "intValue",
+          "strFieldName": "Int",
           "strFieldType": "int",
-          "strValue": "4",
+          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strEnumName": null,
@@ -113,101 +161,59 @@
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "strAutoEnum",
+          "strFieldName": "stringmember",
           "strFieldType": "string",
-          "strValue": "AutoEnum_2",
+          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": "AutoEnumTest",
+          "strEnumName": null,
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": true,
-          "bIsOverlapKey": true,
-          "bConvertStringToEnum": true
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "AutoEnumValue",
-          "strFieldType": "AutoEnumTest",
-          "strValue": "AutoEnum_2",
+          "strFieldName": "enummember",
+          "strFieldType": "TestEnum",
+          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": "",
+          "strEnumName": null,
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": true,
+          "bIsKeyField": false,
           "bIsOverlapKey": false,
           "bConvertStringToEnum": false
         }
       ]
     },
     {
-      "listField": [
-        {
-          "strFieldName": "MaterialPath",
-          "strFieldType": "string",
-          "strValue": "Assets/ExportData/Material/Red.mat",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strComment",
-          "strFieldType": "string",
-          "strValue": "빨간색 메테리얼",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "intValue",
-          "strFieldType": "int",
-          "strValue": "8",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strAutoEnum",
-          "strFieldType": "string",
-          "strValue": "AutoEnum_3",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": "AutoEnumTest",
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": true,
-          "bIsOverlapKey": true,
-          "bConvertStringToEnum": true
-        },
-        {
-          "strFieldName": "AutoEnumValue",
-          "strFieldType": "AutoEnumTest",
-          "strValue": "AutoEnum_3",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": "",
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": true,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        }
-      ]
+      "strSheetName": "enum1",
+      "strFileName": "enum1",
+      "strHeaderFieldName": null,
+      "bEnable": false,
+      "strCommandLine": null,
+      "eType": 0,
+      "listFieldData": []
+    }
+  ],
+  "listSaveWork": [
+    {
+      "strExportPath": "UnityProject_Example/Assets/ExportData/Json",
+      "bOpenPath_AfterBuild_CSharp": false,
+      "iWorkOrder": 0,
+      "pType": "SpreadSheetParser.Work_Generate_Json, SpreadSheetParser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "bEnable": true
+    },
+    {
+      "strExportPath": "UnityProject_Example/Assets/ExportData/SO",
+      "strUnityProjectPath": null,
+      "strUnityEditorPath": null,
+      "bOpenPath_AfterBuild_CSharp": true,
+      "iWorkOrder": 1,
+      "pType": "SpreadSheetParser.Work_Generate_Unity_ScriptableObject, SpreadSheetParser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "bEnable": true
     }
   ]
 }

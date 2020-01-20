@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.CSharp;
+using System;
 using System.CodeDom;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -144,34 +146,112 @@ namespace SpreadSheetParser
 
         private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, SaveData_Sheet pSaveData)
         {
+            const string const_strListData = "listData";
+
             CodeTypeDeclaration pContainerType = new CodeTypeDeclaration(pType.Name + "_Container");
             pContainerType.AddBaseClass(typeof(UnityEngine.ScriptableObject));
             pNameSpace.Imports.Clear();
+            pNameSpace.Imports.Add(new CodeNamespaceImport("System.Linq"));
             pNameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
             pNameSpace.Imports.Add(new CodeNamespaceImport("UnityEngine"));
             pNameSpace.Types.Clear();
             pNameSpace.Types.Add(pContainerType);
 
-            pContainerType.AddField(new FieldData("listData", $"List<{pType.Name}>"));
-
+            pContainerType.AddField(new FieldData(const_strListData, $"List<{pType.Name}>"));
 
             IEnumerable<FieldData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
-            foreach(var pFieldData in listKeyField)
+            CodeMemberMethod pInitMethod = null;
+            foreach (var pFieldData in listKeyField)
             {
-                if(pFieldData.bIsOverlapKey)
-                    pContainerType.AddField(new FieldData($"mapData_Key_Is_{pFieldData.strFieldName}", $"Dictionary<{pFieldData.strFieldType}, List<{pType.Name}>>"));
+                string strFieldName = "";
+                string strMemberType = "";
+                if (pFieldData.bIsOverlapKey)
+                {
+                    strFieldName = $"mapData_Key_Is_{pFieldData.strFieldName}";
+                    strMemberType = $"Dictionary<{pFieldData.strFieldType}, List<{pType.Name}>>";
+                }
                 else
-                    pContainerType.AddField(new FieldData($"mapData_Key_Is_{pFieldData.strFieldName}", $"Dictionary<{pFieldData.strFieldType}, {pType.Name}>"));
+                {
+                    strFieldName = $"mapData_Key_Is_{pFieldData.strFieldName}";
+                    strMemberType = $"Dictionary<{pFieldData.strFieldType}, {pType.Name}>";
+                }
+                
+                if(pInitMethod == null)
+                    pInitMethod = Generate_InitMethod(pContainerType);
+
+                pContainerType.AddField(new FieldData(strFieldName, strMemberType));
+                Generate_CacheMethod(pContainerType, pInitMethod, const_strListData, strFieldName, pFieldData.strFieldName, pFieldData.bIsOverlapKey);
             }
 
             pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pContainerType.Name}");
         }
 
+        private CodeMemberMethod Generate_InitMethod(CodeTypeDeclaration pContainerType)
+        {
+            var pMethod = pContainerType.AddMethod($"DoInit");
+
+            return pMethod;
+        }
+
+        private void Generate_CacheMethod(CodeTypeDeclaration pContainerType, CodeMemberMethod pInitMethod, string strListDataName, string strMapFieldName, string strCacheFieldName, bool bIsOverlapKey)
+        {
+            string strMethodName = $"Init_{strMapFieldName}";
+            var pMethod = pContainerType.AddMethod(strMethodName);
+            pMethod.Attributes = MemberAttributes.Private | MemberAttributes.Final;
+
+            CodeFieldReferenceExpression pCasheMemberReference =
+                new CodeFieldReferenceExpression(
+                new CodeThisReferenceExpression(), strMapFieldName);
+
+            CodeTypeReferenceExpression pField_List = new CodeTypeReferenceExpression($"{strListDataName}");
+            if (bIsOverlapKey)
+            {
+                CodeMethodInvokeExpression pMethod_CachingLocal = new CodeMethodInvokeExpression(
+                    pField_List, "GroupBy", new CodeSnippetExpression($"x => x.{strCacheFieldName}"));
+
+                CodeVariableDeclarationStatement pGroupbyVariableDeclaration = new CodeVariableDeclarationStatement(
+                    "var", "arrLocal", pMethod_CachingLocal);
+
+                pMethod.Statements.Add(pGroupbyVariableDeclaration);
+
+                CodeMethodInvokeExpression pMethod_Caching = new CodeMethodInvokeExpression(
+                    new CodeVariableReferenceExpression("arrLocal"), "ToDictionary", new CodeSnippetExpression($"g => g.Key, g => g.ToList()"));
+
+                CodeAssignStatement pCachAssign = new CodeAssignStatement(pCasheMemberReference, pMethod_Caching);
+                pMethod.Statements.Add(pCachAssign);
+            }
+            else
+            {
+                CodeMethodInvokeExpression pMethod_Caching = new CodeMethodInvokeExpression(
+                    pField_List, "ToDictionary", new CodeSnippetExpression($"x => x.{strCacheFieldName}"));
+
+                CodeAssignStatement pCachAssign = new CodeAssignStatement(pCasheMemberReference, pMethod_Caching);
+                pMethod.Statements.Add(pCachAssign);
+            }
+
+            pInitMethod.Statements.Add(new CodeMethodInvokeExpression(
+                new CodeMethodReferenceExpression(
+                new CodeThisReferenceExpression(), strMethodName)));
+        }
+
+        static string[] GetCode(string Expression)
+        {
+            return new string[]
+            {
+                @"
+                    public static object DynamicMethod()
+                    {
+                        return Expression;
+                    }
+                }"
+            };
+        }
+
         public override void DoWorkAfter()
         {
             const string const_BuildMethodeName = "UnitySO_Generator.DoBuild";
-
-            System.Diagnostics.Process.Start(strUnityEditorPath, $"-quit -batchmode -executeMethod {const_BuildMethodeName}");
+            if(string.IsNullOrEmpty(strUnityEditorPath) == false)
+                System.Diagnostics.Process.Start(strUnityEditorPath, $"-quit -batchmode -executeMethod {const_BuildMethodeName}");
 
             if (bOpenPath_AfterBuild_CSharp)
                 DoOpenPath(strExportPath);

@@ -9,6 +9,7 @@
 //------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -18,9 +19,24 @@ public class UnitySO_Container : UnityEngine.ScriptableObject
     
     public List<UnitySO> listData;
     
-    public Dictionary<string, UnitySO> mapData_Key_Is_strComment;
-    
-    public Dictionary<int, List<UnitySO>> mapData_Key_Is_intValue;
+    public Dictionary<string, List<UnitySO>> mapData_Key_Is_strAutoEnum;
     
     public Dictionary<AutoEnumTest, UnitySO> mapData_Key_Is_AutoEnumValue;
+    
+    public void DoInit()
+    {
+        this.Init_mapData_Key_Is_strAutoEnum();
+        this.Init_mapData_Key_Is_AutoEnumValue();
+    }
+    
+    private void Init_mapData_Key_Is_strAutoEnum()
+    {
+        var arrLocal = listData.GroupBy(x => x.strAutoEnum);
+        this.mapData_Key_Is_strAutoEnum = arrLocal.ToDictionary(g => g.Key, g => g.ToList());
+    }
+    
+    private void Init_mapData_Key_Is_AutoEnumValue()
+    {
+        this.mapData_Key_Is_AutoEnumValue = listData.ToDictionary(x => x.AutoEnumValue);
+    }
 }

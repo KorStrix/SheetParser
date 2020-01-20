@@ -285,6 +285,12 @@ public class UnitySO_Generator : EditorWindow
     {
         UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
 
+        if (pConfig == null)
+        {
+            Debug.LogError("pConfig == null");
+            return;
+        }
+
         DrawRootPath(pConfig);
         DrawExportPath(pConfig);
 

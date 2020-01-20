@@ -62,6 +62,8 @@ namespace SpreadSheetParser
 
     public class CodeFileBuilder
     {
+        public CodeDomProvider pProvider_Csharp { get; private set; } = new Microsoft.CSharp.CSharpCodeProvider();
+
         public CodeNamespace pNamespaceCurrent { get; private set; }
         public CodeCompileUnit pCompileUnit { get; private set; }
 
@@ -99,12 +101,11 @@ namespace SpreadSheetParser
 
         private void Generate_CSharpCode(CodeCompileUnit pCompileUnit, string strFilePath)
         {
-            CodeDomProvider pProvider = CodeDomProvider.CreateProvider("CSharp");
             CodeGeneratorOptions pOptions = new CodeGeneratorOptions();
             pOptions.BracingStyle = "C";
             using (StreamWriter pSourceWriter = new StreamWriter(strFilePath))
             {
-                pProvider.GenerateCodeFromCompileUnit(
+                pProvider_Csharp.GenerateCodeFromCompileUnit(
                     pCompileUnit, pSourceWriter, pOptions);
             }
         }
@@ -224,7 +225,7 @@ namespace SpreadSheetParser
         }
 
 
-        public static CodeMemberMethod AddMethod(this CodeTypeDeclaration pCodeType, string strMethodName, MemberAttributes eAttribute = MemberAttributes.Static | MemberAttributes.Public)
+        public static CodeMemberMethod AddMethod(this CodeTypeDeclaration pCodeType, string strMethodName, MemberAttributes eAttribute = MemberAttributes.Public | MemberAttributes.Final)
         {
             CodeMemberMethod pMethod = new CodeMemberMethod();
             pMethod.Attributes = eAttribute;

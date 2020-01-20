@@ -9,74 +9,17 @@
 //------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
 
-public enum LanguageKey
+public enum AutoEnumTest
 {
     
-    Character,
+    AutoEnum_1,
     
-    Character_A,
+    AutoEnum_2,
     
-    Character_B,
-    
-    Character_C,
-    
-    Character_D,
-    
-    Goblin,
-    
-    Orc,
-    
-    Troll,
-    
-    Oger,
-    
-    Slime,
-}
-
-public enum CharacrerName
-{
-    
-    Character_A,
-    
-    Character_B,
-    
-    Character_C,
-    
-    Character_D,
-}
-
-public enum SoundName
-{
-    
-    Town,
-    
-    Boss,
-    
-    InGame,
-}
-
-public enum EffectName
-{
-    
-    bullet,
-    
-    bullethit,
-}
-
-public enum EStageEvent
-{
-    
-    /// <summary>
-    /// 오브젝트 소환
-    /// </summary>
-    Spawn,
-    
-    /// <summary>
-    /// 다음 스테이지로
-    /// </summary>
-    NextStage,
+    AutoEnum_3,
 }
