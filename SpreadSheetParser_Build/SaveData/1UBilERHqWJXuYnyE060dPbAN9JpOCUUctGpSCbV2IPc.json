@@ -1,6 +1,6 @@
 {
   "strSheetID": "1UBilERHqWJXuYnyE060dPbAN9JpOCUUctGpSCbV2IPc",
-  "date_LastEdit": "2020-01-18T20:10:56.8493272+09:00",
+  "date_LastEdit": "2020-01-20T23:31:59.9159479+09:00",
   "listTable": [
     {
       "strSheetName": "개요",
@@ -200,48 +200,9 @@
           "strEnumName": "EMonsterKey",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
+          "bIsKeyField": true,
           "bIsOverlapKey": false,
           "bConvertStringToEnum": true
-        },
-        {
-          "strFieldName": "fInitHP",
-          "strFieldType": "float",
-          "strValue": null,
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "fInitDamage",
-          "strFieldType": "float",
-          "strValue": null,
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "fInitArmor",
-          "strFieldType": "float",
-          "strValue": null,
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
         },
         {
           "strFieldName": "strModelPath",
@@ -285,6 +246,45 @@
         {
           "strFieldName": "fModelSize",
           "strFieldType": "float",
+          "strValue": null,
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "iInitHP",
+          "strFieldType": "int",
+          "strValue": null,
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "iInitDamage",
+          "strFieldType": "int",
+          "strValue": null,
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "iInitArmor",
+          "strFieldType": "int",
           "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
@@ -394,6 +394,19 @@
           "bDeleteThisField_InCode": false,
           "bIsKeyField": true,
           "bIsOverlapKey": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "iStageIndex",
+          "strFieldType": "int",
+          "strValue": null,
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
           "bConvertStringToEnum": false
         }
       ]
@@ -667,7 +680,7 @@
   ],
   "listSaveWork": [
     {
-      "strExportPath": "../BlackSmith_Unity/Assets/00.AssetBundlePath/Json",
+      "strExportPath": "../BlackSmith_Unity/Assets/00.BundleResource/Json",
       "bOpenPath_AfterBuild_CSharp": false,
       "iWorkOrder": 0,
       "pType": "SpreadSheetParser.Work_Generate_Json, SpreadSheetParser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",

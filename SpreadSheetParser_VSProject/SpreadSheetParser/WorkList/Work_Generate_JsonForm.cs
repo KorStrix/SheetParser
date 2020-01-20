@@ -120,7 +120,15 @@ namespace SpreadSheetParser
                     for (int i = iColumnIndex; i < listRow.Count; i++)
                     {
                         if(mapMemberName.ContainsKey(i))
+                        {
+                            if(mapFieldData.ContainsKey(mapMemberName[i]) == false)
+                            {
+                                SpreadSheetParser_MainForm.WriteConsole($"mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
+                                continue;
+                            }
+
                             pJsonInstance.listField.Add(FieldData.Clone(mapFieldData[mapMemberName[i]], listRow[i]));
+                        }
                     }
 
                     // 가상 변수

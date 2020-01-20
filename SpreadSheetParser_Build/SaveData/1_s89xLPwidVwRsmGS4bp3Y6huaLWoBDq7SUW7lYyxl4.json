@@ -1,6 +1,6 @@
 {
   "strSheetID": "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4",
-  "date_LastEdit": "2020-01-20T12:00:08.4558252+09:00",
+  "date_LastEdit": "2020-01-20T21:29:22.1647245+09:00",
   "listTable": [
     {
       "strSheetName": "class1",
@@ -200,7 +200,7 @@
   ],
   "listSaveWork": [
     {
-      "strExportPath": "UnityProject_Example/Assets/ExportData/Json",
+      "strExportPath": "../BlackSmith_Unity/Assets/00.BundleResource/Json",
       "bOpenPath_AfterBuild_CSharp": false,
       "iWorkOrder": 0,
       "pType": "SpreadSheetParser.Work_Generate_Json, SpreadSheetParser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
