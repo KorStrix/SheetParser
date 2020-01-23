@@ -168,6 +168,18 @@ namespace SpreadSheetParser
             pCodeType.Comments.Add(new CodeCommentStatement("</summary>", true));
         }
 
+        public static void RemoveField(this CodeTypeDeclaration pCodeType, string strFieldName)
+        {
+            foreach (CodeTypeMember pMember in pCodeType.Members)
+            {
+                if (pMember.Name.Equals(strFieldName))
+                {
+                    pCodeType.Members.Remove(pMember);
+                    break;
+                }
+            }
+        }
+
         public static void AddField(this CodeTypeDeclaration pCodeType, FieldData pFieldData)
         {
             CodeMemberField pField = new CodeMemberField();

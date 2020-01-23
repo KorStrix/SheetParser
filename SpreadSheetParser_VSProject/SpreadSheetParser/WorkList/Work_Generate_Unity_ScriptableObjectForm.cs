@@ -102,6 +102,7 @@ namespace SpreadSheetParser
             CodeNamespace pNameSpace = new CodeNamespace();
             pNameSpace.Imports.Add(new CodeNamespaceImport("UnityEngine"));
 
+            HashSet<CodeTypeDeclaration> setExecutedType = new HashSet<CodeTypeDeclaration>();
             foreach (CodeTypeDeclaration pType in arrTypes)
             {
                 if (string.IsNullOrEmpty(pType.Name) || pType.IsClass == false)
@@ -111,23 +112,31 @@ namespace SpreadSheetParser
                 if (pSaveData == null)
                     continue;
 
-                SpreadSheetParser_MainForm.WriteConsole($"UnitySO - Working SO {pType.Name}");
+                if (pSaveData.eType == SaveData_Sheet.EType.Global)
+                {
+                }
+                else
+                {
+                    Create_SO(pCodeFileBuilder, pNameSpace, pType, pSaveData);
+                    Create_SOContainer(pCodeFileBuilder, pNameSpace, pType, pSaveData);
+                }
 
-                Create_SO(pCodeFileBuilder, pNameSpace, pType, pSaveData);
-                Create_SOContainer(pCodeFileBuilder, pNameSpace, pType, pSaveData);
+                SpreadSheetParser_MainForm.WriteConsole($"UnitySO - Working SO {pType.Name}");
+                setExecutedType.Add(pType);
             }
 
             pNameSpace.Types.Clear();
             foreach (CodeTypeDeclaration pType in arrTypes)
             {
-                if (string.IsNullOrEmpty(pType.Name) || pType.IsClass)
+                if (string.IsNullOrEmpty(pType.Name) || setExecutedType.Contains(pType))
                     continue;
 
                 SpreadSheetParser_MainForm.WriteConsole($"UnitySO - Working Others {pType.Name}");
                 pNameSpace.Types.Add(pType);
+                setExecutedType.Add(pType);
             }
 
-            if(pNameSpace.Types.Count != 0)
+            if (pNameSpace.Types.Count != 0)
                 pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/Others");
         }
 
@@ -150,6 +159,7 @@ namespace SpreadSheetParser
 
             CodeTypeDeclaration pContainerType = new CodeTypeDeclaration(pType.Name + "_Container");
             pContainerType.AddBaseClass(typeof(UnityEngine.ScriptableObject));
+
             pNameSpace.Imports.Clear();
             pNameSpace.Imports.Add(new CodeNamespaceImport("System.Linq"));
             pNameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
@@ -232,19 +242,6 @@ namespace SpreadSheetParser
             pInitMethod.Statements.Add(new CodeMethodInvokeExpression(
                 new CodeMethodReferenceExpression(
                 new CodeThisReferenceExpression(), strMethodName)));
-        }
-
-        static string[] GetCode(string Expression)
-        {
-            return new string[]
-            {
-                @"
-                    public static object DynamicMethod()
-                    {
-                        return Expression;
-                    }
-                }"
-            };
         }
 
         public override void DoWorkAfter()

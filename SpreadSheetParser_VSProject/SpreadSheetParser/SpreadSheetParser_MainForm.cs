@@ -246,13 +246,16 @@ namespace SpreadSheetParser
             });
 
             IEnumerable<FieldData> pDeleteFieldOption = listFieldOption.Where((pFieldOption) => setRealField.Contains(pFieldOption.strFieldName) == false);
-            foreach (FieldData pFieldOption in pDeleteFieldOption)
+            if(pDeleteFieldOption.Count() != 0)
             {
-                pFieldOption.bIsVirtualField = true;
-                listView_Field.Items.Add(pFieldOption.ConvertListViewItem());
-            }
+                foreach (FieldData pFieldOption in pDeleteFieldOption)
+                {
+                    pFieldOption.bIsVirtualField = true;
+                    listView_Field.Items.Add(pFieldOption.ConvertListViewItem());
+                }
 
-            AutoSaveAsync_CurrentSheet();
+                AutoSaveAsync_CurrentSheet();
+            }
         }
 
         private void CheckedListBox_WorkList_SelectedIndexChanged(object sender, EventArgs e)
@@ -547,6 +550,8 @@ namespace SpreadSheetParser
                 case SaveData_Sheet.EType.Class: radioButton_Class.Checked = true; break;
                 case SaveData_Sheet.EType.Struct: radioButton_Struct.Checked = true; break;
                 case SaveData_Sheet.EType.Enum: radioButton_Enum.Checked = true; break;
+                case SaveData_Sheet.EType.Global: radioButton_Global.Checked = true; break;
+
             }
 
             _bIsUpdating_TableUI = false;
@@ -561,6 +566,9 @@ namespace SpreadSheetParser
 
         private void OnChangeValue_TypeRadioButton(object sender, EventArgs e)
         {
+            if (_bIsUpdating_TableUI)
+                return;
+
             if (radioButton_Class.Checked)
             {
                 _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Class;

@@ -1,6 +1,6 @@
 {
   "strSheetID": "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4",
-  "date_LastEdit": "2020-01-20T21:29:22.1647245+09:00",
+  "date_LastEdit": "2020-01-23T12:35:49.9874961+09:00",
   "listTable": [
     {
       "strSheetName": "class1",
@@ -68,7 +68,7 @@
       "strSheetName": "UnitySO",
       "strFileName": "UnitySO",
       "strHeaderFieldName": null,
-      "bEnable": true,
+      "bEnable": false,
       "strCommandLine": null,
       "eType": 0,
       "listFieldData": [
@@ -145,7 +145,7 @@
       "strHeaderFieldName": null,
       "bEnable": false,
       "strCommandLine": null,
-      "eType": 0,
+      "eType": 1,
       "listFieldData": [
         {
           "strFieldName": "Int",
@@ -189,8 +189,57 @@
       ]
     },
     {
-      "strSheetName": "enum1",
-      "strFileName": "enum1",
+      "strSheetName": "global",
+      "strFileName": "global",
+      "strHeaderFieldName": null,
+      "bEnable": true,
+      "strCommandLine": null,
+      "eType": 3,
+      "listFieldData": [
+        {
+          "strFieldName": "strGlobalKey",
+          "strFieldType": "string",
+          "strValue": null,
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strValue",
+          "strFieldType": "string",
+          "strValue": null,
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strType",
+          "strFieldType": "string",
+          "strValue": null,
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        }
+      ]
+    },
+    {
+      "strSheetName": "enum",
+      "strFileName": "enum",
       "strHeaderFieldName": null,
       "bEnable": false,
       "strCommandLine": null,

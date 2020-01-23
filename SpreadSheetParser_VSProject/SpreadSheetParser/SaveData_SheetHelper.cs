@@ -70,15 +70,46 @@ namespace SpreadSheetParser
         {
             List<CommandLineArg> listCommandLine = Parsing_CommandLine(pSheetData.strCommandLine);
 
-            bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
-            if (bIsEnum)
+            switch (pSheetData.eType)
             {
-                Parsing_OnEnum(pSheetData, pCodeFileBuilder);
+                case SaveData_Sheet.EType.Class:
+                case SaveData_Sheet.EType.Struct:
+                    Parsing_OnCode(pSheetData, pCodeFileBuilder, listCommandLine);
+                    break;
+
+                case SaveData_Sheet.EType.Enum:
+                    Parsing_OnEnum(pSheetData, pCodeFileBuilder);
+                    break;
+
+                case SaveData_Sheet.EType.Global:
+                    Parsing_OnGlobal(pSheetData, pCodeFileBuilder);
+                    break;
             }
-            else
-            {
-                Parsing_OnCode(pSheetData, pCodeFileBuilder, listCommandLine);
-            }
+        }
+
+        private static void Parsing_OnGlobal(SaveData_Sheet pSheetData, CodeFileBuilder pCodeFileBuilder)
+        {
+            var pCodeType = pCodeFileBuilder.AddCodeType(pSheetData.strFileName, pSheetData.eType);
+            Dictionary<int, CodeTypeDeclaration> mapEnumType = new Dictionary<int, CodeTypeDeclaration>();
+
+            pSheetData.ParsingSheet(
+              (listRow, strText, iRow, iColumn) =>
+              {
+                  // 변수 선언 형식인경우
+                  if (strText.Contains(":"))
+                  {
+                      string[] arrText = strText.Split(':');
+                      string strFieldName = arrText[0];
+
+                      //if (mapFieldData_ConvertStringToEnum.ContainsKey(strFieldName))
+                      //{
+                      //    mapEnumType.Add(iColumn, pCodeFileBuilder.AddCodeType(pFieldData.strEnumName, SaveData_Sheet.EType.Enum));
+                      //}
+
+                      pCodeType.AddField(new FieldData(strFieldName, arrText[1]));
+                      return;
+                  }
+              });
         }
 
         private static void Parsing_OnCode(SaveData_Sheet pSheetData, CodeFileBuilder pCodeFileBuilder, List<CommandLineArg> listCommandLine)
