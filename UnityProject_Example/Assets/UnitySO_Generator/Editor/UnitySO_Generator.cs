@@ -25,6 +25,7 @@ public class UnitySO_Generator : EditorWindow
 
     /* public - Field declaration            */
 
+    #region Container
     public abstract class Container_CashingLogicBase
     {
         protected ScriptableObject _pContainerInstance { get; private set; }
@@ -162,6 +163,7 @@ public class UnitySO_Generator : EditorWindow
             _pMethod_List_Add.Invoke(pListInstance, new object[] { pObject });
         }
     }
+    #endregion Container
 
     /* protected & private - Field declaration         */
 
@@ -179,11 +181,6 @@ public class UnitySO_Generator : EditorWindow
 
         window.minSize = new Vector2(800, 600);
         window.Show();
-    }
-
-    static public void Test()  
-    {
-        ScriptableObject.CreateInstance("");
     }
 
     static public void DoBuild()
@@ -317,6 +314,7 @@ public class UnitySO_Generator : EditorWindow
             string strPath = EditorUtility.OpenFolderPanel("Root Folder", "", "");
             System.Uri pCurrentURI = new System.Uri(Application.dataPath);
             pConfig.strJsonRootFolderPath = pCurrentURI.MakeRelativeUri(new System.Uri(strPath)).ToString();
+            pConfig.DoSave();
         }
 
         GUILayout.EndHorizontal();
@@ -333,6 +331,7 @@ public class UnitySO_Generator : EditorWindow
             string strPath = EditorUtility.OpenFolderPanel("Root Folder", "", "");
             System.Uri pCurrentURI = new System.Uri(Application.dataPath);
             pConfig.strExportFolderPath = pCurrentURI.MakeRelativeUri(new System.Uri(strPath)).ToString();
+            pConfig.DoSave();
         }
 
         GUILayout.EndHorizontal();

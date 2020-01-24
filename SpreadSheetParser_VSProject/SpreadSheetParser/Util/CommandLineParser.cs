@@ -85,7 +85,6 @@ namespace SpreadSheetParser
 
         private static void OnParsingError_Default(string strParsingText, Error eError)
         {
-
         }
     }
 }

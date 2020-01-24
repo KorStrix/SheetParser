@@ -123,7 +123,7 @@ namespace SpreadSheetParser
                         {
                             if(mapFieldData.ContainsKey(mapMemberName[i]) == false)
                             {
-                                SpreadSheetParser_MainForm.WriteConsole($"mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
+                                SpreadSheetParser_MainForm.WriteConsole($"{pSheet.strSheetName} - mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
                                 continue;
                             }
 

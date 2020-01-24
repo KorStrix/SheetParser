@@ -230,11 +230,23 @@ namespace SpreadSheetParser
             pCodeType.Members.Add(pField);
         }
 
-        public static void AddBaseClass(this CodeTypeDeclaration pCodeType, Type pBaseType)
+        public static void AddBaseClass(this CodeTypeDeclaration pCodeType, string strBaseTypeName)
         {
-            CodeTypeReference pBaseTypeRef = new CodeTypeReference(pBaseType);
+            CodeTypeReferenceCollection pCollectionBackup = new CodeTypeReferenceCollection(pCodeType.BaseTypes);
+            pCodeType.BaseTypes.Clear();
+
+            CodeTypeReference pBaseTypeRef = new CodeTypeReference(strBaseTypeName);
+            pCodeType.BaseTypes.Add(pBaseTypeRef);
+
+            pCodeType.BaseTypes.AddRange(pCollectionBackup);
+        }
+
+        public static void AddBaseInterface(this CodeTypeDeclaration pCodeType, string strBaseTypeName)
+        {
+            CodeTypeReference pBaseTypeRef = new CodeTypeReference(strBaseTypeName);
             pCodeType.BaseTypes.Add(pBaseTypeRef);
         }
+
 
 
         public static CodeMemberMethod AddMethod(this CodeTypeDeclaration pCodeType, string strMethodName, MemberAttributes eAttribute = MemberAttributes.Public | MemberAttributes.Final)

@@ -142,7 +142,7 @@ namespace SpreadSheetParser
 
         private void Create_SO(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, SaveData_Sheet pSaveData)
         {
-            pType.AddBaseClass(typeof(UnityEngine.ScriptableObject));
+            pType.AddBaseClass(nameof(UnityEngine.ScriptableObject));
             pNameSpace.Types.Clear();
             pNameSpace.Types.Add(pType);
 
@@ -158,7 +158,7 @@ namespace SpreadSheetParser
             const string const_strListData = "listData";
 
             CodeTypeDeclaration pContainerType = new CodeTypeDeclaration(pType.Name + "_Container");
-            pContainerType.AddBaseClass(typeof(UnityEngine.ScriptableObject));
+            pContainerType.AddBaseClass(nameof(UnityEngine.ScriptableObject));
 
             pNameSpace.Imports.Clear();
             pNameSpace.Imports.Add(new CodeNamespaceImport("System.Linq"));

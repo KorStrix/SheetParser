@@ -41,6 +41,9 @@
             this.button_OpenPath_SaveSheet = new System.Windows.Forms.Button();
             this.groupBox_2_1_TableSetting = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.button_CommandLine = new System.Windows.Forms.Button();
+            this.textBox_CommandLine = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.button_Add_VirtualField = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -49,7 +52,6 @@
             this.radioButton_Struct = new System.Windows.Forms.RadioButton();
             this.radioButton_Class = new System.Windows.Forms.RadioButton();
             this.button_Save_FileName = new System.Windows.Forms.Button();
-            this.button_Cancel_FileName = new System.Windows.Forms.Button();
             this.textBox_TableFileName = new System.Windows.Forms.TextBox();
             this.button_Check_TableSelected = new System.Windows.Forms.Button();
             this.groupBox_SelectedTable = new System.Windows.Forms.GroupBox();
@@ -74,6 +76,7 @@
             this.ColumnHeader_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnHeader_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_IsVirtual = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader_IsKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button_Check_TableAll = new System.Windows.Forms.Button();
             this.groupBox3_WorkSetting = new System.Windows.Forms.GroupBox();
             this.groupBox_3_1_SelectedWork = new System.Windows.Forms.GroupBox();
@@ -88,7 +91,6 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoConnect = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.columnHeader_IsKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1.SuspendLayout();
             this.groupBox_2_1_TableSetting.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -232,11 +234,13 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label3);
+            this.groupBox4.Controls.Add(this.button_CommandLine);
+            this.groupBox4.Controls.Add(this.textBox_CommandLine);
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.button_Add_VirtualField);
             this.groupBox4.Controls.Add(this.groupBox3);
             this.groupBox4.Controls.Add(this.button_Save_FileName);
-            this.groupBox4.Controls.Add(this.button_Cancel_FileName);
             this.groupBox4.Controls.Add(this.textBox_TableFileName);
             this.groupBox4.Controls.Add(this.button_Check_TableSelected);
             this.groupBox4.Location = new System.Drawing.Point(6, 197);
@@ -245,6 +249,32 @@
             this.groupBox4.TabIndex = 10;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Table Setting";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 148);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(92, 12);
+            this.label3.TabIndex = 32;
+            this.label3.Text = "Command Line";
+            // 
+            // button_CommandLine
+            // 
+            this.button_CommandLine.Location = new System.Drawing.Point(199, 161);
+            this.button_CommandLine.Name = "button_CommandLine";
+            this.button_CommandLine.Size = new System.Drawing.Size(82, 23);
+            this.button_CommandLine.TabIndex = 29;
+            this.button_CommandLine.Text = "Save";
+            this.button_CommandLine.UseVisualStyleBackColor = true;
+            this.button_CommandLine.Click += new System.EventHandler(this.buttonSave_CommandLine_Click);
+            // 
+            // textBox_CommandLine
+            // 
+            this.textBox_CommandLine.Location = new System.Drawing.Point(8, 163);
+            this.textBox_CommandLine.Name = "textBox_CommandLine";
+            this.textBox_CommandLine.Size = new System.Drawing.Size(178, 21);
+            this.textBox_CommandLine.TabIndex = 30;
             // 
             // label6
             // 
@@ -257,7 +287,7 @@
             // 
             // button_Add_VirtualField
             // 
-            this.button_Add_VirtualField.Location = new System.Drawing.Point(217, 31);
+            this.button_Add_VirtualField.Location = new System.Drawing.Point(217, 13);
             this.button_Add_VirtualField.Name = "button_Add_VirtualField";
             this.button_Add_VirtualField.Size = new System.Drawing.Size(74, 54);
             this.button_Add_VirtualField.TabIndex = 15;
@@ -324,23 +354,13 @@
             // 
             // button_Save_FileName
             // 
-            this.button_Save_FileName.Location = new System.Drawing.Point(104, 146);
+            this.button_Save_FileName.Location = new System.Drawing.Point(200, 117);
             this.button_Save_FileName.Name = "button_Save_FileName";
             this.button_Save_FileName.Size = new System.Drawing.Size(82, 23);
             this.button_Save_FileName.TabIndex = 25;
             this.button_Save_FileName.Text = "Save";
             this.button_Save_FileName.UseVisualStyleBackColor = true;
             this.button_Save_FileName.Click += new System.EventHandler(this.button_Save_FileName_Click);
-            // 
-            // button_Cancel_FileName
-            // 
-            this.button_Cancel_FileName.Location = new System.Drawing.Point(8, 146);
-            this.button_Cancel_FileName.Name = "button_Cancel_FileName";
-            this.button_Cancel_FileName.Size = new System.Drawing.Size(82, 23);
-            this.button_Cancel_FileName.TabIndex = 27;
-            this.button_Cancel_FileName.Text = "Cancel";
-            this.button_Cancel_FileName.UseVisualStyleBackColor = true;
-            this.button_Cancel_FileName.Click += new System.EventHandler(this.button_Cancel_FileName_Click);
             // 
             // textBox_TableFileName
             // 
@@ -384,9 +404,9 @@
             this.groupBox_2_2_SelectedField.Controls.Add(this.groupBox_2_2_SelectedField_Virtual);
             this.groupBox_2_2_SelectedField.Controls.Add(this.checkBox_Field_ThisIsKey);
             this.groupBox_2_2_SelectedField.Controls.Add(this.button_Remove_VirtualField);
-            this.groupBox_2_2_SelectedField.Location = new System.Drawing.Point(4, 133);
+            this.groupBox_2_2_SelectedField.Location = new System.Drawing.Point(6, 169);
             this.groupBox_2_2_SelectedField.Name = "groupBox_2_2_SelectedField";
-            this.groupBox_2_2_SelectedField.Size = new System.Drawing.Size(368, 302);
+            this.groupBox_2_2_SelectedField.Size = new System.Drawing.Size(368, 266);
             this.groupBox_2_2_SelectedField.TabIndex = 23;
             this.groupBox_2_2_SelectedField.TabStop = false;
             this.groupBox_2_2_SelectedField.Text = "2-2. Selected Field";
@@ -453,7 +473,7 @@
             // 
             // button_Save_Field
             // 
-            this.button_Save_Field.Location = new System.Drawing.Point(217, 271);
+            this.button_Save_Field.Location = new System.Drawing.Point(217, 237);
             this.button_Save_Field.Name = "button_Save_Field";
             this.button_Save_Field.Size = new System.Drawing.Size(42, 23);
             this.button_Save_Field.TabIndex = 22;
@@ -480,7 +500,7 @@
             // label_Type
             // 
             this.label_Type.AutoSize = true;
-            this.label_Type.Location = new System.Drawing.Point(142, 17);
+            this.label_Type.Location = new System.Drawing.Point(199, 17);
             this.label_Type.Name = "label_Type";
             this.label_Type.Size = new System.Drawing.Size(34, 12);
             this.label_Type.TabIndex = 21;
@@ -488,7 +508,7 @@
             // 
             // textBox_Type
             // 
-            this.textBox_Type.Location = new System.Drawing.Point(144, 32);
+            this.textBox_Type.Location = new System.Drawing.Point(201, 32);
             this.textBox_Type.Name = "textBox_Type";
             this.textBox_Type.Size = new System.Drawing.Size(146, 21);
             this.textBox_Type.TabIndex = 20;
@@ -515,7 +535,7 @@
             // 
             this.textBox_FieldName.Location = new System.Drawing.Point(8, 32);
             this.textBox_FieldName.Name = "textBox_FieldName";
-            this.textBox_FieldName.Size = new System.Drawing.Size(107, 21);
+            this.textBox_FieldName.Size = new System.Drawing.Size(176, 21);
             this.textBox_FieldName.TabIndex = 18;
             // 
             // comboBox_DependencyField
@@ -523,7 +543,7 @@
             this.comboBox_DependencyField.FormattingEnabled = true;
             this.comboBox_DependencyField.Location = new System.Drawing.Point(8, 79);
             this.comboBox_DependencyField.Name = "comboBox_DependencyField";
-            this.comboBox_DependencyField.Size = new System.Drawing.Size(107, 20);
+            this.comboBox_DependencyField.Size = new System.Drawing.Size(176, 20);
             this.comboBox_DependencyField.TabIndex = 7;
             // 
             // checkBox_Field_ThisIsKey
@@ -539,7 +559,7 @@
             // 
             // button_Remove_VirtualField
             // 
-            this.button_Remove_VirtualField.Location = new System.Drawing.Point(322, 271);
+            this.button_Remove_VirtualField.Location = new System.Drawing.Point(322, 237);
             this.button_Remove_VirtualField.Name = "button_Remove_VirtualField";
             this.button_Remove_VirtualField.Size = new System.Drawing.Size(40, 23);
             this.button_Remove_VirtualField.TabIndex = 14;
@@ -558,7 +578,7 @@
             this.listView_Field.Location = new System.Drawing.Point(6, 14);
             this.listView_Field.MultiSelect = false;
             this.listView_Field.Name = "listView_Field";
-            this.listView_Field.Size = new System.Drawing.Size(366, 113);
+            this.listView_Field.Size = new System.Drawing.Size(366, 149);
             this.listView_Field.TabIndex = 12;
             this.listView_Field.UseCompatibleStateImageBehavior = false;
             this.listView_Field.View = System.Windows.Forms.View.Details;
@@ -577,6 +597,10 @@
             // 
             this.columnHeader_IsVirtual.Text = "Virtual";
             this.columnHeader_IsVirtual.Width = 61;
+            // 
+            // columnHeader_IsKey
+            // 
+            this.columnHeader_IsKey.Text = "IsKey";
             // 
             // button_Check_TableAll
             // 
@@ -736,10 +760,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Log";
             // 
-            // columnHeader_IsKey
-            // 
-            this.columnHeader_IsKey.Text = "IsKey";
-            // 
             // SpreadSheetParser_MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -830,7 +850,6 @@
         private System.Windows.Forms.CheckBox checkBox_DeleteField_OnCode;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button button_Save_FileName;
-        private System.Windows.Forms.Button button_Cancel_FileName;
         private System.Windows.Forms.TextBox textBox_TableFileName;
         private System.Windows.Forms.CheckBox checkBox_ConvertStringToEnum;
         private System.Windows.Forms.TextBox textBox_EnumName;
@@ -840,6 +859,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox checkBox_FieldKey_IsOverlap;
         private System.Windows.Forms.ColumnHeader columnHeader_IsKey;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button_CommandLine;
+        private System.Windows.Forms.TextBox textBox_CommandLine;
     }
 }
 

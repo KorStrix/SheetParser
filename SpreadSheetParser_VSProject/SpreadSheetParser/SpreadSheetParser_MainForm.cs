@@ -14,7 +14,8 @@ namespace SpreadSheetParser
             Error = -1,
 
             comment,
-            typename,
+            ispartial,
+            baseis,
         }
 
         public enum EState
@@ -544,6 +545,7 @@ namespace SpreadSheetParser
 
             groupBox_SelectedTable.Text = pSheetData.ToString();
             textBox_TableFileName.Text = pSheetData.strFileName;
+            textBox_CommandLine.Text = pSheetData.strCommandLine;
 
             switch (pSheetData.eType)
             {
@@ -736,9 +738,10 @@ namespace SpreadSheetParser
             AutoSaveAsync_CurrentSheet();
         }
 
-        private void button_Cancel_FileName_Click(object sender, EventArgs e)
+        private void buttonSave_CommandLine_Click(object sender, EventArgs e)
         {
-            textBox_TableFileName.Text= _pSheet_CurrentConnected.strFileName;
+            _pSheet_CurrentConnected.strCommandLine = textBox_CommandLine.Text;
+            AutoSaveAsync_CurrentSheet();
         }
 
         private void checkBox_Field_NullOrEmtpy_IsError_CheckedChanged(object sender, EventArgs e)
@@ -800,5 +803,6 @@ namespace SpreadSheetParser
 
             pFieldData.bIsOverlapKey = checkBox_FieldKey_IsOverlap.Checked;
         }
+
     }
 }

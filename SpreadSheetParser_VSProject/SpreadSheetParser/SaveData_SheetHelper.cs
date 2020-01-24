@@ -226,7 +226,7 @@ namespace SpreadSheetParser
                     switch (eCommandLine)
                     {
                         case ECommandLine.comment:
-                        case ECommandLine.typename:
+                        case ECommandLine.baseis:
                             bHasValue = true;
                             break;
 
@@ -256,8 +256,12 @@ namespace SpreadSheetParser
                         pCodeType.AddComment(listCommandLine[i].strArgValue);
                         break;
 
-                    case ECommandLine.typename:
-                        pCodeType.Name = listCommandLine[i].strArgValue;
+                    case ECommandLine.baseis:
+                        pCodeType.AddBaseInterface(listCommandLine[i].strArgValue);
+                        break;
+
+                    case ECommandLine.ispartial:
+                        pCodeType.IsPartial = true;
                         break;
 
                     default:

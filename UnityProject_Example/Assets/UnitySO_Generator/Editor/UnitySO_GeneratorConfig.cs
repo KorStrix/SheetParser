@@ -55,6 +55,14 @@ public class UnitySO_GeneratorConfig : ScriptableObject
         return arrTemp;
     }
 
+    public void DoSave()
+    {
+        EditorUtility.SetDirty(this);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+
     /// <summary>
     ///	This makes it easy to create, name and place unique new ScriptableObject asset files.
     // https://wiki.unity3d.com/index.php/CreateScriptableObjectAsset
