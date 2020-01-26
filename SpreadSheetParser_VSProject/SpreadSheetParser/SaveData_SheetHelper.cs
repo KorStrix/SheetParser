@@ -101,12 +101,9 @@ namespace SpreadSheetParser
 
         private static void Parsing_OnGlobal(SaveData_Sheet pSheetData, CodeFileBuilder pCodeFileBuilder)
         {
-            const string const_GlobalKey_EnumName = "EGlobalKey";
-            const string const_GlobalKey_FieldName = "eGlobalKey";
-
             // 글로벌 테이블은 데이터를 담는 데이터컨테이너와 글로벌키 Enum타입 2개를 생성한다.
             var pCodeType_Class = pCodeFileBuilder.AddCodeType(pSheetData.strFileName, pSheetData.eType);
-            var pCodeType_GlobalKey = pCodeFileBuilder.AddCodeType(const_GlobalKey_EnumName, SaveData_Sheet.EType.Enum);
+            var pCodeType_GlobalKey = pCodeFileBuilder.AddCodeType(SaveData_Sheet.const_GlobalKey_EnumName, SaveData_Sheet.EType.Enum);
 
             Dictionary<int, EGlobalColumnType> mapGlobalColumnType = new Dictionary<int, EGlobalColumnType>();
             HashSet<string> setGlobalTable_ByType = new HashSet<string>();
@@ -140,12 +137,12 @@ namespace SpreadSheetParser
                                           if (pFieldData != null)
                                               pFieldData.bDeleteThisField_InCode = true;
 
-                                          FieldTypeData pFieldData_Enum = pSheetData.listFieldData.Where(p => p.strFieldName == const_GlobalKey_FieldName).FirstOrDefault();
+                                          FieldTypeData pFieldData_Enum = pSheetData.listFieldData.Where(p => p.strFieldName == SaveData_Sheet.const_GlobalKey_FieldName).FirstOrDefault();
                                           if(pFieldData_Enum == null)
                                           {
                                               pFieldData_Enum = new FieldTypeData();
-                                              pFieldData_Enum.strFieldType = const_GlobalKey_EnumName;
-                                              pFieldData_Enum.strFieldName = const_GlobalKey_FieldName;
+                                              pFieldData_Enum.strFieldType = SaveData_Sheet.const_GlobalKey_EnumName;
+                                              pFieldData_Enum.strFieldName = SaveData_Sheet.const_GlobalKey_FieldName;
                                               pFieldData_Enum.strDependencyFieldName = pFieldData.strFieldName;
                                               pFieldData_Enum.bIsVirtualField = true;
                                               pSheetData.listFieldData.Add(pFieldData_Enum);

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: UnitySO_Container
   m_EditorClassIdentifier: 
   listData:
-  - {fileID: 114414201258969482}
-  - {fileID: 114603880307069792}
-  - {fileID: 114573860277513788}
---- !u!114 &114414201258969482
+  - {fileID: 114212261292282998}
+  - {fileID: 114570726157563528}
+  - {fileID: 114092890648350990}
+--- !u!114 &114092890648350990
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -26,31 +26,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 477f0b4a5aa02fb438ef2cf58d701032, type: 3}
-  m_Name: UnitySO_0
-  m_EditorClassIdentifier: 
-  MaterialPath: Assets/ExportData/Material/Blue.mat
-  strComment: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
-  intValue: 2
-  strAutoEnum: AutoEnum_1
-  AutoEnumValue: 0
---- !u!114 &114573860277513788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 477f0b4a5aa02fb438ef2cf58d701032, type: 3}
-  m_Name: UnitySO_2
+  m_Name: "\uBE68\uAC04\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
   m_EditorClassIdentifier: 
   MaterialPath: Assets/ExportData/Material/Red.mat
   strComment: "\uBE68\uAC04\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
   intValue: 8
   strAutoEnum: AutoEnum_3
   AutoEnumValue: 2
---- !u!114 &114603880307069792
+--- !u!114 &114212261292282998
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60,7 +43,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 477f0b4a5aa02fb438ef2cf58d701032, type: 3}
-  m_Name: UnitySO_1
+  m_Name: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
+  m_EditorClassIdentifier: 
+  MaterialPath: Assets/ExportData/Material/Blue.mat
+  strComment: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
+  intValue: 2
+  strAutoEnum: AutoEnum_1
+  AutoEnumValue: 0
+--- !u!114 &114570726157563528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 477f0b4a5aa02fb438ef2cf58d701032, type: 3}
+  m_Name: "\uCD08\uB85D\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
   m_EditorClassIdentifier: 
   MaterialPath: Assets/ExportData/Material/Green.mat
   strComment: "\uCD08\uB85D\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"

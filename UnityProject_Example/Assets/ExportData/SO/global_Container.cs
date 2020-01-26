@@ -50,3 +50,29 @@ public class global_Container : ScriptableObject
         this.mapData_Type_Is_int = arrLocal.ToDictionary(p => p.eGlobalKey, p => int.Parse(p.strValue));
     }
 }
+
+public enum EGlobalKey
+{
+    
+    /// <summary>
+    /// 플롯설명
+    /// </summary>
+    floatValue,
+    
+    /// <summary>
+    /// 스트링설명
+    /// </summary>
+    stringValue,
+    
+    /// <summary>
+    /// 인트설명
+    /// </summary>
+    intValue,
+    
+    /// <summary>
+    /// 인트설명22
+    /// </summary>
+    intValue22,
+    
+    strValue22,
+}

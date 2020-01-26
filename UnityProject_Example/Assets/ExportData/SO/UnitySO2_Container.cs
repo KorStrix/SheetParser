@@ -14,12 +14,12 @@ using UnityEngine;
 
 
 
-public enum AutoEnumTest
+public class UnitySO2_Container : ScriptableObject
 {
     
-    AutoEnum_1,
+    public List<UnitySO2> listData;
     
-    AutoEnum_2,
-    
-    AutoEnum_3,
+    public void DoInit()
+    {
+    }
 }

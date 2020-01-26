@@ -71,6 +71,10 @@ namespace SpreadSheetParser
 
     public class SaveData_Sheet
     {
+        public const string const_GlobalKey_EnumName = "EGlobalKey";
+        public const string const_GlobalKey_FieldName = "eGlobalKey";
+
+
         public enum EType
         {
             Class,

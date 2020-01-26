@@ -68,6 +68,8 @@
     <Compile Include="Assets\ExportData\SO\Others.cs" />
     <Compile Include="Assets\ExportData\SO\UnitySO.cs" />
     <Compile Include="Assets\ExportData\SO\UnitySO_Container.cs" />
+    <Compile Include="Assets\ExportData\SO\UnitySO2.cs" />
+    <Compile Include="Assets\ExportData\SO\UnitySO2_Container.cs" />
     <Compile Include="Assets\Tester.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/user/Desktop/Project/BlackSmith/SpreadSheetParser/UnityProject_Example/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

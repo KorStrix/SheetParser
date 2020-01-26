@@ -14,12 +14,10 @@ using UnityEngine;
 
 
 
-public enum AutoEnumTest
+public class UnitySO2 : ScriptableObject
 {
     
-    AutoEnum_1,
+    public string strComment;
     
-    AutoEnum_2,
-    
-    AutoEnum_3,
+    public UnitySO pUnitySO;
 }

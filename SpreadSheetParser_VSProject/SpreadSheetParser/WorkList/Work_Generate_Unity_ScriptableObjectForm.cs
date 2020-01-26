@@ -101,15 +101,19 @@ namespace SpreadSheetParser
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData)
         {
             CodeTypeDeclarationCollection arrTypes = pCodeFileBuilder.GetCodeTypeDeclarationCollection();
+            List<CodeTypeDeclaration> listType = new List<CodeTypeDeclaration>();
+            foreach (CodeTypeDeclaration pType in arrTypes)
+                listType.Add(pType);
+
             CodeNamespace pNameSpace = new CodeNamespace();
             pNameSpace.Imports.Add(new CodeNamespaceImport("UnityEngine"));
 
+            CodeTypeDeclaration pGlobalKeyEnum = listType.Where(p => p.Name == SaveData_Sheet.const_GlobalKey_EnumName).FirstOrDefault();
             HashSet<CodeTypeDeclaration> setExecutedType = new HashSet<CodeTypeDeclaration>();
-            foreach (CodeTypeDeclaration pType in arrTypes)
-            {
-                if (string.IsNullOrEmpty(pType.Name) || pType.IsClass == false)
-                    continue;
 
+            IEnumerable<CodeTypeDeclaration> listUnitySO = listType.Where(p => string.IsNullOrEmpty(p.Name) == false && p.IsClass);
+            foreach (CodeTypeDeclaration pType in listUnitySO)
+            {
                 SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();
                 if (pSaveData == null)
                     continue;
@@ -118,7 +122,8 @@ namespace SpreadSheetParser
 
                 if (pSaveData.eType == SaveData_Sheet.EType.Global)
                 {
-                    Create_GlobalSOContainer(pCodeFileBuilder, pNameSpace, pType, pSaveData);
+                    Create_GlobalSOContainer(pCodeFileBuilder, pNameSpace, pType, pGlobalKeyEnum, pSaveData);
+                    setExecutedType.Add(pGlobalKeyEnum);
                 }
                 else
                 {
@@ -129,12 +134,11 @@ namespace SpreadSheetParser
                 setExecutedType.Add(pType);
             }
 
+            // Others
             pNameSpace.Types.Clear();
-            foreach (CodeTypeDeclaration pType in arrTypes)
+            IEnumerable<CodeTypeDeclaration> listOthers = listType.Where(p => string.IsNullOrEmpty(p.Name) == false && setExecutedType.Contains(p) == false);
+            foreach (CodeTypeDeclaration pType in listOthers)
             {
-                if (string.IsNullOrEmpty(pType.Name) || setExecutedType.Contains(pType))
-                    continue;
-
                 SpreadSheetParser_MainForm.WriteConsole($"UnitySO - Working Others {pType.Name}");
                 pNameSpace.Types.Add(pType);
                 setExecutedType.Add(pType);
@@ -157,11 +161,12 @@ namespace SpreadSheetParser
             pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pType.Name}");
         }
 
-        private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, SaveData_Sheet pSaveData)
+        private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, CodeTypeDeclaration pGlobalKeyEnumType, SaveData_Sheet pSaveData)
         {
             CodeTypeDeclaration pContainerType;
             CodeMemberMethod pInitMethod;
             Create_SOContainer(pNameSpace, pType, out pContainerType, out pInitMethod);
+            pNameSpace.Types.Add(pGlobalKeyEnumType);
 
             IEnumerable<FieldTypeData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
 
@@ -176,8 +181,13 @@ namespace SpreadSheetParser
                 }
             }
 
+            HashSet<string> setAlreadyExecute = new HashSet<string>();
             foreach (var pFieldData in listKeyField)
             {
+                if (setAlreadyExecute.Contains(pFieldData.strFieldType))
+                    continue;
+                setAlreadyExecute.Add(pFieldData.strFieldType);
+
                 string strFieldName = $"mapData_Type_Is_{pFieldData.strFieldType}";
                 string strMemberType = $"Dictionary<{"EGlobalKey"}, {pFieldData.strFieldType}>";
 
@@ -278,9 +288,13 @@ namespace SpreadSheetParser
             {
                 strParseString = $"int.Parse({strParseString})";
             }
+            else if(strTypeFieldName == "string")
+            {
+
+            }
             else
             {
-                SpreadSheetParser_MainForm.WriteConsole("Error");
+                SpreadSheetParser_MainForm.WriteConsole($"Error Parsing Not Define {strTypeName}");
             }
 
 

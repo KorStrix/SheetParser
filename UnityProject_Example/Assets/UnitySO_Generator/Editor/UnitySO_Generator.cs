@@ -26,6 +26,32 @@ public class UnitySO_Generator : EditorWindow
 
     /* enum & struct declaration                */
 
+    public class SOInstance
+    {
+        public TypeData pTypeData;
+        public ScriptableObject pSO_Container;
+        public List<ScriptableObject> listSO = new List<ScriptableObject>();
+
+        public SOInstance(TypeData pTypeData, ScriptableObject pSO_Container)
+        {
+            this.pTypeData = pTypeData; this.pSO_Container = pSO_Container;
+        }
+    }
+
+    public class Refrence_OtherSO_Data
+    {
+        public ScriptableObject pSOInstance;
+        public FieldInfo pFieldInfo;
+
+        public System.Type pType_OtherSO;
+        public string strValue;
+
+        public Refrence_OtherSO_Data(ScriptableObject pObjectInstance, FieldInfo pFieldInfo, System.Type pType_OtherSO, string strValue)
+        {
+            this.pSOInstance = pObjectInstance; this.pFieldInfo = pFieldInfo; this.pType_OtherSO = pType_OtherSO; this.strValue = strValue;
+        }
+    }
+
     /* public - Field declaration            */
 
     #region Container
@@ -171,6 +197,9 @@ public class UnitySO_Generator : EditorWindow
     /* protected & private - Field declaration         */
 
 
+    static Dictionary<System.Type, SOInstance> _mapSOInstance = new Dictionary<System.Type, SOInstance>();
+    static HashSet<Refrence_OtherSO_Data> _setReference_OtherSO = new HashSet<Refrence_OtherSO_Data>();
+
     // ========================================================================== //
 
     /* public - [Do] Function
@@ -199,6 +228,8 @@ public class UnitySO_Generator : EditorWindow
             return;
         }
 
+        _mapSOInstance.Clear();
+        _setReference_OtherSO.Clear();
         foreach (TypeData pTypeData in pTypeDataList.listTypeData)
         {
             string strTypeName = pTypeData.strType;
@@ -224,6 +255,8 @@ public class UnitySO_Generator : EditorWindow
 
             Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_SO = pType_SO.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
 
+            _mapSOInstance.Add(pType_SO, new SOInstance(pTypeData, pContainerInstance));
+
             List<Container_CashingLogicBase> listCashingLogic = new List<Container_CashingLogicBase>();
             IEnumerable<System.Reflection.FieldInfo> arrFieldInfo_Container = pType_Container.GetFields();
             foreach (var pFieldInfo in arrFieldInfo_Container)
@@ -245,15 +278,31 @@ public class UnitySO_Generator : EditorWindow
                 //}
             }
 
-            Process_Field(pTypeData, pType_SO, pJArray_Instance, pContainerInstance, mapFieldInfo_SO, listCashingLogic, pTypeData.listField);
-
-            AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+            Generate_SOInstance(pTypeData, pType_SO, pJArray_Instance, pContainerInstance, mapFieldInfo_SO, listCashingLogic, pTypeData.listField);
         }
 
+        foreach(Refrence_OtherSO_Data pReference_OtherSOData in _setReference_OtherSO)
+        {
+            SOInstance pOtherSO_Instance;
+            if (_mapSOInstance.TryGetValue(pReference_OtherSOData.pType_OtherSO, out pOtherSO_Instance) == false)
+                continue;
+
+            var pObject = pOtherSO_Instance.listSO.Where(p => p.name == pReference_OtherSOData.strValue).FirstOrDefault();
+            if(pObject == null)
+            {
+                Debug.LogError($"Not Found {pReference_OtherSOData.strValue}");
+                continue;
+            }
+
+            pReference_OtherSOData.pFieldInfo.SetValue(pReference_OtherSOData.pSOInstance, pObject);
+            EditorUtility.SetDirty(pReference_OtherSOData.pSOInstance);
+        }
+
+        AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
         Debug.Log("Build Finish");
     }
 
-    private static void Process_Field(TypeData pTypeData, Type pType_SO, JArray pJArray_Instance, ScriptableObject pContainerInstance, Dictionary<string, FieldInfo> mapFieldInfo_SO, List<Container_CashingLogicBase> listCashingLogic, List<FieldTypeData> listFieldData)
+    private static void Generate_SOInstance(TypeData pTypeData, Type pType_SO, JArray pJArray_Instance, ScriptableObject pContainerInstance, Dictionary<string, FieldInfo> mapFieldInfo_SO, List<Container_CashingLogicBase> listCashingLogic, List<FieldTypeData> listFieldData)
     {
         string strHeaderField = pTypeData.strHeaderFieldName;
         string strFileName = pType_SO.Name;
@@ -270,6 +319,7 @@ public class UnitySO_Generator : EditorWindow
             Process_RealField(pTypeData, mapFieldInfo_SO, pInstanceData, pSO, listRealField);
             Process_VirtualField(pTypeData, mapFieldInfo_SO, pInstanceData, pSO, listFieldData, listVirtualField);
             Process_SOName(strHeaderField, strFileName, iLoopIndex, listFieldData, pSO, pFieldData_Header, pInstanceData);
+            EditorUtility.SetDirty(pSO);
 
             for (int i = 0; i < listCashingLogic.Count; i++)
             {
@@ -363,6 +413,7 @@ public class UnitySO_Generator : EditorWindow
     private static ScriptableObject GenerateSO(System.Type pType_SO, ScriptableObject pContainerInstance)
     {
         ScriptableObject pSO = (ScriptableObject)UnitySO_GeneratorConfig.CreateInstance(pType_SO);
+        _mapSOInstance[pType_SO].listSO.Add(pSO);
 
         AssetDatabase.AddObjectToAsset(pSO, pContainerInstance);
         // AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(pContainerInstance));
@@ -381,8 +432,6 @@ public class UnitySO_Generator : EditorWindow
         {
             Debug.LogError("Error");
         }
-
-        EditorUtility.SetDirty(pSO);
     }
 
     private static void Process_RealField(TypeData pTypeData, Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_SO, JObject pInstanceData, ScriptableObject pSO, IEnumerable<FieldTypeData> listRealField)
@@ -411,6 +460,8 @@ public class UnitySO_Generator : EditorWindow
                         System.Type pType_Field = GetTypeFromAssemblies(pMember.strFieldType);
                         if (pType_Field.IsEnum)
                             pFieldInfo.SetValue(pSO, System.Enum.Parse(pType_Field, strValue));
+                        else
+                            _setReference_OtherSO.Add(new Refrence_OtherSO_Data(pSO, pFieldInfo, pType_Field, strValue));
 
                         if (pType_Field == null)
                             Debug.LogWarning($"아직 지원되지 않은 형식.. {pMember.strFieldType}");
