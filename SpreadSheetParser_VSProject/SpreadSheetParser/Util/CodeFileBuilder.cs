@@ -180,7 +180,7 @@ namespace SpreadSheetParser
             }
         }
 
-        public static void AddField(this CodeTypeDeclaration pCodeType, FieldData pFieldData)
+        public static void AddField(this CodeTypeDeclaration pCodeType, FieldTypeData pFieldData)
         {
             CodeMemberField pField = new CodeMemberField();
             pField.Attributes = MemberAttributes.Public;

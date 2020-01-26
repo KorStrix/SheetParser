@@ -80,6 +80,8 @@ namespace SpreadSheetParser
     [System.Serializable]
     public class Work_Generate_Unity_ScriptableObject : WorkBase
     {
+        const string const_strListData = "listData";
+
         public string strExportPath;
         public string strUnityProjectPath;
         public string strUnityEditorPath;
@@ -112,12 +114,14 @@ namespace SpreadSheetParser
                 if (pSaveData == null)
                     continue;
 
+                Create_SO(pCodeFileBuilder, pNameSpace, pType, pSaveData);
+
                 if (pSaveData.eType == SaveData_Sheet.EType.Global)
                 {
+                    Create_GlobalSOContainer(pCodeFileBuilder, pNameSpace, pType, pSaveData);
                 }
                 else
                 {
-                    Create_SO(pCodeFileBuilder, pNameSpace, pType, pSaveData);
                     Create_SOContainer(pCodeFileBuilder, pNameSpace, pType, pSaveData);
                 }
 
@@ -146,31 +150,52 @@ namespace SpreadSheetParser
             pNameSpace.Types.Clear();
             pNameSpace.Types.Add(pType);
 
-            var listVirtualFieldOption = pSaveData.listFieldData.Where(pExportOption => pExportOption.bIsVirtualField);
+            var listVirtualFieldOption = pSaveData.listFieldData.Where(pExportOption => pExportOption.bDeleteThisField_InCode == false && pExportOption.bIsVirtualField);
             foreach (var pVirtualField in listVirtualFieldOption)
                 pType.AddField(pVirtualField);
 
             pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pType.Name}");
         }
 
+        private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, SaveData_Sheet pSaveData)
+        {
+            CodeTypeDeclaration pContainerType;
+            CodeMemberMethod pInitMethod;
+            Create_SOContainer(pNameSpace, pType, out pContainerType, out pInitMethod);
+
+            IEnumerable<FieldTypeData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
+
+            string strValueFieldName = "";
+            IEnumerable<FieldTypeData> listRealField = pSaveData.listFieldData.Where(p => p.bIsKeyField == false);
+            foreach (var pRealField in listRealField)
+            {
+                if(pRealField.strFieldName.ToLower().Contains(nameof(SaveData_SheetHelper.EGlobalColumnType.Value).ToLower()))
+                {
+                    strValueFieldName = pRealField.strFieldName;
+                    break;
+                }
+            }
+
+            foreach (var pFieldData in listKeyField)
+            {
+                string strFieldName = $"mapData_Type_Is_{pFieldData.strFieldType}";
+                string strMemberType = $"Dictionary<{"EGlobalKey"}, {pFieldData.strFieldType}>";
+
+                pContainerType.AddField(new FieldTypeData(strFieldName, strMemberType));
+                Generate_CacheMethod_Global(pContainerType, pInitMethod, const_strListData, strFieldName, pFieldData.strFieldName, pFieldData.strFieldType, strValueFieldName);
+            }
+
+            pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pContainerType.Name}");
+        }
+
+
         private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, SaveData_Sheet pSaveData)
         {
-            const string const_strListData = "listData";
+            CodeTypeDeclaration pContainerType;
+            CodeMemberMethod pInitMethod;
+            Create_SOContainer(pNameSpace, pType, out pContainerType, out pInitMethod);
 
-            CodeTypeDeclaration pContainerType = new CodeTypeDeclaration(pType.Name + "_Container");
-            pContainerType.AddBaseClass(nameof(UnityEngine.ScriptableObject));
-
-            pNameSpace.Imports.Clear();
-            pNameSpace.Imports.Add(new CodeNamespaceImport("System.Linq"));
-            pNameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
-            pNameSpace.Imports.Add(new CodeNamespaceImport("UnityEngine"));
-            pNameSpace.Types.Clear();
-            pNameSpace.Types.Add(pContainerType);
-
-            pContainerType.AddField(new FieldData(const_strListData, $"List<{pType.Name}>"));
-            CodeMemberMethod pInitMethod = Generate_InitMethod(pContainerType);
-
-            IEnumerable<FieldData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
+            IEnumerable<FieldTypeData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
             foreach (var pFieldData in listKeyField)
             {
                 string strFieldName = "";
@@ -186,11 +211,27 @@ namespace SpreadSheetParser
                     strMemberType = $"Dictionary<{pFieldData.strFieldType}, {pType.Name}>";
                 }
 
-                pContainerType.AddField(new FieldData(strFieldName, strMemberType));
+                pContainerType.AddField(new FieldTypeData(strFieldName, strMemberType));
                 Generate_CacheMethod(pContainerType, pInitMethod, const_strListData, strFieldName, pFieldData.strFieldName, pFieldData.bIsOverlapKey);
             }
 
             pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pContainerType.Name}");
+        }
+
+        private void Create_SOContainer(CodeNamespace pNameSpace, CodeTypeDeclaration pType, out CodeTypeDeclaration pContainerType, out CodeMemberMethod pInitMethod)
+        {
+            pContainerType = new CodeTypeDeclaration(pType.Name + "_Container");
+            pContainerType.AddBaseClass(nameof(UnityEngine.ScriptableObject));
+
+            pNameSpace.Imports.Clear();
+            pNameSpace.Imports.Add(new CodeNamespaceImport("System.Linq"));
+            pNameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
+            pNameSpace.Imports.Add(new CodeNamespaceImport("UnityEngine"));
+            pNameSpace.Types.Clear();
+            pNameSpace.Types.Add(pContainerType);
+
+            pContainerType.AddField(new FieldTypeData(const_strListData, $"List<{pType.Name}>"));
+            pInitMethod = Generate_InitMethod(pContainerType);
         }
 
         private CodeMemberMethod Generate_InitMethod(CodeTypeDeclaration pContainerType)
@@ -203,6 +244,55 @@ namespace SpreadSheetParser
             //pMethod.Statements.Add(new CodeSnippetStatement("#endif"));
 
             return pMethod;
+        }
+
+        private void Generate_CacheMethod_Global(CodeTypeDeclaration pContainerType, CodeMemberMethod pInitMethod, string strListDataName, string strMapFieldName, string strTypeFieldName, string strTypeName, string strValueFieldName)
+        {
+            string strMethodName = $"Init_{strMapFieldName}";
+            var pMethod = pContainerType.AddMethod(strMethodName);
+            pMethod.Attributes = MemberAttributes.Private | MemberAttributes.Final;
+
+            CodeFieldReferenceExpression pCasheMemberReference =
+                new CodeFieldReferenceExpression(
+                new CodeThisReferenceExpression(), strMapFieldName);
+
+            CodeTypeReferenceExpression pField_List = new CodeTypeReferenceExpression($"{strListDataName}");
+
+            // 1. Where로 묶는다.
+            CodeMethodInvokeExpression pMethod_CachingLocal = new CodeMethodInvokeExpression(
+                pField_List, "Where", new CodeSnippetExpression($"x => x.{strTypeFieldName} == \"{strTypeName}\""));
+
+            CodeVariableDeclarationStatement pGroupbyVariableDeclaration = new CodeVariableDeclarationStatement(
+                "var", "arrLocal", pMethod_CachingLocal);
+
+            pMethod.Statements.Add(pGroupbyVariableDeclaration);
+
+            // 3. Gropby로 묶은걸 Dictionary로 변환하며 할당한다.
+            // 여기서 기본 형식은 다 형변환해야함
+            string strParseString = $"p.{strValueFieldName}";
+            if(strTypeName == "float")
+            {
+                strParseString = $"float.Parse({strParseString})";
+            }
+            else if(strTypeName == "int")
+            {
+                strParseString = $"int.Parse({strParseString})";
+            }
+            else
+            {
+                SpreadSheetParser_MainForm.WriteConsole("Error");
+            }
+
+
+            CodeMethodInvokeExpression pMethod_Caching = new CodeMethodInvokeExpression(
+                new CodeVariableReferenceExpression("arrLocal"), "ToDictionary", new CodeSnippetExpression($"p => p.eGlobalKey, p => {strParseString}"));
+
+            CodeAssignStatement pCachAssign = new CodeAssignStatement(pCasheMemberReference, pMethod_Caching);
+            pMethod.Statements.Add(pCachAssign);
+
+            pInitMethod.Statements.Add(new CodeMethodInvokeExpression(
+                new CodeMethodReferenceExpression(
+                new CodeThisReferenceExpression(), strMethodName)));
         }
 
         private void Generate_CacheMethod(CodeTypeDeclaration pContainerType, CodeMemberMethod pInitMethod, string strListDataName, string strMapFieldName, string strCacheFieldName, bool bIsOverlapKey)

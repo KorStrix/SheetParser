@@ -1,6 +1,6 @@
 {
   "strSheetID": "1UBilERHqWJXuYnyE060dPbAN9JpOCUUctGpSCbV2IPc",
-  "date_LastEdit": "2020-01-26T19:08:38.1417443+09:00",
+  "date_LastEdit": "2020-01-26T20:54:44.4107239+09:00",
   "listTable": [
     {
       "strSheetName": "개요",
@@ -22,7 +22,6 @@
         {
           "strFieldName": "eLanguageKey",
           "strFieldType": "ELanguageKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strLanguageKey\"/>",
           "strDependencyFieldName": "strLanguageKey",
           "strDependencyFieldName_Sub": null,
@@ -36,7 +35,6 @@
         {
           "strFieldName": "strKorean",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -50,7 +48,6 @@
         {
           "strFieldName": "strEnglish",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -64,7 +61,6 @@
         {
           "strFieldName": "strLanguageKey",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -88,7 +84,6 @@
         {
           "strFieldName": "strCharacterKey",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -102,7 +97,6 @@
         {
           "strFieldName": "iInitHP",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -116,7 +110,6 @@
         {
           "strFieldName": "iInitDamage",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -130,7 +123,6 @@
         {
           "strFieldName": "iInitArmor",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -144,7 +136,6 @@
         {
           "strFieldName": "strModelPath",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -158,7 +149,6 @@
         {
           "strFieldName": "pModel",
           "strFieldType": "Spine.Unity.SkeletonDataAsset",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strModelPath\"/>",
           "strDependencyFieldName": "strModelPath",
           "strDependencyFieldName_Sub": null,
@@ -172,7 +162,6 @@
         {
           "strFieldName": "eCharacrerKey",
           "strFieldType": "ECharacrerKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strCharacterKey\"/>",
           "strDependencyFieldName": "strCharacterKey",
           "strDependencyFieldName_Sub": null,
@@ -186,7 +175,6 @@
         {
           "strFieldName": "eAttackType",
           "strFieldType": "EAttackType",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -200,7 +188,6 @@
         {
           "strFieldName": "strEffectKey_OnAttack",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -214,7 +201,6 @@
         {
           "strFieldName": "strEffectKey_OnAttackHit",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -228,7 +214,6 @@
         {
           "strFieldName": "eEffectKey_OnAttack",
           "strFieldType": "EEffectKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strEffectKey_OnAttack\"/>",
           "strDependencyFieldName": "strEffectKey_OnAttack",
           "strDependencyFieldName_Sub": null,
@@ -242,7 +227,6 @@
         {
           "strFieldName": "eEffectKey_OnAttackHit",
           "strFieldType": "EEffectKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strEffectKey_OnAttackHit\"/>",
           "strDependencyFieldName": "strEffectKey_OnAttackHit",
           "strDependencyFieldName_Sub": null,
@@ -256,7 +240,6 @@
         {
           "strFieldName": "strPortrait",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -270,7 +253,6 @@
         {
           "strFieldName": "strCommandIcon",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -284,7 +266,6 @@
         {
           "strFieldName": "pSprite_Portrait",
           "strFieldType": "UnityEngine.Sprite",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strPortrait\"/>",
           "strDependencyFieldName": "strPortrait",
           "strDependencyFieldName_Sub": null,
@@ -298,7 +279,6 @@
         {
           "strFieldName": "pSprite_CommandIcon",
           "strFieldType": "UnityEngine.Sprite",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strCommandIcon\"/>",
           "strDependencyFieldName": "strCommandIcon",
           "strDependencyFieldName_Sub": null,
@@ -312,7 +292,6 @@
         {
           "strFieldName": "strSoundKey_OnAttack",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -326,7 +305,6 @@
         {
           "strFieldName": "eSoundKey_OnAttack",
           "strFieldType": "ESoundKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strSoundKey_OnAttack\"/>",
           "strDependencyFieldName": "strSoundKey_OnAttack",
           "strDependencyFieldName_Sub": null,
@@ -350,7 +328,6 @@
         {
           "strFieldName": "strMonsterKey",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -364,7 +341,6 @@
         {
           "strFieldName": "strModelPath",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -378,7 +354,6 @@
         {
           "strFieldName": "pModel",
           "strFieldType": "Spine.Unity.SkeletonDataAsset",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strModelPath\"/>",
           "strDependencyFieldName": "strModelPath",
           "strDependencyFieldName_Sub": null,
@@ -392,7 +367,6 @@
         {
           "strFieldName": "eMonsterKey",
           "strFieldType": "EMonsterKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strMonsterKey\"/>",
           "strDependencyFieldName": "strMonsterKey",
           "strDependencyFieldName_Sub": null,
@@ -406,7 +380,6 @@
         {
           "strFieldName": "fModelSize",
           "strFieldType": "float",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -420,7 +393,6 @@
         {
           "strFieldName": "iInitHP",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -434,7 +406,6 @@
         {
           "strFieldName": "iInitDamage",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -448,7 +419,6 @@
         {
           "strFieldName": "iInitArmor",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -462,7 +432,6 @@
         {
           "strFieldName": "eAttackType",
           "strFieldType": "EAttackType",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -476,7 +445,6 @@
         {
           "strFieldName": "strEffectKey_OnAttack",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -490,7 +458,6 @@
         {
           "strFieldName": "strEffectKey_OnAttackHit",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -504,7 +471,6 @@
         {
           "strFieldName": "eEffectKey_OnAttack",
           "strFieldType": "EEffectKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strEffectKey_OnAttack\"/>",
           "strDependencyFieldName": "strEffectKey_OnAttack",
           "strDependencyFieldName_Sub": null,
@@ -518,7 +484,6 @@
         {
           "strFieldName": "eEffectKey_OnAttackHit",
           "strFieldType": "EEffectKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strEffectKey_OnAttackHit\"/>",
           "strDependencyFieldName": "strEffectKey_OnAttackHit",
           "strDependencyFieldName_Sub": null,
@@ -532,7 +497,6 @@
         {
           "strFieldName": "eGrade",
           "strFieldType": "EGrade",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -546,7 +510,6 @@
         {
           "strFieldName": "eItemDropKey",
           "strFieldType": "EItemDropKey",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -570,7 +533,6 @@
         {
           "strFieldName": "strStageName",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -584,7 +546,6 @@
         {
           "strFieldName": "iWave",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -598,7 +559,6 @@
         {
           "strFieldName": "fDelay",
           "strFieldType": "float",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -612,7 +572,6 @@
         {
           "strFieldName": "fPositionX",
           "strFieldType": "float",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -626,7 +585,6 @@
         {
           "strFieldName": "strMonsterName",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -640,7 +598,6 @@
         {
           "strFieldName": "eStageEvent",
           "strFieldType": "EStageEvent",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -654,7 +611,6 @@
         {
           "strFieldName": "eStageKey",
           "strFieldType": "EStageKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strStageName\"/>",
           "strDependencyFieldName": "strStageName",
           "strDependencyFieldName_Sub": null,
@@ -668,7 +624,6 @@
         {
           "strFieldName": "iStageIndex",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -692,7 +647,6 @@
         {
           "strFieldName": "strSoundKey",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -706,7 +660,6 @@
         {
           "strFieldName": "strSoundPath",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -720,7 +673,6 @@
         {
           "strFieldName": "pFile",
           "strFieldType": "UnityEngine.AudioClip",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strSoundPath\"/>",
           "strDependencyFieldName": "strSoundPath",
           "strDependencyFieldName_Sub": null,
@@ -734,7 +686,6 @@
         {
           "strFieldName": "eSoundKey",
           "strFieldType": "ESoundKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strSoundKey\"/>",
           "strDependencyFieldName": "strSoundKey",
           "strDependencyFieldName_Sub": null,
@@ -758,7 +709,6 @@
         {
           "strFieldName": "strEffectKey",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -772,7 +722,6 @@
         {
           "strFieldName": "strEffectPath",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -786,7 +735,6 @@
         {
           "strFieldName": "pEffect",
           "strFieldType": "Unity_Pattern.EffectWrapper",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strEffectPath\"/>",
           "strDependencyFieldName": "strEffectPath",
           "strDependencyFieldName_Sub": null,
@@ -800,7 +748,6 @@
         {
           "strFieldName": "eEffectKey",
           "strFieldType": "EEffectKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strEffectKey\"/>",
           "strDependencyFieldName": "strEffectKey",
           "strDependencyFieldName_Sub": null,
@@ -824,7 +771,6 @@
         {
           "strFieldName": "strGlobalKey",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -838,7 +784,6 @@
         {
           "strFieldName": "strValue",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -852,7 +797,6 @@
         {
           "strFieldName": "strType",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -894,7 +838,6 @@
         {
           "strFieldName": "strAnimationSetKey",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -908,7 +851,6 @@
         {
           "strFieldName": "strAnimationKey",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -922,7 +864,6 @@
         {
           "strFieldName": "strAnimationValue",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -936,7 +877,6 @@
         {
           "strFieldName": "eAnimationSet",
           "strFieldType": "EAnimationSet",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strAnimationSetKey\"/>",
           "strDependencyFieldName": "strAnimationSetKey",
           "strDependencyFieldName_Sub": null,
@@ -950,7 +890,6 @@
         {
           "strFieldName": "eAnimationKey",
           "strFieldType": "EAnimationKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strAnimationKey\"/>",
           "strDependencyFieldName": "strAnimationKey",
           "strDependencyFieldName_Sub": null,
@@ -974,7 +913,6 @@
         {
           "strFieldName": "eGrade",
           "strFieldType": "EGrade",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -988,7 +926,6 @@
         {
           "strFieldName": "fMonster_Stat",
           "strFieldType": "float",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1002,7 +939,6 @@
         {
           "strFieldName": "fItem_DropPercent",
           "strFieldType": "float",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1016,7 +952,6 @@
         {
           "strFieldName": "strColorCode",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1040,7 +975,6 @@
         {
           "strFieldName": "strItemKey",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1054,7 +988,6 @@
         {
           "strFieldName": "eItemType",
           "strFieldType": "EItemType",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1068,7 +1001,6 @@
         {
           "strFieldName": "eGrade",
           "strFieldType": "EGrade",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1082,7 +1014,6 @@
         {
           "strFieldName": "strItemImage",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1096,7 +1027,6 @@
         {
           "strFieldName": "pItemImage",
           "strFieldType": "UnityEngine.Sprite",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strAtlasPath\"/>",
           "strDependencyFieldName": "strAtlasPath",
           "strDependencyFieldName_Sub": "strItemImage",
@@ -1110,7 +1040,6 @@
         {
           "strFieldName": "strAtlasPath",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1134,7 +1063,6 @@
         {
           "strFieldName": "strItemKey",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1148,7 +1076,6 @@
         {
           "strFieldName": "fDropValue_Each",
           "strFieldType": "float",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1162,7 +1089,6 @@
         {
           "strFieldName": "strItemDropKey",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1176,7 +1102,6 @@
         {
           "strFieldName": "iDropCount_Min",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1190,7 +1115,6 @@
         {
           "strFieldName": "iDropCount_Max",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1204,7 +1128,6 @@
         {
           "strFieldName": "eItemDropKey",
           "strFieldType": "EItemDropKey",
-          "strValue": null,
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strItemDropKey\"/>",
           "strDependencyFieldName": "strItemDropKey",
           "strDependencyFieldName_Sub": null,
@@ -1242,7 +1165,7 @@
       "bOpenPath_AfterBuild_CSharp": false,
       "iWorkOrder": 1,
       "pType": "SpreadSheetParser.Work_Generate_Unity_ScriptableObject, SpreadSheetParser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "bEnable": true
+      "bEnable": false
     }
   ]
 }

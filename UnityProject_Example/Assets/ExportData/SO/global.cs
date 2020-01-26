@@ -8,16 +8,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
 
-public class global : UnityEngine.ScriptableObject
+public class global : ScriptableObject
 {
-    
-    public string strGlobalKey;
     
     public string strValue;
     
     public string strType;
+    
+    /// <summary>
+    /// 자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref="strGlobalKey"/>
+    /// </summary>
+    public EGlobalKey eGlobalKey;
 }

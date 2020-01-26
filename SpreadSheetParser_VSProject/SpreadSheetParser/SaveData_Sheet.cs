@@ -46,7 +46,7 @@ namespace SpreadSheetParser
 
     static public class FieldDataHelper
     {
-        static public ListViewItem ConvertListViewItem(this global::FieldData pFieldData)
+        static public ListViewItem ConvertListViewItem(this global::FieldTypeData pFieldData)
         {
             ListViewItem pViewItem = new ListViewItem();
             pFieldData.Reset_ListViewItem(pViewItem);
@@ -56,7 +56,7 @@ namespace SpreadSheetParser
 
         }
 
-        static public void Reset_ListViewItem(this global::FieldData pFieldData, ListViewItem pViewItem)
+        static public void Reset_ListViewItem(this global::FieldTypeData pFieldData, ListViewItem pViewItem)
         {
             pViewItem.SubItems.Clear();
             pViewItem.SubItems.Add(pFieldData.strFieldType);
@@ -90,7 +90,7 @@ namespace SpreadSheetParser
         public string strCommandLine;
         public EType eType;
 
-        public List<FieldData> listFieldData = new List<FieldData>();
+        public List<FieldTypeData> listFieldData = new List<FieldTypeData>();
 
         public SaveData_Sheet(string strSheetName)
         {

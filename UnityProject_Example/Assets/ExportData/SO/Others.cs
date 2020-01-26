@@ -23,3 +23,29 @@ public enum AutoEnumTest
     
     AutoEnum_3,
 }
+
+public enum EGlobalKey
+{
+    
+    /// <summary>
+    /// 플롯설명
+    /// </summary>
+    floatValue,
+    
+    /// <summary>
+    /// 스트링설명
+    /// </summary>
+    stringValue,
+    
+    /// <summary>
+    /// 인트설명
+    /// </summary>
+    intValue,
+    
+    /// <summary>
+    /// 인트설명22
+    /// </summary>
+    intValue22,
+    
+    strValue22,
+}

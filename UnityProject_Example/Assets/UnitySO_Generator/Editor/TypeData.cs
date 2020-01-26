@@ -7,11 +7,19 @@
 #endregion Header
 
 using System.Collections.Generic;
+using System.Linq;
 
 [System.Serializable]
 public class TypeDataList
 {
-    public List<string> listFileName = new List<string>();
+    public List<TypeData> listTypeData = new List<TypeData>();
+
+    [System.NonSerialized]
+    public Dictionary<string, TypeData> mapType = new Dictionary<string, TypeData>();
+    public void DoInit()
+    {
+        mapType = listTypeData.ToDictionary(p => p.strType);
+    }
 }
 
 
@@ -20,22 +28,15 @@ public class TypeData
 {
     public string strType;
     public string strHeaderFieldName;
-    public List<InstanceData> listInstance = new List<InstanceData>();
-}
-
-[System.Serializable]
-public class InstanceData
-{
-    public List<FieldData> listField = new List<FieldData>();
+    public List<FieldTypeData> listField = new List<FieldTypeData>();
 }
 
 
 [System.Serializable]
-public class FieldData
+public class FieldTypeData
 {
     public string strFieldName;
     public string strFieldType;
-    public string strValue;
 
     public string strComment;
     public string strDependencyFieldName;
@@ -49,25 +50,12 @@ public class FieldData
 
     public bool bConvertStringToEnum = false;
 
-    public FieldData()
+    public FieldTypeData()
     {
     }
 
-    public FieldData(string strMemberName, string strMemberType)
+    public FieldTypeData(string strMemberName, string strMemberType)
     {
         this.strFieldName = strMemberName; this.strFieldType = strMemberType;
-    }
-
-    public FieldData(string strMemberName, string strMemberType, string strValue)
-    {
-        this.strFieldName = strMemberName; this.strFieldType = strMemberType; this.strValue = strValue;
-    }
-
-    static public FieldData Clone(FieldData pCopy, object pValue)
-    {
-        FieldData pNewFieldData = (FieldData)pCopy.MemberwiseClone();
-        pNewFieldData.strValue = (string)pValue;
-
-        return pNewFieldData;
     }
 }

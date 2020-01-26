@@ -87,10 +87,33 @@ namespace SpreadSheetParser
             }
         }
 
+        public enum EGlobalColumnType
+        {
+            None, 
+
+            Key,
+            Value,
+            Type,
+            Comment,
+
+            MAX,
+        }
+
         private static void Parsing_OnGlobal(SaveData_Sheet pSheetData, CodeFileBuilder pCodeFileBuilder)
         {
-            var pCodeType = pCodeFileBuilder.AddCodeType(pSheetData.strFileName, pSheetData.eType);
-            Dictionary<int, CodeTypeDeclaration> mapEnumType = new Dictionary<int, CodeTypeDeclaration>();
+            const string const_GlobalKey_EnumName = "EGlobalKey";
+            const string const_GlobalKey_FieldName = "eGlobalKey";
+
+            // 글로벌 테이블은 데이터를 담는 데이터컨테이너와 글로벌키 Enum타입 2개를 생성한다.
+            var pCodeType_Class = pCodeFileBuilder.AddCodeType(pSheetData.strFileName, pSheetData.eType);
+            var pCodeType_GlobalKey = pCodeFileBuilder.AddCodeType(const_GlobalKey_EnumName, SaveData_Sheet.EType.Enum);
+
+            Dictionary<int, EGlobalColumnType> mapGlobalColumnType = new Dictionary<int, EGlobalColumnType>();
+            HashSet<string> setGlobalTable_ByType = new HashSet<string>();
+
+            string strTypeName = "";
+            int iColumnIndex_Type = -1;
+            int iColumnIndex_Comment = -1;
 
             pSheetData.ParsingSheet(
               (listRow, strText, iRow, iColumn) =>
@@ -100,14 +123,104 @@ namespace SpreadSheetParser
                   {
                       string[] arrText = strText.Split(':');
                       string strFieldName = arrText[0];
+                      string strFieldName_Lower = strFieldName.ToLower();
 
-                      //if (mapFieldData_ConvertStringToEnum.ContainsKey(strFieldName))
-                      //{
-                      //    mapEnumType.Add(iColumn, pCodeFileBuilder.AddCodeType(pFieldData.strEnumName, SaveData_Sheet.EType.Enum));
-                      //}
+                      for(int i = 0; i < (int)EGlobalColumnType.MAX; i++)
+                      {
+                          EGlobalColumnType eCurrentColumnType = (EGlobalColumnType)i;
+                          if (strFieldName_Lower.Contains(eCurrentColumnType.ToString().ToLower()))
+                          {
+                              mapGlobalColumnType.Add(iColumn, eCurrentColumnType);
 
-                      pCodeType.AddField(new FieldData(strFieldName, arrText[1]));
+                              switch (eCurrentColumnType)
+                              {
+                                  case EGlobalColumnType.Key:
+                                      {
+                                          FieldTypeData pFieldData = pSheetData.listFieldData.Where(p => p.strFieldName == strFieldName).FirstOrDefault();
+                                          if (pFieldData != null)
+                                              pFieldData.bDeleteThisField_InCode = true;
+
+                                          FieldTypeData pFieldData_Enum = pSheetData.listFieldData.Where(p => p.strFieldName == const_GlobalKey_FieldName).FirstOrDefault();
+                                          if(pFieldData_Enum == null)
+                                          {
+                                              pFieldData_Enum = new FieldTypeData();
+                                              pFieldData_Enum.strFieldType = const_GlobalKey_EnumName;
+                                              pFieldData_Enum.strFieldName = const_GlobalKey_FieldName;
+                                              pFieldData_Enum.strDependencyFieldName = pFieldData.strFieldName;
+                                              pFieldData_Enum.bIsVirtualField = true;
+                                              pSheetData.listFieldData.Add(pFieldData_Enum);
+                                          }
+                                      }
+
+                                      break;
+
+                                  case EGlobalColumnType.Comment:
+                                      {
+                                          FieldTypeData pFieldData = pSheetData.listFieldData.Where(p => p.strFieldName == strFieldName).FirstOrDefault();
+                                          if (pFieldData != null)
+                                              pFieldData.bDeleteThisField_InCode = true;
+                                          iColumnIndex_Comment = iColumn;
+                                      }
+                                      break;
+
+                                  case EGlobalColumnType.Type:
+                                      iColumnIndex_Type = iColumn;
+                                      strTypeName = strFieldName;
+                                      pCodeType_Class.AddField(new FieldTypeData(strFieldName, arrText[1]));
+                                      break;
+
+
+                                  default:
+                                      pCodeType_Class.AddField(new FieldTypeData(strFieldName, arrText[1]));
+                                      break;
+                              }
+
+                              return;
+                          }
+                      }
+                  }
+
+                  // 변수 선언이 아니라 값을 파싱하면 일단 타입부터 확인한다
+                  EGlobalColumnType eColumnType = EGlobalColumnType.None;
+                  if (mapGlobalColumnType.TryGetValue(iColumn, out eColumnType) == false)
                       return;
+
+                  switch (eColumnType)
+                  {
+                      case EGlobalColumnType.Key:
+
+                          string strComment = "";
+                          if (iColumnIndex_Comment != -1 && iColumnIndex_Comment < listRow.Count)
+                              strComment = (string)listRow[iColumnIndex_Comment];
+
+                          if (string.IsNullOrEmpty(strComment))
+                              pCodeType_GlobalKey.AddEnumField(new EnumFieldData(strText));
+                          else
+                              pCodeType_GlobalKey.AddEnumField(new EnumFieldData(strText, strComment));
+
+                          break;
+
+                      case EGlobalColumnType.Type:
+
+                          if (setGlobalTable_ByType.Contains(strText))
+                              return;
+                          setGlobalTable_ByType.Add(strText);
+
+                          FieldTypeData pFieldData = pSheetData.listFieldData.Where(p => p.strFieldName == strText).FirstOrDefault();
+                          if(pFieldData == null)
+                          {
+                              pFieldData = new FieldTypeData();
+                              pFieldData.strFieldName = strTypeName;
+                              pSheetData.listFieldData.Add(pFieldData);
+                          }
+
+                          pFieldData.strFieldType = (string)listRow[iColumnIndex_Type];
+                          pFieldData.bDeleteThisField_InCode = true;
+                          pFieldData.bIsVirtualField = true;
+                          pFieldData.bIsKeyField = true;
+                          pFieldData.bIsOverlapKey = true;
+
+                          break;
                   }
               });
         }
@@ -130,7 +243,7 @@ namespace SpreadSheetParser
 
                       if (mapFieldData_ConvertStringToEnum.ContainsKey(strFieldName))
                       {
-                          FieldData pFieldData = mapFieldData_ConvertStringToEnum[strFieldName];
+                          FieldTypeData pFieldData = mapFieldData_ConvertStringToEnum[strFieldName];
                           mapEnumType.Add(iColumn, pCodeFileBuilder.AddCodeType(pFieldData.strEnumName, SaveData_Sheet.EType.Enum));
                       }
 
@@ -138,8 +251,7 @@ namespace SpreadSheetParser
                       if (listFieldData_DeleteThisField_OnCode.Contains(strFieldName))
                           return;
 
-                      pCodeType.AddField(new FieldData(strFieldName, arrText[1]));
-
+                      pCodeType.AddField(new FieldTypeData(strFieldName, arrText[1]));
                       return;
                   }
 

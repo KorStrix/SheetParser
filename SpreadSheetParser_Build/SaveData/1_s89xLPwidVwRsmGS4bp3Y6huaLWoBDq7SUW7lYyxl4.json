@@ -1,6 +1,6 @@
 {
   "strSheetID": "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4",
-  "date_LastEdit": "2020-01-25T16:28:32.8964259+09:00",
+  "date_LastEdit": "2020-01-26T22:12:29.2624431+09:00",
   "listTable": [
     {
       "strSheetName": "class1",
@@ -13,7 +13,6 @@
         {
           "strFieldName": "IntCalculate",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -27,7 +26,6 @@
         {
           "strFieldName": "Int",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -41,7 +39,6 @@
         {
           "strFieldName": "stringmember",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -55,7 +52,6 @@
         {
           "strFieldName": "enummember",
           "strFieldType": "TestEnum",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -79,7 +75,6 @@
         {
           "strFieldName": "MaterialPath",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -93,7 +88,6 @@
         {
           "strFieldName": "strComment",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -107,7 +101,6 @@
         {
           "strFieldName": "intValue",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -121,7 +114,6 @@
         {
           "strFieldName": "strAutoEnum",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -135,7 +127,6 @@
         {
           "strFieldName": "AutoEnumValue",
           "strFieldType": "AutoEnumTest",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -159,7 +150,6 @@
         {
           "strFieldName": "Int",
           "strFieldType": "int",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -173,7 +163,6 @@
         {
           "strFieldName": "stringmember",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -187,7 +176,6 @@
         {
           "strFieldName": "enummember",
           "strFieldType": "TestEnum",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -211,7 +199,6 @@
         {
           "strFieldName": "strGlobalKey",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -225,7 +212,6 @@
         {
           "strFieldName": "strValue",
           "strFieldType": "string",
-          "strValue": null,
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -239,7 +225,19 @@
         {
           "strFieldName": "strType",
           "strFieldType": "string",
-          "strValue": null,
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strComment",
+          "strFieldType": "string",
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -258,17 +256,53 @@
       "strHeaderFieldName": null,
       "bEnable": false,
       "strCommandLine": null,
-      "eType": 0,
+      "eType": 2,
       "listFieldData": []
+    },
+    {
+      "strSheetName": "UnitySO2",
+      "strFileName": "UnitySO2",
+      "strHeaderFieldName": null,
+      "bEnable": false,
+      "strCommandLine": null,
+      "eType": 0,
+      "listFieldData": [
+        {
+          "strFieldName": "strComment",
+          "strFieldType": "string",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": " pUnitySO",
+          "strFieldType": "UnitySO",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        }
+      ]
     }
   ],
   "listSaveWork": [
     {
-      "strExportPath": "../BlackSmith_Unity/Assets/00.BundleResource/Json",
-      "bOpenPath_AfterBuild_CSharp": false,
+      "strExportPath": "UnityProject_Example/Assets/ExportData/SO",
+      "bOpenPath_AfterBuild_CSharp": true,
       "iWorkOrder": 0,
       "pType": "SpreadSheetParser.Work_Generate_Json, SpreadSheetParser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-      "bEnable": false
+      "bEnable": true
     },
     {
       "strExportPath": "UnityProject_Example/Assets/ExportData/SO",

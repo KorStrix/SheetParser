@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbe208a2b0c20c6419bd38ba536e971f, type: 3}
+  m_Name: global_Container
+  m_EditorClassIdentifier: 
+  listData: []
+--- !u!114 &114157815868976550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae53ab4193e1bf4485e6e138d3bc308, type: 3}
+  m_Name: global_4
+  m_EditorClassIdentifier: 
+  strValue: strValue22
+  strType: string
+  eGlobalKey: 4
+--- !u!114 &114295007922979800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae53ab4193e1bf4485e6e138d3bc308, type: 3}
+  m_Name: global_2
+  m_EditorClassIdentifier: 
+  strValue: 7
+  strType: int
+  eGlobalKey: 2
+--- !u!114 &114403533010320202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae53ab4193e1bf4485e6e138d3bc308, type: 3}
+  m_Name: global_1
+  m_EditorClassIdentifier: 
+  strValue: stringTest
+  strType: string
+  eGlobalKey: 1
+--- !u!114 &114609117729737004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae53ab4193e1bf4485e6e138d3bc308, type: 3}
+  m_Name: global_3
+  m_EditorClassIdentifier: 
+  strValue: -9
+  strType: int
+  eGlobalKey: 3
+--- !u!114 &114980962926651292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae53ab4193e1bf4485e6e138d3bc308, type: 3}
+  m_Name: global_0
+  m_EditorClassIdentifier: 
+  strValue: 1.1
+  strType: float
+  eGlobalKey: 0

@@ -27,9 +27,6 @@ public class UnitySO_Container : ScriptableObject
     
     public void DoInit()
     {
-#if UNITY_EDITOR
-           UnityEditor.AssetDatabase.ImportAsset(UnityEditor.AssetDatabase.GetAssetPath(this));
-#endif
         this.Init_mapData_Key_Is_intValue();
         this.Init_mapData_Key_Is_strAutoEnum();
         this.Init_mapData_Key_Is_AutoEnumValue();

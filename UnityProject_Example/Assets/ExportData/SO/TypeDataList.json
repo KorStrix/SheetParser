@@ -1,15 +1,15 @@
 {
-  "strType": "UnitySO",
-  "strHeaderFieldName": null,
-  "listInstance": [
+  "listTypeData": [
     {
+      "strType": "UnitySO",
+      "strHeaderFieldName": null,
       "listField": [
         {
           "strFieldName": "MaterialPath",
           "strFieldType": "string",
-          "strValue": "Assets/ExportData/Material/Blue.mat",
           "strComment": null,
           "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
           "strEnumName": null,
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
@@ -20,9 +20,9 @@
         {
           "strFieldName": "strComment",
           "strFieldType": "string",
-          "strValue": "파랑색 메테리얼",
           "strComment": null,
           "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
           "strEnumName": null,
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
@@ -33,22 +33,22 @@
         {
           "strFieldName": "intValue",
           "strFieldType": "int",
-          "strValue": "2",
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": "",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
+          "bIsKeyField": true,
           "bIsOverlapKey": false,
           "bConvertStringToEnum": false
         },
         {
           "strFieldName": "strAutoEnum",
           "strFieldType": "string",
-          "strValue": "AutoEnum_1",
           "strComment": null,
           "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
           "strEnumName": "AutoEnumTest",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
@@ -59,9 +59,9 @@
         {
           "strFieldName": "AutoEnumValue",
           "strFieldType": "AutoEnumTest",
-          "strValue": "AutoEnum_1",
           "strComment": null,
           "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
           "strEnumName": "",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
@@ -72,13 +72,41 @@
       ]
     },
     {
+      "strType": "global",
+      "strHeaderFieldName": null,
       "listField": [
         {
-          "strFieldName": "MaterialPath",
+          "strFieldName": "strGlobalKey",
           "strFieldType": "string",
-          "strValue": "Assets/ExportData/Material/Green.mat",
           "strComment": null,
           "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strValue",
+          "strFieldType": "string",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strType",
+          "strFieldType": "string",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
           "strEnumName": null,
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
@@ -89,122 +117,66 @@
         {
           "strFieldName": "strComment",
           "strFieldType": "string",
-          "strValue": "초록색 메테리얼",
           "strComment": null,
           "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
           "strEnumName": null,
           "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eGlobalKey",
+          "strFieldType": "EGlobalKey",
+          "strComment": null,
+          "strDependencyFieldName": "strGlobalKey",
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
           "bDeleteThisField_InCode": false,
           "bIsKeyField": false,
           "bIsOverlapKey": false,
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "intValue",
-          "strFieldType": "int",
-          "strValue": "4",
+          "strFieldName": "strType",
+          "strFieldType": "float",
           "strComment": null,
           "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
           "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strAutoEnum",
-          "strFieldType": "string",
-          "strValue": "AutoEnum_2",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": "AutoEnumTest",
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": true,
           "bIsKeyField": true,
           "bIsOverlapKey": true,
-          "bConvertStringToEnum": true
+          "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "AutoEnumValue",
-          "strFieldType": "AutoEnumTest",
-          "strValue": "AutoEnum_2",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": "",
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": true,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        }
-      ]
-    },
-    {
-      "listField": [
-        {
-          "strFieldName": "MaterialPath",
+          "strFieldName": "strType",
           "strFieldType": "string",
-          "strValue": "Assets/ExportData/Material/Red.mat",
           "strComment": null,
           "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
           "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strComment",
-          "strFieldType": "string",
-          "strValue": "빨간색 메테리얼",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "intValue",
-          "strFieldType": "int",
-          "strValue": "8",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strAutoEnum",
-          "strFieldType": "string",
-          "strValue": "AutoEnum_3",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strEnumName": "AutoEnumTest",
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": true,
           "bIsKeyField": true,
           "bIsOverlapKey": true,
-          "bConvertStringToEnum": true
+          "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "AutoEnumValue",
-          "strFieldType": "AutoEnumTest",
-          "strValue": "AutoEnum_3",
+          "strFieldName": "strType",
+          "strFieldType": "int",
           "strComment": null,
           "strDependencyFieldName": null,
-          "strEnumName": "",
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": true,
           "bIsKeyField": true,
-          "bIsOverlapKey": false,
+          "bIsOverlapKey": true,
           "bConvertStringToEnum": false
         }
       ]

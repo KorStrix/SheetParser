@@ -14,8 +14,39 @@ using UnityEngine;
 
 
 
-public class global_Container : UnityEngine.ScriptableObject
+public class global_Container : ScriptableObject
 {
     
     public List<global> listData;
+    
+    public Dictionary<EGlobalKey, float> mapData_Type_Is_float;
+    
+    public Dictionary<EGlobalKey, string> mapData_Type_Is_string;
+    
+    public Dictionary<EGlobalKey, int> mapData_Type_Is_int;
+    
+    public void DoInit()
+    {
+        this.Init_mapData_Type_Is_float();
+        this.Init_mapData_Type_Is_string();
+        this.Init_mapData_Type_Is_int();
+    }
+    
+    private void Init_mapData_Type_Is_float()
+    {
+        var arrLocal = listData.Where(x => x.strType == "float");
+        this.mapData_Type_Is_float = arrLocal.ToDictionary(p => p.eGlobalKey, p => float.Parse(p.strValue));
+    }
+    
+    private void Init_mapData_Type_Is_string()
+    {
+        var arrLocal = listData.Where(x => x.strType == "string");
+        this.mapData_Type_Is_string = arrLocal.ToDictionary(p => p.eGlobalKey, p => p.strValue);
+    }
+    
+    private void Init_mapData_Type_Is_int()
+    {
+        var arrLocal = listData.Where(x => x.strType == "int");
+        this.mapData_Type_Is_int = arrLocal.ToDictionary(p => p.eGlobalKey, p => int.Parse(p.strValue));
+    }
 }

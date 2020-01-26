@@ -1,0 +1,25 @@
+{
+  "array": [
+    {
+      "MaterialPath": "Assets/ExportData/Material/Blue.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/Green.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "4",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/Red.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "8",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3"
+    }
+  ]
+}

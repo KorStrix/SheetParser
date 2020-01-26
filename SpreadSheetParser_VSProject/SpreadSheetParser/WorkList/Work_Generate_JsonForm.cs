@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -81,21 +82,22 @@ namespace SpreadSheetParser
         {
             TypeDataList pTypeDataList = new TypeDataList();
             foreach (var pSheet in listSheetData)
-            { 
-                TypeData pJson = new TypeData();
-                pJson.strType = pSheet.strFileName;
-                pJson.strHeaderFieldName = pSheet.strHeaderFieldName;
+            {
+                if (pSheet.eType == SaveData_Sheet.EType.Enum)
+                    return;
 
-                Dictionary<string, FieldData> mapFieldData = pSheet.listFieldData.ToDictionary(p => p.strFieldName);
+                JObject pJson_Instance = new JObject();
+                JArray pArray = new JArray();
+
+                Dictionary<string, FieldTypeData> mapFieldData = pSheet.listFieldData.Where(p => p.bIsVirtualField == false).ToDictionary(p => p.strFieldName);
                 Dictionary<int, string> mapMemberName = new Dictionary<int, string>();
                 Dictionary<int, string> mapMemberType = new Dictionary<int, string>();
                 int iColumnStartIndex = -1;
 
-
                 pSheet.ParsingSheet(
                 ((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
                 {
-                    if (strText.Contains(':'))
+                    if (strText.Contains(':')) // 변수 타입 파싱
                     {
                         if (mapMemberName.ContainsKey(iColumnIndex))
                             return;
@@ -113,37 +115,43 @@ namespace SpreadSheetParser
                     if (iColumnIndex != iColumnStartIndex)
                         return;
 
-                    InstanceData pJsonInstance = new InstanceData();
-                    pJson.listInstance.Add(pJsonInstance);
+                    JObject pObject = new JObject();
 
                     // 실제 변수값
                     for (int i = iColumnIndex; i < listRow.Count; i++)
                     {
                         if(mapMemberName.ContainsKey(i))
                         {
-                            if(mapFieldData.ContainsKey(mapMemberName[i]) == false)
+                            FieldTypeData pFieldTypeData;
+                            if(mapFieldData.TryGetValue(mapMemberName[i], out pFieldTypeData) == false)
                             {
                                 SpreadSheetParser_MainForm.WriteConsole($"{pSheet.strSheetName} - mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
                                 continue;
                             }
 
-                            pJsonInstance.listField.Add(FieldData.Clone(mapFieldData[mapMemberName[i]], listRow[i]));
+                            string strFieldName = pFieldTypeData.strFieldName;
+                            string strValue = (string)listRow[i];
+                            pObject.Add(strFieldName, strValue);
                         }
                     }
 
-                    // 가상 변수
-                    var listVirtualField = pSheet.listFieldData.Where((pFieldData) => pFieldData.bIsVirtualField);
-                    foreach (var pFieldData in listVirtualField)
-                        pJsonInstance.listField.AddRange(listVirtualField);
+                    pArray.Add(pObject);
                 }));
 
-                if (pJson.listInstance.Count == 0)
+                if (pArray.Count == 0)
                     continue;
 
-                string strFileName = $"{pSheet.strFileName}.json";
-                JsonSaveManager.SaveData(pJson, $"{GetRelative_To_AbsolutePath(strExportPath)}/{strFileName}");
+                pJson_Instance.Add("array", pArray);
 
-                pTypeDataList.listFileName.Add(strFileName);
+                string strFileName = $"{pSheet.strFileName}.json";
+                JsonSaveManager.SaveData(pJson_Instance, $"{GetRelative_To_AbsolutePath(strExportPath)}/{strFileName}");
+
+                TypeData pTypeData = new TypeData();
+                pTypeData.strType = pSheet.strFileName;
+                pTypeData.strHeaderFieldName = pSheet.strHeaderFieldName;
+                pTypeData.listField = pSheet.listFieldData;
+
+                pTypeDataList.listTypeData.Add(pTypeData);
             }
 
             JsonSaveManager.SaveData(pTypeDataList, $"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json");

@@ -21,6 +21,7 @@ public class Tester : MonoBehaviour
 
     /* public - Field declaration            */
 
+    public global_Container pGlobalContainer;
     public UnitySO_Container pContainer;
 
     /* protected & private - Field declaration         */
@@ -41,6 +42,11 @@ public class Tester : MonoBehaviour
         pContainer.DoInit();
         Debug.Log($"mapData_Key_Is_AutoEnumValue Count : { pContainer.mapData_Key_Is_AutoEnumValue.Count}");
         Debug.Log($"mapData_Key_Is_strAutoEnum Count : { pContainer.mapData_Key_Is_strAutoEnum.Count}");
+
+        pGlobalContainer.DoInit();
+        Debug.Log($"pGlobalContainer.mapData_Type_Is_float Count : { pGlobalContainer.mapData_Type_Is_float.Count}");
+        Debug.Log($"pGlobalContainer.mapData_Type_Is_int Count : { pGlobalContainer.mapData_Type_Is_int.Count}");
+        Debug.Log($"pGlobalContainer.mapData_Type_Is_string Count : { pGlobalContainer.mapData_Type_Is_string.Count}");
     }
 
     /* protected - [abstract & virtual]         */
