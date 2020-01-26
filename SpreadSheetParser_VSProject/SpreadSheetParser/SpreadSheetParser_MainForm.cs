@@ -102,6 +102,7 @@ namespace SpreadSheetParser
             _mapSaveData = SaveDataManager.LoadSheet(WriteConsole);
 
             comboBox_DependencyField.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox_DependencyField_Sub.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_SaveSheet.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_SaveSheet.Items.Clear();
             foreach (var pData in _mapSaveData.Values)
@@ -150,10 +151,12 @@ namespace SpreadSheetParser
                 groupBox_2_2_SelectedField.Enabled = false;
                 groupBox_2_2_SelectedField_Virtual.Enabled = false;
                 checkBox_Field_ThisIsKey.Checked = false;
+                checkBox_FieldKey_IsOverlap.Checked = false;
 
                 textBox_FieldName.Text = "";
                 textBox_Type.Text = "";
                 comboBox_DependencyField.SelectedText = "";
+                comboBox_DependencyField_Sub.SelectedText = "";
 
                 return;
             }
@@ -168,6 +171,9 @@ namespace SpreadSheetParser
 
             comboBox_DependencyField.Items.Clear();
             comboBox_DependencyField.Items.AddRange(pSheetData.listFieldData.Where((pOption) => pOption.strFieldType == "string").Select((pOption) => pOption.strFieldName).ToArray());
+
+            comboBox_DependencyField_Sub.Items.Clear();
+            comboBox_DependencyField_Sub.Items.AddRange(pSheetData.listFieldData.Where((pOption) => pOption.strFieldType == "string").Select((pOption) => pOption.strFieldName).ToArray());
 
             groupBox_2_2_SelectedField.Enabled = true;
             groupBox_2_2_SelectedField_Virtual.Enabled = pFieldData.bIsVirtualField;
@@ -204,6 +210,9 @@ namespace SpreadSheetParser
 
             if (string.IsNullOrEmpty(pFieldData.strDependencyFieldName) == false)
                 comboBox_DependencyField.SelectedIndex = comboBox_DependencyField.Items.IndexOf(pFieldData.strDependencyFieldName);
+
+            if(string.IsNullOrEmpty(pFieldData.strDependencyFieldName_Sub) == false)
+                comboBox_DependencyField_Sub.SelectedIndex = comboBox_DependencyField.Items.IndexOf(pFieldData.strDependencyFieldName_Sub);
         }
 
         private void CheckedListBox_SheetList_SelectedIndexChanged(object sender, EventArgs e)
@@ -714,6 +723,7 @@ namespace SpreadSheetParser
             FieldData pFieldData = (FieldData)pSelectedItem.Tag;
 
             pFieldData.strDependencyFieldName = (string)comboBox_DependencyField.SelectedItem;
+            pFieldData.strDependencyFieldName_Sub = (string)comboBox_DependencyField_Sub.SelectedItem;
             pFieldData.strFieldName = textBox_FieldName.Text;
             pFieldData.strFieldType = textBox_Type.Text;
 

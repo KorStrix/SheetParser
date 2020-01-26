@@ -39,11 +39,14 @@ public class FieldData
 
     public string strComment;
     public string strDependencyFieldName;
+    public string strDependencyFieldName_Sub;
     public string strEnumName;
 
     public bool bIsVirtualField;
     public bool bDeleteThisField_InCode = false;
-    public bool bNullOrEmpty_IsError = true;
+    public bool bIsKeyField = false;
+    public bool bIsOverlapKey = false;
+
     public bool bConvertStringToEnum = false;
 
     public FieldData()

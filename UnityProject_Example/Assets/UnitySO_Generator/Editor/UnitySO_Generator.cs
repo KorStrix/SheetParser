@@ -13,6 +13,7 @@ using UnityEditor;
 using System.Linq;
 using System.IO;
 using System.Reflection;
+using System;
 
 /// <summary>
 /// Editor 폴더 안에 위치해야 합니다.
@@ -192,7 +193,7 @@ public class UnitySO_Generator : EditorWindow
         TypeDataList pTypeDataList = new TypeDataList();
         if(GetData_FromJson(nameof(TypeDataList), ref pTypeDataList) == false)
         {
-            Debug.LogError("Error");
+            Debug.LogError("TypeDataList JsonParsing Fail");
             return;
         }
 
@@ -206,7 +207,7 @@ public class UnitySO_Generator : EditorWindow
             }
 
             System.Type pType_SO = GetTypeFromAssemblies(pTypeData.strType);
-            if(pType_SO == null)
+            if (pType_SO == null)
             {
                 Debug.LogError($"pType_SO == null - {pFileName} - {pTypeData.strType}");
                 continue;
@@ -222,7 +223,7 @@ public class UnitySO_Generator : EditorWindow
 
             List<Container_CashingLogicBase> listCashingLogic = new List<Container_CashingLogicBase>();
             IEnumerable<System.Reflection.FieldInfo> arrFieldInfo_Container = pType_Container.GetFields();
-            foreach(var pFieldInfo in arrFieldInfo_Container)
+            foreach (var pFieldInfo in arrFieldInfo_Container)
             {
                 System.Type pTypeField = pFieldInfo.FieldType;
                 System.Type pTypeField_Generic = pTypeField.GetGenericTypeDefinition();
@@ -241,37 +242,44 @@ public class UnitySO_Generator : EditorWindow
                 //}
             }
 
-            string strHeaderField = pTypeData.strHeaderFieldName;
-            string strFileName = pType_SO.Name;
-            int iLoopIndex = 0;
-            foreach (var pInstance in pTypeData.listInstance)
-            {
-                List<FieldData> listFieldData = pInstance.listField;
-
-                ScriptableObject pSO = GenerateSO(pType_SO, pContainerInstance);
-                Process_RealField(pTypeData, mapFieldInfo_SO, pInstance, pSO);
-                Process_VirtualField(mapFieldInfo_SO, pInstance, pSO);
-                Process_SOName(strHeaderField, strFileName, iLoopIndex, listFieldData, pSO);
-
-                for (int i = 0; i < listCashingLogic.Count; i++)
-                {
-                    try
-                    {
-                        listCashingLogic[i].Process_CashingLogic(pSO, listFieldData);
-                    }
-                    catch (System.Exception e)
-                    {
-                        listCashingLogic[i].Process_CashingLogic(pSO, listFieldData);
-                    }
-                }
-
-                iLoopIndex++;
-            }
+            Process_Field(pTypeData, pType_SO, pContainerInstance, mapFieldInfo_SO, listCashingLogic);
 
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
         }
 
         Debug.Log("Build Finish");
+    }
+
+    private static void Process_Field(TypeData pTypeData, Type pType_SO, ScriptableObject pContainerInstance, Dictionary<string, FieldInfo> mapFieldInfo_SO, List<Container_CashingLogicBase> listCashingLogic)
+    {
+        string strHeaderField = pTypeData.strHeaderFieldName;
+        string strFileName = pType_SO.Name;
+        int iLoopIndex = 0;
+        foreach (var pInstance in pTypeData.listInstance)
+        {
+            List<FieldData> listFieldData = pInstance.listField;
+
+            ScriptableObject pSO = GenerateSO(pType_SO, pContainerInstance);
+            Process_RealField(pTypeData, mapFieldInfo_SO, pInstance, pSO);
+            Process_VirtualField(mapFieldInfo_SO, pInstance, pSO);
+            Process_SOName(strHeaderField, strFileName, iLoopIndex, listFieldData, pSO);
+
+            for (int i = 0; i < listCashingLogic.Count; i++)
+            {
+                try
+                {
+                    listCashingLogic[i].Process_CashingLogic(pSO, listFieldData);
+                }
+                catch (System.Exception e)
+                {
+                    listCashingLogic[i].Process_CashingLogic(pSO, listFieldData);
+                }
+            }
+
+            iLoopIndex++;
+        }
+
+        AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(pContainerInstance));
     }
 
     // ========================================================================== //
@@ -350,7 +358,7 @@ public class UnitySO_Generator : EditorWindow
         ScriptableObject pSO = (ScriptableObject)UnitySO_GeneratorConfig.CreateInstance(pType_SO);
 
         AssetDatabase.AddObjectToAsset(pSO, pContainerInstance);
-        AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(pContainerInstance));
+        // AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(pContainerInstance));
 
         return pSO;
     }
@@ -367,6 +375,8 @@ public class UnitySO_Generator : EditorWindow
         {
             Debug.LogError("Error");
         }
+
+        EditorUtility.SetDirty(pSO);
     }
 
     private static void Process_VirtualField(Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_SO, InstanceData pInstance, ScriptableObject pSO)
@@ -391,14 +401,39 @@ public class UnitySO_Generator : EditorWindow
 
             if (pType_Field.IsEnum)
             {
+                if(string.IsNullOrEmpty(pFieldData_Dependency.strValue))
+                {
+                    Debug.LogWarning("TODO string null check");
+                    continue;
+                }
+
                 pFieldInfo.SetValue(pSO, System.Enum.Parse(pType_Field, pFieldData_Dependency.strValue));
             }
             else
             {
-                Object pObject = AssetDatabase.LoadAssetAtPath(pFieldData_Dependency.strValue, pType_Field);
-                if (pObject == null)
-                    Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {pFieldData_Dependency.strValue}");
-                pFieldInfo.SetValue(pSO, pObject);
+                FieldData pFieldData_Dependency_Sub = pInstance.listField.Where(pFieldData => pFieldData.strFieldName == pMember.strDependencyFieldName_Sub).FirstOrDefault();
+                if (pFieldData_Dependency_Sub != null)
+                {
+                    UnityEngine.Object[] arrObject = AssetDatabase.LoadAllAssetsAtPath(pFieldData_Dependency.strValue);
+                    if (arrObject == null || arrObject.Length == 0)
+                        Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {pFieldData_Dependency.strValue}");
+
+
+                    var pObject = arrObject.Where(p => p.name == pFieldData_Dependency_Sub.strValue).FirstOrDefault();
+                    if(pObject == null)
+                    {
+                        Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {pFieldData_Dependency.strValue}");
+                    }
+
+                    pFieldInfo.SetValue(pSO, pObject);
+                }
+                else
+                {
+                    UnityEngine.Object pObject = AssetDatabase.LoadAssetAtPath(pFieldData_Dependency.strValue, pType_Field);
+                    if (pObject == null)
+                        Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {pFieldData_Dependency.strValue}");
+                    pFieldInfo.SetValue(pSO, pObject);
+                }
             }
         }
     }

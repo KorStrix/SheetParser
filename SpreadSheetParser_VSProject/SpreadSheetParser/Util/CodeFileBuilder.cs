@@ -209,7 +209,10 @@ namespace SpreadSheetParser
 
         public static void AddEnumField(this CodeTypeDeclaration pCodeType, EnumFieldData pFieldData)
         {
-            foreach(CodeTypeMember pMember in pCodeType.Members)
+            if (string.IsNullOrEmpty(pFieldData.strValue.Trim()))
+                return;
+
+            foreach (CodeTypeMember pMember in pCodeType.Members)
             {
                 if (pMember.Name == pFieldData.strValue)
                     return;

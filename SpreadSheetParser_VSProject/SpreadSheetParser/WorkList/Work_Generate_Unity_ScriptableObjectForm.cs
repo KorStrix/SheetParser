@@ -168,9 +168,9 @@ namespace SpreadSheetParser
             pNameSpace.Types.Add(pContainerType);
 
             pContainerType.AddField(new FieldData(const_strListData, $"List<{pType.Name}>"));
+            CodeMemberMethod pInitMethod = Generate_InitMethod(pContainerType);
 
             IEnumerable<FieldData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
-            CodeMemberMethod pInitMethod = null;
             foreach (var pFieldData in listKeyField)
             {
                 string strFieldName = "";
@@ -185,9 +185,6 @@ namespace SpreadSheetParser
                     strFieldName = $"mapData_Key_Is_{pFieldData.strFieldName}";
                     strMemberType = $"Dictionary<{pFieldData.strFieldType}, {pType.Name}>";
                 }
-                
-                if(pInitMethod == null)
-                    pInitMethod = Generate_InitMethod(pContainerType);
 
                 pContainerType.AddField(new FieldData(strFieldName, strMemberType));
                 Generate_CacheMethod(pContainerType, pInitMethod, const_strListData, strFieldName, pFieldData.strFieldName, pFieldData.bIsOverlapKey);
@@ -199,6 +196,11 @@ namespace SpreadSheetParser
         private CodeMemberMethod Generate_InitMethod(CodeTypeDeclaration pContainerType)
         {
             var pMethod = pContainerType.AddMethod($"DoInit");
+
+            //pMethod.Statements.Add(new CodeSnippetStatement("#if UNITY_EDITOR"));
+            //pMethod.Statements.Add(new CodeSnippetStatement("       UnityEditor.AssetDatabase.ImportAsset(UnityEditor.AssetDatabase.GetAssetPath(this));"));
+            //pMethod.Statements.Add(new CodeSnippetStatement("       UnityEditor.EditorUtility.SetDirty(this);"));
+            //pMethod.Statements.Add(new CodeSnippetStatement("#endif"));
 
             return pMethod;
         }

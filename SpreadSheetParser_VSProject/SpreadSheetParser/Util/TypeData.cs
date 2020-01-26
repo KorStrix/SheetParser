@@ -39,6 +39,7 @@ public class FieldData
 
     public string strComment;
     public string strDependencyFieldName;
+    public string strDependencyFieldName_Sub;
     public string strEnumName;
 
     public bool bIsVirtualField;

@@ -64,6 +64,8 @@
             this.checkBox_DeleteField_OnCode = new System.Windows.Forms.CheckBox();
             this.button_Save_Field = new System.Windows.Forms.Button();
             this.groupBox_2_2_SelectedField_Virtual = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.comboBox_DependencyField_Sub = new System.Windows.Forms.ComboBox();
             this.label_Type = new System.Windows.Forms.Label();
             this.textBox_Type = new System.Windows.Forms.TextBox();
             this.label_FieldName = new System.Windows.Forms.Label();
@@ -76,7 +78,6 @@
             this.ColumnHeader_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnHeader_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_IsVirtual = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader_IsKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button_Check_TableAll = new System.Windows.Forms.Button();
             this.groupBox3_WorkSetting = new System.Windows.Forms.GroupBox();
             this.groupBox_3_1_SelectedWork = new System.Windows.Forms.GroupBox();
@@ -404,9 +405,9 @@
             this.groupBox_2_2_SelectedField.Controls.Add(this.groupBox_2_2_SelectedField_Virtual);
             this.groupBox_2_2_SelectedField.Controls.Add(this.checkBox_Field_ThisIsKey);
             this.groupBox_2_2_SelectedField.Controls.Add(this.button_Remove_VirtualField);
-            this.groupBox_2_2_SelectedField.Location = new System.Drawing.Point(6, 169);
+            this.groupBox_2_2_SelectedField.Location = new System.Drawing.Point(6, 189);
             this.groupBox_2_2_SelectedField.Name = "groupBox_2_2_SelectedField";
-            this.groupBox_2_2_SelectedField.Size = new System.Drawing.Size(368, 266);
+            this.groupBox_2_2_SelectedField.Size = new System.Drawing.Size(366, 246);
             this.groupBox_2_2_SelectedField.TabIndex = 23;
             this.groupBox_2_2_SelectedField.TabStop = false;
             this.groupBox_2_2_SelectedField.Text = "2-2. Selected Field";
@@ -414,7 +415,7 @@
             // checkBox_FieldKey_IsOverlap
             // 
             this.checkBox_FieldKey_IsOverlap.AutoSize = true;
-            this.checkBox_FieldKey_IsOverlap.Location = new System.Drawing.Point(217, 215);
+            this.checkBox_FieldKey_IsOverlap.Location = new System.Drawing.Point(6, 196);
             this.checkBox_FieldKey_IsOverlap.Name = "checkBox_FieldKey_IsOverlap";
             this.checkBox_FieldKey_IsOverlap.Size = new System.Drawing.Size(132, 16);
             this.checkBox_FieldKey_IsOverlap.TabIndex = 26;
@@ -436,7 +437,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(216, 151);
+            this.label7.Location = new System.Drawing.Point(207, 157);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(76, 12);
             this.label7.TabIndex = 23;
@@ -455,7 +456,7 @@
             // 
             // textBox_EnumName
             // 
-            this.textBox_EnumName.Location = new System.Drawing.Point(217, 166);
+            this.textBox_EnumName.Location = new System.Drawing.Point(208, 172);
             this.textBox_EnumName.Name = "textBox_EnumName";
             this.textBox_EnumName.Size = new System.Drawing.Size(145, 21);
             this.textBox_EnumName.TabIndex = 22;
@@ -473,7 +474,7 @@
             // 
             // button_Save_Field
             // 
-            this.button_Save_Field.Location = new System.Drawing.Point(217, 237);
+            this.button_Save_Field.Location = new System.Drawing.Point(217, 215);
             this.button_Save_Field.Name = "button_Save_Field";
             this.button_Save_Field.Size = new System.Drawing.Size(42, 23);
             this.button_Save_Field.TabIndex = 22;
@@ -484,6 +485,8 @@
             // groupBox_2_2_SelectedField_Virtual
             // 
             this.groupBox_2_2_SelectedField_Virtual.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox_2_2_SelectedField_Virtual.Controls.Add(this.label8);
+            this.groupBox_2_2_SelectedField_Virtual.Controls.Add(this.comboBox_DependencyField_Sub);
             this.groupBox_2_2_SelectedField_Virtual.Controls.Add(this.label_Type);
             this.groupBox_2_2_SelectedField_Virtual.Controls.Add(this.textBox_Type);
             this.groupBox_2_2_SelectedField_Virtual.Controls.Add(this.label_FieldName);
@@ -492,10 +495,27 @@
             this.groupBox_2_2_SelectedField_Virtual.Controls.Add(this.comboBox_DependencyField);
             this.groupBox_2_2_SelectedField_Virtual.Location = new System.Drawing.Point(6, 20);
             this.groupBox_2_2_SelectedField_Virtual.Name = "groupBox_2_2_SelectedField_Virtual";
-            this.groupBox_2_2_SelectedField_Virtual.Size = new System.Drawing.Size(356, 106);
+            this.groupBox_2_2_SelectedField_Virtual.Size = new System.Drawing.Size(354, 106);
             this.groupBox_2_2_SelectedField_Virtual.TabIndex = 17;
             this.groupBox_2_2_SelectedField_Virtual.TabStop = false;
             this.groupBox_2_2_SelectedField_Virtual.Text = "2-2. Virtual Field Option";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(195, 63);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(117, 12);
+            this.label8.TabIndex = 23;
+            this.label8.Text = "Dependency Field 2";
+            // 
+            // comboBox_DependencyField_Sub
+            // 
+            this.comboBox_DependencyField_Sub.FormattingEnabled = true;
+            this.comboBox_DependencyField_Sub.Location = new System.Drawing.Point(195, 79);
+            this.comboBox_DependencyField_Sub.Name = "comboBox_DependencyField_Sub";
+            this.comboBox_DependencyField_Sub.Size = new System.Drawing.Size(152, 20);
+            this.comboBox_DependencyField_Sub.TabIndex = 22;
             // 
             // label_Type
             // 
@@ -508,9 +528,9 @@
             // 
             // textBox_Type
             // 
-            this.textBox_Type.Location = new System.Drawing.Point(201, 32);
+            this.textBox_Type.Location = new System.Drawing.Point(195, 32);
             this.textBox_Type.Name = "textBox_Type";
-            this.textBox_Type.Size = new System.Drawing.Size(146, 21);
+            this.textBox_Type.Size = new System.Drawing.Size(152, 21);
             this.textBox_Type.TabIndex = 20;
             // 
             // label_FieldName
@@ -527,15 +547,15 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(8, 63);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(107, 12);
+            this.label5.Size = new System.Drawing.Size(117, 12);
             this.label5.TabIndex = 18;
-            this.label5.Text = "Dependency Field";
+            this.label5.Text = "Dependency Field 1";
             // 
             // textBox_FieldName
             // 
             this.textBox_FieldName.Location = new System.Drawing.Point(8, 32);
             this.textBox_FieldName.Name = "textBox_FieldName";
-            this.textBox_FieldName.Size = new System.Drawing.Size(176, 21);
+            this.textBox_FieldName.Size = new System.Drawing.Size(152, 21);
             this.textBox_FieldName.TabIndex = 18;
             // 
             // comboBox_DependencyField
@@ -543,13 +563,13 @@
             this.comboBox_DependencyField.FormattingEnabled = true;
             this.comboBox_DependencyField.Location = new System.Drawing.Point(8, 79);
             this.comboBox_DependencyField.Name = "comboBox_DependencyField";
-            this.comboBox_DependencyField.Size = new System.Drawing.Size(176, 20);
+            this.comboBox_DependencyField.Size = new System.Drawing.Size(152, 20);
             this.comboBox_DependencyField.TabIndex = 7;
             // 
             // checkBox_Field_ThisIsKey
             // 
             this.checkBox_Field_ThisIsKey.AutoSize = true;
-            this.checkBox_Field_ThisIsKey.Location = new System.Drawing.Point(217, 193);
+            this.checkBox_Field_ThisIsKey.Location = new System.Drawing.Point(6, 174);
             this.checkBox_Field_ThisIsKey.Name = "checkBox_Field_ThisIsKey";
             this.checkBox_Field_ThisIsKey.Size = new System.Drawing.Size(132, 16);
             this.checkBox_Field_ThisIsKey.TabIndex = 19;
@@ -559,7 +579,7 @@
             // 
             // button_Remove_VirtualField
             // 
-            this.button_Remove_VirtualField.Location = new System.Drawing.Point(322, 237);
+            this.button_Remove_VirtualField.Location = new System.Drawing.Point(313, 215);
             this.button_Remove_VirtualField.Name = "button_Remove_VirtualField";
             this.button_Remove_VirtualField.Size = new System.Drawing.Size(40, 23);
             this.button_Remove_VirtualField.TabIndex = 14;
@@ -572,13 +592,12 @@
             this.listView_Field.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ColumnHeader_Name,
             this.ColumnHeader_Type,
-            this.columnHeader_IsVirtual,
-            this.columnHeader_IsKey});
+            this.columnHeader_IsVirtual});
             this.listView_Field.HideSelection = false;
             this.listView_Field.Location = new System.Drawing.Point(6, 14);
             this.listView_Field.MultiSelect = false;
             this.listView_Field.Name = "listView_Field";
-            this.listView_Field.Size = new System.Drawing.Size(366, 149);
+            this.listView_Field.Size = new System.Drawing.Size(366, 169);
             this.listView_Field.TabIndex = 12;
             this.listView_Field.UseCompatibleStateImageBehavior = false;
             this.listView_Field.View = System.Windows.Forms.View.Details;
@@ -586,21 +605,17 @@
             // ColumnHeader_Name
             // 
             this.ColumnHeader_Name.Text = "Name";
-            this.ColumnHeader_Name.Width = 170;
+            this.ColumnHeader_Name.Width = 158;
             // 
             // ColumnHeader_Type
             // 
             this.ColumnHeader_Type.Text = "Type";
-            this.ColumnHeader_Type.Width = 70;
+            this.ColumnHeader_Type.Width = 109;
             // 
             // columnHeader_IsVirtual
             // 
             this.columnHeader_IsVirtual.Text = "Virtual";
-            this.columnHeader_IsVirtual.Width = 61;
-            // 
-            // columnHeader_IsKey
-            // 
-            this.columnHeader_IsKey.Text = "IsKey";
+            this.columnHeader_IsVirtual.Width = 88;
             // 
             // button_Check_TableAll
             // 
@@ -858,10 +873,11 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox checkBox_FieldKey_IsOverlap;
-        private System.Windows.Forms.ColumnHeader columnHeader_IsKey;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button_CommandLine;
         private System.Windows.Forms.TextBox textBox_CommandLine;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox comboBox_DependencyField_Sub;
     }
 }
 

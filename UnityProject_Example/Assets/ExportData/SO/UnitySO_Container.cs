@@ -14,10 +14,12 @@ using UnityEngine;
 
 
 
-public class UnitySO_Container : UnityEngine.ScriptableObject
+public class UnitySO_Container : ScriptableObject
 {
     
     public List<UnitySO> listData;
+    
+    public Dictionary<int, UnitySO> mapData_Key_Is_intValue;
     
     public Dictionary<string, List<UnitySO>> mapData_Key_Is_strAutoEnum;
     
@@ -25,8 +27,17 @@ public class UnitySO_Container : UnityEngine.ScriptableObject
     
     public void DoInit()
     {
+#if UNITY_EDITOR
+           UnityEditor.AssetDatabase.ImportAsset(UnityEditor.AssetDatabase.GetAssetPath(this));
+#endif
+        this.Init_mapData_Key_Is_intValue();
         this.Init_mapData_Key_Is_strAutoEnum();
         this.Init_mapData_Key_Is_AutoEnumValue();
+    }
+    
+    private void Init_mapData_Key_Is_intValue()
+    {
+        this.mapData_Key_Is_intValue = listData.ToDictionary(x => x.intValue);
     }
     
     private void Init_mapData_Key_Is_strAutoEnum()

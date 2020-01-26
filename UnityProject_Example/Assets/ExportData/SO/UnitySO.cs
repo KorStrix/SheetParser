@@ -12,7 +12,7 @@ using UnityEngine;
 
 
 
-public class UnitySO : UnityEngine.ScriptableObject
+public class UnitySO : ScriptableObject
 {
     
     public string MaterialPath;
