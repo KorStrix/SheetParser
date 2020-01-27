@@ -105,6 +105,13 @@ namespace SpreadSheetParser
             pOptions.BracingStyle = "C";
             using (StreamWriter pSourceWriter = new StreamWriter(strFilePath))
             {
+                // CodeDom API 에선 상단 주석을 커스터마이징 할 수 없으므로 하단으로 대체
+                // 파일을 열고 CodeDom을 통해 작성하기 직전에 글을 작성
+                // https://stackoverflow.com/questions/2289889/how-do-i-customize-the-auto-generated-comment-when-using-net-codedom-code-gener?noredirect=1&lq=1
+                pSourceWriter.WriteLine("//------------------------------------------------------------------------------");
+                pSourceWriter.WriteLine("// Author : Strix");
+                pSourceWriter.WriteLine("// Github : https://github.com/KorStrix/Google_SpreadSheetParser");
+
                 pProvider_Csharp.GenerateCodeFromCompileUnit(
                     pCompileUnit, pSourceWriter, pOptions);
             }

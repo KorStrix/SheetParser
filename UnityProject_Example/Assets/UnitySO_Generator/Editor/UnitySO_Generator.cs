@@ -275,6 +275,7 @@ public class UnitySO_Generator : EditorWindow
                 //        listCashingLogic.Add(new Container_CashingLogic_Dictionary_List(pContainerInstance, pFieldInfo, mapFieldInfo_SO));
                 //    else
                 //        listCashingLogic.Add(new Container_CashingLogic_Dictionary_Single(pContainerInstance, pFieldInfo, mapFieldInfo_SO));
+                 
                 //}
             }
 
