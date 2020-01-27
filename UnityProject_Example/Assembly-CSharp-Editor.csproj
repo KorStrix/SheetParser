@@ -69,6 +69,9 @@
     <Compile Include="Assets\UnitySO_Generator\Editor\Share\SpreadSheetConnector.cs" />
     <Compile Include="Assets\UnitySO_Generator\Editor\Share\TypeData.cs" />
     <Compile Include="Assets\UnitySO_Generator\Editor\Share\TypeDataHelper.cs" />
+    <Compile Include="Assets\UnitySO_Generator\Editor\Share\Work_Generate_JsonForm.cs" />
+    <Compile Include="Assets\UnitySO_Generator\Editor\Share\Work_Generate_Unity_ScriptableObjectForm.cs" />
+    <Compile Include="Assets\UnitySO_Generator\Editor\Share\WorkBase.cs" />
     <Compile Include="Assets\UnitySO_Generator\Editor\UnitySO_Generator.cs" />
     <Compile Include="Assets\UnitySO_Generator\Editor\UnitySO_GeneratorConfig.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">

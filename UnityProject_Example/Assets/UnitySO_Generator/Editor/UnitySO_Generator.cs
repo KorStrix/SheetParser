@@ -18,6 +18,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using SpreadSheetParser;
+using System.Threading;
 
 /// <summary>
 /// Editor 폴더 안에 위치해야 합니다.
@@ -203,6 +204,8 @@ public class UnitySO_Generator : EditorWindow
     static HashSet<Refrence_OtherSO_Data> _setReference_OtherSO = new HashSet<Refrence_OtherSO_Data>();
 
     static SpreadSheetParser.SpreadSheetConnector _pConnector = new SpreadSheetParser.SpreadSheetConnector();
+    static Work_Generate_Json _pWork_Json = new Work_Generate_Json();
+    static Work_Generate_Unity_ScriptableObject _pWork_SO = new Work_Generate_Unity_ScriptableObject();
 
     static List<SheetWrapper> _listSheet = new List<SheetWrapper>();
     static TypeDataList _pTypeDataList = new TypeDataList();
@@ -231,10 +234,19 @@ public class UnitySO_Generator : EditorWindow
     static public async Task DoConnect()
     {
         UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
+        _listSheet.Clear();
 
         await _pConnector.DoConnect(pConfig.strSheetID, 
             (string strSheetID, List<SheetWrapper> listSheet, Exception pException_OnError) => 
             {
+                if (pException_OnError != null)
+                {
+                    Debug.LogError(pException_OnError);
+                    return;
+                }
+
+                Debug.Log("Success Connect - " + strSheetID);
+
                 _pTypeDataList = new TypeDataList();
                 if (GetData_FromJson(nameof(TypeDataList), ref _pTypeDataList) == false)
                 {
@@ -242,7 +254,6 @@ public class UnitySO_Generator : EditorWindow
                     return;
                 }
 
-                _listSheet.Clear();
                 _listSheet.AddRange(listSheet);
             },
             pConfig.strCredentialFilePath
@@ -254,72 +265,18 @@ public class UnitySO_Generator : EditorWindow
         Debug.Log("DoUpdate Start");
 
         UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
-        string strExportPath = pConfig.strExportFolderPath;
+        _pWork_Json.strExportPath = pConfig.strJsonRootFolderPath;
+        _pWork_SO.strExportPath = pConfig.strJsonRootFolderPath;
 
-        foreach (var pSheet in _pTypeDataList.listTypeData)
-        {
-            if (pSheet.eType == ESheetType.Enum)
-                return;
+        CodeFileBuilder pCodeFileBuilder = new CodeFileBuilder();
+        IEnumerable<TypeData> arrTypeData = _pTypeDataList.listTypeData.Where(p => p.bEnable);
+        foreach(var pTypeDatta in arrTypeData)
+            pTypeDatta.DoWork(_pConnector, pCodeFileBuilder, null);
 
-            JObject pJson_Instance = new JObject();
-            JArray pArray = new JArray();
-
-            Dictionary<string, FieldTypeData> mapFieldData = pSheet.listFieldData.Where(p => p.bIsVirtualField == false).ToDictionary(p => p.strFieldName);
-            Dictionary<int, string> mapMemberName = new Dictionary<int, string>();
-            Dictionary<int, string> mapMemberType = new Dictionary<int, string>();
-            int iColumnStartIndex = -1;
-
-            pSheet.ParsingSheet(_pConnector,
-            ((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
-            {
-                if (strText.Contains(':')) // 변수 타입 파싱
-                    {
-                    if (mapMemberName.ContainsKey(iColumnIndex))
-                        return;
-
-                    string[] arrText = strText.Split(':');
-                    mapMemberName.Add(iColumnIndex, arrText[0]);
-                    mapMemberType.Add(iColumnIndex, arrText[1]);
-
-                    if (iColumnStartIndex == -1)
-                        iColumnStartIndex = iColumnIndex;
-
-                    return;
-                }
-
-                if (iColumnIndex != iColumnStartIndex)
-                    return;
-
-                JObject pObject = new JObject();
-
-                    // 실제 변수값
-                    for (int i = iColumnIndex; i < listRow.Count; i++)
-                {
-                    if (mapMemberName.ContainsKey(i))
-                    {
-                        FieldTypeData pFieldTypeData;
-                        if (mapFieldData.TryGetValue(mapMemberName[i], out pFieldTypeData) == false)
-                        {
-                            continue;
-                        }
-
-                        string strFieldName = pFieldTypeData.strFieldName;
-                        string strValue = (string)listRow[i];
-                        pObject.Add(strFieldName, strValue);
-                    }
-                }
-
-                pArray.Add(pObject);
-            }));
-
-            if (pArray.Count == 0)
-                continue;
-
-            pJson_Instance.Add("array", pArray);
-
-            string strFileName = $"{pSheet.strFileName}.json";
-            JsonSaveManager.SaveData(pJson_Instance, $"{GetRelative_To_AbsolutePath(strExportPath)}/{strFileName}");
-        }
+        _pWork_Json.DoWork(pCodeFileBuilder, _pConnector, arrTypeData, null);
+        _pWork_SO.DoWork(pCodeFileBuilder, _pConnector, arrTypeData, null);
+        AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+        Debug.Log(" EditorApplication.isCompiling : " + EditorApplication.isCompiling);
 
         DoBuild();
         Debug.Log("DoUpdate Finish");
@@ -494,10 +451,17 @@ public class UnitySO_Generator : EditorWindow
 
         if(_pConnector.pService != null && _pTypeDataList.listTypeData.Count > 0)
         {
+            EditorGUI.BeginChangeCheck();
             for (int i = 0; i < _pTypeDataList.listTypeData.Count; i++)
             {
                 TypeData pTypeData = _pTypeDataList.listTypeData[i];
                 pTypeData.bEnable = EditorGUILayout.Toggle(pTypeData.strFileName, pTypeData.bEnable);
+            }
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                // JsonSaveManager.SaveData(_pTypeDataList, $"{UnitySO_GeneratorConfig.instance.strJsonRootFolderPath}/{nameof(TypeDataList)}.json");
+                AssetDatabase.Refresh();
             }
 
             if (GUILayout.Button("Update!", GUILayout.Width(100f)))
@@ -505,7 +469,6 @@ public class UnitySO_Generator : EditorWindow
                 DoUpdate_And_Build();
             }
         }
-
     }
 
     /* protected - [abstract & virtual]         */
@@ -755,7 +718,7 @@ public class UnitySO_Generator : EditorWindow
         if (Path.IsPathRooted(strPath))
             return strPath;
 
-        string strRelativePath = $"{new Uri(Directory.GetCurrentDirectory()).AbsolutePath}{"/../"}";
+        string strRelativePath = $"{new Uri(Application.dataPath).AbsolutePath}{"/../"}";
         return strRelativePath + strPath;
     }
 

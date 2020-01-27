@@ -15,4 +15,4 @@ MonoBehaviour:
   strJsonRootFolderPath: Assets/ExportData/SO
   strExportFolderPath: Assets/BundleData/SO
   strCredentialFilePath: C:/Users/user/Desktop/Project/BlackSmith/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/Share/credentials.json
-  strSheetID: 1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4d
+  strSheetID: 1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4

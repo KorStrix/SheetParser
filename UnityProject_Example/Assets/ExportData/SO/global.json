@@ -28,6 +28,12 @@
       "strGlobalKey": "strValue22",
       "strValue": "strValue22",
       "strType": "string"
+    },
+    {
+      "strGlobalKey": "test",
+      "strValue": "test2",
+      "strType": "string",
+      "strComment": "test33"
     }
   ]
 }

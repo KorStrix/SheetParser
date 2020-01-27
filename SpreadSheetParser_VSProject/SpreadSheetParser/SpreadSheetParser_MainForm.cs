@@ -398,7 +398,7 @@ namespace SpreadSheetParser
             {
                 try
                 {
-                    pWork.DoWork(_pCodeFileBuilder, pSheetConnector, listSheetData);
+                    pWork.DoWork(_pCodeFileBuilder, pSheetConnector, listSheetData, SpreadSheetParser_MainForm.WriteConsole);
                 }
                 catch(Exception pException)
                 {

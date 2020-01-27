@@ -121,10 +121,10 @@ namespace SpreadSheetParser
                     // 실제 변수값
                     for (int i = iColumnIndex; i < listRow.Count; i++)
                     {
-                        if (mapMemberName.ContainsKey(i))
+                        if(mapMemberName.ContainsKey(i))
                         {
                             FieldTypeData pFieldTypeData;
-                            if (mapFieldData.TryGetValue(mapMemberName[i], out pFieldTypeData) == false)
+                            if(mapFieldData.TryGetValue(mapMemberName[i], out pFieldTypeData) == false)
                             {
                                 OnPrintWorkProcess?.Invoke($"{pSheet.strSheetName} - mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
                                 continue;

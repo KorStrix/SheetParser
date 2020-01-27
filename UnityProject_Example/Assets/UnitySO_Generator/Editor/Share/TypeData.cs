@@ -64,16 +64,13 @@ namespace SpreadSheetParser
         public bool bDeleteThisField_InCode = false;
         public bool bIsKeyField = false;
         public bool bIsOverlapKey = false;
+        public bool bIsTemp = false;
 
         public bool bConvertStringToEnum = false;
 
-        public FieldTypeData()
+        public FieldTypeData(string strFieldName, string strFieldType)
         {
-        }
-
-        public FieldTypeData(string strMemberName, string strMemberType)
-        {
-            this.strFieldName = strMemberName; this.strFieldType = strMemberType;
+            this.strFieldName = strFieldName; this.strFieldType = strFieldType;
         }
     }
 }

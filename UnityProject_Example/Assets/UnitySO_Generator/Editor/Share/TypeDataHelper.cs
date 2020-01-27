@@ -239,9 +239,7 @@ namespace SpreadSheetParser
                                           FieldTypeData pFieldData_Enum = pSheetData.listFieldData.Where(p => p.strFieldName == const_GlobalKey_FieldName).FirstOrDefault();
                                           if(pFieldData_Enum == null)
                                           {
-                                              pFieldData_Enum = new FieldTypeData();
-                                              pFieldData_Enum.strFieldType = const_GlobalKey_EnumName;
-                                              pFieldData_Enum.strFieldName = const_GlobalKey_FieldName;
+                                              pFieldData_Enum = new FieldTypeData(const_GlobalKey_FieldName, const_GlobalKey_EnumName);
                                               pFieldData_Enum.strDependencyFieldName = pFieldData.strFieldName;
                                               pFieldData_Enum.bIsVirtualField = true;
                                               pSheetData.listFieldData.Add(pFieldData_Enum);
@@ -263,6 +261,11 @@ namespace SpreadSheetParser
                                       iColumnIndex_Type = iColumn;
                                       strTypeName = strFieldName;
                                       pCodeType_Class.AddField(new FieldTypeData(strFieldName, arrText[1]));
+
+                                      FieldTypeData pFieldData_Type = pSheetData.listFieldData.Where(p => p.strFieldName == strFieldName).FirstOrDefault();
+                                      if (pFieldData_Type == null)
+                                          pSheetData.listFieldData.Add(new FieldTypeData(strFieldName, arrText[1]));
+
                                       break;
 
 
@@ -302,17 +305,17 @@ namespace SpreadSheetParser
                               return;
                           setGlobalTable_ByType.Add(strText);
 
-                          FieldTypeData pFieldData = pSheetData.listFieldData.Where(p => p.strFieldName == strText).FirstOrDefault();
-                          if(pFieldData == null)
+                          string strFieldType = (string)listRow[iColumnIndex_Type];
+                          FieldTypeData pFieldData = pSheetData.listFieldData.Where(p => p.strFieldName == strTypeName && p.strFieldType == strFieldType).FirstOrDefault();
+                          if (pFieldData == null)
                           {
-                              pFieldData = new FieldTypeData();
-                              pFieldData.strFieldName = strTypeName;
+                              pFieldData = new FieldTypeData(strTypeName, strFieldType);
                               pSheetData.listFieldData.Add(pFieldData);
                           }
 
-                          pFieldData.strFieldType = (string)listRow[iColumnIndex_Type];
+                          pFieldData.bIsTemp = true;
                           pFieldData.bDeleteThisField_InCode = true;
-                          pFieldData.bIsVirtualField = true;
+                          pFieldData.bIsVirtualField = strFieldType != "string";
                           pFieldData.bIsKeyField = true;
                           pFieldData.bIsOverlapKey = true;
 

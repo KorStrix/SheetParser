@@ -77,7 +77,7 @@ namespace SpreadSheetParser
             return "Generate CSV";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData)
+        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, System.Action<string> OnPrintWorkProcess)
         {
             StringBuilder pStrBuilder = new StringBuilder();
 

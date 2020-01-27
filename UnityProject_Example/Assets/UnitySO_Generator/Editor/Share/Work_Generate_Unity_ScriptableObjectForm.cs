@@ -24,7 +24,7 @@ namespace SpreadSheetParser
         public void DoInit(Work_Generate_Unity_ScriptableObject pWork)
         {
             _pWork = null;
-
+            
             checkBox_OpenFolder_AfterBuild.Checked = pWork.bOpenPath_AfterBuild_CSharp;
             textBox_EditorPath.Text = pWork.strUnityEditorPath;
             textBox_ExportPath.Text = pWork.strExportPath;
@@ -91,7 +91,7 @@ namespace SpreadSheetParser
         {
             pFormType = typeof(Work_Generate_Unity_ScriptableObjectForm);
             pType = GetType();
-        }
+    }
 #endif
 
         public override string GetDisplayString()
@@ -119,6 +119,7 @@ namespace SpreadSheetParser
                 if (pSaveData == null)
                     continue;
 
+                setExecutedType.Add(pType);
                 Create_SO(pCodeFileBuilder, pNameSpace, pType, pSaveData);
 
                 if (pSaveData.eType == ESheetType.Global)
@@ -132,7 +133,6 @@ namespace SpreadSheetParser
                 }
 
                 OnPrintWorkState?.Invoke($"UnitySO - Working SO {pType.Name}");
-                setExecutedType.Add(pType);
             }
 
             // Others
@@ -175,7 +175,7 @@ namespace SpreadSheetParser
             IEnumerable<FieldTypeData> listRealField = pSaveData.listFieldData.Where(p => p.bIsKeyField == false);
             foreach (var pRealField in listRealField)
             {
-                if (pRealField.strFieldName.ToLower().Contains(nameof(TypeDataHelper.EGlobalColumnType.Value).ToLower()))
+                if(pRealField.strFieldName.ToLower().Contains(nameof(TypeDataHelper.EGlobalColumnType.Value).ToLower()))
                 {
                     strValueFieldName = pRealField.strFieldName;
                     break;
@@ -287,15 +287,15 @@ namespace SpreadSheetParser
             // 3. Gropby로 묶은걸 Dictionary로 변환하며 할당한다.
             // 여기서 기본 형식은 다 형변환해야함
             string strParseString = $"p.{strValueFieldName}";
-            if (strTypeName == "float")
+            if(strTypeName == "float")
             {
                 strParseString = $"float.Parse({strParseString})";
             }
-            else if (strTypeName == "int")
+            else if(strTypeName == "int")
             {
                 strParseString = $"int.Parse({strParseString})";
             }
-            else if (strTypeFieldName == "string")
+            else if(strTypeFieldName == "string")
             {
 
             }
@@ -362,7 +362,7 @@ namespace SpreadSheetParser
         public override void DoWorkAfter()
         {
             const string const_BuildMethodeName = "UnitySO_Generator.DoBuild";
-            if (string.IsNullOrEmpty(strUnityEditorPath) == false)
+            if(string.IsNullOrEmpty(strUnityEditorPath) == false)
                 System.Diagnostics.Process.Start(strUnityEditorPath, $"-quit -batchmode -executeMethod {const_BuildMethodeName}");
 
             if (bOpenPath_AfterBuild_CSharp)
