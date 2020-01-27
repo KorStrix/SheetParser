@@ -421,7 +421,7 @@ public class UnitySO_Generator : EditorWindow
             return;
         }
 
-        DrawPath_File(pConfig, "Cre", ref pConfig.strCredentialFilePath, false);
+        DrawPath_File(pConfig, "Cre", ref pConfig.strCredentialFilePath);
         DrawPath_Folder(pConfig,  "JsonFolder Path", ref pConfig.strJsonRootFolderPath);
         DrawPath_Folder(pConfig, "SO Export Path", ref pConfig.strExportFolderPath);
 

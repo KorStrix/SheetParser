@@ -29,7 +29,7 @@ MonoBehaviour:
   m_Name: UnitySO2_0
   m_EditorClassIdentifier: 
   strComment: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
-  pUnitySO: {fileID: 0}
+  pUnitySO: {fileID: 114351052581820952, guid: 3a4c4552b44934142ab92ae4a42187e2, type: 2}
 --- !u!114 &114913926899159560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Name: UnitySO2_1
   m_EditorClassIdentifier: 
   strComment: "\uCD08\uB85D\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
-  pUnitySO: {fileID: 0}
+  pUnitySO: {fileID: 114109515020350258, guid: 3a4c4552b44934142ab92ae4a42187e2, type: 2}
 --- !u!114 &114934008934081424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,4 +57,4 @@ MonoBehaviour:
   m_Name: UnitySO2_2
   m_EditorClassIdentifier: 
   strComment: "\uBE68\uAC04\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
-  pUnitySO: {fileID: 0}
+  pUnitySO: {fileID: 114668769299849930, guid: 3a4c4552b44934142ab92ae4a42187e2, type: 2}
