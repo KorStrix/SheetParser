@@ -2,19 +2,118 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static SpreadSheetParser.SpreadSheetParser_MainForm;
 
 namespace SpreadSheetParser
 {
-    static class SaveData_SheetHelper
+    public enum ESheetType
     {
-        static public void DoCheck_IsValid_Table(this SaveData_Sheet pSheetData)
-        {
-            bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
+        Class,
+        Struct,
+        Enum,
+        Global,
+    }
 
-            pSheetData.ParsingSheet(
+    public enum EEnumHeaderType
+    {
+        EnumNone,
+
+        EnumType,
+        EnumValue,
+        NumberValue,
+        Comment,
+    }
+
+    public enum ECommandLine
+    {
+        Error = -1,
+
+        comment,
+        ispartial,
+        baseis,
+    }
+    static public class TypeDataHelper
+    {
+        public const string const_GlobalKey_EnumName = "EGlobalKey";
+        public const string const_GlobalKey_FieldName = "eGlobalKey";
+
+        public delegate void delOnParsingText(IList<object> listRow, string strText, int iRowIndex, int iColumnIndex);
+
+        static public void ParsingSheet(this TypeData pSheet, SpreadSheetConnector pConnector, delOnParsingText OnParsingText)
+        {
+            const string const_strCommandString = "#";
+            const string const_strIgnoreString_Row = "R";
+            const string const_strIgnoreString_Column = "C";
+            const string const_strStartString = "Start";
+
+            if (pConnector == null)
+                return;
+
+            IList<IList<Object>> pData = pConnector.GetExcelData(pSheet.strSheetName);
+            if (pData == null)
+                return;
+
+            if (OnParsingText == null) // For Loop에서 Null Check 방지
+                OnParsingText = (a, b, c, d) => { };
+
+            bool bIsParsingStart = false;
+            HashSet<int> setIgnoreColumnIndex = new HashSet<int>();
+            for (int i = 0; i < pData.Count; i++)
+            {
+                bool bIsIgnoreRow = false;
+                IList<object> listRow = pData[i];
+                for (int j = 0; j < listRow.Count; j++)
+                {
+                    if (setIgnoreColumnIndex.Contains(j))
+                        continue;
+
+                    string strText = (string)listRow[j];
+                    if (string.IsNullOrEmpty(strText))
+                        continue;
+
+                    if (strText.StartsWith(const_strCommandString))
+                    {
+                        bool bIsContinue = false;
+                        if (strText.Contains(const_strIgnoreString_Column))
+                        {
+                            setIgnoreColumnIndex.Add(j);
+                            bIsContinue = true;
+                        }
+
+                        if (bIsParsingStart == false)
+                        {
+                            if (strText.Contains(const_strStartString))
+                            {
+                                bIsParsingStart = true;
+                                bIsContinue = true;
+                            }
+                        }
+
+                        if (bIsIgnoreRow == false && strText.Contains(const_strIgnoreString_Row))
+                        {
+                            bIsContinue = true;
+                            bIsIgnoreRow = true;
+                        }
+
+                        if (bIsContinue)
+                            continue;
+                    }
+
+                    if (bIsIgnoreRow)
+                        continue;
+
+                    if (bIsParsingStart == false)
+                        continue;
+
+                    OnParsingText(listRow, strText, i, j);
+                }
+            }
+        }
+
+        static public void DoCheck_IsValid_Table(this TypeData pSheetData, SpreadSheetConnector pConnector, System.Action<string> OnError)
+        {
+            bool bIsEnum = pSheetData.eType == ESheetType.Enum;
+
+            pSheetData.ParsingSheet(pConnector,
             (listRow, strText, iRow, iColumn) =>
             {
                 if (bIsEnum)
@@ -32,7 +131,7 @@ namespace SpreadSheetParser
                                 string strTextOtherColumn = (string)listRow[i];
                                 if (System.Enum.TryParse(strTextOtherColumn, out eType) == false)
                                 {
-                                    WriteConsole($"테이블 유효성 체크 - 이넘 파싱 에러");
+                                    OnError?.Invoke($"테이블 유효성 체크 - 이넘 파싱 에러");
                                     return;
                                 }
 
@@ -53,7 +152,7 @@ namespace SpreadSheetParser
                         case EEnumHeaderType.EnumValue:
                             if (string.IsNullOrEmpty(strText))
                             {
-                                WriteConsole($"테이블 유효성 체크 - 이넘 파싱 에러");
+                                OnError?.Invoke($"테이블 유효성 체크 - 이넘 파싱 에러");
                                 return;
                             }
                             break;
@@ -66,23 +165,23 @@ namespace SpreadSheetParser
             });
         }
 
-        static public void DoWork(this SaveData_Sheet pSheetData, CodeFileBuilder pCodeFileBuilder)
+        static public void DoWork(this TypeData pSheetData, SpreadSheetConnector pConnector, CodeFileBuilder pCodeFileBuilder, System.Action<string> OnError)
         {
-            List<CommandLineArg> listCommandLine = Parsing_CommandLine(pSheetData.strCommandLine);
+            List<CommandLineArg> listCommandLine = Parsing_CommandLine(pSheetData.strCommandLine, OnError);
 
             switch (pSheetData.eType)
             {
-                case SaveData_Sheet.EType.Class:
-                case SaveData_Sheet.EType.Struct:
-                    Parsing_OnCode(pSheetData, pCodeFileBuilder, listCommandLine);
+                case ESheetType.Class:
+                case ESheetType.Struct:
+                    Parsing_OnCode(pSheetData, pConnector, pCodeFileBuilder, listCommandLine);
                     break;
 
-                case SaveData_Sheet.EType.Enum:
-                    Parsing_OnEnum(pSheetData, pCodeFileBuilder);
+                case ESheetType.Enum:
+                    Parsing_OnEnum(pSheetData, pConnector, pCodeFileBuilder);
                     break;
 
-                case SaveData_Sheet.EType.Global:
-                    Parsing_OnGlobal(pSheetData, pCodeFileBuilder);
+                case ESheetType.Global:
+                    Parsing_OnGlobal(pSheetData, pConnector, pCodeFileBuilder);
                     break;
             }
         }
@@ -99,11 +198,11 @@ namespace SpreadSheetParser
             MAX,
         }
 
-        private static void Parsing_OnGlobal(SaveData_Sheet pSheetData, CodeFileBuilder pCodeFileBuilder)
+        private static void Parsing_OnGlobal(TypeData pSheetData, SpreadSheetConnector pConnector, CodeFileBuilder pCodeFileBuilder)
         {
             // 글로벌 테이블은 데이터를 담는 데이터컨테이너와 글로벌키 Enum타입 2개를 생성한다.
             var pCodeType_Class = pCodeFileBuilder.AddCodeType(pSheetData.strFileName, pSheetData.eType);
-            var pCodeType_GlobalKey = pCodeFileBuilder.AddCodeType(SaveData_Sheet.const_GlobalKey_EnumName, SaveData_Sheet.EType.Enum);
+            var pCodeType_GlobalKey = pCodeFileBuilder.AddCodeType(const_GlobalKey_EnumName, ESheetType.Enum);
 
             Dictionary<int, EGlobalColumnType> mapGlobalColumnType = new Dictionary<int, EGlobalColumnType>();
             HashSet<string> setGlobalTable_ByType = new HashSet<string>();
@@ -112,7 +211,7 @@ namespace SpreadSheetParser
             int iColumnIndex_Type = -1;
             int iColumnIndex_Comment = -1;
 
-            pSheetData.ParsingSheet(
+            pSheetData.ParsingSheet(pConnector,
               (listRow, strText, iRow, iColumn) =>
               {
                   // 변수 선언 형식인경우
@@ -137,12 +236,10 @@ namespace SpreadSheetParser
                                           if (pFieldData != null)
                                               pFieldData.bDeleteThisField_InCode = true;
 
-                                          FieldTypeData pFieldData_Enum = pSheetData.listFieldData.Where(p => p.strFieldName == SaveData_Sheet.const_GlobalKey_FieldName).FirstOrDefault();
+                                          FieldTypeData pFieldData_Enum = pSheetData.listFieldData.Where(p => p.strFieldName == const_GlobalKey_FieldName).FirstOrDefault();
                                           if(pFieldData_Enum == null)
                                           {
-                                              pFieldData_Enum = new FieldTypeData();
-                                              pFieldData_Enum.strFieldType = SaveData_Sheet.const_GlobalKey_EnumName;
-                                              pFieldData_Enum.strFieldName = SaveData_Sheet.const_GlobalKey_FieldName;
+                                              pFieldData_Enum = new FieldTypeData(const_GlobalKey_FieldName, const_GlobalKey_EnumName);
                                               pFieldData_Enum.strDependencyFieldName = pFieldData.strFieldName;
                                               pFieldData_Enum.bIsVirtualField = true;
                                               pSheetData.listFieldData.Add(pFieldData_Enum);
@@ -164,6 +261,11 @@ namespace SpreadSheetParser
                                       iColumnIndex_Type = iColumn;
                                       strTypeName = strFieldName;
                                       pCodeType_Class.AddField(new FieldTypeData(strFieldName, arrText[1]));
+
+                                      FieldTypeData pFieldData_Type = pSheetData.listFieldData.Where(p => p.strFieldName == strFieldName).FirstOrDefault();
+                                      if (pFieldData_Type == null)
+                                          pSheetData.listFieldData.Add(new FieldTypeData(strFieldName, arrText[1]));
+
                                       break;
 
 
@@ -203,17 +305,17 @@ namespace SpreadSheetParser
                               return;
                           setGlobalTable_ByType.Add(strText);
 
-                          FieldTypeData pFieldData = pSheetData.listFieldData.Where(p => p.strFieldName == strText).FirstOrDefault();
-                          if(pFieldData == null)
+                          string strFieldType = (string)listRow[iColumnIndex_Type];
+                          FieldTypeData pFieldData = pSheetData.listFieldData.Where(p => p.strFieldName == strTypeName && p.strFieldType == strFieldType).FirstOrDefault();
+                          if (pFieldData == null)
                           {
-                              pFieldData = new FieldTypeData();
-                              pFieldData.strFieldName = strTypeName;
+                              pFieldData = new FieldTypeData(strTypeName, strFieldType);
                               pSheetData.listFieldData.Add(pFieldData);
                           }
 
-                          pFieldData.strFieldType = (string)listRow[iColumnIndex_Type];
+                          pFieldData.bIsTemp = true;
                           pFieldData.bDeleteThisField_InCode = true;
-                          pFieldData.bIsVirtualField = true;
+                          pFieldData.bIsVirtualField = strFieldType != "string";
                           pFieldData.bIsKeyField = true;
                           pFieldData.bIsOverlapKey = true;
 
@@ -222,14 +324,14 @@ namespace SpreadSheetParser
               });
         }
 
-        private static void Parsing_OnCode(SaveData_Sheet pSheetData, CodeFileBuilder pCodeFileBuilder, List<CommandLineArg> listCommandLine)
+        private static void Parsing_OnCode(TypeData pSheetData, SpreadSheetConnector pConnector, CodeFileBuilder pCodeFileBuilder, List<CommandLineArg> listCommandLine)
         {
             var pCodeType = pCodeFileBuilder.AddCodeType(pSheetData.strFileName, pSheetData.eType);
             var mapFieldData_ConvertStringToEnum = pSheetData.listFieldData.Where((pFieldData) => pFieldData.bConvertStringToEnum).ToDictionary(((pFieldData) => pFieldData.strFieldName));
             var listFieldData_DeleteThisField_OnCode = pSheetData.listFieldData.Where((pFieldData) => pFieldData.bDeleteThisField_InCode).Select((pFieldData) => pFieldData.strFieldName);
             Dictionary<int, CodeTypeDeclaration> mapEnumType = new Dictionary<int, CodeTypeDeclaration>();
 
-            pSheetData.ParsingSheet(
+            pSheetData.ParsingSheet(pConnector, 
               (listRow, strText, iRow, iColumn) =>
               {
                   // 변수 선언 형식인경우
@@ -241,7 +343,7 @@ namespace SpreadSheetParser
                       if (mapFieldData_ConvertStringToEnum.ContainsKey(strFieldName))
                       {
                           FieldTypeData pFieldData = mapFieldData_ConvertStringToEnum[strFieldName];
-                          mapEnumType.Add(iColumn, pCodeFileBuilder.AddCodeType(pFieldData.strEnumName, SaveData_Sheet.EType.Enum));
+                          mapEnumType.Add(iColumn, pCodeFileBuilder.AddCodeType(pFieldData.strEnumName, ESheetType.Enum));
                       }
 
                       // 삭제되는 코드인 경우
@@ -263,12 +365,12 @@ namespace SpreadSheetParser
             Execute_CommandLine(pCodeType, listCommandLine);
         }
 
-        private static void Parsing_OnEnum(SaveData_Sheet pSheetData, CodeFileBuilder pCodeFileBuilder)
+        private static void Parsing_OnEnum(TypeData pSheetData, SpreadSheetConnector pConnector, CodeFileBuilder pCodeFileBuilder)
         {
             Dictionary<int, EEnumHeaderType> mapEnumType = new Dictionary<int, EEnumHeaderType>();
             Dictionary<string, CodeTypeDeclaration> mapEnumValue = new Dictionary<string, CodeTypeDeclaration>();
 
-            pSheetData.ParsingSheet(
+            pSheetData.ParsingSheet(pConnector,
                 (listRow, strText, iRow, iColumn) =>
                 {
                     EEnumHeaderType eType = EEnumHeaderType.EnumNone;
@@ -298,7 +400,7 @@ namespace SpreadSheetParser
                         return;
 
                     if (mapEnumValue.ContainsKey(strText) == false)
-                        mapEnumValue.Add(strText, pCodeFileBuilder.AddCodeType(strText, SaveData_Sheet.EType.Enum));
+                        mapEnumValue.Add(strText, pCodeFileBuilder.AddCodeType(strText, ESheetType.Enum));
 
                     EnumFieldData pFieldData = new EnumFieldData();
                     for (int i = iColumn; i < listRow.Count; i++)
@@ -325,7 +427,7 @@ namespace SpreadSheetParser
                 });
         }
 
-        private static List<CommandLineArg> Parsing_CommandLine(string strCommandLine)
+        private static List<CommandLineArg> Parsing_CommandLine(string strCommandLine, System.Action<string> OnError)
         {
             return CommandLineParser.Parsing_CommandLine(strCommandLine,
                 (string strCommandLineText, out bool bHasValue) =>
@@ -349,7 +451,7 @@ namespace SpreadSheetParser
 
                 (string strCommandLineText, CommandLineParser.Error eError) =>
                 {
-                    WriteConsole($"테이블 유효성 에러 Text : {strCommandLineText} Error : {eError}");
+                    OnError?.Invoke($"테이블 유효성 에러 Text : {strCommandLineText} Error : {eError}");
                     // iErrorCount++;
                 });
         }

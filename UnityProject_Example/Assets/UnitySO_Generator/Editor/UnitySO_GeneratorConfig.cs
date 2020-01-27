@@ -40,6 +40,10 @@ public class UnitySO_GeneratorConfig : ScriptableObject
 
     public string strJsonRootFolderPath;
     public string strExportFolderPath;
+    public string strCredentialFilePath;
+
+    public string strSheetID;
+
 
     #region Helper
     public static T[] GetAllInstances<T>() where T : ScriptableObject

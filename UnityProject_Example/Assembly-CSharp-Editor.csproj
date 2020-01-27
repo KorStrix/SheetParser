@@ -63,7 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\UnitySO_Generator\Editor\TypeData.cs" />
+    <Compile Include="Assets\UnitySO_Generator\Editor\Share\CodeFileBuilder.cs" />
+    <Compile Include="Assets\UnitySO_Generator\Editor\Share\CommandLineParser.cs" />
+    <Compile Include="Assets\UnitySO_Generator\Editor\Share\JsonSaveManager.cs" />
+    <Compile Include="Assets\UnitySO_Generator\Editor\Share\SpreadSheetConnector.cs" />
+    <Compile Include="Assets\UnitySO_Generator\Editor\Share\TypeData.cs" />
+    <Compile Include="Assets\UnitySO_Generator\Editor\Share\TypeDataHelper.cs" />
     <Compile Include="Assets\UnitySO_Generator\Editor\UnitySO_Generator.cs" />
     <Compile Include="Assets\UnitySO_Generator\Editor\UnitySO_GeneratorConfig.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
@@ -321,8 +326,26 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Apis.Auth">
+      <HintPath>C:/Users/user/Desktop/Project/BlackSmith/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/DLL/Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices">
+      <HintPath>C:/Users/user/Desktop/Project/BlackSmith/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/DLL/Google.Apis.Auth.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core">
+      <HintPath>C:/Users/user/Desktop/Project/BlackSmith/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/DLL/Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis">
+      <HintPath>C:/Users/user/Desktop/Project/BlackSmith/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/DLL/Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices">
+      <HintPath>C:/Users/user/Desktop/Project/BlackSmith/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/DLL/Google.Apis.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Sheets.v4">
+      <HintPath>C:/Users/user/Desktop/Project/BlackSmith/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/DLL/Google.Apis.Sheets.v4.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>C:/Users/user/Desktop/Project/BlackSmith/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/Newtonsoft.Json.dll</HintPath>
+      <HintPath>C:/Users/user/Desktop/Project/BlackSmith/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/DLL/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>C:/Users/user/Desktop/Project/BlackSmith/SpreadSheetParser/UnityProject_Example/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>

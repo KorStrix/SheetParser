@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static SpreadSheetParser.TypeDataHelper;
 
 namespace SpreadSheetParser
 {
@@ -78,12 +79,12 @@ namespace SpreadSheetParser
             return "Generate Json";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData)
+        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData)
         {
             TypeDataList pTypeDataList = new TypeDataList();
             foreach (var pSheet in listSheetData)
             {
-                if (pSheet.eType == SaveData_Sheet.EType.Enum)
+                if (pSheet.eType == ESheetType.Enum)
                     return;
 
                 JObject pJson_Instance = new JObject();
@@ -94,7 +95,7 @@ namespace SpreadSheetParser
                 Dictionary<int, string> mapMemberType = new Dictionary<int, string>();
                 int iColumnStartIndex = -1;
 
-                pSheet.ParsingSheet(
+                pSheet.ParsingSheet(pConnector,
                 ((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
                 {
                     if (strText.Contains(':')) // 변수 타입 파싱
@@ -146,12 +147,7 @@ namespace SpreadSheetParser
                 string strFileName = $"{pSheet.strFileName}.json";
                 JsonSaveManager.SaveData(pJson_Instance, $"{GetRelative_To_AbsolutePath(strExportPath)}/{strFileName}");
 
-                TypeData pTypeData = new TypeData();
-                pTypeData.strType = pSheet.strFileName;
-                pTypeData.strHeaderFieldName = pSheet.strHeaderFieldName;
-                pTypeData.listField = pSheet.listFieldData;
-
-                pTypeDataList.listTypeData.Add(pTypeData);
+                pTypeDataList.listTypeData.Add(pSheet);
             }
 
             JsonSaveManager.SaveData(pTypeDataList, $"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json");

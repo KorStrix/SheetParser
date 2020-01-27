@@ -97,7 +97,7 @@ namespace SpreadSheetParser
             SpreadSheetParser_MainForm.DoOpenPath(GetRelative_To_AbsolutePath(strPath));
         }
 
-        abstract public void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData);
+        abstract public void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData);
         virtual public void DoWorkAfter() { }
 
         abstract protected void OnCreateInstance(out Type pFormType, out Type pType);

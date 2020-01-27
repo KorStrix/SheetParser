@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using System.Windows.Forms;
 using System.Threading.Tasks;
 
 namespace SpreadSheetParser
@@ -42,11 +41,12 @@ namespace SpreadSheetParser
 
         public SheetsService pService { get; private set; } = null;
 
+        CancellationTokenSource _pTokenSource = new CancellationTokenSource();
         string _strSheetID;
 
-        public async Task DoConnect(string strSheetID, delOnFinishConnect OnFinishConnect)
+        public async Task DoConnect(string strSheetID, delOnFinishConnect OnFinishConnect, string strCredentialFilePath = "credentials.json")
         {
-            List< SheetWrapper > listSheet = new List<SheetWrapper>();
+            List<SheetWrapper> listSheet = new List<SheetWrapper>();
             this._strSheetID = strSheetID;
             UserCredential credential;
             Exception pException_OnError = null;
@@ -54,14 +54,14 @@ namespace SpreadSheetParser
             try
             {
                 using (var stream =
-                    new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+                    new FileStream(strCredentialFilePath, FileMode.Open, FileAccess.Read))
                 {
                     string credPath = "token.json";
                     credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                         GoogleClientSecrets.Load(stream).Secrets,
                         Scopes,
                         "user",
-                        CancellationToken.None,
+                        _pTokenSource.Token,
                         new FileDataStore(credPath, true)).Result;
                 }
 
@@ -93,6 +93,11 @@ namespace SpreadSheetParser
             }
 
             OnFinishConnect(strSheetID, listSheet, pException_OnError);
+        }
+
+        public void DoCancelConnect()
+        {
+            _pTokenSource.Cancel();
         }
 
         public IList<IList<Object>> GetExcelData(string strSheetName)

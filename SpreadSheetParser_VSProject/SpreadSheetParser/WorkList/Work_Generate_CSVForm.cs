@@ -77,7 +77,7 @@ namespace SpreadSheetParser
             return "Generate CSV";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData)
+        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData)
         {
             StringBuilder pStrBuilder = new StringBuilder();
 
@@ -88,7 +88,7 @@ namespace SpreadSheetParser
                 StreamWriter pFileWriter = new StreamWriter($"{GetRelative_To_AbsolutePath(strExportPath)}/{pSheet.strFileName.Trim()}.csv");
 
                 int iLastRowIndex = -1;
-                pSheet.ParsingSheet(
+                pSheet.ParsingSheet(pConnector,
                     (IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
                     {
                         if (iLastRowIndex == -1)

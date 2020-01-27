@@ -1,14 +1,12 @@
-﻿using Microsoft.IO;
-using Newtonsoft.Json;
-using System;
-using System.CodeDom;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
+
+using Newtonsoft.Json;
+
+#if !UNITY_EDITOR
+using Microsoft.IO;
+#endif
 
 namespace SpreadSheetParser
 {
@@ -23,7 +21,9 @@ namespace SpreadSheetParser
             JsonSerializerSettings pSetting = new JsonSerializerSettings();
             pSetting.Formatting = Formatting.Indented;
             pSetting.MissingMemberHandling = MissingMemberHandling.Ignore;
+#if !UNITY_EDITOR
             pSetting.Converters.Add(new WorkJsonConverter());
+#endif
 
             return pSetting;
         }
@@ -39,6 +39,7 @@ namespace SpreadSheetParser
             }
         }
 
+#if !UNITY_EDITOR
         static public async void SaveData_Async(object pData, string strFilePath, System.Action<bool> OnFinishAsync)
         {
             if (_set_AsyncSave.Contains(strFilePath))
@@ -83,6 +84,7 @@ namespace SpreadSheetParser
 
             _set_AsyncSave.Remove(strFilePath);
         }
+#endif
 
         public static List<T> LoadData<T>(string strFolderPath, System.Action<string> OnError = null)
             where T : class

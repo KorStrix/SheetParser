@@ -4,35 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using static SpreadSheetParser.TypeDataHelper;
 
 namespace SpreadSheetParser
 {
     public partial class SpreadSheetParser_MainForm : Form
     {
-        public enum ECommandLine
-        {
-            Error = -1,
-
-            comment,
-            ispartial,
-            baseis,
-        }
-
         public enum EState
         {
             None,
             IsConnected,
             IsConnected_And_SelectTable,
-        }
-
-        public enum EEnumHeaderType
-        {
-            EnumNone,
-
-            EnumType,
-            EnumValue,
-            NumberValue,
-            Comment,
         }
 
         static public SpreadSheetParser_MainForm isntance => _instance;
@@ -43,7 +25,7 @@ namespace SpreadSheetParser
 
         delegate void SafeCallDelegate(string text);
 
-        SaveData_Sheet _pSheet_CurrentConnected;
+        TypeData _pSheet_CurrentConnected;
         CodeFileBuilder _pCodeFileBuilder = new CodeFileBuilder();
         Config _pConfig;
 
@@ -161,11 +143,11 @@ namespace SpreadSheetParser
                 return;
             }
 
-            SaveData_Sheet pSheetData = (SaveData_Sheet)checkedListBox_SheetList.SelectedItem;
+            TypeData pSheetData = (TypeData)checkedListBox_SheetList.SelectedItem;
             if (pSheetData == null)
                 return;
 
-            bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
+            bool bIsEnum = pSheetData.eType == ESheetType.Enum;
             if (bIsEnum)
                 return;
 
@@ -220,17 +202,18 @@ namespace SpreadSheetParser
             listView_Field.Items.Clear();
 
             ListView_Field_SelectedIndexChanged(null, null);
-            SaveData_Sheet pSheetData = (SaveData_Sheet)checkedListBox_SheetList.SelectedItem;
+            TypeData pSheetData = (TypeData)checkedListBox_SheetList.SelectedItem;
             if (pSheetData == null)
                 return;
 
-            bool bIsEnum = pSheetData.eType == SaveData_Sheet.EType.Enum;
+            bool bIsEnum = pSheetData.eType == ESheetType.Enum;
             if (bIsEnum)
                 return;
 
             List<FieldTypeData> listFieldOption = pSheetData.listFieldData;
             HashSet<string> setRealField = new HashSet<string>();
-            pSheetData.ParsingSheet((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
+            pSheetData.ParsingSheet(pSheetConnector,
+            ((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
             {
                 if (strText.Contains(":") == false)
                     return;
@@ -238,22 +221,22 @@ namespace SpreadSheetParser
                 string[] arrText = strText.Split(':');
                 string strField = arrText[0];
                 setRealField.Add(strField);
-                FieldTypeData[] arrExportOption = pSheetData.listFieldData.Where((pField) => pField.strFieldName == strField).ToArray();
-                if (arrExportOption.Length == 0)
+                FieldTypeData[] arrFieldData = pSheetData.listFieldData.Where(((pField) => (pField.strFieldName == strField))).ToArray();
+                if (arrFieldData.Length == 0)
                 {
-                    arrExportOption = new FieldTypeData[1];
-                    arrExportOption[0] = new FieldTypeData(strField, arrText[1]);
-                    pSheetData.listFieldData.Add(arrExportOption[0]);
+                    arrFieldData = new FieldTypeData[1];
+                    arrFieldData[0] = new FieldTypeData(strField, arrText[1]);
+                    pSheetData.listFieldData.Add(arrFieldData[0]);
                 }
 
-                if(arrExportOption.Length > 1)
+                if(arrFieldData.Length > 1)
                 {
-                    for(int i = 1; i < arrExportOption.Length; i++)
-                        pSheetData.listFieldData.Remove(arrExportOption[i]);
+                    for(int i = 1; i < arrFieldData.Length; i++)
+                        pSheetData.listFieldData.Remove(arrFieldData[i]);
                 }
 
-                listView_Field.Items.Add(arrExportOption[0].ConvertListViewItem());
-            });
+                listView_Field.Items.Add(arrFieldData[0].ConvertListViewItem());
+            }));
 
             IEnumerable<FieldTypeData> pDeleteFieldOption = listFieldOption.Where((pFieldOption) => setRealField.Contains(pFieldOption.strFieldName) == false);
             if(pDeleteFieldOption.Count() != 0)
@@ -312,7 +295,7 @@ namespace SpreadSheetParser
 
         private void OnFinishConnect(string strSheetID, List<SheetWrapper> listSheet, Exception pException_OnError)
         {
-            if(pException_OnError != null)
+            if (pException_OnError != null)
             {
                 WriteConsole("연결 실패 " + pException_OnError);
                 return;
@@ -321,13 +304,13 @@ namespace SpreadSheetParser
             if (_mapSaveData.ContainsKey(strSheetID))
             {
                 pSpreadSheet_CurrentConnected = _mapSaveData[strSheetID];
-                List<SaveData_Sheet> listSavedTable = pSpreadSheet_CurrentConnected.listTable;
+                List<TypeData> listSavedTable = pSpreadSheet_CurrentConnected.listTable;
 
                 for (int i = 0; i < listSheet.Count; i++)
                 {
                     string strSheetName = listSheet[i].ToString();
                     if (listSavedTable.Where(x => (x.strSheetName == strSheetName)).Count() == 0)
-                        listSavedTable.Add(new SaveData_Sheet(strSheetName));
+                        listSavedTable.Add(new TypeData(strSheetName));
                 }
             }
             else
@@ -337,7 +320,7 @@ namespace SpreadSheetParser
 
                 pSpreadSheet_CurrentConnected.listTable.Clear();
                 for (int i = 0; i < listSheet.Count; i++)
-                    pSpreadSheet_CurrentConnected.listTable.Add(new SaveData_Sheet(listSheet[i].ToString()));
+                    pSpreadSheet_CurrentConnected.listTable.Add(new TypeData(listSheet[i].ToString()));
 
                 SaveDataManager.SaveSheet(pSpreadSheet_CurrentConnected);
 
@@ -345,19 +328,19 @@ namespace SpreadSheetParser
             }
 
             checkedListBox_SheetList.Items.Clear();
-            List<SaveData_Sheet> listSheetSaved = pSpreadSheet_CurrentConnected.listTable;
+            List<TypeData> listSheetSaved = pSpreadSheet_CurrentConnected.listTable;
 
-            SaveData_Sheet[] arrSheetDelete = listSheetSaved.Where((pSheet) =>
-                listSheet.Where((pSheetWrapper) => 
-                    pSheetWrapper.ToString() == pSheet.strSheetName).Count() == 0).ToArray();
+            TypeData[] arrSheetDelete = listSheetSaved.Where((pSheet) =>
+            listSheet.Where((pSheetWrapper) => pSheetWrapper.ToString() == pSheet.strSheetName).Count() == 0).ToArray();
 
-            if(arrSheetDelete.Length > 0)
+            if (arrSheetDelete.Length > 0)
             {
                 for (int i = 0; i < arrSheetDelete.Length; i++)
                     listSheetSaved.Remove(arrSheetDelete[i]);
 
                 AutoSaveAsync_CurrentSheet();
             }
+            ClearFieldData(listSheetSaved);
 
             for (int i = 0; i < listSheetSaved.Count; i++)
                 checkedListBox_SheetList.Items.Add(listSheetSaved[i], listSheetSaved[i].bEnable);
@@ -372,6 +355,27 @@ namespace SpreadSheetParser
             WriteConsole("연결 성공");
         }
 
+        private static void ClearFieldData(List<TypeData> listSheetSaved)
+        {
+            for (int i = 0; i < listSheetSaved.Count; i++)
+            {
+                var listFieldGroup = listSheetSaved[i].listFieldData.GroupBy(p => p.strFieldName).ToList();
+                foreach (var listField in listFieldGroup)
+                {
+                    int iCount = listField.Count();
+                    foreach (var pField in listField.Reverse())
+                    {
+                        if (--iCount >= 1)
+                            listSheetSaved[i].listFieldData.Remove(pField);
+                    }
+                }
+
+                var listTemp = listSheetSaved[i].listFieldData.Where(p => p.bIsTemp);
+                foreach (var pTempField in listTemp)
+                    listSheetSaved[i].listFieldData.Remove(pTempField);
+            }
+        }
+
         private void button_StartParsing_Click(object sender, EventArgs e)
         {
             WriteConsole("코드 파일 생성중..");
@@ -380,7 +384,7 @@ namespace SpreadSheetParser
             try
             {
                 foreach (var pItem in checkedListBox_SheetList.CheckedItems)
-                    ((SaveData_Sheet)pItem).DoWork(_pCodeFileBuilder);
+                    ((TypeData)pItem).DoWork(pSheetConnector, _pCodeFileBuilder, WriteConsole);
             }
             catch (Exception pException)
             {
@@ -388,13 +392,13 @@ namespace SpreadSheetParser
                 return;
             }
 
-            var listSheetData = checkedListBox_SheetList.CheckedItems.Cast<SaveData_Sheet>();
+            var listSheetData = checkedListBox_SheetList.CheckedItems.Cast<TypeData>();
             var listWork = checkedListBox_WorkList.CheckedItems;
             foreach(WorkBase pWork in listWork)
             {
                 try
                 {
-                    pWork.DoWork(_pCodeFileBuilder, listSheetData);
+                    pWork.DoWork(_pCodeFileBuilder, pSheetConnector, listSheetData);
                 }
                 catch(Exception pException)
                 {
@@ -411,13 +415,13 @@ namespace SpreadSheetParser
 
         private void button_CheckTable_Click(object sender, EventArgs e)
         {
-            SaveData_Sheet pSheetData = GetCurrentSelectedTable_OrNull();
+            TypeData pSheetData = GetCurrentSelectedTable_OrNull();
             WriteConsole("테이블 유효성 체크중.." + pSheetData.ToString());
             int iErrorCount = 0;
 
             try
             {
-                SaveData_SheetHelper.DoCheck_IsValid_Table(pSheetData);
+                pSheetData.DoCheck_IsValid_Table(pSheetConnector, WriteConsole);
             }
             catch (Exception pException)
             {
@@ -539,12 +543,12 @@ namespace SpreadSheetParser
             SetState(EState.IsConnected_And_SelectTable);
         }
 
-        private SaveData_Sheet GetCurrentSelectedTable_OrNull()
+        private TypeData GetCurrentSelectedTable_OrNull()
         {
-            return (SaveData_Sheet)checkedListBox_SheetList.SelectedItem;
+            return (TypeData)checkedListBox_SheetList.SelectedItem;
         }
 
-        private void Update_Step_2_TableSetting(SaveData_Sheet pSheetData)
+        private void Update_Step_2_TableSetting(TypeData pSheetData)
         {
             _bIsUpdating_TableUI = true;
 
@@ -558,10 +562,10 @@ namespace SpreadSheetParser
 
             switch (pSheetData.eType)
             {
-                case SaveData_Sheet.EType.Class: radioButton_Class.Checked = true; break;
-                case SaveData_Sheet.EType.Struct: radioButton_Struct.Checked = true; break;
-                case SaveData_Sheet.EType.Enum: radioButton_Enum.Checked = true; break;
-                case SaveData_Sheet.EType.Global: radioButton_Global.Checked = true; break;
+                case ESheetType.Class: radioButton_Class.Checked = true; break;
+                case ESheetType.Struct: radioButton_Struct.Checked = true; break;
+                case ESheetType.Enum: radioButton_Enum.Checked = true; break;
+                case ESheetType.Global: radioButton_Global.Checked = true; break;
 
             }
 
@@ -582,19 +586,19 @@ namespace SpreadSheetParser
 
             if (radioButton_Class.Checked)
             {
-                _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Class;
+                _pSheet_CurrentConnected.eType = ESheetType.Class;
             }
             else if(radioButton_Struct.Checked)
             {
-                _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Struct;
+                _pSheet_CurrentConnected.eType = ESheetType.Struct;
             }
             else if (radioButton_Enum.Checked)
             {
-                _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Enum;
+                _pSheet_CurrentConnected.eType = ESheetType.Enum;
             }
             else if (radioButton_Global.Checked)
             {
-                _pSheet_CurrentConnected.eType = SaveData_Sheet.EType.Global;
+                _pSheet_CurrentConnected.eType = ESheetType.Global;
             }
 
             AutoSaveAsync_CurrentSheet();

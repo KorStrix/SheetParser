@@ -1,14 +1,14 @@
 {
   "strSheetID": "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4",
-  "date_LastEdit": "2020-01-27T01:58:51.3637144+09:00",
+  "date_LastEdit": "2020-01-27T19:06:48.9750682+09:00",
   "listTable": [
     {
-      "strSheetName": "class1",
-      "strFileName": "class1",
-      "strHeaderFieldName": null,
       "bEnable": false,
-      "strCommandLine": null,
+      "strFileName": "class1",
+      "strSheetName": "class1",
+      "strHeaderFieldName": null,
       "eType": 0,
+      "strCommandLine": null,
       "listFieldData": [
         {
           "strFieldName": "IntCalculate",
@@ -65,12 +65,12 @@
       ]
     },
     {
-      "strSheetName": "UnitySO",
-      "strFileName": "UnitySO",
-      "strHeaderFieldName": "strComment",
       "bEnable": true,
-      "strCommandLine": null,
+      "strFileName": "UnitySO",
+      "strSheetName": "UnitySO",
+      "strHeaderFieldName": "strComment",
       "eType": 0,
+      "strCommandLine": null,
       "listFieldData": [
         {
           "strFieldName": "MaterialPath",
@@ -140,12 +140,12 @@
       ]
     },
     {
-      "strSheetName": "struct1",
-      "strFileName": "struct1",
-      "strHeaderFieldName": null,
       "bEnable": false,
-      "strCommandLine": null,
+      "strFileName": "struct1",
+      "strSheetName": "struct1",
+      "strHeaderFieldName": null,
       "eType": 1,
+      "strCommandLine": null,
       "listFieldData": [
         {
           "strFieldName": "Int",
@@ -189,12 +189,57 @@
       ]
     },
     {
-      "strSheetName": "global",
-      "strFileName": "global",
-      "strHeaderFieldName": null,
       "bEnable": false,
+      "strFileName": "enum",
+      "strSheetName": "enum",
+      "strHeaderFieldName": null,
+      "eType": 2,
       "strCommandLine": null,
+      "listFieldData": []
+    },
+    {
+      "bEnable": true,
+      "strFileName": "UnitySO2",
+      "strSheetName": "UnitySO2",
+      "strHeaderFieldName": null,
+      "eType": 0,
+      "strCommandLine": null,
+      "listFieldData": [
+        {
+          "strFieldName": "strComment",
+          "strFieldType": "string",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "pUnitySO",
+          "strFieldType": "UnitySO",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bConvertStringToEnum": false
+        }
+      ]
+    },
+    {
+      "bEnable": true,
+      "strFileName": "global",
+      "strSheetName": "global",
+      "strHeaderFieldName": null,
       "eType": 3,
+      "strCommandLine": null,
       "listFieldData": [
         {
           "strFieldName": "strGlobalKey",
@@ -204,7 +249,7 @@
           "strDependencyFieldName_Sub": null,
           "strEnumName": null,
           "bIsVirtualField": false,
-          "bDeleteThisField_InCode": true,
+          "bDeleteThisField_InCode": false,
           "bIsKeyField": false,
           "bIsOverlapKey": false,
           "bConvertStringToEnum": false
@@ -238,64 +283,6 @@
         {
           "strFieldName": "strComment",
           "strFieldType": "string",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": true,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "eGlobalKey",
-          "strFieldType": "EGlobalKey",
-          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strGlobalKey\"/>",
-          "strDependencyFieldName": "strGlobalKey",
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
-          "bIsVirtualField": true,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        }
-      ]
-    },
-    {
-      "strSheetName": "enum",
-      "strFileName": "enum",
-      "strHeaderFieldName": null,
-      "bEnable": false,
-      "strCommandLine": null,
-      "eType": 2,
-      "listFieldData": []
-    },
-    {
-      "strSheetName": "UnitySO2",
-      "strFileName": "UnitySO2",
-      "strHeaderFieldName": null,
-      "bEnable": true,
-      "strCommandLine": null,
-      "eType": 0,
-      "listFieldData": [
-        {
-          "strFieldName": "strComment",
-          "strFieldType": "string",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "pUnitySO",
-          "strFieldType": "UnitySO",
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,

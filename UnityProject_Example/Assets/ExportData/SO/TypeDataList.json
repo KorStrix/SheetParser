@@ -1,9 +1,13 @@
 {
   "listTypeData": [
     {
-      "strType": "UnitySO",
+      "bEnable": true,
+      "strFileName": "UnitySO",
+      "strSheetName": "UnitySO",
       "strHeaderFieldName": "strComment",
-      "listField": [
+      "eType": 0,
+      "strCommandLine": null,
+      "listFieldData": [
         {
           "strFieldName": "MaterialPath",
           "strFieldType": "string",
@@ -15,6 +19,7 @@
           "bDeleteThisField_InCode": false,
           "bIsKeyField": false,
           "bIsOverlapKey": false,
+          "bIsTemp": false,
           "bConvertStringToEnum": false
         },
         {
@@ -28,6 +33,7 @@
           "bDeleteThisField_InCode": false,
           "bIsKeyField": false,
           "bIsOverlapKey": false,
+          "bIsTemp": false,
           "bConvertStringToEnum": false
         },
         {
@@ -41,6 +47,7 @@
           "bDeleteThisField_InCode": false,
           "bIsKeyField": true,
           "bIsOverlapKey": false,
+          "bIsTemp": false,
           "bConvertStringToEnum": false
         },
         {
@@ -54,6 +61,7 @@
           "bDeleteThisField_InCode": false,
           "bIsKeyField": true,
           "bIsOverlapKey": true,
+          "bIsTemp": false,
           "bConvertStringToEnum": true
         },
         {
@@ -67,14 +75,19 @@
           "bDeleteThisField_InCode": false,
           "bIsKeyField": true,
           "bIsOverlapKey": false,
+          "bIsTemp": false,
           "bConvertStringToEnum": false
         }
       ]
     },
     {
-      "strType": "UnitySO2",
+      "bEnable": true,
+      "strFileName": "UnitySO2",
+      "strSheetName": "UnitySO2",
       "strHeaderFieldName": null,
-      "listField": [
+      "eType": 0,
+      "strCommandLine": null,
+      "listFieldData": [
         {
           "strFieldName": "strComment",
           "strFieldType": "string",
@@ -86,6 +99,7 @@
           "bDeleteThisField_InCode": false,
           "bIsKeyField": false,
           "bIsOverlapKey": false,
+          "bIsTemp": false,
           "bConvertStringToEnum": false
         },
         {
@@ -99,6 +113,115 @@
           "bDeleteThisField_InCode": false,
           "bIsKeyField": false,
           "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        }
+      ]
+    },
+    {
+      "bEnable": true,
+      "strFileName": "global",
+      "strSheetName": "global",
+      "strHeaderFieldName": null,
+      "eType": 3,
+      "strCommandLine": null,
+      "listFieldData": [
+        {
+          "strFieldName": "strGlobalKey",
+          "strFieldType": "string",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strValue",
+          "strFieldType": "string",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strType",
+          "strFieldType": "string",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bIsTemp": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strComment",
+          "strFieldType": "string",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eGlobalKey",
+          "strFieldType": "EGlobalKey",
+          "strComment": null,
+          "strDependencyFieldName": "strGlobalKey",
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strType",
+          "strFieldType": "float",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bIsTemp": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strType",
+          "strFieldType": "int",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bIsTemp": true,
           "bConvertStringToEnum": false
         }
       ]

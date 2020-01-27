@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static SpreadSheetParser.TypeDataHelper;
 
 namespace SpreadSheetParser
 {
@@ -98,7 +99,7 @@ namespace SpreadSheetParser
             return "Generate Unity SO";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder, IEnumerable<SaveData_Sheet> listSheetData)
+        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData)
         {
             CodeTypeDeclarationCollection arrTypes = pCodeFileBuilder.GetCodeTypeDeclarationCollection();
             List<CodeTypeDeclaration> listType = new List<CodeTypeDeclaration>();
@@ -108,19 +109,19 @@ namespace SpreadSheetParser
             CodeNamespace pNameSpace = new CodeNamespace();
             pNameSpace.Imports.Add(new CodeNamespaceImport("UnityEngine"));
 
-            CodeTypeDeclaration pGlobalKeyEnum = listType.Where(p => p.Name == SaveData_Sheet.const_GlobalKey_EnumName).FirstOrDefault();
+            CodeTypeDeclaration pGlobalKeyEnum = listType.Where(p => p.Name == const_GlobalKey_EnumName).FirstOrDefault();
             HashSet<CodeTypeDeclaration> setExecutedType = new HashSet<CodeTypeDeclaration>();
 
             IEnumerable<CodeTypeDeclaration> listUnitySO = listType.Where(p => string.IsNullOrEmpty(p.Name) == false && p.IsClass);
             foreach (CodeTypeDeclaration pType in listUnitySO)
             {
-                SaveData_Sheet pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();
+                TypeData pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();
                 if (pSaveData == null)
                     continue;
 
                 Create_SO(pCodeFileBuilder, pNameSpace, pType, pSaveData);
 
-                if (pSaveData.eType == SaveData_Sheet.EType.Global)
+                if (pSaveData.eType == ESheetType.Global)
                 {
                     Create_GlobalSOContainer(pCodeFileBuilder, pNameSpace, pType, pGlobalKeyEnum, pSaveData);
                     setExecutedType.Add(pGlobalKeyEnum);
@@ -148,7 +149,7 @@ namespace SpreadSheetParser
                 pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/Others");
         }
 
-        private void Create_SO(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, SaveData_Sheet pSaveData)
+        private void Create_SO(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, TypeData pSaveData)
         {
             pType.AddBaseClass(nameof(UnityEngine.ScriptableObject));
             pNameSpace.Types.Clear();
@@ -161,7 +162,7 @@ namespace SpreadSheetParser
             pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pType.Name}");
         }
 
-        private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, CodeTypeDeclaration pGlobalKeyEnumType, SaveData_Sheet pSaveData)
+        private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, CodeTypeDeclaration pGlobalKeyEnumType, TypeData pSaveData)
         {
             CodeTypeDeclaration pContainerType;
             CodeMemberMethod pInitMethod;
@@ -174,7 +175,7 @@ namespace SpreadSheetParser
             IEnumerable<FieldTypeData> listRealField = pSaveData.listFieldData.Where(p => p.bIsKeyField == false);
             foreach (var pRealField in listRealField)
             {
-                if(pRealField.strFieldName.ToLower().Contains(nameof(SaveData_SheetHelper.EGlobalColumnType.Value).ToLower()))
+                if(pRealField.strFieldName.ToLower().Contains(nameof(TypeDataHelper.EGlobalColumnType.Value).ToLower()))
                 {
                     strValueFieldName = pRealField.strFieldName;
                     break;
@@ -199,7 +200,7 @@ namespace SpreadSheetParser
         }
 
 
-        private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, SaveData_Sheet pSaveData)
+        private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, TypeData pSaveData)
         {
             CodeTypeDeclaration pContainerType;
             CodeMemberMethod pInitMethod;

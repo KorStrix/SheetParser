@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static SpreadSheetParser.TypeDataHelper;
 
 namespace SpreadSheetParser
 {
@@ -123,16 +124,16 @@ namespace SpreadSheetParser
             return _arrCodeTypeDeclaration;
         }
 
-        public CodeTypeDeclaration AddCodeType(string strTypeName, SaveData_Sheet.EType eType, string strComment = "")
+        public CodeTypeDeclaration AddCodeType(string strTypeName, ESheetType eType, string strComment = "")
         {
             CodeTypeDeclaration pCodeType = new CodeTypeDeclaration(strTypeName);
             _arrCodeTypeDeclaration.Add(pCodeType);
 
             switch (eType)
             {
-                case SaveData_Sheet.EType.Class: pCodeType.IsClass = true; break;
-                case SaveData_Sheet.EType.Struct: pCodeType.IsStruct = true; break;
-                case SaveData_Sheet.EType.Enum: pCodeType.IsEnum = true; break;
+                case ESheetType.Class: pCodeType.IsClass = true; break;
+                case ESheetType.Struct: pCodeType.IsStruct = true; break;
+                case ESheetType.Enum: pCodeType.IsEnum = true; break;
             }
 
             pCodeType.TypeAttributes = TypeAttributes.Public;
@@ -256,8 +257,6 @@ namespace SpreadSheetParser
             CodeTypeReference pBaseTypeRef = new CodeTypeReference(strBaseTypeName);
             pCodeType.BaseTypes.Add(pBaseTypeRef);
         }
-
-
 
         public static CodeMemberMethod AddMethod(this CodeTypeDeclaration pCodeType, string strMethodName, MemberAttributes eAttribute = MemberAttributes.Public | MemberAttributes.Final)
         {
