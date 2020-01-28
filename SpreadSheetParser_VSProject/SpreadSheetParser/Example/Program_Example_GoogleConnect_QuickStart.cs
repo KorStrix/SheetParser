@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace SpreadSheetParser
 {
-    static class Program_Example_QuickStart
+    static class Program_Example_GoogleConnect_QuickStart
     {
         // If modifying these scopes, delete your previously saved credentials
         // at ~/.credentials/sheets.googleapis.com-dotnet-quickstart.json

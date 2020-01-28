@@ -60,6 +60,9 @@
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.3.0\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -79,6 +82,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Example\Program_Example_MSExcel.cs" />
+    <Compile Include="MainForm_Step0_1_Setting_And_Connect.cs">
+      <DependentUpon>SpreadSheetParser_MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm_Step2_Table.cs">
+      <DependentUpon>SpreadSheetParser_MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm_Step3_Work.cs">
+      <DependentUpon>SpreadSheetParser_MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SaveDataManager.cs" />
     <Compile Include="Share\TypeDataHelper.cs" />
     <Compile Include="Util\CSVUtility.cs" />
@@ -118,7 +131,7 @@
       <DependentUpon>SpreadSheetParser_MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Example\Program_Example_CodeDom.cs" />
-    <Compile Include="Example\Program_Example_QuickStart.cs" />
+    <Compile Include="Example\Program_Example_GoogleConnect_QuickStart.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Share\SpreadSheetConnector.cs" />
