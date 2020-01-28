@@ -37,12 +37,12 @@ namespace SpreadSheetParser
 
         static public void SaveSheet(SaveData_SpreadSheet pSheet)
         {
-            JsonSaveManager.SaveData(pSheet, GetFilePath(pSheet.strSheetID));
+            JsonSaveManager.SaveData(pSheet, GetFilePath(pSheet.GetFileName()));
         }
 
         static public void SaveSheet_Async(SaveData_SpreadSheet pSheet, System.Action<bool> OnFinishAsync)
         {
-            JsonSaveManager.SaveData_Async(pSheet, GetFilePath(pSheet.strSheetID), OnFinishAsync);
+            JsonSaveManager.SaveData_Async(pSheet, GetFilePath(pSheet.GetFileName()), OnFinishAsync);
         }
 
         static public Dictionary<string, SaveData_SpreadSheet> LoadSheet(System.Action<string> OnError)

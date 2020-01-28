@@ -32,7 +32,7 @@
             this.button_Connect_Sheet = new System.Windows.Forms.Button();
             this.checkedListBox_SheetList = new System.Windows.Forms.CheckedListBox();
             this.button_StartParsing = new System.Windows.Forms.Button();
-            this.textBox_Console = new System.Windows.Forms.TextBox();
+            this.textBox_Log = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button_OpenGoogleSheetLink = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -92,14 +92,15 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoConnect = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button_LogClear = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.button_SelectExcelFile = new System.Windows.Forms.Button();
             this.button_OpenExcel = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.comboBox_ExcelPath_Saved = new System.Windows.Forms.ComboBox();
+            this.textBox_ExcelPath_ForConnect = new System.Windows.Forms.TextBox();
             this.button_Connect_Excel = new System.Windows.Forms.Button();
-            this.button_SelectExcelFile = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox_2_1_TableSetting.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -153,15 +154,16 @@
             this.button_StartParsing.UseVisualStyleBackColor = true;
             this.button_StartParsing.Click += new System.EventHandler(this.button_StartParsing_Click);
             // 
-            // textBox_Console
+            // textBox_Log
             // 
-            this.textBox_Console.Location = new System.Drawing.Point(8, 20);
-            this.textBox_Console.Multiline = true;
-            this.textBox_Console.Name = "textBox_Console";
-            this.textBox_Console.ReadOnly = true;
-            this.textBox_Console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_Console.Size = new System.Drawing.Size(347, 291);
-            this.textBox_Console.TabIndex = 4;
+            this.textBox_Log.Font = new System.Drawing.Font("굴림", 8F);
+            this.textBox_Log.Location = new System.Drawing.Point(8, 20);
+            this.textBox_Log.Multiline = true;
+            this.textBox_Log.Name = "textBox_Log";
+            this.textBox_Log.ReadOnly = true;
+            this.textBox_Log.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_Log.Size = new System.Drawing.Size(347, 273);
+            this.textBox_Log.TabIndex = 4;
             // 
             // groupBox1
             // 
@@ -775,13 +777,25 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupBox2.Controls.Add(this.textBox_Console);
+            this.groupBox2.Controls.Add(this.button_LogClear);
+            this.groupBox2.Controls.Add(this.textBox_Log);
             this.groupBox2.Location = new System.Drawing.Point(711, 330);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(361, 323);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Log";
+            // 
+            // button_LogClear
+            // 
+            this.button_LogClear.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_LogClear.Location = new System.Drawing.Point(8, 296);
+            this.button_LogClear.Name = "button_LogClear";
+            this.button_LogClear.Size = new System.Drawing.Size(80, 21);
+            this.button_LogClear.TabIndex = 25;
+            this.button_LogClear.Text = "Clear Log";
+            this.button_LogClear.UseVisualStyleBackColor = true;
+            this.button_LogClear.Click += new System.EventHandler(this.button_LogClear_Click);
             // 
             // groupBox6
             // 
@@ -791,8 +805,8 @@
             this.groupBox6.Controls.Add(this.button_OpenExcel);
             this.groupBox6.Controls.Add(this.label9);
             this.groupBox6.Controls.Add(this.label10);
-            this.groupBox6.Controls.Add(this.comboBox1);
-            this.groupBox6.Controls.Add(this.textBox1);
+            this.groupBox6.Controls.Add(this.comboBox_ExcelPath_Saved);
+            this.groupBox6.Controls.Add(this.textBox_ExcelPath_ForConnect);
             this.groupBox6.Controls.Add(this.button_Connect_Excel);
             this.groupBox6.Location = new System.Drawing.Point(242, 83);
             this.groupBox6.Name = "groupBox6";
@@ -800,6 +814,16 @@
             this.groupBox6.TabIndex = 7;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "1. Open MS Excel";
+            // 
+            // button_SelectExcelFile
+            // 
+            this.button_SelectExcelFile.Location = new System.Drawing.Point(294, 12);
+            this.button_SelectExcelFile.Name = "button_SelectExcelFile";
+            this.button_SelectExcelFile.Size = new System.Drawing.Size(75, 23);
+            this.button_SelectExcelFile.TabIndex = 7;
+            this.button_SelectExcelFile.Text = "파일 선택";
+            this.button_SelectExcelFile.UseVisualStyleBackColor = true;
+            this.button_SelectExcelFile.Click += new System.EventHandler(this.button_SelectExcelFile_Click);
             // 
             // button_OpenExcel
             // 
@@ -829,22 +853,22 @@
             this.label10.TabIndex = 3;
             this.label10.Text = "이전에 연결한 경로";
             // 
-            // comboBox1
+            // comboBox_ExcelPath_Saved
             // 
-            this.comboBox1.Font = new System.Drawing.Font("굴림", 7F);
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(128, 39);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(241, 17);
-            this.comboBox1.TabIndex = 2;
+            this.comboBox_ExcelPath_Saved.Font = new System.Drawing.Font("굴림", 7F);
+            this.comboBox_ExcelPath_Saved.FormattingEnabled = true;
+            this.comboBox_ExcelPath_Saved.Location = new System.Drawing.Point(128, 39);
+            this.comboBox_ExcelPath_Saved.Name = "comboBox_ExcelPath_Saved";
+            this.comboBox_ExcelPath_Saved.Size = new System.Drawing.Size(241, 17);
+            this.comboBox_ExcelPath_Saved.TabIndex = 2;
             // 
-            // textBox1
+            // textBox_ExcelPath_ForConnect
             // 
-            this.textBox1.Font = new System.Drawing.Font("굴림", 7F);
-            this.textBox1.Location = new System.Drawing.Point(128, 15);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(160, 18);
-            this.textBox1.TabIndex = 0;
+            this.textBox_ExcelPath_ForConnect.Font = new System.Drawing.Font("굴림", 7F);
+            this.textBox_ExcelPath_ForConnect.Location = new System.Drawing.Point(128, 15);
+            this.textBox_ExcelPath_ForConnect.Name = "textBox_ExcelPath_ForConnect";
+            this.textBox_ExcelPath_ForConnect.Size = new System.Drawing.Size(160, 18);
+            this.textBox_ExcelPath_ForConnect.TabIndex = 0;
             // 
             // button_Connect_Excel
             // 
@@ -855,16 +879,6 @@
             this.button_Connect_Excel.Text = "열기";
             this.button_Connect_Excel.UseVisualStyleBackColor = true;
             this.button_Connect_Excel.Click += new System.EventHandler(this.button_Connect_Excel_Click);
-            // 
-            // button_SelectExcelFile
-            // 
-            this.button_SelectExcelFile.Location = new System.Drawing.Point(294, 12);
-            this.button_SelectExcelFile.Name = "button_SelectExcelFile";
-            this.button_SelectExcelFile.Size = new System.Drawing.Size(75, 23);
-            this.button_SelectExcelFile.TabIndex = 7;
-            this.button_SelectExcelFile.Text = "파일 선택";
-            this.button_SelectExcelFile.UseVisualStyleBackColor = true;
-            this.button_SelectExcelFile.Click += new System.EventHandler(this.button_SelectExcelFile_Click);
             // 
             // SpreadSheetParser_MainForm
             // 
@@ -912,7 +926,7 @@
         private System.Windows.Forms.Button button_Connect_Sheet;
         private System.Windows.Forms.CheckedListBox checkedListBox_SheetList;
         private System.Windows.Forms.Button button_StartParsing;
-        private System.Windows.Forms.TextBox textBox_Console;
+        private System.Windows.Forms.TextBox textBox_Log;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox_2_1_TableSetting;
         private System.Windows.Forms.Label label2;
@@ -976,10 +990,11 @@
         private System.Windows.Forms.Button button_OpenExcel;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ComboBox comboBox_ExcelPath_Saved;
+        private System.Windows.Forms.TextBox textBox_ExcelPath_ForConnect;
         private System.Windows.Forms.Button button_Connect_Excel;
         private System.Windows.Forms.Button button_SelectExcelFile;
+        private System.Windows.Forms.Button button_LogClear;
     }
 }
 

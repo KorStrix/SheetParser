@@ -40,7 +40,7 @@ namespace SpreadSheetParser
 
         private void Button_OpenPath_Click(object sender, EventArgs e)
         {
-            _pWork.DoOpenPath(textBox_Path.Text);
+            _pWork.DoOpenFolder(textBox_Path.Text);
         }
 
         private void button_SavePath_Click(object sender, EventArgs e)
@@ -48,7 +48,7 @@ namespace SpreadSheetParser
             if (_pWork == null)
                 return;
 
-            if (_pWork.DoShowFolderBrowser_And_SavePath(false, ref textBox_Path))
+            if (SpreadSheetParser_MainForm.DoShowFolderBrowser_And_SavePath(false, ref textBox_Path))
                 _pWork.strPath = textBox_Path.Text;
         }
 
@@ -87,7 +87,7 @@ namespace SpreadSheetParser
         public override void DoWorkAfter()
         {
             if (bOpenPath_AfterBuild_CSharp)
-                DoOpenPath(strPath);
+                DoOpenFolder(strPath);
         }
 
         protected override void OnShowForm(Form pFormInstance)

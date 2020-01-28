@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace SpreadSheetParser
@@ -11,22 +12,42 @@ namespace SpreadSheetParser
         public bool bOpenPath_AfterBuild_CSV;
     }
 
+    public enum ESpreadSheetType
+    {
+        GoogleSpreadSheet,
+        MSExcel,
+    }
+
     public class SaveData_SpreadSheet
     {
         public string strSheetID;
+        public ESpreadSheetType eType;
         public DateTime date_LastEdit;
         public List<TypeData> listTable = new List<TypeData>();
         public List<WorkBase> listSaveWork = new List<WorkBase>();
 
-        public SaveData_SpreadSheet(string strSheetID)
+        public SaveData_SpreadSheet(string strSheetID, ESpreadSheetType eType)
         {
             this.strSheetID = strSheetID;
+            this.eType = eType;
+
             UpdateDate();
         }
 
         public void UpdateDate()
         {
             date_LastEdit = System.DateTime.Now;
+        }
+
+        public string GetFileName()
+        {
+            string strID = strSheetID;
+            switch (eType)
+            {
+                case ESpreadSheetType.MSExcel: strID = Path.GetFileNameWithoutExtension(strSheetID); break;
+            }
+
+            return $"{eType}_{strID}";
         }
 
         public override string ToString()

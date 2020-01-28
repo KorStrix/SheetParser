@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace SpreadSheetParser
 {
     public partial class SpreadSheetParser_MainForm
     {
-        private async void button_Connect_Click(object sender, EventArgs e)
+        private void button_Connect_Click(object sender, EventArgs e)
         {
             _bIsConnecting = true;
 
@@ -22,11 +23,10 @@ namespace SpreadSheetParser
 
             checkedListBox_WorkList.Items.Clear();
             checkedListBox_SheetList.Items.Clear();
-            await pSheetConnector.DoConnect(strSheetID, OnFinishConnect);
-            _bIsConnecting = false;
+            pSheetConnector.DoConnect(strSheetID, OnFinishConnect);
         }
 
-        private void OnFinishConnect(string strSheetID, List<SheetWrapper> listSheet, Exception pException_OnError)
+        private void OnFinishConnect(string strSheetID, ESpreadSheetType eSheetType, List<SheetWrapper> listSheet, Exception pException_OnError)
         {
             if (pException_OnError != null)
             {
@@ -37,6 +37,7 @@ namespace SpreadSheetParser
             if (_mapSaveData.ContainsKey(strSheetID))
             {
                 pSpreadSheet_CurrentConnected = _mapSaveData[strSheetID];
+                pSpreadSheet_CurrentConnected.eType = eSheetType;
                 List<TypeData> listSavedTable = pSpreadSheet_CurrentConnected.listTable;
 
                 for (int i = 0; i < listSheet.Count; i++)
@@ -48,7 +49,7 @@ namespace SpreadSheetParser
             }
             else
             {
-                pSpreadSheet_CurrentConnected = new SaveData_SpreadSheet(strSheetID);
+                pSpreadSheet_CurrentConnected = new SaveData_SpreadSheet(strSheetID, eSheetType);
                 _mapSaveData[pSpreadSheet_CurrentConnected.strSheetID] = pSpreadSheet_CurrentConnected;
 
                 pSpreadSheet_CurrentConnected.listTable.Clear();
@@ -86,22 +87,41 @@ namespace SpreadSheetParser
 
             SetState(EState.IsConnected);
             WriteConsole("연결 성공");
+            _bIsConnecting = false;
         }
 
 
         private void button_SelectExcelFile_Click(object sender, EventArgs e)
         {
-
+            DoShowFileBrowser_And_SavePath(false, ref textBox_ExcelPath_ForConnect, 
+                (string strFilePath, ref string strError) =>
+                {
+                    if (strFilePath.Contains(".xlsx") == false)
+                        strError = "확장자가 xlsx여야만 합니다.";
+                }
+                );
         }
 
         private void button_Connect_Excel_Click(object sender, EventArgs e)
         {
+            _bIsConnecting = true;
 
+            string strSheetID = textBox_ExcelPath_ForConnect.Text;
+            WriteConsole($"연결 시작 Sheet ID : {strSheetID}");
+
+            checkedListBox_WorkList.Items.Clear();
+            checkedListBox_SheetList.Items.Clear();
+
+            pSheetConnector.DoOpen_Excel(textBox_ExcelPath_ForConnect.Text, OnFinishConnect);
         }
 
         private void button_OpenExcel_Click(object sender, EventArgs e)
         {
-
+            FileInfo pFileInfo = new FileInfo(DoMake_AbsolutePath(textBox_ExcelPath_ForConnect.Text));
+            if (pFileInfo.Exists)
+                System.Diagnostics.Process.Start(textBox_ExcelPath_ForConnect.Text);
+            else
+                WriteConsole("Not Exists Excel File - " + textBox_ExcelPath_ForConnect.Text);
         }
 
 
@@ -152,7 +172,7 @@ namespace SpreadSheetParser
         private void Button_OpenPath_SaveSheet_Click(object sender, EventArgs e)
         {
             string strSaveFolderPath = SaveDataManager.const_strSaveFolderPath;
-            DoOpenPath(strSaveFolderPath.Remove(strSaveFolderPath.Length - 1, 1));
+            DoOpenFolder(strSaveFolderPath.Remove(strSaveFolderPath.Length - 1, 1));
         }
 
         private void checkBox_AutoConnect_CheckedChanged(object sender, EventArgs e)
@@ -175,6 +195,5 @@ namespace SpreadSheetParser
         {
             textBox_SheetID.Text = comboBox_SaveSheet.Text;
         }
-
     }
 }

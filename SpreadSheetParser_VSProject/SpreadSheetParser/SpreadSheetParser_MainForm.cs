@@ -1,10 +1,11 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
-using static SpreadSheetParser.TypeDataHelper;
 
 namespace SpreadSheetParser
 {
@@ -47,19 +48,19 @@ namespace SpreadSheetParser
         {
             // Winform 컨트롤을 스레드로부터 안전하게 호출하는 법
             // https://docs.microsoft.com/ko-kr/dotnet/framework/winforms/controls/how-to-make-thread-safe-calls-to-windows-forms-controls
-            if (_instance.textBox_Console.InvokeRequired)
+            if (_instance.textBox_Log.InvokeRequired)
             {
                 var pDelegate = new SafeCallDelegate(WriteConsole);
-                _instance.textBox_Console.Invoke(pDelegate, new object[] { strText });
+                _instance.textBox_Log.Invoke(pDelegate, new object[] { strText });
             }
             else
             {
-                _instance.textBox_Console.AppendText(strText);
-                _instance.textBox_Console.AppendText(Environment.NewLine);
+                _instance.textBox_Log.AppendText(strText);
+                _instance.textBox_Log.AppendText(Environment.NewLine);
             }
         }
 
-        static public void DoOpenPath(string strPath)
+        static public void DoOpenFolder(string strPath)
         {
             WriteConsole($"폴더 열기 시도.. 경로{strPath}");
             try
@@ -74,6 +75,70 @@ namespace SpreadSheetParser
             }
         }
 
+        public delegate void delOnCheck_IsCorrectPath(string strPath, ref string strErrorMessage);
+
+        static public bool DoShowFileBrowser_And_SavePath(bool bIsAbsolutePath, ref TextBox pTextBox_Path, delOnCheck_IsCorrectPath OnCheck_IsCorrect)
+        {
+            if (OnCheck_IsCorrect == null)
+                OnCheck_IsCorrect = (string strPath, ref string strErrorMessage) => strErrorMessage = null;
+
+            using (OpenFileDialog pDialog = new OpenFileDialog())
+            {
+                if (pDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string strErrorMessage = null;
+                    OnCheck_IsCorrect(pDialog.FileName, ref strErrorMessage);
+                    if(string.IsNullOrEmpty(strErrorMessage))
+                    {
+                        if (bIsAbsolutePath)
+                            pTextBox_Path.Text = pDialog.FileName;
+                        else
+                            pTextBox_Path.Text = DoMake_RelativePath(pDialog.FileName);
+                        return true;
+                    }
+                    else
+                    {
+                        MessageBox.Show(strErrorMessage, null, MessageBoxButtons.OK);
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        static public bool DoShowFolderBrowser_And_SavePath(bool bIsAbsolutePath, ref TextBox pTextBox_Path)
+        {
+            using (FolderBrowserDialog pDialog = new FolderBrowserDialog())
+            {
+                pDialog.SelectedPath = Directory.GetCurrentDirectory();
+                if (pDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (bIsAbsolutePath)
+                        pTextBox_Path.Text = pDialog.SelectedPath;
+                    else
+                        pTextBox_Path.Text = DoMake_RelativePath(pDialog.SelectedPath);
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // https://stackoverflow.com/questions/13266756/absolute-to-relative-path
+        public static string DoMake_RelativePath(string filePath)
+        {
+            var pFileURI = new Uri(filePath);
+            var pCurrentURI = new Uri(Directory.GetCurrentDirectory());
+
+            return pCurrentURI.MakeRelativeUri(pFileURI).ToString();
+        }
+
+        public static string DoMake_AbsolutePath(string filePath)
+        {
+            var pCurrentURI = new Uri(Directory.GetCurrentDirectory());
+            return $"{pCurrentURI.AbsolutePath}/../{filePath}";
+        }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -87,21 +152,37 @@ namespace SpreadSheetParser
             comboBox_DependencyField_Sub.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_SaveSheet.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_SaveSheet.Items.Clear();
-            foreach (var pData in _mapSaveData.Values)
-                comboBox_SaveSheet.Items.Add(pData);
+            comboBox_SaveSheet.Items.AddRange(_mapSaveData.Values.Where(p => p.eType == ESpreadSheetType.GoogleSpreadSheet).Cast<object>().ToArray());
 
             SaveData_SpreadSheet pSheet_LastEdit = GetSheet_LastEdit(_mapSaveData);
             if (pSheet_LastEdit != null)
             {
-                textBox_SheetID.Text = pSheet_LastEdit.strSheetID;
-                if (_pConfig.bAutoConnect)
+                switch (pSheet_LastEdit.eType)
                 {
-                    WriteConsole("Config - 자동연결로 인해 연결을 시작합니다..");
-                    button_Connect_Click(null, null);
+                    case ESpreadSheetType.MSExcel:
+                        textBox_ExcelPath_ForConnect.Text = pSheet_LastEdit.strSheetID;
+                        if (_pConfig.bAutoConnect)
+                        {
+                            WriteConsole("Config - 자동연결로 인해 연결을 시작합니다..");
+                            button_Connect_Excel_Click(null, null);
+                        }
+                        break;
+
+                    case ESpreadSheetType.GoogleSpreadSheet:
+                        textBox_SheetID.Text = pSheet_LastEdit.strSheetID;
+                        if (_pConfig.bAutoConnect)
+                        {
+                            WriteConsole("Config - 자동연결로 인해 연결을 시작합니다..");
+                            button_Connect_Click(null, null);
+                        }
+                        break;
                 }
             }
 
-            
+            comboBox_ExcelPath_Saved.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox_ExcelPath_Saved.Items.Clear();
+            comboBox_ExcelPath_Saved.Items.AddRange(_mapSaveData.Values.Where(p => p.eType == ESpreadSheetType.MSExcel).Cast<object>().ToArray());
+
             checkBox_AutoConnect.Checked = _pConfig.bAutoConnect;
             checkedListBox_SheetList.ItemCheck += CheckedListBox_TableList_ItemCheck;
             checkedListBox_SheetList.SelectedIndexChanged += CheckedListBox_SheetList_SelectedIndexChanged;
@@ -166,7 +247,7 @@ namespace SpreadSheetParser
                 return;
 
             pSpreadSheet_CurrentConnected.UpdateDate();
-            WriteConsole("자동 저장 중.." + pSpreadSheet_CurrentConnected.strSheetID);
+            WriteConsole("자동 저장 중.." + pSpreadSheet_CurrentConnected.GetFileName());
             SaveDataManager.SaveSheet_Async(pSpreadSheet_CurrentConnected, AutoSaveDone);
         }
 
@@ -200,6 +281,11 @@ namespace SpreadSheetParser
                 objects.Add((T)Activator.CreateInstance(type, constructorArgs));
             }
             return objects;
+        }
+
+        private void button_LogClear_Click(object sender, EventArgs e)
+        {
+            textBox_Log.Text = "";
         }
     }
 }

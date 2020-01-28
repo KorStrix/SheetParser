@@ -26,24 +26,9 @@ namespace SpreadSheetParser
             _pWork = null;
 
             checkBox_OpenFolder_AfterBuild.Checked = pWork.bOpenPath_AfterBuild_CSharp;
-            textBox_EditorPath.Text = pWork.strUnityEditorPath;
             textBox_ExportPath.Text = pWork.strExportPath;
 
             _pWork = pWork;
-        }
-
-        private void Button_OpenPath_Click(object sender, EventArgs e)
-        {
-            _pWork.DoOpenPath(textBox_EditorPath.Text);
-        }
-
-        private void button_SavePath_EditorClick(object sender, EventArgs e)
-        {
-            if (_pWork == null)
-                return;
-
-            if (_pWork.DoShowFileBrowser_And_SavePath(true, ref textBox_EditorPath, (strFileName) => strFileName.Contains("Unity.exe"), "Unity 실행프로그램이 아닙니다"))
-                _pWork.strUnityEditorPath = textBox_EditorPath.Text;
         }
 
         private void checkBox_OpenFolder_AfterBuild_CheckedChanged(object sender, EventArgs e)
@@ -59,13 +44,13 @@ namespace SpreadSheetParser
             if (_pWork == null)
                 return;
 
-            if (_pWork.DoShowFolderBrowser_And_SavePath(false, ref textBox_ExportPath))
+            if (SpreadSheetParser_MainForm.DoShowFolderBrowser_And_SavePath(false, ref textBox_ExportPath))
                 _pWork.strExportPath = textBox_ExportPath.Text;
         }
 
         private void Button_OpenPath_ExportPath_Click(object sender, EventArgs e)
         {
-            _pWork.DoOpenPath(textBox_ExportPath.Text);
+            _pWork.DoOpenFolder(textBox_ExportPath.Text);
         }
 
         private void button_SaveAndClose_Click(object sender, EventArgs e)
@@ -366,7 +351,7 @@ namespace SpreadSheetParser
                 System.Diagnostics.Process.Start(strUnityEditorPath, $"-quit -batchmode -executeMethod {const_BuildMethodeName}");
 
             if (bOpenPath_AfterBuild_CSharp)
-                DoOpenPath(strExportPath);
+                DoOpenFolder(strExportPath);
         }
 
         protected override void OnShowForm(Form pFormInstance)

@@ -99,12 +99,19 @@ namespace SpreadSheetParser
             if (bIsEnum)
                 return;
 
+            int iDefinedTypeRow = -1;
             List<FieldTypeData> listFieldOption = pSheetData.listFieldData;
             HashSet<string> setRealField = new HashSet<string>();
             pSheetData.ParsingSheet(pSheetConnector,
             ((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
             {
                 if (strText.Contains(":") == false)
+                    return;
+
+                if(iDefinedTypeRow == -1)
+                    iDefinedTypeRow = iRowIndex;
+
+                if (iDefinedTypeRow != iRowIndex)
                     return;
 
                 string[] arrText = strText.Split(':');
