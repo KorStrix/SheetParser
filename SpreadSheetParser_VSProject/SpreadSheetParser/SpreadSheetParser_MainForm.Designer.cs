@@ -139,7 +139,7 @@
             this.checkedListBox_SheetList.HorizontalScrollbar = true;
             this.checkedListBox_SheetList.Location = new System.Drawing.Point(6, 15);
             this.checkedListBox_SheetList.Name = "checkedListBox_SheetList";
-            this.checkedListBox_SheetList.Size = new System.Drawing.Size(297, 180);
+            this.checkedListBox_SheetList.Size = new System.Drawing.Size(297, 212);
             this.checkedListBox_SheetList.TabIndex = 2;
             this.checkedListBox_SheetList.SelectedIndexChanged += new System.EventHandler(this.checkedListBox_TableList_SelectedIndexChanged);
             // 
@@ -239,7 +239,7 @@
             this.groupBox_2_1_TableSetting.Controls.Add(this.checkedListBox_SheetList);
             this.groupBox_2_1_TableSetting.Location = new System.Drawing.Point(12, 158);
             this.groupBox_2_1_TableSetting.Name = "groupBox_2_1_TableSetting";
-            this.groupBox_2_1_TableSetting.Size = new System.Drawing.Size(693, 465);
+            this.groupBox_2_1_TableSetting.Size = new System.Drawing.Size(693, 495);
             this.groupBox_2_1_TableSetting.TabIndex = 6;
             this.groupBox_2_1_TableSetting.TabStop = false;
             this.groupBox_2_1_TableSetting.Text = "2. Table Setting";
@@ -255,7 +255,7 @@
             this.groupBox4.Controls.Add(this.button_Save_FileName);
             this.groupBox4.Controls.Add(this.textBox_TableFileName);
             this.groupBox4.Controls.Add(this.button_Check_TableSelected);
-            this.groupBox4.Location = new System.Drawing.Point(6, 197);
+            this.groupBox4.Location = new System.Drawing.Point(6, 233);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(297, 256);
             this.groupBox4.TabIndex = 10;
@@ -398,7 +398,7 @@
             this.groupBox_SelectedTable.Controls.Add(this.listView_Field);
             this.groupBox_SelectedTable.Location = new System.Drawing.Point(309, 12);
             this.groupBox_SelectedTable.Name = "groupBox_SelectedTable";
-            this.groupBox_SelectedTable.Size = new System.Drawing.Size(378, 441);
+            this.groupBox_SelectedTable.Size = new System.Drawing.Size(378, 477);
             this.groupBox_SelectedTable.TabIndex = 9;
             this.groupBox_SelectedTable.TabStop = false;
             this.groupBox_SelectedTable.Text = "Selected Table Setting";
@@ -416,9 +416,9 @@
             this.groupBox_2_2_SelectedField.Controls.Add(this.groupBox_2_2_SelectedField_Virtual);
             this.groupBox_2_2_SelectedField.Controls.Add(this.checkBox_Field_ThisIsKey);
             this.groupBox_2_2_SelectedField.Controls.Add(this.button_Remove_VirtualField);
-            this.groupBox_2_2_SelectedField.Location = new System.Drawing.Point(6, 189);
+            this.groupBox_2_2_SelectedField.Location = new System.Drawing.Point(6, 225);
             this.groupBox_2_2_SelectedField.Name = "groupBox_2_2_SelectedField";
-            this.groupBox_2_2_SelectedField.Size = new System.Drawing.Size(366, 246);
+            this.groupBox_2_2_SelectedField.Size = new System.Drawing.Size(360, 246);
             this.groupBox_2_2_SelectedField.TabIndex = 23;
             this.groupBox_2_2_SelectedField.TabStop = false;
             this.groupBox_2_2_SelectedField.Text = "2-2. Selected Field";
@@ -506,7 +506,7 @@
             this.groupBox_2_2_SelectedField_Virtual.Controls.Add(this.comboBox_DependencyField);
             this.groupBox_2_2_SelectedField_Virtual.Location = new System.Drawing.Point(6, 20);
             this.groupBox_2_2_SelectedField_Virtual.Name = "groupBox_2_2_SelectedField_Virtual";
-            this.groupBox_2_2_SelectedField_Virtual.Size = new System.Drawing.Size(354, 106);
+            this.groupBox_2_2_SelectedField_Virtual.Size = new System.Drawing.Size(347, 106);
             this.groupBox_2_2_SelectedField_Virtual.TabIndex = 17;
             this.groupBox_2_2_SelectedField_Virtual.TabStop = false;
             this.groupBox_2_2_SelectedField_Virtual.Text = "2-2. Virtual Field Option";
@@ -514,7 +514,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(195, 63);
+            this.label8.Location = new System.Drawing.Point(189, 63);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(117, 12);
             this.label8.TabIndex = 23;
@@ -523,7 +523,7 @@
             // comboBox_DependencyField_Sub
             // 
             this.comboBox_DependencyField_Sub.FormattingEnabled = true;
-            this.comboBox_DependencyField_Sub.Location = new System.Drawing.Point(195, 79);
+            this.comboBox_DependencyField_Sub.Location = new System.Drawing.Point(189, 79);
             this.comboBox_DependencyField_Sub.Name = "comboBox_DependencyField_Sub";
             this.comboBox_DependencyField_Sub.Size = new System.Drawing.Size(152, 20);
             this.comboBox_DependencyField_Sub.TabIndex = 22;
@@ -531,7 +531,7 @@
             // label_Type
             // 
             this.label_Type.AutoSize = true;
-            this.label_Type.Location = new System.Drawing.Point(199, 17);
+            this.label_Type.Location = new System.Drawing.Point(193, 17);
             this.label_Type.Name = "label_Type";
             this.label_Type.Size = new System.Drawing.Size(34, 12);
             this.label_Type.TabIndex = 21;
@@ -539,7 +539,7 @@
             // 
             // textBox_Type
             // 
-            this.textBox_Type.Location = new System.Drawing.Point(195, 32);
+            this.textBox_Type.Location = new System.Drawing.Point(189, 32);
             this.textBox_Type.Name = "textBox_Type";
             this.textBox_Type.Size = new System.Drawing.Size(152, 21);
             this.textBox_Type.TabIndex = 20;
@@ -608,7 +608,7 @@
             this.listView_Field.Location = new System.Drawing.Point(6, 14);
             this.listView_Field.MultiSelect = false;
             this.listView_Field.Name = "listView_Field";
-            this.listView_Field.Size = new System.Drawing.Size(366, 169);
+            this.listView_Field.Size = new System.Drawing.Size(366, 201);
             this.listView_Field.TabIndex = 12;
             this.listView_Field.UseCompatibleStateImageBehavior = false;
             this.listView_Field.View = System.Windows.Forms.View.Details;

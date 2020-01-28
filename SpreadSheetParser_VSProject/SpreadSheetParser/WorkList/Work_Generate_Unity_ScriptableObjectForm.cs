@@ -67,8 +67,6 @@ namespace SpreadSheetParser
         const string const_strListData = "listData";
 
         public string strExportPath;
-        public string strUnityProjectPath;
-        public string strUnityEditorPath;
         public bool bOpenPath_AfterBuild_CSharp;
 
 #if !UNITY_EDITOR
@@ -136,7 +134,7 @@ namespace SpreadSheetParser
 
         private void Create_SO(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, TypeData pSaveData)
         {
-            pType.AddBaseClass(nameof(UnityEngine.ScriptableObject));
+            pType.AddBaseClass("UnityEngine.ScriptableObject");
             pNameSpace.Types.Clear();
             pNameSpace.Types.Add(pType);
 
@@ -217,7 +215,7 @@ namespace SpreadSheetParser
         private void Create_SOContainer(CodeNamespace pNameSpace, CodeTypeDeclaration pType, out CodeTypeDeclaration pContainerType, out CodeMemberMethod pInitMethod)
         {
             pContainerType = new CodeTypeDeclaration(pType.Name + "_Container");
-            pContainerType.AddBaseClass(nameof(UnityEngine.ScriptableObject));
+            pContainerType.AddBaseClass("UnityEngine.ScriptableObject");
 
             pNameSpace.Imports.Clear();
             pNameSpace.Imports.Add(new CodeNamespaceImport("System.Linq"));
@@ -346,12 +344,12 @@ namespace SpreadSheetParser
 #if !UNITY_EDITOR
         public override void DoWorkAfter()
         {
-            const string const_BuildMethodeName = "UnitySO_Generator.DoBuild";
-            if (string.IsNullOrEmpty(strUnityEditorPath) == false)
-                System.Diagnostics.Process.Start(strUnityEditorPath, $"-quit -batchmode -executeMethod {const_BuildMethodeName}");
+            //const string const_BuildMethodeName = "UnitySO_Generator.DoBuild";
+            //if (string.IsNullOrEmpty(strUnityEditorPath) == false)
+            //    System.Diagnostics.Process.Start(strUnityEditorPath, $"-quit -batchmode -executeMethod {const_BuildMethodeName}");
 
-            if (bOpenPath_AfterBuild_CSharp)
-                DoOpenFolder(strExportPath);
+            //if (bOpenPath_AfterBuild_CSharp)
+            //    DoOpenFolder(strExportPath);
         }
 
         protected override void OnShowForm(Form pFormInstance)

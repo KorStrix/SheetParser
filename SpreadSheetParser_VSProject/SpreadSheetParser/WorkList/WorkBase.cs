@@ -79,7 +79,7 @@ namespace SpreadSheetParser
 
             string strRelativePath = $"{new Uri(Directory.GetCurrentDirectory()).AbsolutePath}/";
 #if !UNITY_EDITOR
-            strRelativePath += "/../";
+            strRelativePath += "../";
 #endif
 
             return strRelativePath + strPath;

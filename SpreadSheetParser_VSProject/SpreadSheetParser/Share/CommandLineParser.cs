@@ -37,7 +37,7 @@ namespace SpreadSheetParser
                 return listCommandLine;
 
             if (OnParsingError == null)
-                OnParsingError = OnParsingError_Default;
+                OnParsingError = (x, y) => { };
 
             string[] arrCommandArgs = strCommandLineText.Split(' ');
             for(int i = 0; i < arrCommandArgs.Length; i++)
@@ -77,10 +77,6 @@ namespace SpreadSheetParser
             }
 
             return listCommandLine;
-        }
-
-        private static void OnParsingError_Default(string strParsingText, Error eError)
-        {
         }
     }
 }

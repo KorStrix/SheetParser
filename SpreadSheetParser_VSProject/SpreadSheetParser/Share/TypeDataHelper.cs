@@ -30,6 +30,7 @@ namespace SpreadSheetParser
         comment,
         ispartial,
         baseis,
+        addnamespace,
     }
     static public class TypeDataHelper
     {
@@ -372,7 +373,7 @@ namespace SpreadSheetParser
                   }
               });
 
-            Execute_CommandLine(pCodeType, listCommandLine);
+            Execute_CommandLine(pCodeFileBuilder, pCodeType, listCommandLine);
         }
 
         private static void Parsing_OnEnum(TypeData pSheetData, SpreadSheetConnector pConnector, CodeFileBuilder pCodeFileBuilder)
@@ -448,6 +449,7 @@ namespace SpreadSheetParser
                     {
                         case ECommandLine.comment:
                         case ECommandLine.baseis:
+                        case ECommandLine.addnamespace:
                             bHasValue = true;
                             break;
 
@@ -466,7 +468,7 @@ namespace SpreadSheetParser
                 });
         }
 
-        static private void Execute_CommandLine(CodeTypeDeclaration pCodeType, List<CommandLineArg> listCommandLine)
+        static private void Execute_CommandLine(CodeFileBuilder pCodeFileBuilder, CodeTypeDeclaration pCodeType, List<CommandLineArg> listCommandLine)
         {
             for (int i = 0; i < listCommandLine.Count; i++)
             {
@@ -483,6 +485,10 @@ namespace SpreadSheetParser
 
                     case ECommandLine.ispartial:
                         pCodeType.IsPartial = true;
+                        break;
+
+                    case ECommandLine.addnamespace:
+                        pCodeFileBuilder.pNamespaceCurrent.Imports.Add(new CodeNamespaceImport(listCommandLine[i].strArgValue));
                         break;
 
                     default:

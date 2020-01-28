@@ -126,18 +126,21 @@ namespace SpreadSheetParser
         }
 
         // https://stackoverflow.com/questions/13266756/absolute-to-relative-path
-        public static string DoMake_RelativePath(string filePath)
+        public static string DoMake_RelativePath(string strPath)
         {
-            var pFileURI = new Uri(filePath);
+            var pFileURI = new Uri(strPath);
             var pCurrentURI = new Uri(Directory.GetCurrentDirectory());
 
             return pCurrentURI.MakeRelativeUri(pFileURI).ToString();
         }
 
-        public static string DoMake_AbsolutePath(string filePath)
+        public static string DoMake_AbsolutePath(string strPath)
         {
+            if (Path.IsPathRooted(strPath))
+                return strPath;
+
             var pCurrentURI = new Uri(Directory.GetCurrentDirectory());
-            return $"{pCurrentURI.AbsolutePath}/../{filePath}";
+            return $"{pCurrentURI.AbsolutePath}/../{strPath}";
         }
 
         private void MainForm_Load(object sender, EventArgs e)
