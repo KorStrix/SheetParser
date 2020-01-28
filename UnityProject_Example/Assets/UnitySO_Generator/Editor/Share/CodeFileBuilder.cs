@@ -68,6 +68,8 @@ namespace SpreadSheetParser
         public CodeNamespace pNamespaceCurrent { get; private set; }
         public CodeCompileUnit pCompileUnit { get; private set; }
 
+        public List<string> listDefaultUsing = new List<string>();
+
         CodeTypeDeclarationCollection _arrCodeTypeDeclaration = new CodeTypeDeclarationCollection();
 
         public CodeFileBuilder()
@@ -145,20 +147,20 @@ namespace SpreadSheetParser
 
         #region Setter
 
-        public CodeFileBuilder Set_Namespace(string strNamespace)
-        {
-            pNamespaceCurrent.Name = strNamespace;
-
-            return this;
-        }
-
-        public CodeFileBuilder Set_UsingList(params string[] arrImportName)
+        public void Set_UsingList(params string[] arrImportName)
         {
             pNamespaceCurrent.Imports.Clear();
+            for (int i = 0; i < listDefaultUsing.Count; i++)
+                pNamespaceCurrent.Imports.Add(new CodeNamespaceImport(listDefaultUsing[i]));
+
             for (int i = 0; i < arrImportName.Length; i++)
                 pNamespaceCurrent.Imports.Add(new CodeNamespaceImport(arrImportName[i]));
+        }
 
-            return this;
+        public void Add_UsingList(params string[] arrImportName)
+        {
+            for (int i = 0; i < arrImportName.Length; i++)
+                pNamespaceCurrent.Imports.Add(new CodeNamespaceImport(arrImportName[i]));
         }
 
         #endregion

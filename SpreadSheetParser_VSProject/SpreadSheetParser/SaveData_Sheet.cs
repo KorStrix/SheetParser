@@ -12,12 +12,6 @@ namespace SpreadSheetParser
         public bool bOpenPath_AfterBuild_CSV;
     }
 
-    public enum ESpreadSheetType
-    {
-        GoogleSpreadSheet,
-        MSExcel,
-    }
-
     public class SaveData_SpreadSheet
     {
         public string strSheetID;

@@ -14,6 +14,12 @@ using System.Data;
 
 namespace SpreadSheetParser
 {
+    public enum ESpreadSheetType
+    {
+        GoogleSpreadSheet,
+        MSExcel,
+    }
+
     public class SheetWrapper
     {
         public string strSheetName { get; private set; }
@@ -153,7 +159,7 @@ namespace SpreadSheetParser
 
             await Task.Run(() =>
             {
-                string strAbsolutePath = SpreadSheetParser_MainForm.DoMake_AbsolutePath(strFileAbsolutePath_And_IncludeExtension);
+                string strAbsolutePath = DoMake_AbsolutePath(strFileAbsolutePath_And_IncludeExtension);
 
                 try
                 {
@@ -181,6 +187,14 @@ namespace SpreadSheetParser
                 OnFinishConnect(strFileAbsolutePath_And_IncludeExtension, _eConnectedSheetType, listSheet, pException_OnError);
             }),
             null);
+        }
+        public static string DoMake_AbsolutePath(string strPath)
+        {
+            if (Path.IsPathRooted(strPath))
+                return strPath;
+
+            var pCurrentURI = new Uri(Directory.GetCurrentDirectory());
+            return $"{pCurrentURI.AbsolutePath}/../{strPath}";
         }
     }
 }

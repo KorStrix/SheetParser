@@ -1,7 +1,7 @@
 {
   "strSheetID": "C:/Users/user/Desktop/KH_MiniGame.xlsx",
   "eType": 1,
-  "date_LastEdit": "2020-01-28T18:23:09.1706531+09:00",
+  "date_LastEdit": "2020-01-28T18:50:09.8169216+09:00",
   "listTable": [
     {
       "bEnable": false,
@@ -18,7 +18,7 @@
       "strSheetName": "KH_MiniCard",
       "strHeaderFieldName": null,
       "eType": 0,
-      "strCommandLine": "-addnamespace ServerEnum",
+      "strCommandLine": "",
       "listFieldData": [
         {
           "strFieldName": "ObjectID",
@@ -103,8 +103,7 @@
     },
     {
       "strExportPath": "../dev3_new/Trunk/Client/Assets/Programmer/Strix",
-      "strUnityProjectPath": null,
-      "strUnityEditorPath": null,
+      "strCommandLine": "-addusing ServerEnum",
       "bOpenPath_AfterBuild_CSharp": false,
       "iWorkOrder": 1,
       "pType": "SpreadSheetParser.Work_Generate_Unity_ScriptableObject, SpreadSheetParser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",

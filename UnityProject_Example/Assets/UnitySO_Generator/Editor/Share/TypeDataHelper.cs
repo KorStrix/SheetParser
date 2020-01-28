@@ -30,6 +30,7 @@ namespace SpreadSheetParser
         comment,
         ispartial,
         baseis,
+        addusing,
     }
     static public class TypeDataHelper
     {
@@ -55,8 +56,9 @@ namespace SpreadSheetParser
             if (OnParsingText == null) // For Loop에서 Null Check 방지
                 OnParsingText = (a, b, c, d) => { };
 
-            bool bIsParsingStart = false;
             HashSet<int> setIgnoreColumnIndex = new HashSet<int>();
+            bool bIsParsingStart = false;
+
             for (int i = 0; i < pData.Count; i++)
             {
                 bool bIsIgnoreRow = false;
@@ -331,12 +333,21 @@ namespace SpreadSheetParser
             var listFieldData_DeleteThisField_OnCode = pSheetData.listFieldData.Where((pFieldData) => pFieldData.bDeleteThisField_InCode).Select((pFieldData) => pFieldData.strFieldName);
             Dictionary<int, CodeTypeDeclaration> mapEnumType = new Dictionary<int, CodeTypeDeclaration>();
 
+
+            int iDefinedTypeRow = -1;
+
             pSheetData.ParsingSheet(pConnector, 
               (listRow, strText, iRow, iColumn) =>
               {
                   // 변수 선언 형식인경우
                   if (strText.Contains(":"))
                   {
+                      if (iDefinedTypeRow == -1)
+                          iDefinedTypeRow = iRow;
+
+                      if (iDefinedTypeRow != iRow)
+                          return;
+
                       string[] arrText = strText.Split(':');
                       string strFieldName = arrText[0];
 
@@ -427,7 +438,7 @@ namespace SpreadSheetParser
                 });
         }
 
-        private static List<CommandLineArg> Parsing_CommandLine(string strCommandLine, System.Action<string> OnError)
+        public static List<CommandLineArg> Parsing_CommandLine(string strCommandLine, System.Action<string> OnError)
         {
             return CommandLineParser.Parsing_CommandLine(strCommandLine,
                 (string strCommandLineText, out bool bHasValue) =>
@@ -438,6 +449,7 @@ namespace SpreadSheetParser
                     {
                         case ECommandLine.comment:
                         case ECommandLine.baseis:
+                        case ECommandLine.addusing:
                             bHasValue = true;
                             break;
 

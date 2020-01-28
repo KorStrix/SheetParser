@@ -34,6 +34,8 @@
             this.button_SavePath_ExportPath = new System.Windows.Forms.Button();
             this.Button_OpenPath_ExportPath = new System.Windows.Forms.Button();
             this.textBox_ExportPath = new System.Windows.Forms.TextBox();
+            this.textBox_CommandLine_ForUnitySOWork = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button_SaveAndClose
@@ -94,11 +96,29 @@
             this.textBox_ExportPath.Size = new System.Drawing.Size(339, 21);
             this.textBox_ExportPath.TabIndex = 9;
             // 
+            // textBox_CommandLine_ForUnitySOWork
+            // 
+            this.textBox_CommandLine_ForUnitySOWork.Location = new System.Drawing.Point(12, 177);
+            this.textBox_CommandLine_ForUnitySOWork.Name = "textBox_CommandLine_ForUnitySOWork";
+            this.textBox_CommandLine_ForUnitySOWork.Size = new System.Drawing.Size(339, 21);
+            this.textBox_CommandLine_ForUnitySOWork.TabIndex = 13;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 162);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(92, 12);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Command Line";
+            // 
             // Work_Generate_Unity_ScriptableObjectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 261);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBox_CommandLine_ForUnitySOWork);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button_SavePath_ExportPath);
             this.Controls.Add(this.Button_OpenPath_ExportPath);
@@ -121,5 +141,7 @@
         private System.Windows.Forms.Button button_SavePath_ExportPath;
         private System.Windows.Forms.Button Button_OpenPath_ExportPath;
         private System.Windows.Forms.TextBox textBox_ExportPath;
+        private System.Windows.Forms.TextBox textBox_CommandLine_ForUnitySOWork;
+        private System.Windows.Forms.Label label1;
     }
 }

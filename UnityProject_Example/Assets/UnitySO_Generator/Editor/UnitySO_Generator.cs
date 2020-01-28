@@ -237,7 +237,7 @@ public class UnitySO_Generator : EditorWindow
         _listSheet.Clear();
 
         await _pConnector.DoConnect(pConfig.strSheetID, 
-            (string strSheetID, List<SheetWrapper> listSheet, Exception pException_OnError) => 
+            (string strSheetID, ESpreadSheetType eSheetType, List < SheetWrapper> listSheet, Exception pException_OnError) => 
             {
                 if (pException_OnError != null)
                 {

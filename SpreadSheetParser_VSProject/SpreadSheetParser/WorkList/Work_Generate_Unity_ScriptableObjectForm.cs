@@ -27,6 +27,7 @@ namespace SpreadSheetParser
 
             checkBox_OpenFolder_AfterBuild.Checked = pWork.bOpenPath_AfterBuild_CSharp;
             textBox_ExportPath.Text = pWork.strExportPath;
+            textBox_CommandLine_ForUnitySOWork.Text = pWork.strCommandLine;
 
             _pWork = pWork;
         }
@@ -55,6 +56,7 @@ namespace SpreadSheetParser
 
         private void button_SaveAndClose_Click(object sender, EventArgs e)
         {
+            _pWork.strCommandLine = textBox_CommandLine_ForUnitySOWork.Text;
             _pWork.DoAutoSaveAsync();
             Close();
         }
@@ -67,6 +69,7 @@ namespace SpreadSheetParser
         const string const_strListData = "listData";
 
         public string strExportPath;
+        public string strCommandLine;
         public bool bOpenPath_AfterBuild_CSharp;
 
 #if !UNITY_EDITOR
@@ -84,13 +87,29 @@ namespace SpreadSheetParser
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, System.Action<string> OnPrintWorkState)
         {
+            List<CodeNamespaceImport> listDefaultUsing = new List<CodeNamespaceImport>();
+            listDefaultUsing.Add(new CodeNamespaceImport("UnityEngine"));
+
+            List <CommandLineArg> listCommandLine = Parsing_CommandLine(strCommandLine, null);
+            for(int i = 0; i < listCommandLine.Count; i++)
+            {
+                ECommandLine eCommandLine = (ECommandLine)Enum.Parse(typeof(ECommandLine), listCommandLine[i].strArgName);
+                switch (eCommandLine)
+                {
+                    case ECommandLine.addusing:
+                        listDefaultUsing.Add(new CodeNamespaceImport(listCommandLine[i].strArgValue));
+                        break;
+                }
+            }
+            CodeNamespaceImport[] arrDefaultUsing = listDefaultUsing.ToArray();
+
             CodeTypeDeclarationCollection arrTypes = pCodeFileBuilder.GetCodeTypeDeclarationCollection();
             List<CodeTypeDeclaration> listType = new List<CodeTypeDeclaration>();
             foreach (CodeTypeDeclaration pType in arrTypes)
                 listType.Add(pType);
 
             CodeNamespace pNameSpace = new CodeNamespace();
-            pNameSpace.Imports.Add(new CodeNamespaceImport("UnityEngine"));
+            pNameSpace.Imports.AddRange(listDefaultUsing.ToArray());
 
             CodeTypeDeclaration pGlobalKeyEnum = listType.Where(p => p.Name == const_GlobalKey_EnumName).FirstOrDefault();
             HashSet<CodeTypeDeclaration> setExecutedType = new HashSet<CodeTypeDeclaration>();
@@ -106,12 +125,12 @@ namespace SpreadSheetParser
 
                 if (pSaveData.eType == ESheetType.Global)
                 {
-                    Create_GlobalSOContainer(pCodeFileBuilder, pNameSpace, pType, pGlobalKeyEnum, pSaveData);
+                    Create_GlobalSOContainer(pCodeFileBuilder, pNameSpace, arrDefaultUsing, pType, pGlobalKeyEnum, pSaveData);
                     setExecutedType.Add(pGlobalKeyEnum);
                 }
                 else
                 {
-                    Create_SOContainer(pCodeFileBuilder, pNameSpace, pType, pSaveData);
+                    Create_SOContainer(pCodeFileBuilder, pNameSpace, arrDefaultUsing, pType, pSaveData);
                 }
 
                 OnPrintWorkState?.Invoke($"UnitySO - Working SO {pType.Name}");
@@ -145,11 +164,11 @@ namespace SpreadSheetParser
             pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pType.Name}");
         }
 
-        private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, CodeTypeDeclaration pGlobalKeyEnumType, TypeData pSaveData)
+        private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration pGlobalKeyEnumType, TypeData pSaveData)
         {
             CodeTypeDeclaration pContainerType;
             CodeMemberMethod pInitMethod;
-            Create_SOContainer(pNameSpace, pType, out pContainerType, out pInitMethod);
+            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, out pContainerType, out pInitMethod);
             pNameSpace.Types.Add(pGlobalKeyEnumType);
 
             IEnumerable<FieldTypeData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
@@ -183,11 +202,11 @@ namespace SpreadSheetParser
         }
 
 
-        private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, TypeData pSaveData)
+        private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, TypeData pSaveData)
         {
             CodeTypeDeclaration pContainerType;
             CodeMemberMethod pInitMethod;
-            Create_SOContainer(pNameSpace, pType, out pContainerType, out pInitMethod);
+            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, out pContainerType, out pInitMethod);
 
             IEnumerable<FieldTypeData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
             foreach (var pFieldData in listKeyField)
@@ -212,15 +231,15 @@ namespace SpreadSheetParser
             pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pContainerType.Name}");
         }
 
-        private void Create_SOContainer(CodeNamespace pNameSpace, CodeTypeDeclaration pType, out CodeTypeDeclaration pContainerType, out CodeMemberMethod pInitMethod)
+        private void Create_SOContainer(CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, out CodeTypeDeclaration pContainerType, out CodeMemberMethod pInitMethod)
         {
             pContainerType = new CodeTypeDeclaration(pType.Name + "_Container");
             pContainerType.AddBaseClass("UnityEngine.ScriptableObject");
 
             pNameSpace.Imports.Clear();
+            pNameSpace.Imports.AddRange(arrDefaultUsing);
             pNameSpace.Imports.Add(new CodeNamespaceImport("System.Linq"));
             pNameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
-            pNameSpace.Imports.Add(new CodeNamespaceImport("UnityEngine"));
             pNameSpace.Types.Clear();
             pNameSpace.Types.Add(pContainerType);
 
@@ -240,8 +259,6 @@ namespace SpreadSheetParser
 
             pMethod.Statements.Add(new CodeSnippetStatement("       UnityEditor.EditorUtility.SetDirty(this);"));
             pMethod.Statements.Add(new CodeSnippetStatement("#endif"));
-
-
 
             return pMethod;
         }

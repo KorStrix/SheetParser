@@ -21,9 +21,7 @@ namespace SpreadSheetParser
             JsonSerializerSettings pSetting = new JsonSerializerSettings();
             pSetting.Formatting = Formatting.Indented;
             pSetting.MissingMemberHandling = MissingMemberHandling.Ignore;
-#if !UNITY_EDITOR
             pSetting.Converters.Add(new WorkJsonConverter());
-#endif
 
             return pSetting;
         }

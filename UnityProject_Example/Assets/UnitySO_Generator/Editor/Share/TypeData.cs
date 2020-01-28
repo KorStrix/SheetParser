@@ -40,6 +40,7 @@ namespace SpreadSheetParser
         public TypeData(string strSheetName)
         {
             this.strSheetName = strSheetName;
+            this.strFileName = strSheetName;
         }
 
         public override string ToString()
