@@ -97,20 +97,37 @@ public class UnitySO_GeneratorConfig : ScriptableObject
     ///	This makes it easy to create, name and place unique new ScriptableObject asset files.
     // https://wiki.unity3d.com/index.php/CreateScriptableObjectAsset
     /// </summary>
-    public static object CreateSOFile(System.Type pType, string strFileName, bool bDelete_IfAlreadyExists)
+    public static object CreateSOFile(System.Type pType, string strFileName, bool bOverride_IfAlreadyExists)
     {
-        ScriptableObject pAsset = ScriptableObject.CreateInstance(pType);
+        ScriptableObject pAsset = null;
 
         string strPrefixPath = "";
         if (strFileName.Contains("Assets/") == false)
             strPrefixPath = strPrefixPath.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "") + "/";
 
         string strFullPath = strPrefixPath + strFileName + ".asset";
-        if (bDelete_IfAlreadyExists)
-            AssetDatabase.DeleteAsset(strFullPath);
+        if (bOverride_IfAlreadyExists)
+        {
+            pAsset = (ScriptableObject)AssetDatabase.LoadAssetAtPath(strFullPath, pType);
+            if (pAsset != null)
+            {
+                // 메인 에셋을 삭제하면 기존의 참조가 다 풀리므로 서브에셋만 삭제합니다.
 
-        string strAssetPathAndName = AssetDatabase.GenerateUniqueAssetPath(strFullPath);
-        AssetDatabase.CreateAsset(pAsset, strAssetPathAndName);
+                // 서브 에셋을 삭제하는 방법
+                // https://www.reddit.com/r/Unity3D/comments/8krcrq/is_there_a_way_to_delete_subasset_without/dza0pj0/?context=8&depth=9
+                Object[] arrObject = AssetDatabase.LoadAllAssetRepresentationsAtPath(strFullPath);
+                for (int i = 0; i < arrObject.Length; i++)
+                    DestroyImmediate(arrObject[i], true);
+            }
+        }
+
+        if(pAsset == null)
+        {
+            pAsset = ScriptableObject.CreateInstance(pType);
+
+            string strAssetPathAndName = AssetDatabase.GenerateUniqueAssetPath(strFullPath);
+            AssetDatabase.CreateAsset(pAsset, strAssetPathAndName);
+        }
 
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();

@@ -221,7 +221,7 @@ public class UnitySO_Generator : EditorWindow
         // Get existing open window or if none, make a new one:
         UnitySO_Generator window = (UnitySO_Generator)GetWindow(typeof(UnitySO_Generator), false);
 
-        window.minSize = new Vector2(800, 600);
+        window.minSize = new Vector2(800, 300);
         window.Show();
 
         UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
@@ -662,6 +662,9 @@ public class UnitySO_Generator : EditorWindow
                 continue;
 
             var pFindType = arrType.Where(pType => pType.FullName.Equals(strTypeName)).FirstOrDefault();
+            if(pFindType == null)
+                pFindType = arrType.Where(pType => pType.Name.Equals(strTypeName)).FirstOrDefault();
+
             if (pFindType != null)
                 return pFindType;
         }
