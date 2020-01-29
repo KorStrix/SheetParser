@@ -1,7 +1,7 @@
 {
   "strSheetID": "C:/Users/user/Desktop/KH_MiniGame.xlsx",
   "eType": 1,
-  "date_LastEdit": "2020-01-29T12:26:33.348241+09:00",
+  "date_LastEdit": "2020-01-29T12:43:13.4137733+09:00",
   "listTable": [
     {
       "bEnable": false,
@@ -40,11 +40,11 @@
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
+          "strEnumName": "",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
           "bIsTemp": false,
           "bConvertStringToEnum": false
         },
