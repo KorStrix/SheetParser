@@ -1,6 +1,6 @@
 # Sheet Parser
 
-
+마이크로 소프트 오피스의 엑셀, 구글 스프레드 시트의 데이터를 CSV, Json, Unity-ScriptableObject 등으로 변경하는 툴입니다.
 
 
 # Files
@@ -142,5 +142,5 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxMzM5MDc1MjNdfQ==
+eyJoaXN0b3J5IjpbLTE0MDUzMjczNzddfQ==
 -->
