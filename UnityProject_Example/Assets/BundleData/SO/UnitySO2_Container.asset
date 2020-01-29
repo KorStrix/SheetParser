@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: UnitySO2_Container
   m_EditorClassIdentifier: 
   listData:
-  - {fileID: 114334181406844476}
-  - {fileID: 114901642639180782}
-  - {fileID: 114412625060349902}
---- !u!114 &114334181406844476
+  - {fileID: 114113953793143036}
+  - {fileID: 114976892054366826}
+  - {fileID: 114091048670558870}
+--- !u!114 &114091048670558870
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -26,25 +26,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cb611f78cf2f314597c6b17f251b9ae, type: 3}
-  m_Name: UnitySO2_0
-  m_EditorClassIdentifier: 
-  strComment: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
-  pUnitySO: {fileID: 0}
---- !u!114 &114412625060349902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cb611f78cf2f314597c6b17f251b9ae, type: 3}
-  m_Name: UnitySO2_2
+  m_Name: "\uBE68\uAC04\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
   m_EditorClassIdentifier: 
   strComment: "\uBE68\uAC04\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
-  pUnitySO: {fileID: 0}
---- !u!114 &114901642639180782
+  pUnitySO: {fileID: 114507112888624408, guid: e3c86eadc9ad4ba42bda790e24f2596e, type: 2}
+--- !u!114 &114113953793143036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,7 +40,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cb611f78cf2f314597c6b17f251b9ae, type: 3}
-  m_Name: UnitySO2_1
+  m_Name: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
+  m_EditorClassIdentifier: 
+  strComment: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
+  pUnitySO: {fileID: 114296077882875100, guid: e3c86eadc9ad4ba42bda790e24f2596e, type: 2}
+--- !u!114 &114976892054366826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb611f78cf2f314597c6b17f251b9ae, type: 3}
+  m_Name: "\uCD08\uB85D\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
   m_EditorClassIdentifier: 
   strComment: "\uCD08\uB85D\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
-  pUnitySO: {fileID: 0}
+  pUnitySO: {fileID: 114708683362942602, guid: e3c86eadc9ad4ba42bda790e24f2596e, type: 2}

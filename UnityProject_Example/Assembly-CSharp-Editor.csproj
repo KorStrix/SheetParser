@@ -326,6 +326,12 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="ExcelDataReader.DataSet">
+      <HintPath>D:/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/DLL/ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader">
+      <HintPath>D:/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/DLL/ExcelDataReader.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Apis.Auth">
       <HintPath>D:/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/DLL/Google.Apis.Auth.dll</HintPath>
     </Reference>
@@ -361,12 +367,6 @@
     </Reference>
     <Reference Include="UnityEditor.Purchasing">
       <HintPath>D:/SpreadSheetParser/UnityProject_Example/Library/PackageCache/com.unity.purchasing@2.0.3/Editor/UnityEditor.Purchasing.dll</HintPath>
-    </Reference>
-    <Reference Include="ExcelDataReader.DataSet">
-      <HintPath>D:/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/DLL/ExcelDataReader.DataSet.dll</HintPath>
-    </Reference>
-    <Reference Include="ExcelDataReader">
-      <HintPath>D:/SpreadSheetParser/UnityProject_Example/Assets/UnitySO_Generator/Editor/DLL/ExcelDataReader.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.6f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

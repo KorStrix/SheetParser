@@ -113,7 +113,7 @@ namespace SpreadSheetParser
                 // https://stackoverflow.com/questions/2289889/how-do-i-customize-the-auto-generated-comment-when-using-net-codedom-code-gener?noredirect=1&lq=1
                 pSourceWriter.WriteLine("//------------------------------------------------------------------------------");
                 pSourceWriter.WriteLine("// Author : Strix");
-                pSourceWriter.WriteLine("// Github : https://github.com/KorStrix/Google_SpreadSheetParser");
+                pSourceWriter.WriteLine("// Github : https://github.com/KorStrix/SheetParser");
 
                 pProvider_Csharp.GenerateCodeFromCompileUnit(
                     pCompileUnit, pSourceWriter, pOptions);

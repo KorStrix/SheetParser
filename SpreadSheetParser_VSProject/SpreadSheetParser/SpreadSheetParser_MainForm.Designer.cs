@@ -892,7 +892,7 @@
             this.Controls.Add(this.groupBox3_WorkSetting);
             this.Controls.Add(this.groupBox1);
             this.Name = "SpreadSheetParser_MainForm";
-            this.Text = "Form1";
+            this.Text = "Sheet Parser";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

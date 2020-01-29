@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: UnitySO_Container
   m_EditorClassIdentifier: 
   listData:
-  - {fileID: 114275343508129778}
-  - {fileID: 114548627405322044}
-  - {fileID: 114390002110423776}
---- !u!114 &114275343508129778
+  - {fileID: 114296077882875100}
+  - {fileID: 114708683362942602}
+  - {fileID: 114507112888624408}
+--- !u!114 &114296077882875100
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33,7 +33,8 @@ MonoBehaviour:
   intValue: 2
   strAutoEnum: AutoEnum_1
   AutoEnumValue: 0
---- !u!114 &114390002110423776
+  pOtherSO: {fileID: 114113953793143036, guid: 6daeadfc1b65cad4cad51cea3e89f590, type: 2}
+--- !u!114 &114507112888624408
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -50,7 +51,8 @@ MonoBehaviour:
   intValue: 8
   strAutoEnum: AutoEnum_3
   AutoEnumValue: 2
---- !u!114 &114548627405322044
+  pOtherSO: {fileID: 114091048670558870, guid: 6daeadfc1b65cad4cad51cea3e89f590, type: 2}
+--- !u!114 &114708683362942602
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,3 +69,4 @@ MonoBehaviour:
   intValue: 4
   strAutoEnum: AutoEnum_2
   AutoEnumValue: 1
+  pOtherSO: {fileID: 114976892054366826, guid: 6daeadfc1b65cad4cad51cea3e89f590, type: 2}
