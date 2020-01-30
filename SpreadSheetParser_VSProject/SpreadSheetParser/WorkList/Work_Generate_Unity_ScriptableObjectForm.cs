@@ -87,6 +87,8 @@ namespace SpreadSheetParser
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, System.Action<string> OnPrintWorkState)
         {
+            CodeNamespace pNameSpace = new CodeNamespace();
+
             List<CodeNamespaceImport> listDefaultUsing = new List<CodeNamespaceImport>();
             listDefaultUsing.Add(new CodeNamespaceImport("UnityEngine"));
 
@@ -99,17 +101,20 @@ namespace SpreadSheetParser
                     case ECommandLine.addusing:
                         listDefaultUsing.Add(new CodeNamespaceImport(listCommandLine[i].strArgValue));
                         break;
+
+                    case ECommandLine.useusing:
+                        pNameSpace.Name = listCommandLine[i].strArgValue;
+                        break;
                 }
             }
             CodeNamespaceImport[] arrDefaultUsing = listDefaultUsing.ToArray();
+            pNameSpace.Imports.AddRange(arrDefaultUsing);
 
             CodeTypeDeclarationCollection arrTypes = pCodeFileBuilder.GetCodeTypeDeclarationCollection();
             List<CodeTypeDeclaration> listType = new List<CodeTypeDeclaration>();
             foreach (CodeTypeDeclaration pType in arrTypes)
                 listType.Add(pType);
 
-            CodeNamespace pNameSpace = new CodeNamespace();
-            pNameSpace.Imports.AddRange(listDefaultUsing.ToArray());
 
             CodeTypeDeclaration pGlobalKeyEnum = listType.Where(p => p.Name == const_GlobalKey_EnumName).FirstOrDefault();
             HashSet<CodeTypeDeclaration> setExecutedType = new HashSet<CodeTypeDeclaration>();

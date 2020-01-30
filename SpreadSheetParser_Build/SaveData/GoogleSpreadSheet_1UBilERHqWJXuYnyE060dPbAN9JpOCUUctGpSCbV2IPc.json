@@ -1,7 +1,7 @@
 {
   "strSheetID": "1UBilERHqWJXuYnyE060dPbAN9JpOCUUctGpSCbV2IPc",
   "eType": 0,
-  "date_LastEdit": "2020-01-30T22:07:47.8226887+09:00",
+  "date_LastEdit": "2020-01-31T00:02:48.4415284+09:00",
   "listTable": [
     {
       "bEnable": false,
@@ -407,6 +407,20 @@
         {
           "strFieldName": "eAttackKey",
           "strFieldType": "EAttackKey",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fMoveSpeed",
+          "strFieldType": "float",
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -1091,7 +1105,7 @@
       "bEnable": true,
       "strFileName": "AttackData",
       "strSheetName": "공격방법",
-      "strHeaderFieldName": null,
+      "strHeaderFieldName": "strAttackKey",
       "eType": 0,
       "strCommandLine": null,
       "listFieldData": [
@@ -1182,8 +1196,8 @@
         {
           "strFieldName": "eAttackKey",
           "strFieldType": "EAttackKey",
-          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"\"/>",
-          "strDependencyFieldName": null,
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strAttackKey\"/>",
+          "strDependencyFieldName": "strAttackKey",
           "strDependencyFieldName_Sub": null,
           "strEnumName": "",
           "bIsVirtualField": true,
@@ -1192,8 +1206,31 @@
           "bIsOverlapKey": false,
           "bIsTemp": false,
           "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eEffectKey_Projectile",
+          "strFieldType": "EEffectKey",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
         }
       ]
+    },
+    {
+      "bEnable": true,
+      "strFileName": "대사",
+      "strSheetName": "대사",
+      "strHeaderFieldName": null,
+      "eType": 0,
+      "strCommandLine": null,
+      "listFieldData": []
     }
   ],
   "listSaveWork": [
@@ -1206,7 +1243,7 @@
     },
     {
       "strExportPath": "../BlackSmith_Unity/Assets/00.BundleResource/SO",
-      "strCommandLine": "",
+      "strCommandLine": "-useusing Data",
       "bOpenPath_AfterBuild_CSharp": false,
       "iWorkOrder": 1,
       "pType": "SpreadSheetParser.Work_Generate_Unity_ScriptableObject, SpreadSheetParser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",

@@ -85,7 +85,7 @@ namespace SpreadSheetParser
             foreach (var pSheet in listSheetData)
             {
                 if (pSheet.eType == ESheetType.Enum)
-                    return;
+                    continue;
 
                 JObject pJson_Instance = new JObject();
                 JArray pArray = new JArray();

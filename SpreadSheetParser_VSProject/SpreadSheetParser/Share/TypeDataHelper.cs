@@ -31,6 +31,7 @@ namespace SpreadSheetParser
         ispartial,
         baseis,
         addusing,
+        useusing,
     }
     static public class TypeDataHelper
     {
@@ -450,6 +451,7 @@ namespace SpreadSheetParser
                         case ECommandLine.comment:
                         case ECommandLine.baseis:
                         case ECommandLine.addusing:
+                        case ECommandLine.useusing:
                             bHasValue = true;
                             break;
 

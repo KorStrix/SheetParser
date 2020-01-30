@@ -300,7 +300,7 @@ public class UnitySO_Generator : EditorWindow
         foreach (TypeData pTypeData in _pTypeDataList.listTypeData)
         {
             string strTypeName = pTypeData.strFileName;
-            System.Type pType_SO = GetTypeFromAssemblies(strTypeName);
+            System.Type pType_SO = GetTypeFromAssemblies(strTypeName, typeof(UnityEngine.ScriptableObject));
             if (pType_SO == null)
             {
                 Debug.LogError($"pType_SO == null - {strTypeName} - {strTypeName}");
@@ -313,9 +313,6 @@ public class UnitySO_Generator : EditorWindow
                 Debug.LogError("Error");
                 continue;
             }
-
-            if (pType_SO.BaseType != typeof(UnityEngine.ScriptableObject))
-                continue;
 
             System.Type pType_Container = GetTypeFromAssemblies(strTypeName + "_Container");
             ScriptableObject pContainerInstance = (ScriptableObject)UnitySO_GeneratorConfig.CreateSOFile(pType_Container, pConfig.strExportFolderPath + "/" + strTypeName + "_Container", true);
@@ -553,14 +550,14 @@ public class UnitySO_Generator : EditorWindow
             System.Type pType_Field = GetTypeFromAssemblies(pMember.strFieldType);
             if (pType_Field == null)
             {
-                Debug.LogError($"Error {pMember.strFieldName} - Field Type Not Found - {pMember.strFieldType}");
+                Debug.LogError($"{pMember.strFieldName} - Field Type Not Found - {pMember.strFieldType}");
                 continue;
             }
 
             FieldTypeData pFieldData_Dependency = listField.Where(pFieldData => pFieldData.strFieldName == pMember.strDependencyFieldName).FirstOrDefault();
             if (pFieldData_Dependency == null)
             {
-                Debug.LogError($"Error {pMember.strFieldName} - Dependency Not Found - Name : {pMember.strDependencyFieldName}");
+                Debug.LogError($"{pMember.strFieldName} - Dependency Not Found - Name : {pMember.strDependencyFieldName}");
                 continue;
             }
 
@@ -581,7 +578,7 @@ public class UnitySO_Generator : EditorWindow
                 FieldTypeData pFieldData_Dependency_Sub = listField.Where(pFieldData => pFieldData.strFieldName == pMember.strDependencyFieldName_Sub).FirstOrDefault();
                 if (pFieldData_Dependency_Sub != null)
                 {
-                    string strDependencyValue_Sub = (string)pInstanceData[pFieldData_Dependency.strFieldName];
+                    string strDependencyValue_Sub = (string)pInstanceData[pFieldData_Dependency_Sub.strFieldName];
 
                     UnityEngine.Object[] arrObject = AssetDatabase.LoadAllAssetsAtPath(strDependencyValue);
                     if (arrObject == null || arrObject.Length == 0)
@@ -591,7 +588,7 @@ public class UnitySO_Generator : EditorWindow
                     var pObject = arrObject.Where(p => p.name == strDependencyValue_Sub).FirstOrDefault();
                     if (pObject == null)
                     {
-                        Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {strDependencyValue}");
+                        Debug.LogError($"{pTypeData.strFileName} - DependencyValue Sub {strDependencyValue_Sub} Is Null");
                     }
 
                     pFieldInfo.SetValue(pSO, pObject);
@@ -664,6 +661,38 @@ public class UnitySO_Generator : EditorWindow
             var pFindType = arrType.Where(pType => pType.FullName.Equals(strTypeName)).FirstOrDefault();
             if(pFindType == null)
                 pFindType = arrType.Where(pType => pType.Name.Equals(strTypeName)).FirstOrDefault();
+
+            if (pFindType != null)
+                return pFindType;
+        }
+
+        for (int i = 0; i < assemblies.Length; i++)
+        {
+            var arrType = assemblies[i].GetTypes();
+            if (arrType.Length == 0)
+                continue;
+
+            var pFindType = arrType.Where(pType => pType.Name.Equals(strTypeName)).FirstOrDefault();
+
+            if (pFindType != null)
+                return pFindType;
+        }
+
+        return null;
+    }
+
+    public static System.Type GetTypeFromAssemblies(string strTypeName, System.Type pBaseType)
+    {
+        var assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
+        for (int i = 0; i < assemblies.Length; i++)
+        {
+            var arrType = assemblies[i].GetTypes();
+            if (arrType.Length == 0)
+                continue;
+
+            var pFindType = arrType.Where(pType => pType.FullName.Equals(strTypeName) && pType.BaseType == pBaseType).FirstOrDefault();
+            if (pFindType == null)
+                pFindType = arrType.Where(pType => pType.Name.Equals(strTypeName) && pType.BaseType == pBaseType).FirstOrDefault();
 
             if (pFindType != null)
                 return pFindType;
