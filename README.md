@@ -1,3 +1,7 @@
+
+![](https://github.com/KorStrix/SheetParser/blob/master/Github/Schema.png?raw=true)
+
+
 # Sheet Parser
 
 마이크로 소프트 오피스의 엑셀, 구글 스프레드 시트의 데이터를 CSV, Json, [Unity ScriptableObject](http://docs.unity3d.com/ScriptReference/ScriptableObject.html) 등으로 변경하는 툴입니다.
@@ -12,5 +16,5 @@
 -   **Unity 타입 지원** 필드 값을 통하여 실제 유니티 타입을 참조하는 기능 지원
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTcxODEyOTg0Ml19
+eyJoaXN0b3J5IjpbLTE1OTE1MzAyMDddfQ==
 -->
