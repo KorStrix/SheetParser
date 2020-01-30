@@ -8,9 +8,9 @@
 -   **구글 스프레드 시트 및 MS Office을 자주 사용하는 포멧으로 변환**  Json, CSV, CSharp, Unity Scriptable Object 등으로 변환
 -   **가상 필드**  테이블에 없는 필드도 가상으로 추가하여 변환할 때 추가(Ex. 경로가 들어있는 string -> 실제 파일)
 -   **빠른 탐색을 위한 Dictionary 캐싱**  특정 필드를 Key로 Row, Rows를 Value로 Dictionary에 캐싱
--   **Unity 타입 지원**
+-   **Unity 타입 지원** 필드 값를 실제 유니티 타입으로 참조하는 기능 지원
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTkzNTk2MDA2LDIxMDYzNTUxMTgsMTg4MD
-A0NTk1OF19
+eyJoaXN0b3J5IjpbLTEwNDQ4NTQzMzgsLTkzNTk2MDA2LDIxMD
+YzNTUxMTgsMTg4MDA0NTk1OF19
 -->
