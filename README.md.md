@@ -7,12 +7,13 @@
 
 -   **구글 스프레드 시트 및 MS Office을 자주 사용하는 포멧으로 변환**  Json, CSV, CSharp, Unity Scriptable Object 등으로 변환
 -   **가상 필드**  테이블에 없는 필드도 가상으로 추가하여 변환할 때 추가(Ex. 경로가 들어있는 string -> 실제 파일)
--   **_Flexible!_**  It can also retrieve data from google spreadsheet.
+-   **빠른 탐색을 위한 Dictionary 캐싱**  특정 필드를 Key로 Row, Rows를 Value로 Dictionary에 캐싱
 -   **_Fast!_**  No need to write a parser to retrieve data, it automatically serializes retrieved data into Unity3D's  [ScriptableObject](http://docs.unity3d.com/ScriptReference/ScriptableObject.html), the binary format an
 
 ## Documentaion
 
 The file explorer is accessible using the button in left corner of the navigation bar. You can create a new file by clicking the **New file** button in the file explorer. You can also create folders by clicking the **New folder** button.
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjEwNjM1NTExOCwxODgwMDQ1OTU4XX0=
+eyJoaXN0b3J5IjpbOTc3NDAyODgxLDIxMDYzNTUxMTgsMTg4MD
+A0NTk1OF19
 -->
