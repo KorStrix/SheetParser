@@ -1,7 +1,7 @@
 {
   "strSheetID": "1UBilERHqWJXuYnyE060dPbAN9JpOCUUctGpSCbV2IPc",
   "eType": 0,
-  "date_LastEdit": "2020-01-31T00:02:48.4415284+09:00",
+  "date_LastEdit": "2020-02-02T12:22:02.3561372+09:00",
   "listTable": [
     {
       "bEnable": false,
@@ -10,7 +10,8 @@
       "strHeaderFieldName": null,
       "eType": 0,
       "strCommandLine": null,
-      "listFieldData": []
+      "listFieldData": [],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -71,12 +72,13 @@
           "strEnumName": "ELanguageKey",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
+          "bIsKeyField": true,
           "bIsOverlapKey": false,
           "bIsTemp": false,
           "bConvertStringToEnum": true
         }
-      ]
+      ],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -92,7 +94,7 @@
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
-          "strEnumName": "ECharacrerKey",
+          "strEnumName": "ECharacterKey",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
           "bIsKeyField": false,
@@ -171,8 +173,8 @@
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "eCharacrerKey",
-          "strFieldType": "ECharacrerKey",
+          "strFieldName": "eCharacterKey",
+          "strFieldType": "ECharacterKey",
           "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strCharacterKey\"/>",
           "strDependencyFieldName": "strCharacterKey",
           "strDependencyFieldName_Sub": null,
@@ -254,7 +256,8 @@
           "bIsTemp": false,
           "bConvertStringToEnum": false
         }
-      ]
+      ],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -432,7 +435,8 @@
           "bIsTemp": false,
           "bConvertStringToEnum": false
         }
-      ]
+      ],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -554,7 +558,8 @@
           "bIsTemp": false,
           "bConvertStringToEnum": false
         }
-      ]
+      ],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -620,7 +625,8 @@
           "bIsTemp": false,
           "bConvertStringToEnum": false
         }
-      ]
+      ],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -686,14 +692,15 @@
           "bIsTemp": false,
           "bConvertStringToEnum": false
         }
-      ]
+      ],
+      "listEnumName": []
     },
     {
-      "bEnable": false,
-      "strFileName": "글로벌",
+      "bEnable": true,
+      "strFileName": "GlobalData",
       "strSheetName": "글로벌",
       "strHeaderFieldName": null,
-      "eType": 0,
+      "eType": 3,
       "strCommandLine": null,
       "listFieldData": [
         {
@@ -704,7 +711,7 @@
           "strDependencyFieldName_Sub": null,
           "strEnumName": null,
           "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
+          "bDeleteThisField_InCode": true,
           "bIsKeyField": false,
           "bIsOverlapKey": false,
           "bIsTemp": false,
@@ -737,8 +744,23 @@
           "bIsOverlapKey": false,
           "bIsTemp": false,
           "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eGlobalKey",
+          "strFieldType": "EGlobalKey",
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strGlobalKey\"/>",
+          "strDependencyFieldName": "strGlobalKey",
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
         }
-      ]
+      ],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -747,7 +769,8 @@
       "strHeaderFieldName": null,
       "eType": 2,
       "strCommandLine": null,
-      "listFieldData": []
+      "listFieldData": [],
+      "listEnumName": []
     },
     {
       "bEnable": false,
@@ -756,7 +779,8 @@
       "strHeaderFieldName": null,
       "eType": 0,
       "strCommandLine": null,
-      "listFieldData": []
+      "listFieldData": [],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -836,7 +860,8 @@
           "bIsTemp": false,
           "bConvertStringToEnum": false
         }
-      ]
+      ],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -902,7 +927,8 @@
           "bIsTemp": false,
           "bConvertStringToEnum": false
         }
-      ]
+      ],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -996,7 +1022,8 @@
           "bIsTemp": false,
           "bConvertStringToEnum": false
         }
-      ]
+      ],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -1090,7 +1117,8 @@
           "bIsTemp": false,
           "bConvertStringToEnum": false
         }
-      ]
+      ],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -1099,7 +1127,8 @@
       "strHeaderFieldName": null,
       "eType": 0,
       "strCommandLine": null,
-      "listFieldData": []
+      "listFieldData": [],
+      "listEnumName": []
     },
     {
       "bEnable": true,
@@ -1220,17 +1249,23 @@
           "bIsOverlapKey": false,
           "bIsTemp": false,
           "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eSoundKey_OnAttackEvent",
+          "strFieldType": "ESoundKey",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
         }
-      ]
-    },
-    {
-      "bEnable": true,
-      "strFileName": "대사",
-      "strSheetName": "대사",
-      "strHeaderFieldName": null,
-      "eType": 0,
-      "strCommandLine": null,
-      "listFieldData": []
+      ],
+      "listEnumName": []
     }
   ],
   "listSaveWork": [

@@ -37,6 +37,8 @@ namespace SpreadSheetParser
         public ESheetType eType;
         public string strCommandLine;
         public List<FieldTypeData> listFieldData = new List<FieldTypeData>();
+        public List<string> listEnumName = new List<string>();
+
         public TypeData(string strSheetName)
         {
             this.strSheetName = strSheetName;
