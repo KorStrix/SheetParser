@@ -42,10 +42,11 @@ namespace SpreadSheetParser
         static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
         static string ApplicationName = "Spread Sheet Parser";
 
-        public delegate void delOnFinishConnect(string strSheetID, ESpreadSheetType eSheetType, List<SheetWrapper> listSheet, Exception pException_OnError);
+        public delegate void delOnFinishConnect(string strSheetID, string strFileName, ESpreadSheetType eSheetType, List<SheetWrapper> listSheet, Exception pException_OnError);
 
-        public SheetsService pService { get; private set; } = null;
+        public bool bIsConnected => _pService != null && _pService.Spreadsheets != null;
 
+        SheetsService _pService;
         CancellationTokenSource _pTokenSource = new CancellationTokenSource();
         ESpreadSheetType _eConnectedSheetType;
         Dictionary<string, DataTable> _mapWorkSheet = new Dictionary<string, DataTable>();
@@ -54,6 +55,7 @@ namespace SpreadSheetParser
         public async Task DoConnect(string strSheetID, delOnFinishConnect OnFinishConnect, string strCredentialFilePath = "credentials.json")
         {
             List<SheetWrapper> listSheet = new List<SheetWrapper>();
+            this._pService = null;
             this._eConnectedSheetType = ESpreadSheetType.GoogleSpreadSheet;
             this._strSheetID = strSheetID;
             UserCredential credential;
@@ -73,7 +75,7 @@ namespace SpreadSheetParser
                         new FileDataStore(credPath, true)).Result;
                 }
 
-                pService = new SheetsService(new BaseClientService.Initializer()
+                _pService = new SheetsService(new BaseClientService.Initializer()
                 {
                     HttpClientInitializer = credential,
                     ApplicationName = ApplicationName,
@@ -81,16 +83,18 @@ namespace SpreadSheetParser
             }
             catch (Exception pException)
             {
-                OnFinishConnect(strSheetID, _eConnectedSheetType, listSheet, pException);
+                OnFinishConnect(strSheetID, "", _eConnectedSheetType, listSheet, pException);
                 return;
             }
 
-            var pRequest_HandShake = pService.Spreadsheets.Get(strSheetID);
+            string strFileName = "";
+            var pRequest_HandShake = _pService.Spreadsheets.Get(strSheetID);
             try
             {
                 var pResponse = pRequest_HandShake.ExecuteAsync();
                 await pResponse;
 
+                strFileName = pResponse.Result.Properties.Title;
                 for (int i = 0; i < pResponse.Result.Sheets.Count; i++)
                     listSheet.Add(new SheetWrapper(pResponse.Result.Sheets[i].Properties.Title));
             }
@@ -99,7 +103,7 @@ namespace SpreadSheetParser
                 pException_OnError = pException;
             }
 
-            OnFinishConnect(strSheetID, _eConnectedSheetType, listSheet, pException_OnError);
+            OnFinishConnect(strSheetID, strFileName, _eConnectedSheetType, listSheet, pException_OnError);
         }
 
         public void DoCancelConnect()
@@ -112,10 +116,9 @@ namespace SpreadSheetParser
             if (_eConnectedSheetType == ESpreadSheetType.GoogleSpreadSheet)
             {
                 SpreadsheetsResource.ValuesResource.GetRequest pRequest =
-                pService.Spreadsheets.Values.Get(_strSheetID, strSheetName);
+                _pService.Spreadsheets.Values.Get(_strSheetID, strSheetName);
 
                 var pResponse = pRequest.Execute();
-
                 return pResponse.Values;
             }
             else
@@ -182,9 +185,10 @@ namespace SpreadSheetParser
                 }
             });
 
+            string strFileName = Path.GetFileNameWithoutExtension(strFileAbsolutePath_And_IncludeExtension);
             pSyncContext_Call.Send(new SendOrPostCallback(o =>
             {
-                OnFinishConnect(strFileAbsolutePath_And_IncludeExtension, _eConnectedSheetType, listSheet, pException_OnError);
+                OnFinishConnect(strFileAbsolutePath_And_IncludeExtension, strFileName, _eConnectedSheetType, listSheet, pException_OnError);
             }),
             null);
         }

@@ -81,7 +81,7 @@ namespace SpreadSheetParser
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, System.Action<string> OnPrintWorkProcess)
         {
-            TypeDataList pTypeDataList = new TypeDataList();
+            TypeDataList pTypeDataList = new TypeDataList(pConnector.strFileName);
             foreach (var pSheet in listSheetData)
             {
                 if (pSheet.eType == ESheetType.Enum)

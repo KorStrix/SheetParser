@@ -15,13 +15,12 @@ namespace SpreadSheetParser
     [System.Serializable]
     public class TypeDataList
     {
+        public string strFileName;
         public List<TypeData> listTypeData = new List<TypeData>();
 
-        [System.NonSerialized]
-        public Dictionary<string, TypeData> mapType = new Dictionary<string, TypeData>();
-        public void DoInit()
+        public TypeDataList(string strFileName)
         {
-            mapType = listTypeData.ToDictionary(p => p.strFileName);
+            this.strFileName = strFileName;
         }
     }
 

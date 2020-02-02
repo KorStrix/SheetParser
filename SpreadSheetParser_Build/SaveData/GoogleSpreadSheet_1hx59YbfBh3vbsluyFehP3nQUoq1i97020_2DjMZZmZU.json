@@ -1,7 +1,7 @@
 {
   "strSheetID": "1hx59YbfBh3vbsluyFehP3nQUoq1i97020_2DjMZZmZU",
   "eType": 0,
-  "date_LastEdit": "2020-02-02T12:34:06.5402038+09:00",
+  "date_LastEdit": "2020-02-02T20:27:37.9736855+09:00",
   "listTable": [
     {
       "bEnable": false,
@@ -187,14 +187,14 @@
   ],
   "listSaveWork": [
     {
-      "strExportPath": "../BlackSmith_Unity/Assets/00.BundleResource/Json",
+      "strExportPath": "../BlackSmith_Unity/Assets/00.BundleResource/SO_Dialogue",
       "bOpenPath_AfterBuild_CSharp": false,
       "iWorkOrder": 0,
       "pType": "SpreadSheetParser.Work_Generate_Json, SpreadSheetParser, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
       "bEnable": true
     },
     {
-      "strExportPath": "../BlackSmith_Unity/Assets/00.BundleResource/SO",
+      "strExportPath": "../BlackSmith_Unity/Assets/00.BundleResource/SO_Dialogue",
       "strCommandLine": "-useusing Data",
       "bOpenPath_AfterBuild_CSharp": true,
       "iWorkOrder": 1,

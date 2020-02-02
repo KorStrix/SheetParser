@@ -26,7 +26,7 @@ namespace SpreadSheetParser
             pSheetConnector.DoConnect(strSheetID, OnFinishConnect);
         }
 
-        private void OnFinishConnect(string strSheetID, ESpreadSheetType eSheetType, List<SheetWrapper> listSheet, Exception pException_OnError)
+        private void OnFinishConnect(string strSheetID, string strFileName, ESpreadSheetType eSheetType, List<SheetWrapper> listSheet, Exception pException_OnError)
         {
             if (pException_OnError != null)
             {

@@ -15,6 +15,7 @@ namespace SpreadSheetParser
     [System.Serializable]
     public class TypeDataList
     {
+        public string strFileName;
         public List<TypeData> listTypeData = new List<TypeData>();
 
         [System.NonSerialized]

@@ -210,6 +210,8 @@ public class UnitySO_Generator : EditorWindow
     static List<SheetWrapper> _listSheet = new List<SheetWrapper>();
     static TypeDataList _pTypeDataList = new TypeDataList();
 
+    static string _strFileName;
+
     // ========================================================================== //
 
     /* public - [Do] Function
@@ -227,7 +229,9 @@ public class UnitySO_Generator : EditorWindow
         UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
         if (string.IsNullOrEmpty(pConfig.strSheetID) == false)
         {
+#pragma warning disable CS4014 // 이 호출을 대기하지 않으므로 호출이 완료되기 전에 현재 메서드가 계속 실행됩니다.
             DoConnect();
+#pragma warning restore CS4014 // 이 호출을 대기하지 않으므로 호출이 완료되기 전에 현재 메서드가 계속 실행됩니다.
         }
     }
 
@@ -237,24 +241,17 @@ public class UnitySO_Generator : EditorWindow
         _listSheet.Clear();
 
         await _pConnector.DoConnect(pConfig.strSheetID, 
-            (string strSheetID, ESpreadSheetType eSheetType, List < SheetWrapper> listSheet, Exception pException_OnError) => 
+            (string strSheetID, string strFileName, ESpreadSheetType eSheetType, List < SheetWrapper> listSheet, Exception pException_OnError) => 
             {
+                _strFileName = strFileName;
                 if (pException_OnError != null)
                 {
                     Debug.LogError(pException_OnError);
                     return;
                 }
 
-                Debug.Log("Success Connect - " + strSheetID);
-
-                _pTypeDataList = new TypeDataList();
-                if (GetData_FromJson(nameof(TypeDataList), ref _pTypeDataList) == false)
-                {
-                    Debug.LogError("TypeDataList JsonParsing Fail");
-                    return;
-                }
-
                 _listSheet.AddRange(listSheet);
+                Debug.Log("Success Connect - " + strSheetID);
             },
             pConfig.strCredentialFilePath
             );
@@ -265,8 +262,8 @@ public class UnitySO_Generator : EditorWindow
         Debug.Log("DoUpdate Start");
 
         UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
-        _pWork_Json.strExportPath = pConfig.strJsonRootFolderPath;
-        _pWork_SO.strExportPath = pConfig.strJsonRootFolderPath;
+        _pWork_Json.strExportPath = pConfig.strDataFolderPath;
+        _pWork_SO.strExportPath = pConfig.strDataFolderPath;
 
         CodeFileBuilder pCodeFileBuilder = new CodeFileBuilder();
         IEnumerable<TypeData> arrTypeData = _pTypeDataList.listTypeData.Where(p => p.bEnable);
@@ -286,14 +283,13 @@ public class UnitySO_Generator : EditorWindow
     {
         Debug.Log("Build Start");
 
-        UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
-
-        _pTypeDataList = new TypeDataList();
-        if(GetData_FromJson(nameof(TypeDataList), ref _pTypeDataList) == false)
+        if(_pTypeDataList == null || _pTypeDataList.listTypeData.Count == 0)
         {
-            Debug.LogError("TypeDataList JsonParsing Fail");
+            Debug.LogError("Error");
             return;
         }
+
+        UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
 
         _mapSOInstance.Clear();
         _setReference_OtherSO.Clear();
@@ -418,35 +414,70 @@ public class UnitySO_Generator : EditorWindow
             return;
         }
 
-        DrawPath_File(pConfig, "Cre", ref pConfig.strCredentialFilePath);
-        DrawPath_Folder(pConfig,  "JsonFolder Path", ref pConfig.strJsonRootFolderPath);
+        DrawPath_File(pConfig, "Credential Path", ref pConfig.strCredentialFilePath);
+        DrawPath_Folder(pConfig,  "Data Folder Path", ref pConfig.strDataFolderPath);
         DrawPath_Folder(pConfig, "SO Export Path", ref pConfig.strExportFolderPath);
 
-        bool bEditorEnable = string.IsNullOrEmpty(pConfig.strJsonRootFolderPath) == false;
-        EditorGUI.BeginDisabledGroup(bEditorEnable == false);
+        GUILayout.BeginHorizontal();
+        {
+            EditorGUI.BeginChangeCheck();
+            pConfig.pTypeDataFile = (TextAsset)EditorGUILayout.ObjectField("TypeData File : ", pConfig.pTypeDataFile, typeof(TextAsset), false, GUILayout.Width(700f));
+            if (EditorGUI.EndChangeCheck())
+                pConfig.DoSave();
 
-        if (GUILayout.Button("Build!"))
+            if (GUILayout.Button("Parsing File"))
+            {
+                _pTypeDataList = new TypeDataList();
+                if (GetData_FromJson(pConfig.pTypeDataFile, ref _pTypeDataList) == false)
+                {
+                    _pTypeDataList = null;
+                    Debug.LogError("TypeDataList JsonParsing Fail");
+                    return;
+                }
+
+            }
+        }
+        GUILayout.EndHorizontal();
+        GUILayout.Space(30f);
+
+        if (_pTypeDataList != null)
+            GUILayout.Label($"TypeData File is Valid");
+        else
+            GUILayout.Label($"TypeData File is InValid");
+
+        GUI.enabled = _pTypeDataList !=  null && string.IsNullOrEmpty(pConfig.strDataFolderPath) == false;
+
+        if (GUILayout.Button("Build!", GUILayout.Width(200f)))
         {
             DoBuild();
         }
-
         GUILayout.Space(30f);
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label($"SheetID : ", GUILayout.Width(100f));
-
-        EditorGUI.BeginChangeCheck();
-        pConfig.strSheetID = GUILayout.TextField(pConfig.strSheetID);
-        if(EditorGUI.EndChangeCheck())
-            pConfig.DoSave();
-
-        if (GUILayout.Button("Connect!", GUILayout.Width(100f)))
         {
-            DoConnect();
+            GUILayout.Label($"SheetID : ", GUILayout.Width(100f));
+
+            EditorGUI.BeginChangeCheck();
+            pConfig.strSheetID = GUILayout.TextField(pConfig.strSheetID);
+            if (EditorGUI.EndChangeCheck())
+                pConfig.DoSave();
+
+            if (GUILayout.Button("Connect!", GUILayout.Width(100f)))
+            {
+                DoConnect();
+            }
         }
         GUILayout.EndHorizontal();
 
-        if(_pConnector.pService != null && _pTypeDataList.listTypeData.Count > 0)
+        if(_pConnector.bIsConnected)
+            GUILayout.Label($"Excel is Connected : {_strFileName} - Sheet List");
+        else
+            GUILayout.Label($"Excel is Not Connected");
+
+
+        GUILayout.Space(30f);
+
+        if (_pTypeDataList.listTypeData.Count > 0)
         {
             EditorGUI.BeginChangeCheck();
             for (int i = 0; i < _pTypeDataList.listTypeData.Count; i++)
@@ -460,11 +491,21 @@ public class UnitySO_Generator : EditorWindow
                 // JsonSaveManager.SaveData(_pTypeDataList, $"{UnitySO_GeneratorConfig.instance.strJsonRootFolderPath}/{nameof(TypeDataList)}.json");
                 AssetDatabase.Refresh();
             }
+        }
+        GUILayout.Space(30f);
 
-            if (GUILayout.Button("Update!", GUILayout.Width(100f)))
-            {
-                DoUpdate_And_Build();
-            }
+        bool bIsMatchFileName = _pTypeDataList.strFileName == _strFileName;
+        if(bIsMatchFileName == false)
+        {
+            GUIStyle pStyle = new GUIStyle();
+            pStyle.normal.textColor = Color.red;
+            GUILayout.Label($"File Is Not Match - TypeData File : {_pTypeDataList.strFileName}, Current Connected : {_strFileName}", pStyle);
+        }
+
+        GUI.enabled = _pConnector.bIsConnected && _pTypeDataList.listTypeData.Count > 0 && bIsMatchFileName;
+        if (GUILayout.Button("Update SO File", GUILayout.Width(200f)))
+        {
+            DoUpdate_And_Build();
         }
     }
 
@@ -496,7 +537,7 @@ public class UnitySO_Generator : EditorWindow
 
         if (string.IsNullOrEmpty(pSO.name))
         {
-            Debug.LogError("Error");
+            Debug.LogError($"{strFileName} - Process_SOName -  {string.IsNullOrEmpty(pSO.name)}, pFieldHeader : {pFieldHeader.strFieldName}");
         }
     }
 
@@ -612,7 +653,7 @@ public class UnitySO_Generator : EditorWindow
             if (strFileName.Contains(".json") == false)
                 strFileName += ".json";
 
-            TextAsset pJsonFile = AssetDatabase.LoadAssetAtPath<TextAsset>($"{UnitySO_GeneratorConfig.instance.strJsonRootFolderPath}/{strFileName}");
+            TextAsset pJsonFile = AssetDatabase.LoadAssetAtPath<TextAsset>($"{UnitySO_GeneratorConfig.instance.strDataFolderPath}/{strFileName}");
             JObject pObject = (JObject)JsonConvert.DeserializeObject(pJsonFile.text);
             arrObject = (JArray)pObject.GetValue("array");
         }
@@ -631,7 +672,18 @@ public class UnitySO_Generator : EditorWindow
             if (strFileName.Contains(".json") == false)
                 strFileName += ".json";
 
-            TextAsset pJsonFile = AssetDatabase.LoadAssetAtPath<TextAsset>($"{UnitySO_GeneratorConfig.instance.strJsonRootFolderPath}/{strFileName}");
+            return GetData_FromJson(AssetDatabase.LoadAssetAtPath<TextAsset>($"{UnitySO_GeneratorConfig.instance.strDataFolderPath}/{strFileName}"), ref pData);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static bool GetData_FromJson<T>(TextAsset pJsonFile, ref T pData)
+    {
+        try
+        {
             EditorJsonUtility.FromJsonOverwrite(pJsonFile.text, pData);
         }
         catch
@@ -641,7 +693,6 @@ public class UnitySO_Generator : EditorWindow
 
         return true;
     }
-
 
     void AutoSizeLabel(string strText)
     {
