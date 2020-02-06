@@ -1,7 +1,7 @@
 {
   "strSheetID": "1UBilERHqWJXuYnyE060dPbAN9JpOCUUctGpSCbV2IPc",
   "eType": 0,
-  "date_LastEdit": "2020-02-02T12:22:02.3561372+09:00",
+  "date_LastEdit": "2020-02-04T21:52:03.7877004+09:00",
   "listTable": [
     {
       "bEnable": false,
@@ -78,7 +78,9 @@
           "bConvertStringToEnum": true
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "ELanguageKey"
+      ]
     },
     {
       "bEnable": true,
@@ -257,7 +259,9 @@
           "bConvertStringToEnum": false
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "ECharacterKey"
+      ]
     },
     {
       "bEnable": true,
@@ -436,7 +440,9 @@
           "bConvertStringToEnum": false
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "EMonsterKey"
+      ]
     },
     {
       "bEnable": true,
@@ -459,20 +465,6 @@
           "bIsOverlapKey": true,
           "bIsTemp": false,
           "bConvertStringToEnum": true
-        },
-        {
-          "strFieldName": "iWave",
-          "strFieldType": "int",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bIsTemp": false,
-          "bConvertStringToEnum": false
         },
         {
           "strFieldName": "fDelay",
@@ -557,9 +549,26 @@
           "bIsOverlapKey": false,
           "bIsTemp": false,
           "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "iRoom",
+          "strFieldType": "int",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "EStageKey",
+        null
+      ]
     },
     {
       "bEnable": true,
@@ -626,7 +635,9 @@
           "bConvertStringToEnum": false
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "ESoundKey"
+      ]
     },
     {
       "bEnable": true,
@@ -693,7 +704,9 @@
           "bConvertStringToEnum": false
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "EEffectKey"
+      ]
     },
     {
       "bEnable": true,
@@ -758,9 +771,39 @@
           "bIsOverlapKey": false,
           "bIsTemp": false,
           "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strType",
+          "strFieldType": "int",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bIsTemp": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strType",
+          "strFieldType": "EEffectKey",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bIsTemp": true,
+          "bConvertStringToEnum": false
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "EGlobalKey"
+      ]
     },
     {
       "bEnable": true,
@@ -861,7 +904,10 @@
           "bConvertStringToEnum": false
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "EAnimationSet",
+        "EAnimationKey"
+      ]
     },
     {
       "bEnable": true,
@@ -1023,7 +1069,9 @@
           "bConvertStringToEnum": false
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "EItemKey"
+      ]
     },
     {
       "bEnable": true,
@@ -1118,7 +1166,9 @@
           "bConvertStringToEnum": false
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "EItemDropKey"
+      ]
     },
     {
       "bEnable": true,
@@ -1265,7 +1315,9 @@
           "bConvertStringToEnum": false
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "EAttackKey"
+      ]
     }
   ],
   "listSaveWork": [

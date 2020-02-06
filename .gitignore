@@ -167,3 +167,4 @@ sysinfo.txt
 *.unitypackage
 
 ProjectVersion.txt
+SpreadSheetParser_Build/token.json/Google.Apis.Auth.OAuth2.Responses.TokenResponse-user
