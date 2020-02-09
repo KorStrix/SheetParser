@@ -38,11 +38,15 @@ public class UnitySO_GeneratorConfig : ScriptableObject
     }
     static UnitySO_GeneratorConfig _instance = null;
 
-    public string strDataFolderPath;
-    public string strExportFolderPath;
-    public string strCredentialFilePath;
+    public string strCredential_FilePath;
+
+    public string strSOScript_FolderPath;
+    public string strJsonData_FolderPath;
+
+    public string strDataExport_FolderPath;
 
     public string strSheetID;
+    public string strSOCommandLine;
 
     public TextAsset pTypeDataFile;
 
