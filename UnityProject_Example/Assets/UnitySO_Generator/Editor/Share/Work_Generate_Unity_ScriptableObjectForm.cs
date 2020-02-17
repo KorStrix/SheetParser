@@ -87,6 +87,8 @@ namespace SpreadSheetParser
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, System.Action<string> OnPrintWorkState)
         {
+            CodeNamespace pNameSpace = new CodeNamespace();
+
             List<CodeNamespaceImport> listDefaultUsing = new List<CodeNamespaceImport>();
             listDefaultUsing.Add(new CodeNamespaceImport("UnityEngine"));
 
@@ -99,21 +101,22 @@ namespace SpreadSheetParser
                     case ECommandLine.addusing:
                         listDefaultUsing.Add(new CodeNamespaceImport(listCommandLine[i].strArgValue));
                         break;
+
+                    case ECommandLine.useusing:
+                        pNameSpace.Name = listCommandLine[i].strArgValue;
+                        break;
                 }
             }
             CodeNamespaceImport[] arrDefaultUsing = listDefaultUsing.ToArray();
+            pNameSpace.Imports.AddRange(arrDefaultUsing);
 
             CodeTypeDeclarationCollection arrTypes = pCodeFileBuilder.GetCodeTypeDeclarationCollection();
             List<CodeTypeDeclaration> listType = new List<CodeTypeDeclaration>();
             foreach (CodeTypeDeclaration pType in arrTypes)
                 listType.Add(pType);
 
-            CodeNamespace pNameSpace = new CodeNamespace();
-            pNameSpace.Imports.AddRange(listDefaultUsing.ToArray());
 
-            CodeTypeDeclaration pGlobalKeyEnum = listType.Where(p => p.Name == const_GlobalKey_EnumName).FirstOrDefault();
             HashSet<CodeTypeDeclaration> setExecutedType = new HashSet<CodeTypeDeclaration>();
-
             IEnumerable<CodeTypeDeclaration> listUnitySO = listType.Where(p => string.IsNullOrEmpty(p.Name) == false && p.IsClass);
             foreach (CodeTypeDeclaration pType in listUnitySO)
             {
@@ -123,14 +126,17 @@ namespace SpreadSheetParser
 
                 Create_SO(pCodeFileBuilder, pNameSpace, pType, pSaveData);
 
+                IEnumerable<CodeTypeDeclaration> arrEnumTypes = listType.Where(p => pSaveData.listEnumName.Contains(p.Name));
+                foreach(var pEnumType in arrEnumTypes)
+                    setExecutedType.Add(pEnumType);
+
                 if (pSaveData.eType == ESheetType.Global)
                 {
-                    Create_GlobalSOContainer(pCodeFileBuilder, pNameSpace, arrDefaultUsing, pType, pGlobalKeyEnum, pSaveData);
-                    setExecutedType.Add(pGlobalKeyEnum);
+                    Create_GlobalSOContainer(pCodeFileBuilder, pNameSpace, arrDefaultUsing, pType, arrEnumTypes.ToArray(), pSaveData);
                 }
                 else
                 {
-                    Create_SOContainer(pCodeFileBuilder, pNameSpace, arrDefaultUsing, pType, pSaveData);
+                    Create_SOContainer(pCodeFileBuilder, pNameSpace, arrDefaultUsing, pType, arrEnumTypes.ToArray(), pSaveData);
                 }
 
                 OnPrintWorkState?.Invoke($"UnitySO - Working SO {pType.Name}");
@@ -164,12 +170,11 @@ namespace SpreadSheetParser
             pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pType.Name}");
         }
 
-        private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration pGlobalKeyEnumType, TypeData pSaveData)
+        private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration[] arrEnumType, TypeData pSaveData)
         {
             CodeTypeDeclaration pContainerType;
             CodeMemberMethod pInitMethod;
-            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, out pContainerType, out pInitMethod);
-            pNameSpace.Types.Add(pGlobalKeyEnumType);
+            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out pContainerType, out pInitMethod);
 
             IEnumerable<FieldTypeData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
 
@@ -202,11 +207,11 @@ namespace SpreadSheetParser
         }
 
 
-        private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, TypeData pSaveData)
+        private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration[] arrEnumType, TypeData pSaveData)
         {
             CodeTypeDeclaration pContainerType;
             CodeMemberMethod pInitMethod;
-            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, out pContainerType, out pInitMethod);
+            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out pContainerType, out pInitMethod);
 
             IEnumerable<FieldTypeData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
             foreach (var pFieldData in listKeyField)
@@ -231,7 +236,7 @@ namespace SpreadSheetParser
             pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pContainerType.Name}");
         }
 
-        private void Create_SOContainer(CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, out CodeTypeDeclaration pContainerType, out CodeMemberMethod pInitMethod)
+        private void Create_SOContainer(CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration[] arrEnumType, out CodeTypeDeclaration pContainerType, out CodeMemberMethod pInitMethod)
         {
             pContainerType = new CodeTypeDeclaration(pType.Name + "_Container");
             pContainerType.AddBaseClass("UnityEngine.ScriptableObject");
@@ -242,6 +247,7 @@ namespace SpreadSheetParser
             pNameSpace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));
             pNameSpace.Types.Clear();
             pNameSpace.Types.Add(pContainerType);
+            pNameSpace.Types.AddRange(arrEnumType);
 
             pContainerType.AddField(new FieldTypeData(const_strListData, $"List<{pType.Name}>"));
             pInitMethod = Generate_InitMethod(pContainerType, pType.Name);
@@ -251,13 +257,17 @@ namespace SpreadSheetParser
         {
             var pMethod = pContainerType.AddMethod($"DoInit");
 
-            pMethod.Statements.Add(new CodeSnippetStatement("#if UNITY_EDITOR"));
-            pMethod.Statements.Add(new CodeSnippetStatement("        listData.Clear();"));
-            pMethod.Statements.Add(new CodeSnippetStatement("        Object[] arrObject = UnityEditor.AssetDatabase.LoadAllAssetRepresentationsAtPath(UnityEditor.AssetDatabase.GetAssetPath(this));"));
-            pMethod.Statements.Add(new CodeSnippetStatement("        for (int i = 0; i < arrObject.Length; i++)"));
-            pMethod.Statements.Add(new CodeSnippetStatement($"           listData.Add(({strTypeName})arrObject[i]);"));
+            pMethod.Parameters.Add(new CodeParameterDeclarationExpression(typeof(bool), "bIsUpdateChildAsset"));
 
-            pMethod.Statements.Add(new CodeSnippetStatement("       UnityEditor.EditorUtility.SetDirty(this);"));
+            pMethod.Statements.Add(new CodeSnippetStatement("#if UNITY_EDITOR"));
+            pMethod.Statements.Add(new CodeSnippetStatement("        if(bIsUpdateChildAsset)"));
+            pMethod.Statements.Add(new CodeSnippetStatement("        {"));
+            pMethod.Statements.Add(new CodeSnippetStatement("           listData.Clear();"));
+            pMethod.Statements.Add(new CodeSnippetStatement("           Object[] arrObject = UnityEditor.AssetDatabase.LoadAllAssetRepresentationsAtPath(UnityEditor.AssetDatabase.GetAssetPath(this));"));
+            pMethod.Statements.Add(new CodeSnippetStatement("           for (int i = 0; i < arrObject.Length; i++)"));
+            pMethod.Statements.Add(new CodeSnippetStatement($"               listData.Add(({strTypeName})arrObject[i]);"));
+            pMethod.Statements.Add(new CodeSnippetStatement("           UnityEditor.EditorUtility.SetDirty(this);"));
+            pMethod.Statements.Add(new CodeSnippetStatement("        }"));
             pMethod.Statements.Add(new CodeSnippetStatement("#endif"));
 
             return pMethod;
@@ -301,6 +311,8 @@ namespace SpreadSheetParser
             }
             else
             {
+                strParseString = $"({strTypeName})System.Enum.Parse(typeof({strTypeName}), {strParseString})";
+                
                 // SpreadSheetParser_MainForm.WriteConsole($"Error Parsing Not Define {strTypeName}");
             }
 
@@ -340,16 +352,16 @@ namespace SpreadSheetParser
                 CodeMethodInvokeExpression pMethod_Caching = new CodeMethodInvokeExpression(
                     new CodeVariableReferenceExpression("arrLocal"), "ToDictionary", new CodeSnippetExpression($"g => g.Key, g => g.ToList()"));
 
-                CodeAssignStatement pCachAssign = new CodeAssignStatement(pCasheMemberReference, pMethod_Caching);
-                pMethod.Statements.Add(pCachAssign);
+                CodeAssignStatement pCacheAssign = new CodeAssignStatement(pCasheMemberReference, pMethod_Caching);
+                pMethod.Statements.Add(pCacheAssign);
             }
             else
             {
                 CodeMethodInvokeExpression pMethod_Caching = new CodeMethodInvokeExpression(
                     pField_List, "ToDictionary", new CodeSnippetExpression($"x => x.{strCacheFieldName}"));
 
-                CodeAssignStatement pCachAssign = new CodeAssignStatement(pCasheMemberReference, pMethod_Caching);
-                pMethod.Statements.Add(pCachAssign);
+                CodeAssignStatement pCacheAssign = new CodeAssignStatement(pCasheMemberReference, pMethod_Caching);
+                pMethod.Statements.Add(pCacheAssign);
             }
 
             pInitMethod.Statements.Add(new CodeMethodInvokeExpression(

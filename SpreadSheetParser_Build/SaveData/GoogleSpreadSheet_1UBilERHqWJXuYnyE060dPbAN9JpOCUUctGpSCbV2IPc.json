@@ -1,7 +1,7 @@
 {
   "strSheetID": "1UBilERHqWJXuYnyE060dPbAN9JpOCUUctGpSCbV2IPc",
   "eType": 0,
-  "date_LastEdit": "2020-02-04T21:52:03.7877004+09:00",
+  "date_LastEdit": "2020-02-17T23:28:47.6785546+09:00",
   "listTable": [
     {
       "bEnable": false,
@@ -19,7 +19,7 @@
       "strSheetName": "문자열",
       "strHeaderFieldName": "strLanguageKey",
       "eType": 0,
-      "strCommandLine": null,
+      "strCommandLine": "-ispartial",
       "listFieldData": [
         {
           "strFieldName": "eLanguageKey",
@@ -495,20 +495,6 @@
           "bConvertStringToEnum": false
         },
         {
-          "strFieldName": "strMonsterName",
-          "strFieldType": "string",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bIsTemp": false,
-          "bConvertStringToEnum": true
-        },
-        {
           "strFieldName": "eStageEvent",
           "strFieldType": "EStageEvent",
           "strComment": null,
@@ -553,6 +539,20 @@
         {
           "strFieldName": "iRoom",
           "strFieldType": "int",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eMonsterKey",
+          "strFieldType": "EMonsterKey",
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
@@ -770,34 +770,6 @@
           "bIsKeyField": false,
           "bIsOverlapKey": false,
           "bIsTemp": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strType",
-          "strFieldType": "int",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
-          "bIsVirtualField": true,
-          "bDeleteThisField_InCode": true,
-          "bIsKeyField": true,
-          "bIsOverlapKey": true,
-          "bIsTemp": true,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strType",
-          "strFieldType": "EEffectKey",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
-          "bIsVirtualField": true,
-          "bDeleteThisField_InCode": true,
-          "bIsKeyField": true,
-          "bIsOverlapKey": true,
-          "bIsTemp": true,
           "bConvertStringToEnum": false
         }
       ],
@@ -1060,6 +1032,34 @@
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
+          "strEnumName": "",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eItemKey",
+          "strFieldType": "EItemKey",
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strItemKey\"/>",
+          "strDependencyFieldName": "strItemKey",
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": "",
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strItemDescKey",
+          "strFieldType": "string",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
           "strEnumName": null,
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
@@ -1318,6 +1318,115 @@
       "listEnumName": [
         "EAttackKey"
       ]
+    },
+    {
+      "bEnable": true,
+      "strFileName": "QuestData",
+      "strSheetName": "퀘스트",
+      "strHeaderFieldName": null,
+      "eType": 0,
+      "strCommandLine": null,
+      "listFieldData": [
+        {
+          "strFieldName": "strQuestName",
+          "strFieldType": "string",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "iStageIndex",
+          "strFieldType": "int",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "iCondition",
+          "strFieldType": "int",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fDelay",
+          "strFieldType": "float",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eStageEvent",
+          "strFieldType": "EStageEvent",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "fPositionX",
+          "strFieldType": "float",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eMonsterKey",
+          "strFieldType": "EMonsterKey",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        }
+      ],
+      "listEnumName": []
     }
   ],
   "listSaveWork": [
