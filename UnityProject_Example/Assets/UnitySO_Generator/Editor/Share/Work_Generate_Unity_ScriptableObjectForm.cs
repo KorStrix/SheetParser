@@ -182,7 +182,7 @@ namespace SpreadSheetParser
             IEnumerable<FieldTypeData> listRealField = pSaveData.listFieldData.Where(p => p.bIsKeyField == false);
             foreach (var pRealField in listRealField)
             {
-                if (pRealField.strFieldName.ToLower().Contains(nameof(TypeDataHelper.EGlobalColumnType.Value).ToLower()))
+                if (pRealField.strFieldName.ToLower().Contains(nameof(EGlobalColumnType.Value).ToLower()))
                 {
                     strValueFieldName = pRealField.strFieldName;
                     break;

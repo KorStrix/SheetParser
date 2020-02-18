@@ -43,8 +43,12 @@ namespace SpreadSheetParser
                 for (int i = 0; i < listSheet.Count; i++)
                 {
                     string strSheetName = listSheet[i].ToString();
-                    if (listSavedTable.Where(x => (x.strSheetName == strSheetName)).Count() == 0)
-                        listSavedTable.Add(new TypeData(strSheetName));
+
+                    TypeData pTypeDataFind = listSavedTable.Where(x => (x.strSheetName == strSheetName)).FirstOrDefault();
+                    if (pTypeDataFind == null)
+                        listSavedTable.Add(new TypeData(strSheetName, i));
+                    else
+                        pTypeDataFind.iOrder = i;
                 }
             }
             else
@@ -54,7 +58,7 @@ namespace SpreadSheetParser
 
                 pSpreadSheet_CurrentConnected.listTable.Clear();
                 for (int i = 0; i < listSheet.Count; i++)
-                    pSpreadSheet_CurrentConnected.listTable.Add(new TypeData(listSheet[i].ToString()));
+                    pSpreadSheet_CurrentConnected.listTable.Add(new TypeData(listSheet[i].ToString(), i));
 
                 SaveDataManager.SaveSheet(pSpreadSheet_CurrentConnected);
 
@@ -63,6 +67,7 @@ namespace SpreadSheetParser
 
             checkedListBox_SheetList.Items.Clear();
             List<TypeData> listSheetSaved = pSpreadSheet_CurrentConnected.listTable;
+            listSheetSaved.Sort((x, y) => x.iOrder.CompareTo(y.iOrder));
 
             TypeData[] arrSheetDelete = listSheetSaved.Where((pSheet) =>
             listSheet.Where((pSheetWrapper) => pSheetWrapper.ToString() == pSheet.strSheetName).Count() == 0).ToArray();

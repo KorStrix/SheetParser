@@ -44,6 +44,7 @@ namespace SpreadSheetParser
 
         public delegate void delOnFinishConnect(string strSheetID, string strFileName, ESpreadSheetType eSheetType, List<SheetWrapper> listSheet, Exception pException_OnError);
 
+        public string strFileName { get; private set; }
         public bool bIsConnected => _pService != null && _pService.Spreadsheets != null;
 
         SheetsService _pService;
@@ -87,7 +88,7 @@ namespace SpreadSheetParser
                 return;
             }
 
-            string strFileName = "";
+            strFileName = "";
             var pRequest_HandShake = _pService.Spreadsheets.Get(strSheetID);
             try
             {
@@ -185,7 +186,7 @@ namespace SpreadSheetParser
                 }
             });
 
-            string strFileName = Path.GetFileNameWithoutExtension(strFileAbsolutePath_And_IncludeExtension);
+            strFileName = Path.GetFileNameWithoutExtension(strFileAbsolutePath_And_IncludeExtension);
             pSyncContext_Call.Send(new SendOrPostCallback(o =>
             {
                 OnFinishConnect(strFileAbsolutePath_And_IncludeExtension, strFileName, _eConnectedSheetType, listSheet, pException_OnError);

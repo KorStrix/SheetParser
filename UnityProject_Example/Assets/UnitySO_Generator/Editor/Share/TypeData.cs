@@ -18,11 +18,9 @@ namespace SpreadSheetParser
         public string strFileName;
         public List<TypeData> listTypeData = new List<TypeData>();
 
-        [System.NonSerialized]
-        public Dictionary<string, TypeData> mapType = new Dictionary<string, TypeData>();
-        public void DoInit()
+        public TypeDataList(string strFileName)
         {
-            mapType = listTypeData.ToDictionary(p => p.strFileName);
+            this.strFileName = strFileName;
         }
     }
 
@@ -38,6 +36,8 @@ namespace SpreadSheetParser
         public ESheetType eType;
         public string strCommandLine;
         public List<FieldTypeData> listFieldData = new List<FieldTypeData>();
+        public List<string> listEnumName = new List<string>();
+
         public TypeData(string strSheetName)
         {
             this.strSheetName = strSheetName;

@@ -99,6 +99,11 @@ namespace SpreadSheetParser
             if (bIsEnum)
                 return;
 
+            UpdateSheetData(pSheetData);
+        }
+
+        private void UpdateSheetData(TypeData pSheetData)
+        {
             int iDefinedTypeRow = -1;
             List<FieldTypeData> listFieldOption = pSheetData.listFieldData;
             HashSet<string> setRealField = new HashSet<string>();
@@ -108,7 +113,7 @@ namespace SpreadSheetParser
                 if (strText.Contains(":") == false)
                     return;
 
-                if(iDefinedTypeRow == -1)
+                if (iDefinedTypeRow == -1)
                     iDefinedTypeRow = iRowIndex;
 
                 if (iDefinedTypeRow != iRowIndex)

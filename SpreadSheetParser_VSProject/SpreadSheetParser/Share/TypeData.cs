@@ -30,6 +30,7 @@ namespace SpreadSheetParser
     {
         public bool bEnable = true;
 
+        public int iOrder;
         public string strFileName;
         public string strSheetName;
         public string strHeaderFieldName;
@@ -38,7 +39,7 @@ namespace SpreadSheetParser
         public List<FieldTypeData> listFieldData = new List<FieldTypeData>();
         public List<string> listEnumName = new List<string>();
 
-        public TypeData(string strSheetName)
+        public TypeData(string strSheetName, int iOrder)
         {
             this.strSheetName = strSheetName;
             this.strFileName = strSheetName;

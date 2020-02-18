@@ -31,6 +31,7 @@ namespace SpreadSheetParser
         ispartial,
         baseis,
         addusing,
+        useusing,
     }
     static public class TypeDataHelper
     {
@@ -206,6 +207,9 @@ namespace SpreadSheetParser
             var pCodeType_Class = pCodeFileBuilder.AddCodeType(pSheetData.strFileName, pSheetData.eType);
             var pCodeType_GlobalKey = pCodeFileBuilder.AddCodeType(const_GlobalKey_EnumName, ESheetType.Enum);
 
+            if(pSheetData.listEnumName.Contains(const_GlobalKey_EnumName) == false)
+                pSheetData.listEnumName.Add(const_GlobalKey_EnumName);
+
             Dictionary<int, EGlobalColumnType> mapGlobalColumnType = new Dictionary<int, EGlobalColumnType>();
             HashSet<string> setGlobalTable_ByType = new HashSet<string>();
 
@@ -355,6 +359,9 @@ namespace SpreadSheetParser
                       {
                           FieldTypeData pFieldData = mapFieldData_ConvertStringToEnum[strFieldName];
                           mapEnumType.Add(iColumn, pCodeFileBuilder.AddCodeType(pFieldData.strEnumName, ESheetType.Enum));
+
+                          if (pSheetData.listEnumName.Contains(pFieldData.strEnumName) == false)
+                              pSheetData.listEnumName.Add(pFieldData.strEnumName);
                       }
 
                       // 삭제되는 코드인 경우
@@ -450,6 +457,7 @@ namespace SpreadSheetParser
                         case ECommandLine.comment:
                         case ECommandLine.baseis:
                         case ECommandLine.addusing:
+                        case ECommandLine.useusing:
                             bHasValue = true;
                             break;
 

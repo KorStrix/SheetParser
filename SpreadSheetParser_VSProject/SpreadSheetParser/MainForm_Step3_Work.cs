@@ -17,7 +17,11 @@ namespace SpreadSheetParser
             try
             {
                 foreach (var pItem in checkedListBox_SheetList.CheckedItems)
-                    ((TypeData)pItem).DoWork(pSheetConnector, _pCodeFileBuilder, WriteConsole);
+                {
+                    TypeData pSheetData = (TypeData)pItem;
+                    UpdateSheetData(pSheetData);
+                    pSheetData.DoWork(pSheetConnector, _pCodeFileBuilder, WriteConsole);
+                }
             }
             catch (Exception pException)
             {
@@ -54,7 +58,7 @@ namespace SpreadSheetParser
 
             WorkBase pNewWork = pWork.CopyInstance();
             pNewWork.ShowForm();
-            checkedListBox_WorkList.Items.Add(pNewWork);
+            checkedListBox_WorkList.Items.Add(pNewWork, true);
             pSpreadSheet_CurrentConnected.listSaveWork.Add(pNewWork);
             Update_WorkListOrder();
         }
