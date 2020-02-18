@@ -63,13 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\ExportData\SO\global.cs" />
-    <Compile Include="Assets\ExportData\SO\global_Container.cs" />
-    <Compile Include="Assets\ExportData\SO\Others.cs" />
-    <Compile Include="Assets\ExportData\SO\UnitySO.cs" />
-    <Compile Include="Assets\ExportData\SO\UnitySO_Container.cs" />
-    <Compile Include="Assets\ExportData\SO\UnitySO2.cs" />
-    <Compile Include="Assets\ExportData\SO\UnitySO2_Container.cs" />
+    <Compile Include="Assets\ExportData\global.cs" />
+    <Compile Include="Assets\ExportData\global_Container.cs" />
+    <Compile Include="Assets\ExportData\UnitySO.cs" />
+    <Compile Include="Assets\ExportData\UnitySO_Container.cs" />
+    <Compile Include="Assets\ExportData\UnitySO2.cs" />
+    <Compile Include="Assets\ExportData\UnitySO2_Container.cs" />
     <Compile Include="Assets\Tester.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/SpreadSheetParser/UnityProject_Example/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

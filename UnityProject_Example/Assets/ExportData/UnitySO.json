@@ -23,6 +23,13 @@
       "strAutoEnum": "AutoEnum_3",
       "AutoEnumValue": "AutoEnum_3",
       "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/Blue2.mat",
+      "strComment": "파랑색 메테리얼2",
+      "intValue": "2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1"
     }
   ]
 }

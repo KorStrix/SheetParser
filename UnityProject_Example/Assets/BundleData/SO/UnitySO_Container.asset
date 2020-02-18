@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: UnitySO_Container
   m_EditorClassIdentifier: 
   listData:
-  - {fileID: 114296077882875100}
-  - {fileID: 114708683362942602}
   - {fileID: 114507112888624408}
+  - {fileID: 114708683362942602}
+  - {fileID: 114296077882875100}
 --- !u!114 &114296077882875100
 MonoBehaviour:
   m_ObjectHideFlags: 0

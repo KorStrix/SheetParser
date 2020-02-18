@@ -1,39 +1,45 @@
 {
   "array": [
     {
-      "strGlobalKey": "floatValue",
+      "GlobalKey": "floatValue",
       "strValue": "1.1",
       "strType": "float",
       "strComment": "플롯설명"
     },
     {
-      "strGlobalKey": "stringValue",
+      "GlobalKey": "stringValue",
       "strValue": "stringTest",
       "strType": "string",
       "strComment": "스트링설명"
     },
     {
-      "strGlobalKey": "intValue",
+      "GlobalKey": "intValue",
       "strValue": "7",
       "strType": "int",
       "strComment": "인트설명"
     },
     {
-      "strGlobalKey": "intValue22",
+      "GlobalKey": "intValue22",
       "strValue": "-9",
       "strType": "int",
       "strComment": "인트설명22"
     },
     {
-      "strGlobalKey": "strValue22",
+      "GlobalKey": "strValue22",
       "strValue": "strValue22",
       "strType": "string"
     },
     {
-      "strGlobalKey": "test",
+      "GlobalKey": "test",
       "strValue": "test2",
       "strType": "string",
       "strComment": "test33"
+    },
+    {
+      "GlobalKey": "Test44",
+      "strValue": "test44",
+      "strType": "string",
+      "strComment": "Test4444"
     }
   ]
 }

@@ -19,6 +19,7 @@ namespace SpreadSheetParser
                 foreach (var pItem in checkedListBox_SheetList.CheckedItems)
                 {
                     TypeData pSheetData = (TypeData)pItem;
+                    ListView_Field_SelectedIndexChanged(null, null);
                     UpdateSheetData(pSheetData);
                     pSheetData.DoWork(pSheetConnector, _pCodeFileBuilder, WriteConsole);
                 }

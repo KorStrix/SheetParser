@@ -241,7 +241,7 @@ public class UnitySO_Generator : EditorWindow
         _listSheet.Clear();
 
         await _pConnector.DoConnect(pConfig.strSheetID, 
-            (string strSheetID, string strFileName, ESpreadSheetType eSheetType, List < SheetWrapper> listSheet, Exception pException_OnError) => 
+            (string strSheetID, string strFileName, ESpreadSheetType eSheetType, List <SheetWrapper> listSheet, Exception pException_OnError) => 
             {
                 _strFileName = strFileName;
                 if (pException_OnError != null)
@@ -268,12 +268,14 @@ public class UnitySO_Generator : EditorWindow
 
         
         CodeFileBuilder pCodeFileBuilder = new CodeFileBuilder();
-        IEnumerable<TypeData> arrTypeData = _pTypeDataList.listTypeData.Where(p => p.bEnable);
-        foreach(var pTypeDatta in arrTypeData)
-            pTypeDatta.DoWork(_pConnector, pCodeFileBuilder, null);
 
-        _pWork_Json.DoWork(pCodeFileBuilder, _pConnector, arrTypeData, null);
-        _pWork_SO.DoWork(pCodeFileBuilder, _pConnector, arrTypeData, null);
+        // Enable 된 것은 기존 로직대로 원본 소스에서 받아서 코드 디피니션에 추가
+        IEnumerable<TypeData> arrTypeData_Enable = _pTypeDataList.listTypeData.Where(p => p.bEnable);
+        foreach(var pTypeData in arrTypeData_Enable)
+            pTypeData.DoWork(_pConnector, pCodeFileBuilder, null);
+
+        _pWork_Json.DoWork(pCodeFileBuilder, _pConnector, _pTypeDataList.listTypeData, null);
+        _pWork_SO.DoWork(pCodeFileBuilder, _pConnector, _pTypeDataList.listTypeData, null);
         AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
         Debug.Log(" EditorApplication.isCompiling : " + EditorApplication.isCompiling);
 
@@ -298,7 +300,7 @@ public class UnitySO_Generator : EditorWindow
         foreach (TypeData pTypeData in _pTypeDataList.listTypeData)
         {
             string strTypeName = pTypeData.strFileName;
-            System.Type pType_SO = GetTypeFromAssemblies(strTypeName, typeof(UnityEngine.ScriptableObject));
+            System.Type pType_SO = GetTypeFromAssemblies(strTypeName, typeof(ScriptableObject));
             if (pType_SO == null)
             {
                 Debug.LogError($"pType_SO == null - {strTypeName} - {strTypeName}");
@@ -353,7 +355,7 @@ public class UnitySO_Generator : EditorWindow
             var pObject = pOtherSO_Instance.listSO.Where(p => p.name == pReference_OtherSOData.strValue).FirstOrDefault();
             if(pObject == null)
             {
-                Debug.LogError($"Not Found {pReference_OtherSOData.strValue}");
+                Debug.LogError($"Not Found \"{pReference_OtherSOData.strValue}\"");
                 continue;
             }
 

@@ -11,6 +11,8 @@ namespace SpreadSheetParser
     {
         private void ListView_Field_SelectedIndexChanged(object sender, EventArgs e)
         {
+            listView_Field.Items.Clear();
+
             FieldTypeData pFieldData = null;
             bool bEnable = listView_Field.SelectedIndices.Count > 0;
             if (bEnable)
@@ -88,7 +90,6 @@ namespace SpreadSheetParser
 
         private void CheckedListBox_SheetList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listView_Field.Items.Clear();
 
             ListView_Field_SelectedIndexChanged(null, null);
             TypeData pSheetData = (TypeData)checkedListBox_SheetList.SelectedItem;
