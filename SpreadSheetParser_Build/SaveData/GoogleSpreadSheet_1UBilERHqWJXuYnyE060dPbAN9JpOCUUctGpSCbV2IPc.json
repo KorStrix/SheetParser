@@ -1,7 +1,7 @@
 {
   "strSheetID": "1UBilERHqWJXuYnyE060dPbAN9JpOCUUctGpSCbV2IPc",
   "eType": 0,
-  "date_LastEdit": "2020-02-22T13:30:07.1333844+09:00",
+  "date_LastEdit": "2020-02-23T15:56:23.6866197+09:00",
   "listTable": [
     {
       "bEnable": false,
@@ -12,74 +12,6 @@
       "eType": 0,
       "strCommandLine": null,
       "listFieldData": [],
-      "listEnumName": []
-    },
-    {
-      "bEnable": true,
-      "iOrder": 0,
-      "strFileName": "StageBGData",
-      "strSheetName": "스테이지 배경",
-      "strHeaderFieldName": null,
-      "eType": 0,
-      "strCommandLine": null,
-      "listFieldData": [
-        {
-          "strFieldName": "eStageKey",
-          "strFieldType": "EStageKey",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": "",
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": true,
-          "bIsOverlapKey": true,
-          "bIsTemp": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strBGType",
-          "strFieldType": "EStageBGType",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bIsTemp": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strFilePath",
-          "strFieldType": "string",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": "",
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": true,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bIsTemp": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "pSprite",
-          "strFieldType": "UnityEngine.Sprite",
-          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strFilePath\"/>",
-          "strDependencyFieldName": "strFilePath",
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": "",
-          "bIsVirtualField": true,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bIsTemp": false,
-          "bConvertStringToEnum": false
-        }
-      ],
       "listEnumName": []
     },
     {
@@ -156,48 +88,6 @@
           "bIsKeyField": false,
           "bIsOverlapKey": false,
           "bIsTemp": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strType",
-          "strFieldType": "int",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
-          "bIsVirtualField": true,
-          "bDeleteThisField_InCode": true,
-          "bIsKeyField": true,
-          "bIsOverlapKey": true,
-          "bIsTemp": true,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strType",
-          "strFieldType": "EEffectKey",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
-          "bIsVirtualField": true,
-          "bDeleteThisField_InCode": true,
-          "bIsKeyField": true,
-          "bIsOverlapKey": true,
-          "bIsTemp": true,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "strType",
-          "strFieldType": "float",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
-          "bIsVirtualField": true,
-          "bDeleteThisField_InCode": true,
-          "bIsKeyField": true,
-          "bIsOverlapKey": true,
-          "bIsTemp": true,
           "bConvertStringToEnum": false
         }
       ],
@@ -1172,13 +1062,128 @@
     {
       "bEnable": true,
       "iOrder": 11,
-      "strFileName": "ItemMixData",
+      "strFileName": "ItemCombineData",
       "strSheetName": "아이템 조합",
-      "strHeaderFieldName": null,
+      "strHeaderFieldName": "strRecipeKey",
       "eType": 0,
-      "strCommandLine": null,
-      "listFieldData": [],
-      "listEnumName": []
+      "strCommandLine": "-ispartial",
+      "listFieldData": [
+        {
+          "strFieldName": "strRecipeKey",
+          "strFieldType": "string",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": "ERecipeKey",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": true
+        },
+        {
+          "strFieldName": "eRecipeDataType",
+          "strFieldType": "ERecipeDataType",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "iGroup",
+          "strFieldType": "int",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "iCount_Min",
+          "strFieldType": "int",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "iCount_Max",
+          "strFieldType": "int",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "iPercentage",
+          "strFieldType": "int",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eRecipeKey",
+          "strFieldType": "ERecipeKey",
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strRecipeKey\"/>",
+          "strDependencyFieldName": "strRecipeKey",
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": "",
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eItemKey",
+          "strFieldType": "EItemKey",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        }
+      ],
+      "listEnumName": [
+        "ERecipeKey"
+      ]
     },
     {
       "bEnable": true,
@@ -1189,20 +1194,6 @@
       "eType": 0,
       "strCommandLine": "-ispartial",
       "listFieldData": [
-        {
-          "strFieldName": "strItemKey",
-          "strFieldType": "string",
-          "strComment": null,
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": "",
-          "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bIsTemp": false,
-          "bConvertStringToEnum": false
-        },
         {
           "strFieldName": "fDropValue_Each",
           "strFieldType": "float",
@@ -1270,6 +1261,20 @@
           "bDeleteThisField_InCode": false,
           "bIsKeyField": true,
           "bIsOverlapKey": true,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eItemKey",
+          "strFieldType": "EItemKey",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
           "bIsTemp": false,
           "bConvertStringToEnum": false
         }
@@ -1475,6 +1480,74 @@
         "EStageKey",
         null
       ]
+    },
+    {
+      "bEnable": true,
+      "iOrder": 15,
+      "strFileName": "StageBGData",
+      "strSheetName": "스테이지 배경",
+      "strHeaderFieldName": null,
+      "eType": 0,
+      "strCommandLine": null,
+      "listFieldData": [
+        {
+          "strFieldName": "eStageKey",
+          "strFieldType": "EStageKey",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": "",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strBGType",
+          "strFieldType": "EStageBGType",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strFilePath",
+          "strFieldType": "string",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": "",
+          "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "pSprite",
+          "strFieldType": "UnityEngine.Sprite",
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"strFilePath\"/>",
+          "strDependencyFieldName": "strFilePath",
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": "",
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        }
+      ],
+      "listEnumName": []
     },
     {
       "bEnable": true,

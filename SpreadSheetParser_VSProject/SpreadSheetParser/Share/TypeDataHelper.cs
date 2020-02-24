@@ -413,7 +413,15 @@ namespace SpreadSheetParser
                         return;
                     }
 
-                    eType = mapEnumType[iColumn];
+                    try
+                    {
+                        eType = mapEnumType[iColumn];
+                    }
+                    catch
+                    {
+                        eType = mapEnumType[iColumn];
+                    }
+
                     if (eType != EEnumHeaderType.EnumType)
                         return;
 
