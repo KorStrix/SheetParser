@@ -99,10 +99,10 @@ namespace SpreadSheetParser
             if (bIsEnum)
                 return;
 
-            UpdateSheetData(pSheetData);
+            UpdateSheetData(pSheetData, true, true);
         }
 
-        private void UpdateSheetData(TypeData pSheetData)
+        private void UpdateSheetData(TypeData pSheetData, bool bUpdateUI, bool bSaveSheet)
         {
             int iDefinedTypeRow = -1;
             List<FieldTypeData> listFieldOption = pSheetData.listFieldData;
@@ -136,7 +136,8 @@ namespace SpreadSheetParser
                         pSheetData.listFieldData.Remove(arrFieldData[i]);
                 }
 
-                listView_Field.Items.Add(arrFieldData[0].ConvertListViewItem());
+                if(bUpdateUI)
+                    listView_Field.Items.Add(arrFieldData[0].ConvertListViewItem());
             }));
 
             IEnumerable<FieldTypeData> pDeleteFieldOption = listFieldOption.Where((pFieldOption) => setRealField.Contains(pFieldOption.strFieldName) == false);
@@ -145,10 +146,13 @@ namespace SpreadSheetParser
                 foreach (FieldTypeData pFieldOption in pDeleteFieldOption)
                 {
                     pFieldOption.bIsVirtualField = true;
-                    listView_Field.Items.Add(pFieldOption.ConvertListViewItem());
+    
+                    if(bUpdateUI)
+                        listView_Field.Items.Add(pFieldOption.ConvertListViewItem());
                 }
 
-                AutoSaveAsync_CurrentSheet();
+                if(bSaveSheet)
+                    AutoSaveAsync_CurrentSheet();
             }
         }
 

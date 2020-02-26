@@ -101,6 +101,7 @@
             this.comboBox_ExcelPath_Saved = new System.Windows.Forms.ComboBox();
             this.textBox_ExcelPath_ForConnect = new System.Windows.Forms.TextBox();
             this.button_Connect_Excel = new System.Windows.Forms.Button();
+            this.button_StartParsing_Selected = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox_2_1_TableSetting.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -146,9 +147,9 @@
             // button_StartParsing
             // 
             this.button_StartParsing.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button_StartParsing.Location = new System.Drawing.Point(246, 252);
+            this.button_StartParsing.Location = new System.Drawing.Point(246, 261);
             this.button_StartParsing.Name = "button_StartParsing";
-            this.button_StartParsing.Size = new System.Drawing.Size(106, 40);
+            this.button_StartParsing.Size = new System.Drawing.Size(106, 31);
             this.button_StartParsing.TabIndex = 3;
             this.button_StartParsing.Text = "작업 시작!!";
             this.button_StartParsing.UseVisualStyleBackColor = true;
@@ -631,7 +632,7 @@
             // button_Check_TableAll
             // 
             this.button_Check_TableAll.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button_Check_TableAll.Location = new System.Drawing.Point(246, 192);
+            this.button_Check_TableAll.Location = new System.Drawing.Point(246, 172);
             this.button_Check_TableAll.Name = "button_Check_TableAll";
             this.button_Check_TableAll.Size = new System.Drawing.Size(106, 23);
             this.button_Check_TableAll.TabIndex = 24;
@@ -644,6 +645,7 @@
             this.groupBox3_WorkSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3_WorkSetting.AutoSize = true;
             this.groupBox3_WorkSetting.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox3_WorkSetting.Controls.Add(this.button_StartParsing_Selected);
             this.groupBox3_WorkSetting.Controls.Add(this.groupBox_3_1_SelectedWork);
             this.groupBox3_WorkSetting.Controls.Add(this.label4);
             this.groupBox3_WorkSetting.Controls.Add(this.comboBox_WorkList);
@@ -880,6 +882,17 @@
             this.button_Connect_Excel.UseVisualStyleBackColor = true;
             this.button_Connect_Excel.Click += new System.EventHandler(this.button_Connect_Excel_Click);
             // 
+            // button_StartParsing_Selected
+            // 
+            this.button_StartParsing_Selected.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_StartParsing_Selected.Location = new System.Drawing.Point(246, 212);
+            this.button_StartParsing_Selected.Name = "button_StartParsing_Selected";
+            this.button_StartParsing_Selected.Size = new System.Drawing.Size(106, 40);
+            this.button_StartParsing_Selected.TabIndex = 25;
+            this.button_StartParsing_Selected.Text = "선택한 시트만  작업 시작!";
+            this.button_StartParsing_Selected.UseVisualStyleBackColor = true;
+            this.button_StartParsing_Selected.Click += new System.EventHandler(this.button_StartParsing_Selected_Click);
+            // 
             // SpreadSheetParser_MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -995,6 +1008,7 @@
         private System.Windows.Forms.Button button_Connect_Excel;
         private System.Windows.Forms.Button button_SelectExcelFile;
         private System.Windows.Forms.Button button_LogClear;
+        private System.Windows.Forms.Button button_StartParsing_Selected;
     }
 }
 

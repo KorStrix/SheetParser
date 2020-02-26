@@ -260,14 +260,20 @@ namespace SpreadSheetParser
             pMethod.Parameters.Add(new CodeParameterDeclarationExpression(typeof(bool), "bIsUpdateChildAsset"));
 
             pMethod.Statements.Add(new CodeSnippetStatement("#if UNITY_EDITOR"));
-            pMethod.Statements.Add(new CodeSnippetStatement("        if(bIsUpdateChildAsset)"));
-            pMethod.Statements.Add(new CodeSnippetStatement("        {"));
-            pMethod.Statements.Add(new CodeSnippetStatement("           listData.Clear();"));
-            pMethod.Statements.Add(new CodeSnippetStatement("           Object[] arrObject = UnityEditor.AssetDatabase.LoadAllAssetRepresentationsAtPath(UnityEditor.AssetDatabase.GetAssetPath(this));"));
-            pMethod.Statements.Add(new CodeSnippetStatement("           for (int i = 0; i < arrObject.Length; i++)"));
-            pMethod.Statements.Add(new CodeSnippetStatement($"               listData.Add(({strTypeName})arrObject[i]);"));
-            pMethod.Statements.Add(new CodeSnippetStatement("           UnityEditor.EditorUtility.SetDirty(this);"));
-            pMethod.Statements.Add(new CodeSnippetStatement("        }"));
+            pMethod.Statements.Add(new CodeSnippetStatement("           if(bIsUpdateChildAsset)"));
+            pMethod.Statements.Add(new CodeSnippetStatement("           {"));
+            pMethod.Statements.Add(new CodeSnippetStatement("               listData.Clear();"));
+            pMethod.Statements.Add(new CodeSnippetStatement("               Object[] arrObject = UnityEditor.AssetDatabase.LoadAllAssetRepresentationsAtPath(UnityEditor.AssetDatabase.GetAssetPath(this));"));
+            pMethod.Statements.Add(new CodeSnippetStatement("               for (int i = 0; i < arrObject.Length; i++)"));
+            pMethod.Statements.Add(new CodeSnippetStatement($"                  listData.Add(({strTypeName})arrObject[i]);"));
+
+            pMethod.Statements.Add(new CodeSnippetStatement("               if(Application.isPlaying == false)"));
+            pMethod.Statements.Add(new CodeSnippetStatement("               {"));
+            pMethod.Statements.Add(new CodeSnippetStatement("                   UnityEditor.EditorUtility.SetDirty(this);"));
+            pMethod.Statements.Add(new CodeSnippetStatement("                   UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene());"));
+            pMethod.Statements.Add(new CodeSnippetStatement("               }"));
+
+            pMethod.Statements.Add(new CodeSnippetStatement("           }"));
             pMethod.Statements.Add(new CodeSnippetStatement("#endif"));
 
             return pMethod;
