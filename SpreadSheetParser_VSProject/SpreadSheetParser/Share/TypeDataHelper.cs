@@ -203,17 +203,14 @@ namespace SpreadSheetParser
 
         private static void Parsing_OnGlobal(TypeData pSheetData, SpreadSheetConnector pConnector, CodeFileBuilder pCodeFileBuilder)
         {
-            // 글로벌 테이블은 데이터를 담는 데이터컨테이너와 글로벌키 Enum타입 2개를 생성한다.
             var pCodeType_Class = pCodeFileBuilder.AddCodeType(pSheetData.strFileName, pSheetData.eType);
-            var pCodeType_GlobalKey = pCodeFileBuilder.AddCodeType(const_GlobalKey_EnumName, ESheetType.Enum);
-
-            if(pSheetData.listEnumName.Contains(const_GlobalKey_EnumName) == false)
-                pSheetData.listEnumName.Add(const_GlobalKey_EnumName);
 
             Dictionary<int, EGlobalColumnType> mapGlobalColumnType = new Dictionary<int, EGlobalColumnType>();
+            Dictionary<string, CodeTypeDeclaration> mapEnumFieldType = new Dictionary<string, CodeTypeDeclaration>();
             HashSet<string> setGlobalTable_ByType = new HashSet<string>();
 
-            string strTypeName = "";
+            string strKeyFieldName = "";
+            string strTypeFieldName = "";
             int iColumnIndex_Type = -1;
             int iColumnIndex_Comment = -1;
 
@@ -227,7 +224,7 @@ namespace SpreadSheetParser
                       string strFieldName = arrText[0];
                       string strFieldName_Lower = strFieldName.ToLower();
 
-                      for(int i = 0; i < (int)EGlobalColumnType.MAX; i++)
+                      for (int i = 0; i < (int)EGlobalColumnType.MAX; i++)
                       {
                           EGlobalColumnType eCurrentColumnType = (EGlobalColumnType)i;
                           if (strFieldName_Lower.Contains(eCurrentColumnType.ToString().ToLower()))
@@ -242,16 +239,8 @@ namespace SpreadSheetParser
                                           if (pFieldData != null)
                                               pFieldData.bDeleteThisField_InCode = true;
 
-                                          FieldTypeData pFieldData_Enum = pSheetData.listFieldData.Where(p => p.strFieldName == const_GlobalKey_FieldName).FirstOrDefault();
-                                          if(pFieldData_Enum == null)
-                                          {
-                                              pFieldData_Enum = new FieldTypeData(const_GlobalKey_FieldName, const_GlobalKey_EnumName);
-                                              pFieldData_Enum.strDependencyFieldName = pFieldData.strFieldName;
-                                              pFieldData_Enum.bIsVirtualField = true;
-                                              pSheetData.listFieldData.Add(pFieldData_Enum);
-                                          }
+                                          strKeyFieldName = strFieldName;
                                       }
-
                                       break;
 
                                   case EGlobalColumnType.Comment:
@@ -264,14 +253,15 @@ namespace SpreadSheetParser
                                       break;
 
                                   case EGlobalColumnType.Type:
-                                      iColumnIndex_Type = iColumn;
-                                      strTypeName = strFieldName;
-                                      pCodeType_Class.AddField(new FieldTypeData(strFieldName, arrText[1]));
+                                      {
+                                          iColumnIndex_Type = iColumn;
+                                          strTypeFieldName = strFieldName;
+                                          pCodeType_Class.AddField(new FieldTypeData(strFieldName, arrText[1]));
 
-                                      FieldTypeData pFieldData_Type = pSheetData.listFieldData.Where(p => p.strFieldName == strFieldName).FirstOrDefault();
-                                      if (pFieldData_Type == null)
-                                          pSheetData.listFieldData.Add(new FieldTypeData(strFieldName, arrText[1]));
-
+                                          FieldTypeData pFieldData_Type = pSheetData.listFieldData.Where(p => p.strFieldName == strFieldName).FirstOrDefault();
+                                          if (pFieldData_Type == null)
+                                              pSheetData.listFieldData.Add(new FieldTypeData(strFieldName, arrText[1]));
+                                      }
                                       break;
 
 
@@ -294,14 +284,35 @@ namespace SpreadSheetParser
                   {
                       case EGlobalColumnType.Key:
 
+                          string strTypeName = (string)listRow[iColumnIndex_Type];
+                          string strEnumTypeName = const_GlobalKey_EnumName + "_" + strTypeName;
+                          string strEnumFieldName = const_GlobalKey_FieldName + "_" + strTypeName;
+                          CodeTypeDeclaration pEnumTypeDeclaration;
+                          if (mapEnumFieldType.TryGetValue(strEnumTypeName, out pEnumTypeDeclaration) == false)
+                          {
+                              pEnumTypeDeclaration = AddEnumType(pSheetData, pCodeFileBuilder, strEnumTypeName);
+                              mapEnumFieldType.Add(strEnumTypeName, pEnumTypeDeclaration);
+                          }
+
+
+                          FieldTypeData pFieldData_Enum = pSheetData.listFieldData.Where(p => p.strFieldName == strEnumFieldName).FirstOrDefault();
+                          if (pFieldData_Enum == null)
+                          {
+                              pFieldData_Enum = new FieldTypeData(strEnumFieldName, strEnumTypeName);
+                              pFieldData_Enum.strDependencyFieldName = strKeyFieldName;
+                              pFieldData_Enum.bIsVirtualField = true;
+                              pSheetData.listFieldData.Add(pFieldData_Enum);
+                          }
+
+
                           string strComment = "";
                           if (iColumnIndex_Comment != -1 && iColumnIndex_Comment < listRow.Count)
                               strComment = (string)listRow[iColumnIndex_Comment];
 
                           if (string.IsNullOrEmpty(strComment))
-                              pCodeType_GlobalKey.AddEnumField(new EnumFieldData(strText));
+                              pEnumTypeDeclaration.AddEnumField(new EnumFieldData(strText));
                           else
-                              pCodeType_GlobalKey.AddEnumField(new EnumFieldData(strText, strComment));
+                              pEnumTypeDeclaration.AddEnumField(new EnumFieldData(strText, strComment));
 
                           break;
 
@@ -312,10 +323,10 @@ namespace SpreadSheetParser
                           setGlobalTable_ByType.Add(strText);
 
                           string strFieldType = (string)listRow[iColumnIndex_Type];
-                          FieldTypeData pFieldData = pSheetData.listFieldData.Where(p => p.strFieldName == strTypeName && p.strFieldType == strFieldType).FirstOrDefault();
+                          FieldTypeData pFieldData = pSheetData.listFieldData.Where(p => p.strFieldName == strTypeFieldName && p.strFieldType == strFieldType).FirstOrDefault();
                           if (pFieldData == null)
                           {
-                              pFieldData = new FieldTypeData(strTypeName, strFieldType);
+                              pFieldData = new FieldTypeData(strTypeFieldName, strFieldType);
                               pSheetData.listFieldData.Add(pFieldData);
                           }
 
@@ -328,6 +339,16 @@ namespace SpreadSheetParser
                           break;
                   }
               });
+        }
+
+        private static CodeTypeDeclaration AddEnumType(TypeData pSheetData, CodeFileBuilder pCodeFileBuilder, string strEnumTypeName)
+        {
+            var pCodeType_GlobalKey = pCodeFileBuilder.AddCodeType(strEnumTypeName, ESheetType.Enum);
+
+            if (pSheetData.listEnumName.Contains(strEnumTypeName) == false)
+                pSheetData.listEnumName.Add(strEnumTypeName);
+
+            return pCodeType_GlobalKey;
         }
 
         private static void Parsing_OnCode(TypeData pSheetData, SpreadSheetConnector pConnector, CodeFileBuilder pCodeFileBuilder, List<CommandLineArg> listCommandLine)

@@ -128,7 +128,7 @@ public class UnitySO_GeneratorConfig : ScriptableObject
 
         if(pAsset == null)
         {
-            pAsset = CreateInstance(pType);
+            pAsset = ScriptableObject.CreateInstance(pType);
 
             string strAssetPathAndName = AssetDatabase.GenerateUniqueAssetPath(strFullPath);
             AssetDatabase.CreateAsset(pAsset, strAssetPathAndName);

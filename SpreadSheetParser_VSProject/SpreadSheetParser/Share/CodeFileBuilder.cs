@@ -190,10 +190,10 @@ namespace SpreadSheetParser
             }
         }
 
-        public static void AddField(this CodeTypeDeclaration pCodeType, FieldTypeData pFieldData)
+        public static void AddField(this CodeTypeDeclaration pCodeType, FieldTypeData pFieldData, MemberAttributes eAttribute = MemberAttributes.Public)
         {
             CodeMemberField pField = new CodeMemberField();
-            pField.Attributes = MemberAttributes.Public;
+            pField.Attributes = eAttribute;
             pField.Name = pFieldData.strFieldName;
 
             Type pType = TypeParser.GetFieldType_OrNull(pFieldData.strFieldType);
@@ -215,6 +215,34 @@ namespace SpreadSheetParser
             }
 
             pCodeType.Members.Add(pField);
+        }
+        public static CodeMemberProperty AddProperty(this CodeTypeDeclaration pCodeType, FieldTypeData pFieldData, MemberAttributes eAttribute = MemberAttributes.Public)
+        {
+            CodeMemberProperty pProperty = new CodeMemberProperty();
+            pProperty.Attributes = eAttribute;
+            pProperty.Name = pFieldData.strFieldName;
+
+            Type pType = TypeParser.GetFieldType_OrNull(pFieldData.strFieldType);
+            if (pType == null)
+                pProperty.Type = new CodeTypeReference(pFieldData.strFieldType);
+            else
+                pProperty.Type = new CodeTypeReference(pType);
+
+            if (pFieldData.bIsVirtualField)
+            {
+                pFieldData.strComment = $"자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"{pFieldData.strDependencyFieldName}\"/>";
+            }
+
+            if (string.IsNullOrEmpty(pFieldData.strComment) == false)
+            {
+                pProperty.Comments.Add(new CodeCommentStatement("<summary>", true));
+                pProperty.Comments.Add(new CodeCommentStatement(pFieldData.strComment, true));
+                pProperty.Comments.Add(new CodeCommentStatement("</summary>", true));
+            }
+
+            pCodeType.Members.Add(pProperty);
+
+            return pProperty;
         }
 
         public static void AddEnumField(this CodeTypeDeclaration pCodeType, EnumFieldData pFieldData)

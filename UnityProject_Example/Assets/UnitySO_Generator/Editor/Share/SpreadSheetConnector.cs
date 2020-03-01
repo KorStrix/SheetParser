@@ -141,8 +141,6 @@ namespace SpreadSheetParser
 
                 return listData;
             }
-
-            return null;
         }
 
         public void DoOpen_Excel(string strFileAbsolutePath_And_IncludeExtension, delOnFinishConnect OnFinishConnect)

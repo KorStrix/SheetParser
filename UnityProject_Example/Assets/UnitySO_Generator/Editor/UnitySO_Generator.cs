@@ -241,7 +241,7 @@ public class UnitySO_Generator : EditorWindow
         _listSheet.Clear();
 
         await _pConnector.DoConnect(pConfig.strSheetID, 
-            (string strSheetID, string strFileName, ESpreadSheetType eSheetType, List <SheetWrapper> listSheet, Exception pException_OnError) => 
+            (string strSheetID, string strFileName, ESpreadSheetType eSheetType, List < SheetWrapper> listSheet, Exception pException_OnError) => 
             {
                 _strFileName = strFileName;
                 if (pException_OnError != null)
@@ -268,14 +268,12 @@ public class UnitySO_Generator : EditorWindow
 
         
         CodeFileBuilder pCodeFileBuilder = new CodeFileBuilder();
+        IEnumerable<TypeData> arrTypeData = _pTypeDataList.listTypeData.Where(p => p.bEnable);
+        foreach(var pTypeDatta in arrTypeData)
+            pTypeDatta.DoWork(_pConnector, pCodeFileBuilder, null);
 
-        // Enable 된 것은 기존 로직대로 원본 소스에서 받아서 코드 디피니션에 추가
-        IEnumerable<TypeData> arrTypeData_Enable = _pTypeDataList.listTypeData.Where(p => p.bEnable);
-        foreach(var pTypeData in arrTypeData_Enable)
-            pTypeData.DoWork(_pConnector, pCodeFileBuilder, null);
-
-        _pWork_Json.DoWork(pCodeFileBuilder, _pConnector, _pTypeDataList.listTypeData, null);
-        _pWork_SO.DoWork(pCodeFileBuilder, _pConnector, _pTypeDataList.listTypeData, null);
+        _pWork_Json.DoWork(pCodeFileBuilder, _pConnector, arrTypeData, null);
+        _pWork_SO.DoWork(pCodeFileBuilder, _pConnector, arrTypeData, null);
         AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
         Debug.Log(" EditorApplication.isCompiling : " + EditorApplication.isCompiling);
 
@@ -300,7 +298,7 @@ public class UnitySO_Generator : EditorWindow
         foreach (TypeData pTypeData in _pTypeDataList.listTypeData)
         {
             string strTypeName = pTypeData.strFileName;
-            System.Type pType_SO = GetTypeFromAssemblies(strTypeName, typeof(ScriptableObject));
+            Type pType_SO = GetTypeFromAssemblies(strTypeName, typeof(ScriptableObject));
             if (pType_SO == null)
             {
                 Debug.LogError($"pType_SO == null - {strTypeName} - {strTypeName}");
@@ -314,19 +312,19 @@ public class UnitySO_Generator : EditorWindow
                 continue;
             }
 
-            System.Type pType_Container = GetTypeFromAssemblies(strTypeName + "_Container");
+            Type pType_Container = GetTypeFromAssemblies(strTypeName + "_Container");
             ScriptableObject pContainerInstance = (ScriptableObject)UnitySO_GeneratorConfig.CreateSOFile(pType_Container, pConfig.strDataExport_FolderPath + "/" + strTypeName + "_Container", true);
 
-            Dictionary<string, System.Reflection.FieldInfo> mapFieldInfo_SO = pType_SO.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
+            Dictionary<string, FieldInfo> mapFieldInfo_SO = pType_SO.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
 
             _mapSOInstance.Add(pType_SO, new SOInstance(pTypeData, pContainerInstance));
 
             List<Container_CachingLogicBase> listCachingLogic = new List<Container_CachingLogicBase>();
-            IEnumerable<System.Reflection.FieldInfo> arrFieldInfo_Container = pType_Container.GetFields();
+            IEnumerable<FieldInfo> arrFieldInfo_Container = pType_Container.GetFields();
             foreach (var pFieldInfo in arrFieldInfo_Container)
             {
-                System.Type pTypeField = pFieldInfo.FieldType;
-                System.Type pTypeField_Generic = pTypeField.GetGenericTypeDefinition();
+                Type pTypeField = pFieldInfo.FieldType;
+                Type pTypeField_Generic = pTypeField.GetGenericTypeDefinition();
                 if (pTypeField_Generic == typeof(List<>))
                 {
                     listCachingLogic.Add(new Container_CachingLogic_List(pContainerInstance, pFieldInfo, mapFieldInfo_SO));
@@ -350,12 +348,15 @@ public class UnitySO_Generator : EditorWindow
         {
             SOInstance pOtherSO_Instance;
             if (_mapSOInstance.TryGetValue(pReference_OtherSOData.pType_OtherSO, out pOtherSO_Instance) == false)
+            {
+                Debug.LogError($"Not Found {pReference_OtherSOData.pType_OtherSO}");
                 continue;
+            }
 
             var pObject = pOtherSO_Instance.listSO.Where(p => p.name == pReference_OtherSOData.strValue).FirstOrDefault();
             if(pObject == null)
             {
-                Debug.LogError($"Not Found \"{pReference_OtherSOData.strValue}\"");
+                Debug.LogError($"Not Found {pReference_OtherSOData.strValue}");
                 continue;
             }
 
@@ -588,15 +589,28 @@ public class UnitySO_Generator : EditorWindow
                     case "float": pFieldInfo.SetValue(pSO, float.Parse(strValue)); break;
                     case "string": pFieldInfo.SetValue(pSO, strValue); break;
 
+                    case "System.DateTime": pFieldInfo.SetValue(pSO, DateTime.Parse(strValue)); break;
+
                     default:
                         System.Type pType_Field = GetTypeFromAssemblies(pMember.strFieldType);
+                        if (pType_Field == null)
+                        {
+                            Debug.LogError($"아직 지원되지 않은 형식.. {pMember.strFieldType}");
+                            continue;
+                        }
+
                         if (pType_Field.IsEnum)
-                            pFieldInfo.SetValue(pSO, System.Enum.Parse(pType_Field, strValue));
+                        {
+                            int iEnumNumberValue;
+                            bool bIsNumber = int.TryParse(strValue, out iEnumNumberValue);
+                            if(bIsNumber)
+                                pFieldInfo.SetValue(pSO, iEnumNumberValue);
+                            else
+                                pFieldInfo.SetValue(pSO, System.Enum.Parse(pType_Field, strValue));
+                        }
                         else
                             _setReference_OtherSO.Add(new Refrence_OtherSO_Data(pSO, pFieldInfo, pType_Field, strValue));
 
-                        if (pType_Field == null)
-                            Debug.LogWarning($"아직 지원되지 않은 형식.. {pMember.strFieldType}");
                         break;
                 }
             }
@@ -616,13 +630,13 @@ public class UnitySO_Generator : EditorWindow
             System.Type pType_Field = GetTypeFromAssemblies(pMember.strFieldType);
             if (pType_Field == null)
             {
-                Debug.LogError($"{pMember.strFieldName} - Field Type Not Found - {pMember.strFieldType}");
+                Debug.LogError($"{pTypeData.strFileName}-{pMember.strFieldName} - Field Type Not Found - {pMember.strFieldType}");
                 continue;
             }
             FieldTypeData pFieldData_Dependency = listField.Where(pFieldData => pFieldData.strFieldName == pMember.strDependencyFieldName).FirstOrDefault();
             if (pFieldData_Dependency == null)
             {
-                Debug.LogError($"{pMember.strFieldName} - Dependency Not Found - Name : {pMember.strDependencyFieldName}");
+                Debug.LogError($"{pTypeData.strFileName}-{pMember.strFieldName} - Dependency Not Found - Name : {pMember.strDependencyFieldName}");
                 continue;
             }
 
@@ -644,7 +658,8 @@ public class UnitySO_Generator : EditorWindow
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"{pTypeData.strFileName} Enum Parse Error - ({pType_Field.MemberType})\"{strDependencyValue}\"" + e);
+                    if(pTypeData.eType != ESheetType.Global)
+                        Debug.LogError($"{pTypeData.strFileName} Enum Parse Error - ({pType_Field.MemberType})\"{strDependencyValue}\"" + e);
                 }
             }
             else
@@ -669,10 +684,17 @@ public class UnitySO_Generator : EditorWindow
                 }
                 else
                 {
-                    UnityEngine.Object pObject = AssetDatabase.LoadAssetAtPath(strDependencyValue, pType_Field);
-                    if (pObject == null)
-                        Debug.LogError($"Value Is Null Or Empty - Type : {pMember.strFieldType} {strDependencyValue}");
-                    pFieldInfo.SetValue(pSO, pObject);
+                    switch (pMember.strFieldType)
+                    {
+                        case "System.DateTime": pFieldInfo.SetValue(pSO, DateTime.Parse(strDependencyValue)); break;
+
+                        default:
+                            UnityEngine.Object pObject = AssetDatabase.LoadAssetAtPath(strDependencyValue, pType_Field);
+                            if (pObject == null)
+                                Debug.LogError($"{pTypeData.strFileName}-{pMember.strFieldName}({pMember.strFieldType})  - Value Is Null Or Empty - Value : {strDependencyValue}");
+                            pFieldInfo.SetValue(pSO, pObject);
+                            break;
+                    }
                 }
             }
         }
