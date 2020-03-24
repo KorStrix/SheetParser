@@ -361,6 +361,7 @@ namespace SpreadSheetParser
 
             int iDefinedTypeRow = -1;
 
+            pSheetData.listEnumName.Clear();
             pSheetData.ParsingSheet(pConnector, 
               (listRow, strText, iRow, iColumn) =>
               {
