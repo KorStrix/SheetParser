@@ -28,7 +28,7 @@ namespace SpreadSheetParser
 
         static public Config LoadConfig()
         {
-            List<Config> listConfig = JsonSaveManager.LoadData<Config>(const_strSaveFolderPath);
+            List<Config> listConfig = JsonSaveManager.LoadData_List<Config>(const_strSaveFolderPath);
             if (listConfig.Count > 0)
                 return listConfig[0];
             else
@@ -48,7 +48,7 @@ namespace SpreadSheetParser
         static public Dictionary<string, SaveData_SpreadSheet> LoadSheet(System.Action<string> OnError)
         {
             Dictionary<string, SaveData_SpreadSheet> mapSaveSheet = new Dictionary<string, SaveData_SpreadSheet>();
-            List<SaveData_SpreadSheet> listSheet = JsonSaveManager.LoadData<SaveData_SpreadSheet>(const_strSaveFolderPath, OnError);
+            List<SaveData_SpreadSheet> listSheet = JsonSaveManager.LoadData_List<SaveData_SpreadSheet>(const_strSaveFolderPath, OnError);
 
             for (int i = 0; i < listSheet.Count; i++)
             {

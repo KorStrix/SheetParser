@@ -84,7 +84,27 @@ namespace SpreadSheetParser
         }
 #endif
 
-        public static List<T> LoadData<T>(string strFolderPath, System.Action<string> OnError = null)
+        public static T LoadData<T>(string strFilePath, System.Action<string> OnError = null)
+           where T : class
+        {
+            if (File.Exists(strFilePath) == false)
+                return null;
+
+            string strText = File.ReadAllText(strFilePath, Encoding.UTF8);
+            T pData = null;
+            try
+            {
+                pData = JsonConvert.DeserializeObject<T>(strText, _pSetting);
+            }
+            catch (System.Exception e)
+            {
+                OnError?.Invoke($"Load Data Parsing Error - \nFileName : {strFilePath} Error : {e}");
+            }
+
+            return pData;
+        }
+
+        public static List<T> LoadData_List<T>(string strFolderPath, System.Action<string> OnError = null)
             where T : class
         {
             List<T> listData = new List<T>();
@@ -95,20 +115,7 @@ namespace SpreadSheetParser
             FileInfo[] arrFile = pDirectory.GetFiles();
             for (int i = 0; i < arrFile.Length; i++)
             {
-                FileInfo pFile = arrFile[i];
-                string strText = File.ReadAllText(pFile.FullName, Encoding.UTF8);
-
-                T pData = null;
-                try
-                {
-                    pData = JsonConvert.DeserializeObject<T>(strText, _pSetting);
-                }
-                catch (System.Exception e)
-                {
-                    OnError?.Invoke($"Load Data Parsing Error - \nFileName : {pFile.FullName} Error : {e}");
-                    continue;
-                }
-
+                T pData = pData = LoadData<T>(arrFile[i].FullName);
                 if (pData == null)
                     continue;
 

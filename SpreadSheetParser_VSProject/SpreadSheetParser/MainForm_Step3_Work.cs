@@ -179,7 +179,8 @@ namespace SpreadSheetParser
             if (_bIsConnecting)
                 return;
 
-            pSpreadSheet_CurrentConnected.listSaveWork[e.Index].bEnable = e.NewValue == CheckState.Checked;
+            if(pSpreadSheet_CurrentConnected.listSaveWork.Count > 0)
+                pSpreadSheet_CurrentConnected.listSaveWork[e.Index].bEnable = e.NewValue == CheckState.Checked;
             AutoSaveAsync_CurrentSheet();
         }
 

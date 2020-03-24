@@ -81,7 +81,12 @@ namespace SpreadSheetParser
 
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, System.Action<string> OnPrintWorkProcess)
         {
-            TypeDataList pTypeDataList = new TypeDataList(pConnector.strFileName);
+            TypeDataList pTypeDataList = JsonSaveManager.LoadData<TypeDataList>($"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json", OnPrintWorkProcess);
+            if (pTypeDataList != null)
+                pTypeDataList.listTypeData.ForEach(p => p.bEnable = false);
+            else
+                pTypeDataList = new TypeDataList(pConnector.strFileName);
+
             foreach (var pSheet in listSheetData)
             {
                 if (pSheet.eType == ESheetType.Enum)
@@ -121,19 +126,19 @@ namespace SpreadSheetParser
                     // 실제 변수값
                     for (int i = iColumnIndex; i < listRow.Count; i++)
                     {
-                        if (mapMemberName.ContainsKey(i))
-                        {
-                            FieldTypeData pFieldTypeData;
-                            if (mapFieldData.TryGetValue(mapMemberName[i], out pFieldTypeData) == false)
-                            {
-                                OnPrintWorkProcess?.Invoke($"{pSheet.strSheetName} - mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
-                                continue;
-                            }
+                        if (mapMemberName.ContainsKey(i) == false)
+                            continue;
 
-                            string strFieldName = pFieldTypeData.strFieldName;
-                            string strValue = (string)listRow[i];
-                            pObject.Add(strFieldName, strValue);
+                        FieldTypeData pFieldTypeData;
+                        if (mapFieldData.TryGetValue(mapMemberName[i], out pFieldTypeData) == false)
+                        {
+                            OnPrintWorkProcess?.Invoke($"{pSheet.strSheetName} - mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
+                            continue;
                         }
+
+                        string strFieldName = pFieldTypeData.strFieldName;
+                        string strValue = (string)listRow[i];
+                        pObject.Add(strFieldName, strValue);
                     }
 
                     pArray.Add(pObject);
@@ -147,9 +152,14 @@ namespace SpreadSheetParser
                 string strFileName = $"{pSheet.strFileName}.json";
                 JsonSaveManager.SaveData(pJson_Instance, $"{GetRelative_To_AbsolutePath(strExportPath)}/{strFileName}");
 
+                var pAlreadyExist = pTypeDataList.listTypeData.Where(p => p.strSheetName == pSheet.strSheetName).FirstOrDefault();
+                if (pAlreadyExist != null)
+                    pTypeDataList.listTypeData.Remove(pAlreadyExist);
+
                 pTypeDataList.listTypeData.Add(pSheet);
             }
 
+            pTypeDataList.listTypeData.Sort((x, y) => x.iOrder.CompareTo(y.iOrder));
             JsonSaveManager.SaveData(pTypeDataList, $"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json");
         }
 
