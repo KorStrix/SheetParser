@@ -21,8 +21,8 @@ namespace SpreadSheetParser
             //// https://docs.google.com/spreadsheets/d/1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4/edit#gid=0
             //strSheetID = "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4";
 
-            checkedListBox_WorkList.Items.Clear();
             checkedListBox_SheetList.Items.Clear();
+            checkedListBox_WorkList.Items.Clear();
             pSheetConnector.DoConnect(strSheetID, OnFinishConnect);
         }
 

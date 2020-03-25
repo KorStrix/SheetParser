@@ -82,9 +82,10 @@ namespace SpreadSheetParser
         public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, System.Action<string> OnPrintWorkProcess)
         {
             TypeDataList pTypeDataList = JsonSaveManager.LoadData<TypeDataList>($"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json", OnPrintWorkProcess);
-            if (pTypeDataList != null)
-                pTypeDataList.listTypeData.ForEach(p => p.bEnable = false);
-            else
+            //if (pTypeDataList != null)
+            //    pTypeDataList.listTypeData.ForEach(p => p.bEnable = false);
+
+            if (pTypeDataList == null)
                 pTypeDataList = new TypeDataList(pConnector.strFileName);
 
             foreach (var pSheet in listSheetData)
