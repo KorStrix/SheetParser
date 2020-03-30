@@ -94,7 +94,7 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "파일 출력 경로";
             // 
-            // BuildWork_Generate_CSV
+            // Work_Generate_JsonForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -107,7 +107,7 @@
             this.Controls.Add(this.textBox_Path);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "BuildWork_Generate_CSV";
+            this.Name = "Work_Generate_JsonForm";
             this.Text = "BuildWork_Generate_CSV";
             this.ResumeLayout(false);
             this.PerformLayout();
