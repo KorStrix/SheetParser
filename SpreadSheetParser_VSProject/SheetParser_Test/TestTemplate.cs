@@ -5,12 +5,16 @@ using SpreadSheetParser;
 namespace SheetParser_Test
 {
     [TestClass]
-    public class CommandLineParser_Test
+    public class TestTemplate
     {
         [TestMethod]
         public void TestMethod1()
         {
+            // Arrange
 
+            // Act
+
+            // Assert
         }
     }
 }
