@@ -1,13 +1,13 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SpreadSheetParser;
 
 namespace SheetParser_Test
 {
-    [TestClass]
+    [TestFixture]
     public class TestTemplate
     {
-        [TestMethod]
+        [Test]
         public void TestMethod1()
         {
             // Arrange

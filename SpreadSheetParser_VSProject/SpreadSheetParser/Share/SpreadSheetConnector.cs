@@ -185,6 +185,12 @@ namespace SpreadSheetParser
             });
 
             strFileName = Path.GetFileNameWithoutExtension(strFileAbsolutePath_And_IncludeExtension);
+            if(pSyncContext_Call == null)
+            {
+                
+                return;
+            }
+
             pSyncContext_Call.Send(new SendOrPostCallback(o =>
             {
                 OnFinishConnect(strFileAbsolutePath_And_IncludeExtension, strFileName, _eConnectedSheetType, listSheet, pException_OnError);
