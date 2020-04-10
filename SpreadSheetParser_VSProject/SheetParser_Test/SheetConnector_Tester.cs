@@ -35,7 +35,7 @@ namespace SheetParser_Test
         }
 
         [Test]
-        public void 시트컨넥터_MS엑셀_열기_테스트()
+        public async Task 시트컨넥터_MS엑셀_열기_테스트()
         {
             // Arrange
             string strTestExcelFileName = "TestExcel.xlsx";
@@ -45,7 +45,7 @@ namespace SheetParser_Test
 
 
             // Act
-            pConnector.DoOpen_Excel(strTestExcelFileName, (strSheetID, strFileName, eSheetType, listSheet, pException_OnError) =>
+            await pConnector.DoOpen_Excel(strTestExcelFileName, (strSheetID, strFileName, eSheetType, listSheet, pException_OnError) =>
             {
                 bIsConnected = strTestExcelFileName.Equals(strSheetID);
                 eSheetConnected = eSheetType;
@@ -53,8 +53,8 @@ namespace SheetParser_Test
 
 
             // Assert
-            // Assert.IsTrue(bIsConnected);
-            // Assert.AreEqual(eSheetConnected, ESpreadSheetType.MSExcel);
+            Assert.IsTrue(bIsConnected);
+            Assert.AreEqual(eSheetConnected, ESpreadSheetType.MSExcel);
         }
     }
 }

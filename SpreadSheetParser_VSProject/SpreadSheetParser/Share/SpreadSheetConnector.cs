@@ -143,12 +143,12 @@ namespace SpreadSheetParser
             }
         }
 
-        public void DoOpen_Excel(string strFileAbsolutePath_And_IncludeExtension, delOnFinishConnect OnFinishConnect)
+        public async Task DoOpen_Excel(string strFileAbsolutePath_And_IncludeExtension, delOnFinishConnect OnFinishConnect)
         {
-            Open_Excel(SynchronizationContext.Current, strFileAbsolutePath_And_IncludeExtension, OnFinishConnect);
+            await Open_Excel(SynchronizationContext.Current, strFileAbsolutePath_And_IncludeExtension, OnFinishConnect);
         }
 
-        private async void Open_Excel(SynchronizationContext pSyncContext_Call, string strFileAbsolutePath_And_IncludeExtension, delOnFinishConnect OnFinishConnect)
+        private async Task Open_Excel(SynchronizationContext pSyncContext_Call, string strFileAbsolutePath_And_IncludeExtension, delOnFinishConnect OnFinishConnect)
         {
             List<SheetWrapper> listSheet = new List<SheetWrapper>();
             this._eConnectedSheetType = ESpreadSheetType.MSExcel;
@@ -187,15 +187,17 @@ namespace SpreadSheetParser
             strFileName = Path.GetFileNameWithoutExtension(strFileAbsolutePath_And_IncludeExtension);
             if(pSyncContext_Call == null)
             {
-                
-                return;
+                OnFinishConnect(strFileAbsolutePath_And_IncludeExtension, strFileName, _eConnectedSheetType, listSheet, pException_OnError);
+            }
+            else
+            {
+                pSyncContext_Call.Send(new SendOrPostCallback(o =>
+                {
+                    OnFinishConnect(strFileAbsolutePath_And_IncludeExtension, strFileName, _eConnectedSheetType, listSheet, pException_OnError);
+                }),
+                null);
             }
 
-            pSyncContext_Call.Send(new SendOrPostCallback(o =>
-            {
-                OnFinishConnect(strFileAbsolutePath_And_IncludeExtension, strFileName, _eConnectedSheetType, listSheet, pException_OnError);
-            }),
-            null);
         }
         public static string DoMake_AbsolutePath(string strPath)
         {
