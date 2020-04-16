@@ -20,4 +20,4 @@ eyJoaXN0b3J5IjpbLTE1OTE1MzAyMDddfQ==
 -->
 
 ## Thanks
-<img src="https://github.com/KorStrix/SheetParser/blob/master/Github/jetbrains.png" width="48">
+<img src="https://github.com/KorStrix/SheetParser/blob/master/Github/jetbrains.png" width="100">
