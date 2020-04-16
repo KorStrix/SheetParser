@@ -21,3 +21,4 @@ eyJoaXN0b3J5IjpbLTE1OTE1MzAyMDddfQ==
 
 ## Thanks
 ![](https://github.com/KorStrix/SheetParser/blob/master/Github/jetbrains.png =250x)
+<img src="https://github.com/favicon.ico" width="48">
