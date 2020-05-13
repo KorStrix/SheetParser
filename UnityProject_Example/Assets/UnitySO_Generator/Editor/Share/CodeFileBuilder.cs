@@ -15,7 +15,7 @@ namespace SpreadSheetParser
     {
         static public Type GetFieldType_OrNull(string strTypeName)
         {
-            System.Type pType = null;
+            Type pType = null;
             string strKey = strTypeName.ToLower();
             switch (strKey)
             {
@@ -41,17 +41,17 @@ namespace SpreadSheetParser
 
         public EnumFieldData()
         {
-            this.strValue = ""; this.iNumber = int.MaxValue; this.strComment = "";
+            strValue = ""; iNumber = int.MaxValue; strComment = "";
         }
 
         public EnumFieldData(string strValue)
         {
-            this.strValue = strValue; this.iNumber = int.MaxValue; this.strComment = "";
+            this.strValue = strValue; iNumber = int.MaxValue; strComment = "";
         }
 
         public EnumFieldData(string strValue, string strComment = "")
         {
-            this.strValue = strValue; this.iNumber = int.MaxValue; this.strComment = strComment;
+            this.strValue = strValue; iNumber = int.MaxValue; this.strComment = strComment;
         }
 
         public EnumFieldData(string strValue, int iNumber = int.MaxValue, string strComment = "")

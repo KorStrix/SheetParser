@@ -78,7 +78,7 @@ public class UnitySO_GeneratorConfig : ScriptableObject
     /// </summary>
     public static T CreateSOFile<T>() where T : ScriptableObject
     {
-        T pAsset = ScriptableObject.CreateInstance<T>();
+        T pAsset = CreateInstance<T>();
         string strPath = "Assets";
 
         if (Path.GetExtension(strPath) != "")
@@ -128,7 +128,7 @@ public class UnitySO_GeneratorConfig : ScriptableObject
 
         if(pAsset == null)
         {
-            pAsset = ScriptableObject.CreateInstance(pType);
+            pAsset = CreateInstance(pType);
 
             string strAssetPathAndName = AssetDatabase.GenerateUniqueAssetPath(strFullPath);
             AssetDatabase.CreateAsset(pAsset, strAssetPathAndName);

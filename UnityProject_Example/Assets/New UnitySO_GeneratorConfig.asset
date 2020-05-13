@@ -15,7 +15,7 @@ MonoBehaviour:
   strCredential_FilePath: Assets/UnitySO_Generator/Editor/Share/credentials.json
   strSOScript_FolderPath: Assets/ExportData
   strJsonData_FolderPath: Assets/ExportData
-  strDataExport_FolderPath: Assets/ExportData
+  strDataExport_FolderPath: Assets/BundleData/SO
   strSheetID: 1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4
   strSOCommandLine: 
   pTypeDataFile: {fileID: 4900000, guid: 1692a0d9f221e0c4f9cf7c6e92cca65e, type: 3}

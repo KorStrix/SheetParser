@@ -112,7 +112,7 @@ namespace SpreadSheetParser
             }
         }
 
-        static public void DoCheck_IsValid_Table(this TypeData pSheetData, SpreadSheetConnector pConnector, System.Action<string> OnError)
+        static public void DoCheck_IsValid_Table(this TypeData pSheetData, SpreadSheetConnector pConnector, Action<string> OnError)
         {
             bool bIsEnum = pSheetData.eType == ESheetType.Enum;
 
@@ -124,7 +124,7 @@ namespace SpreadSheetParser
                     Dictionary<int, EEnumHeaderType> mapEnumType = new Dictionary<int, EEnumHeaderType>();
 
                     EEnumHeaderType eType = EEnumHeaderType.EnumNone;
-                    if (System.Enum.TryParse(strText, out eType))
+                    if (Enum.TryParse(strText, out eType))
                     {
                         // mapEnumType.Add(,eType)
                         if (eType == EEnumHeaderType.EnumType)
@@ -132,7 +132,7 @@ namespace SpreadSheetParser
                             for (int i = iColumn; i < listRow.Count; i++)
                             {
                                 string strTextOtherColumn = (string)listRow[i];
-                                if (System.Enum.TryParse(strTextOtherColumn, out eType) == false)
+                                if (Enum.TryParse(strTextOtherColumn, out eType) == false)
                                 {
                                     OnError?.Invoke($"테이블 유효성 체크 - 이넘 파싱 에러");
                                     return;
@@ -168,7 +168,7 @@ namespace SpreadSheetParser
             });
         }
 
-        static public void DoWork(this TypeData pSheetData, SpreadSheetConnector pConnector, CodeFileBuilder pCodeFileBuilder, System.Action<string> OnError)
+        static public void DoWork(this TypeData pSheetData, SpreadSheetConnector pConnector, CodeFileBuilder pCodeFileBuilder, Action<string> OnError)
         {
             List<CommandLineArg> listCommandLine = Parsing_CommandLine(pSheetData.strCommandLine, OnError);
 
@@ -392,7 +392,7 @@ namespace SpreadSheetParser
                 (listRow, strText, iRow, iColumn) =>
                 {
                     EEnumHeaderType eType = EEnumHeaderType.EnumNone;
-                    if (System.Enum.TryParse(strText, out eType))
+                    if (Enum.TryParse(strText, out eType))
                     {
                         if (eType == EEnumHeaderType.EnumType)
                         {
@@ -402,7 +402,7 @@ namespace SpreadSheetParser
                             for (int i = iColumn; i < listRow.Count; i++)
                             {
                                 string strTextOtherColumn = (string)listRow[i];
-                                if (System.Enum.TryParse(strTextOtherColumn, out eType))
+                                if (Enum.TryParse(strTextOtherColumn, out eType))
                                 {
                                     if (mapEnumType.ContainsKey(i) == false)
                                         mapEnumType.Add(i, eType);
@@ -447,13 +447,13 @@ namespace SpreadSheetParser
                     }
 
                     if (string.IsNullOrEmpty(pFieldData.strValue))
-                        throw new System.Exception($"이넘인데 값이 없습니다 - 타입 : {mapEnumValue[strText].Name}");
+                        throw new Exception($"이넘인데 값이 없습니다 - 타입 : {mapEnumValue[strText].Name}");
 
                     mapEnumValue[strText].AddEnumField(pFieldData);
                 });
         }
 
-        public static List<CommandLineArg> Parsing_CommandLine(string strCommandLine, System.Action<string> OnError)
+        public static List<CommandLineArg> Parsing_CommandLine(string strCommandLine, Action<string> OnError)
         {
             return CommandLineParser.Parsing_CommandLine(strCommandLine,
                 (string strCommandLineText, out bool bHasValue) =>

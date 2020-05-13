@@ -40,7 +40,7 @@ namespace SpreadSheetParser
 
     public WorkBase CopyInstance()
         {
-            return (WorkBase)this.MemberwiseClone();
+            return (WorkBase)MemberwiseClone();
         }
 
 #if !UNITY_EDITOR
@@ -104,7 +104,7 @@ namespace SpreadSheetParser
         }
 #endif
 
-        abstract public void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, System.Action<string> OnPrintWorkState);
+        abstract public void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkState);
 #if !UNITY_EDITOR
         virtual public void DoWorkAfter() { }
 
@@ -195,7 +195,7 @@ namespace SpreadSheetParser
             throw new NotImplementedException(); // won't be called because CanWrite returns false
         }
 
-        public static IEnumerable<Type> GetEnumerableOfType(System.Type pBaseType)
+        public static IEnumerable<Type> GetEnumerableOfType(Type pBaseType)
         {
             List<Type> objects = new List<Type>();
             foreach (Type type in

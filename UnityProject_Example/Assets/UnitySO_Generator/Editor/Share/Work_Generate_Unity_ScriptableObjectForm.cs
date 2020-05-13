@@ -63,7 +63,7 @@ namespace SpreadSheetParser
     }
 #endif
 
-    [System.Serializable]
+    [Serializable]
     public class Work_Generate_Unity_ScriptableObject : WorkBase
     {
         const string const_strListData = "listData";
@@ -85,7 +85,7 @@ namespace SpreadSheetParser
             return "Generate Unity SO";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, System.Action<string> OnPrintWorkState)
+        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkState)
         {
             CodeNamespace pNameSpace = new CodeNamespace();
 
@@ -182,7 +182,7 @@ namespace SpreadSheetParser
             IEnumerable<FieldTypeData> listRealField = pSaveData.listFieldData.Where(p => p.bIsKeyField == false);
             foreach (var pRealField in listRealField)
             {
-                if (pRealField.strFieldName.ToLower().Contains(nameof(TypeDataHelper.EGlobalColumnType.Value).ToLower()))
+                if (pRealField.strFieldName.ToLower().Contains(nameof(EGlobalColumnType.Value).ToLower()))
                 {
                     strValueFieldName = pRealField.strFieldName;
                     break;

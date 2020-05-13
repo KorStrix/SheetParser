@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21152ad9d4e5d924892613a46bdb2bc2, type: 3}
+  m_Script: {fileID: 11500000, guid: 3276000e55fd2ed4d9e05c32831a0b76, type: 3}
   m_Name: UnitySO_Container
   m_EditorClassIdentifier: 
   listData:
-  - {fileID: 114507112888624408}
-  - {fileID: 114708683362942602}
-  - {fileID: 114296077882875100}
---- !u!114 &114296077882875100
+  - {fileID: 114843893931715292}
+  - {fileID: 114991934518802600}
+  - {fileID: 114504369841911770}
+  - {fileID: 114666467949529490}
+--- !u!114 &114504369841911770
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -25,25 +26,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 769ffd730250c3d448c764eb58470dfa, type: 3}
-  m_Name: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
-  m_EditorClassIdentifier: 
-  MaterialPath: Assets/ExportData/Material/Blue.mat
-  strComment: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
-  intValue: 2
-  strAutoEnum: AutoEnum_1
-  AutoEnumValue: 0
-  pOtherSO: {fileID: 114113953793143036, guid: 6daeadfc1b65cad4cad51cea3e89f590, type: 2}
---- !u!114 &114507112888624408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 769ffd730250c3d448c764eb58470dfa, type: 3}
+  m_Script: {fileID: 11500000, guid: 4694c604397702c4095c9e0b4ffdd2d0, type: 3}
   m_Name: "\uBE68\uAC04\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
   m_EditorClassIdentifier: 
   MaterialPath: Assets/ExportData/Material/Red.mat
@@ -51,8 +34,8 @@ MonoBehaviour:
   intValue: 8
   strAutoEnum: AutoEnum_3
   AutoEnumValue: 2
-  pOtherSO: {fileID: 114091048670558870, guid: 6daeadfc1b65cad4cad51cea3e89f590, type: 2}
---- !u!114 &114708683362942602
+  pOtherSO: {fileID: 114013322360027964, guid: a295cb160dcb778469f7500fc15bd4f4, type: 2}
+--- !u!114 &114666467949529490
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,7 +44,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 769ffd730250c3d448c764eb58470dfa, type: 3}
+  m_Script: {fileID: 11500000, guid: 4694c604397702c4095c9e0b4ffdd2d0, type: 3}
+  m_Name: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC2"
+  m_EditorClassIdentifier: 
+  MaterialPath: Assets/ExportData/Material/Blue2.mat
+  strComment: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC2"
+  intValue: 2
+  strAutoEnum: AutoEnum_1
+  AutoEnumValue: 0
+  pOtherSO: {fileID: 0}
+--- !u!114 &114843893931715292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4694c604397702c4095c9e0b4ffdd2d0, type: 3}
+  m_Name: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
+  m_EditorClassIdentifier: 
+  MaterialPath: Assets/ExportData/Material/Blue.mat
+  strComment: "\uD30C\uB791\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
+  intValue: 2
+  strAutoEnum: AutoEnum_1
+  AutoEnumValue: 0
+  pOtherSO: {fileID: 114700053187402228, guid: a295cb160dcb778469f7500fc15bd4f4, type: 2}
+--- !u!114 &114991934518802600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4694c604397702c4095c9e0b4ffdd2d0, type: 3}
   m_Name: "\uCD08\uB85D\uC0C9 \uBA54\uD14C\uB9AC\uC5BC"
   m_EditorClassIdentifier: 
   MaterialPath: Assets/ExportData/Material/Green.mat
@@ -69,4 +88,4 @@ MonoBehaviour:
   intValue: 4
   strAutoEnum: AutoEnum_2
   AutoEnumValue: 1
-  pOtherSO: {fileID: 114976892054366826, guid: 6daeadfc1b65cad4cad51cea3e89f590, type: 2}
+  pOtherSO: {fileID: 114314813659969500, guid: a295cb160dcb778469f7500fc15bd4f4, type: 2}
