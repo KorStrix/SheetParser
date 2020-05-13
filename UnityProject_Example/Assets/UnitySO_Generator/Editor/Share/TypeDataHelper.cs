@@ -458,8 +458,7 @@ namespace SpreadSheetParser
             return CommandLineParser.Parsing_CommandLine(strCommandLine,
                 (string strCommandLineText, out bool bHasValue) =>
                 {
-                    ECommandLine eCommandLine;
-                    bool bIsValid = Enum.TryParse(strCommandLineText, out eCommandLine);
+                    bool bIsValid = Enum.TryParse(strCommandLineText, out ECommandLine eCommandLine);
                     switch (eCommandLine)
                     {
                         case ECommandLine.comment:

@@ -11,20 +11,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 
 
-public class global : UnityEngine.ScriptableObject
+public class class2 : UnityEngine.ScriptableObject
 {
     
-    public string GlobalKey;
+    public int IntCalculate;
     
-    public string strValue;
+    public int Int;
     
-    public string strType;
+    public string stringmember;
     
-    public string strComment;
+    public TestEnum enummember;
 }

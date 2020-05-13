@@ -1,7 +1,6 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using static SpreadSheetParser.TypeDataHelper;
 
@@ -172,9 +171,7 @@ namespace SpreadSheetParser
 
         private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration[] arrEnumType, TypeData pSaveData)
         {
-            CodeTypeDeclaration pContainerType;
-            CodeMemberMethod pInitMethod;
-            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out pContainerType, out pInitMethod);
+            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out var pContainerType, out var pInitMethod);
 
             IEnumerable<FieldTypeData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
 
@@ -209,9 +206,7 @@ namespace SpreadSheetParser
 
         private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration[] arrEnumType, TypeData pSaveData)
         {
-            CodeTypeDeclaration pContainerType;
-            CodeMemberMethod pInitMethod;
-            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out pContainerType, out pInitMethod);
+            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out var pContainerType, out var pInitMethod);
 
             IEnumerable<FieldTypeData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
             foreach (var pFieldData in listKeyField)

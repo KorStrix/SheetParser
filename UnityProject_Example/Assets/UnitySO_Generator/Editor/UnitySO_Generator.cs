@@ -13,10 +13,12 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 using System;
+using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using SpreadSheetParser;
+using Debug = UnityEngine.Debug;
 
 /// <summary>
 /// Editor 폴더 안에 위치해야 합니다.
@@ -60,7 +62,7 @@ public class UnitySO_Generator : EditorWindow
         protected FieldInfo _pFieldInfo { get; private set; }
         protected Dictionary<string, FieldInfo> mapFieldInfo_SO { get; private set; } = new Dictionary<string, FieldInfo>();
 
-        public Container_CachingLogicBase(ScriptableObject pContainerInstance, FieldInfo pFieldInfo_CachedContainer, Dictionary<string, FieldInfo> mapFieldInfo_SO)
+        public Container_CachingLogicBase(ScriptableObject pContainerInstance, FieldInfo pFieldInfo_CachedContainer)
         {
             _pContainerInstance = pContainerInstance;
             _pFieldInfo = pFieldInfo_CachedContainer;
@@ -74,7 +76,7 @@ public class UnitySO_Generator : EditorWindow
         readonly MethodInfo _pMethod_Add;
         readonly object _pInstance;
 
-        public Container_CachingLogic_List(ScriptableObject pContainerInstance, FieldInfo pFieldInfo_CachedContainer, Dictionary<string, FieldInfo> mapFieldInfo_SO) : base(pContainerInstance, pFieldInfo_CachedContainer, mapFieldInfo_SO)
+        public Container_CachingLogic_List(ScriptableObject pContainerInstance, FieldInfo pFieldInfo_CachedContainer) : base(pContainerInstance, pFieldInfo_CachedContainer)
         {
             _pMethod_Add = pFieldInfo_CachedContainer.FieldType.GetMethod("Add");
             _pInstance = Activator.CreateInstance(pFieldInfo_CachedContainer.FieldType);
@@ -101,8 +103,6 @@ public class UnitySO_Generator : EditorWindow
     static SpreadSheetConnector _pConnector = new SpreadSheetConnector();
     static Work_Generate_Json _pWork_Json = new Work_Generate_Json();
     static Work_Generate_Unity_ScriptableObject _pWork_SO = new Work_Generate_Unity_ScriptableObject();
-
-    static List<SheetWrapper> _listSheet = new List<SheetWrapper>();
     static TypeDataList _pTypeDataList;
 
     static string _strFileName;
@@ -133,7 +133,6 @@ public class UnitySO_Generator : EditorWindow
     public static async Task DoConnect()
     {
         UnitySO_GeneratorConfig pConfig = UnitySO_GeneratorConfig.instance;
-        _listSheet.Clear();
 
         await _pConnector.DoConnect(pConfig.strSheetID, 
             (strSheetID, strFileName, eSheetType, listSheet, pException_OnError) => 
@@ -144,8 +143,6 @@ public class UnitySO_Generator : EditorWindow
                     Debug.LogError(pException_OnError);
                     return;
                 }
-
-                _listSheet.AddRange(listSheet);
                 Debug.Log("Success Connect - " + strSheetID);
             },
             pConfig.strCredential_FilePath
@@ -164,8 +161,8 @@ public class UnitySO_Generator : EditorWindow
         
         CodeFileBuilder pCodeFileBuilder = new CodeFileBuilder();
         IEnumerable<TypeData> arrTypeData = _pTypeDataList.listTypeData.Where(p => p.bEnable);
-        foreach(var pTypeDatta in arrTypeData)
-            pTypeDatta.DoWork(_pConnector, pCodeFileBuilder, null);
+        foreach(var pTypeData in arrTypeData)
+            pTypeData.DoWork(_pConnector, pCodeFileBuilder, null);
 
         _pWork_Json.DoWork(pCodeFileBuilder, _pConnector, arrTypeData, null);
         _pWork_SO.DoWork(pCodeFileBuilder, _pConnector, arrTypeData, null);
@@ -178,6 +175,9 @@ public class UnitySO_Generator : EditorWindow
 
     public static void DoUpdate_FromLocalFile()
     {
+        Stopwatch pStopWatch = new Stopwatch();
+        pStopWatch.Start();
+
         Debug.Log($"{nameof(DoUpdate_FromLocalFile)} Start");
 
         if(_pTypeDataList == null || _pTypeDataList.listTypeData.Count == 0)
@@ -195,7 +195,7 @@ public class UnitySO_Generator : EditorWindow
         Reference_OtherSO();
 
         AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
-        Debug.Log($"{nameof(DoUpdate_FromLocalFile)} Finish");
+        Debug.Log($"{nameof(DoUpdate_FromLocalFile)} Finish Elapse : " + pStopWatch.Elapsed);
     }
 
     // ========================================================================== //
@@ -268,7 +268,9 @@ public class UnitySO_Generator : EditorWindow
 
             if (GUILayout.Button("Connect!", GUILayout.Width(100f)))
             {
+#pragma warning disable 4014
                 DoConnect();
+#pragma warning restore 4014
             }
         }
         GUILayout.EndHorizontal();
@@ -349,11 +351,26 @@ public class UnitySO_Generator : EditorWindow
 
     private static void Generate_TypeToSO(TypeData pTypeData, UnitySO_GeneratorConfig pConfig)
     {
+        if (pTypeData.bEnable == false)
+            return;
+
+        Debug.Log($"{nameof(Generate_TypeToSO)} {pTypeData.strFileName} - Start");
+
+        Stopwatch pStopWatch = new Stopwatch();
+        pStopWatch.Start();
+
         string strTypeName = pTypeData.strFileName;
         Type pType_SO = GetTypeFromAssemblies(strTypeName, typeof(ScriptableObject));
         if (pType_SO == null)
         {
             Debug.LogError($"pType_SO == null - {strTypeName} - {strTypeName}");
+            return;
+        }
+
+        Type pType_Container = GetTypeFromAssemblies(strTypeName + "_Container");
+        if (pType_Container == null)
+        {
+            Debug.LogError($"pType_Container == null - {strTypeName} - {strTypeName}");
             return;
         }
 
@@ -364,28 +381,28 @@ public class UnitySO_Generator : EditorWindow
             return;
         }
 
-        GenerateSO(strTypeName, pConfig, pType_SO, pTypeData, pJArray_Instance);
+        GenerateSO(pConfig, pType_Container, pType_SO, pTypeData, pJArray_Instance);
+        Debug.Log($"{nameof(Generate_TypeToSO)} {pTypeData.strFileName} - Finish Elapse : " + pStopWatch.Elapsed);
     }
 
-    private static void GenerateSO(string strTypeName, UnitySO_GeneratorConfig pConfig, Type pType_SO, TypeData pTypeData,
+    private static void GenerateSO(UnitySO_GeneratorConfig pConfig, Type pType_Container, Type pType_SO, TypeData pTypeData,
         JArray pJArray_Instance)
     {
-        Type pType_Container = GetTypeFromAssemblies(strTypeName + "_Container");
         ScriptableObject pContainerInstance = (ScriptableObject) UnitySO_GeneratorConfig.CreateSOFile(pType_Container,
-            pConfig.strDataExport_FolderPath + "/" + strTypeName + "_Container", true);
-
-        Dictionary<string, FieldInfo> mapFieldInfo_SO = pType_SO.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
+            pConfig.strDataExport_FolderPath + "/" + pTypeData.strFileName + "_Container", true);
 
         _mapSOInstance.Add(pType_SO, new SOInstance(pTypeData, pContainerInstance));
 
         List<Container_CachingLogicBase> listCachingLogic = new List<Container_CachingLogicBase>();
+        Dictionary<string, FieldInfo> mapFieldInfo_SO = pType_SO.GetFields().ToDictionary((pFieldInfo) => pFieldInfo.Name);
         IEnumerable<FieldInfo> arrFieldInfo_Container = pType_Container.GetFields();
+
         foreach (var pFieldInfo in arrFieldInfo_Container)
         {
             Type pTypeField = pFieldInfo.FieldType;
             Type pTypeField_Generic = pTypeField.GetGenericTypeDefinition();
             if (pTypeField_Generic == typeof(List<>))
-                listCachingLogic.Add(new Container_CachingLogic_List(pContainerInstance, pFieldInfo, mapFieldInfo_SO));
+                listCachingLogic.Add(new Container_CachingLogic_List(pContainerInstance, pFieldInfo));
         }
 
         Generate_SOInstance(pTypeData, pType_SO, pJArray_Instance, pContainerInstance, mapFieldInfo_SO, listCachingLogic,
@@ -398,14 +415,14 @@ public class UnitySO_Generator : EditorWindow
         {
             if (_mapSOInstance.TryGetValue(pReference_OtherSOData.pType_OtherSO, out var pOtherSO_Instance) == false)
             {
-                Debug.LogError($"Not Found {pReference_OtherSOData.pType_OtherSO}");
+                Debug.LogError($"{nameof(Reference_OtherSO)} - Not Found SO {pReference_OtherSOData.pType_OtherSO}");
                 continue;
             }
 
             var pObject = pOtherSO_Instance.listSO.FirstOrDefault(p => p.name == pReference_OtherSOData.strValue);
             if (pObject == null)
             {
-                Debug.LogError($"Not Found {pReference_OtherSOData.strValue}");
+                Debug.LogError($"{nameof(Reference_OtherSO)} - Not Found Other SO Name : {pReference_OtherSOData.strValue}");
                 continue;
             }
 
@@ -422,15 +439,15 @@ public class UnitySO_Generator : EditorWindow
         int iLoopIndex = 0;
 
         FieldTypeData pFieldData_Header = listFieldData.FirstOrDefault(pFieldData => pFieldData.strFieldName == strHeaderField);
-        IEnumerable<FieldTypeData> listRealField = listFieldData.Where((pFieldData) => pFieldData.bIsVirtualField == false && pFieldData.bDeleteThisField_InCode == false);
-        IEnumerable<FieldTypeData> listVirtualField = listFieldData.Where((pFieldData) => pFieldData.bIsVirtualField && pFieldData.bDeleteThisField_InCode == false);
+        FieldTypeData[] arrRealField = listFieldData.Where((pFieldData) => pFieldData.bIsVirtualField == false && pFieldData.bDeleteThisField_InCode == false).ToArray();
+        FieldTypeData[] arrVirtualField = listFieldData.Where((pFieldData) => pFieldData.bIsVirtualField && pFieldData.bDeleteThisField_InCode == false).ToArray();
 
 
         foreach (JObject pInstanceData in pJArray_Instance)
         {
             ScriptableObject pSO = GenerateSO(pType_SO, pContainerInstance);
-            Process_RealField(pTypeData, mapFieldInfo_SO, pInstanceData, pSO, listRealField);
-            Process_VirtualField(pTypeData, mapFieldInfo_SO, pInstanceData, pSO, listFieldData, listVirtualField);
+            Process_RealField(pTypeData, mapFieldInfo_SO, pInstanceData, pSO, arrRealField);
+            Process_VirtualField(pTypeData, mapFieldInfo_SO, pInstanceData, pSO, listFieldData, arrVirtualField);
             Process_SOName(strFileName, iLoopIndex, pSO, pFieldData_Header, pInstanceData);
             EditorUtility.SetDirty(pSO);
 
@@ -450,40 +467,30 @@ public class UnitySO_Generator : EditorWindow
         _mapSOInstance[pType_SO].listSO.Add(pSO);
 
         AssetDatabase.AddObjectToAsset(pSO, pContainerInstance);
-        // AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(pContainerInstance));
 
         return pSO;
     }
 
     private static void Process_SOName(string strFileName, int iLoopIndex, ScriptableObject pSO, FieldTypeData pFieldHeader, JObject pInstanceData)
     {
-        if(pFieldHeader != null)
-            pSO.name = (string)pInstanceData[pFieldHeader.strFieldName];
-        else
-            pSO.name = $"{strFileName}_{iLoopIndex}";
-
+        pSO.name = pFieldHeader != null ? (string)pInstanceData[pFieldHeader.strFieldName] : $"{strFileName}_{iLoopIndex}";
         if (string.IsNullOrEmpty(pSO.name))
-        {
-            Debug.LogError($"{strFileName} - Process_SOName -  {string.IsNullOrEmpty(pSO.name)}, pFieldHeader : {pFieldHeader.strFieldName}");
-        }
+            Debug.LogError($"{strFileName} - {nameof(Process_SOName)} -  {string.IsNullOrEmpty(pSO.name)}, pFieldHeader : {pFieldHeader?.strFieldName}");
     }
 
     private static void Process_RealField(TypeData pTypeData, Dictionary<string, FieldInfo> mapFieldInfo_SO, JObject pInstanceData, ScriptableObject pSO, IEnumerable<FieldTypeData> listRealField)
     {
         foreach (var pMember in listRealField)
         {
-            FieldInfo pFieldInfo;
-            if (mapFieldInfo_SO.TryGetValue(pMember.strFieldName, out pFieldInfo) == false)
+            if (mapFieldInfo_SO.TryGetValue(pMember.strFieldName, out var pFieldInfo) == false)
             {
                 Debug.LogError($"Not Found Real Field {pMember.strFieldType} {pMember.strFieldName}");
                 continue;
             }
 
             string strValue = (string)pInstanceData[pMember.strFieldName];
-
             try
             {
-
                 switch (pMember.strFieldType)
                 {
                     case "int": pFieldInfo.SetValue(pSO, int.Parse(strValue)); break;
@@ -667,9 +674,9 @@ public class UnitySO_Generator : EditorWindow
             if (arrType.Length == 0)
                 continue;
 
-            var pFindType = arrType.FirstOrDefault(pType => pType.FullName.Equals(strTypeName));
+            var pFindType = arrType.FirstOrDefault(pType => strTypeName.Equals(pType.FullName));
             if(pFindType == null)
-                pFindType = arrType.FirstOrDefault(pType => pType.Name.Equals(strTypeName));
+                pFindType = arrType.FirstOrDefault(pType => strTypeName.Equals(pType.Name));
 
             if (pFindType != null)
                 return pFindType;
@@ -695,13 +702,13 @@ public class UnitySO_Generator : EditorWindow
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
         for (int i = 0; i < assemblies.Length; i++)
         {
-            var arrType = assemblies[i].GetTypes();
+            var arrType = assemblies[i].GetTypes().Where(pType => pType.BaseType == pBaseType).ToArray();
             if (arrType.Length == 0)
                 continue;
 
-            var pFindType = arrType.FirstOrDefault(pType => pType.FullName.Equals(strTypeName) && pType.BaseType == pBaseType);
+            var pFindType = arrType.FirstOrDefault(pType => strTypeName.Equals(pType.FullName));
             if (pFindType == null)
-                pFindType = arrType.FirstOrDefault(pType => pType.Name.Equals(strTypeName) && pType.BaseType == pBaseType);
+                pFindType = arrType.FirstOrDefault(pType => strTypeName.Equals(pType.Name));
 
             if (pFindType != null)
                 return pFindType;

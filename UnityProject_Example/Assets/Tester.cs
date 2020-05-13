@@ -39,7 +39,7 @@ public class Tester : MonoBehaviour
 
     private void OnEnable()
     {
-        pContainer.DoInit(true);
+        UnitySO_Container.DoInit(pContainer, true);
         Debug.Log($"mapData_Key_Is_AutoEnumValue Count : { pContainer.mapData_Key_Is_AutoEnumValue.Count}");
         Debug.Log($"mapData_Key_Is_strAutoEnum Count : { pContainer.mapData_Key_Is_strAutoEnum.Count}");
 

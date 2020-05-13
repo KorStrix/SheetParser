@@ -29,7 +29,1536 @@
       "strComment": "파랑색 메테리얼2",
       "intValue": "2",
       "strAutoEnum": "AutoEnum_1",
-      "AutoEnumValue": "AutoEnum_1"
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "5",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "5.4",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "5.8",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼3",
+      "intValue": "6.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "6.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "7",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "7.4",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼4",
+      "intValue": "7.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "8.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "8.6",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "9",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼5",
+      "intValue": "9.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "9.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "10.2",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "10.6",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼6",
+      "intValue": "11",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "11.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "11.8",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "12.2",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼7",
+      "intValue": "12.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "13",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "13.4",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "13.8",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼8",
+      "intValue": "14.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "14.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "15",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "15.4",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼9",
+      "intValue": "15.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "16.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "16.6",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "17",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼10",
+      "intValue": "17.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "17.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "18.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "18.6",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "19",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼3",
+      "intValue": "19.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "19.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "20.2",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "20.6",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼4",
+      "intValue": "21",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "21.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "21.8",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "22.2",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼5",
+      "intValue": "22.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "23",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "23.4",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "23.8",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼6",
+      "intValue": "24.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "24.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "25",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "25.4",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼7",
+      "intValue": "25.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "26.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "26.6",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "27",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼8",
+      "intValue": "27.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "27.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "28.2",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "28.6",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "29",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "29.4",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "29.8",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼3",
+      "intValue": "30.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "30.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "31",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "31.4",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼4",
+      "intValue": "31.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "32.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "32.6",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "33",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼5",
+      "intValue": "33.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "33.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "34.2",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "34.6",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼6",
+      "intValue": "35",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "35.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "35.8",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "36.2",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼7",
+      "intValue": "36.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "37",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "37.4",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "37.8",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼8",
+      "intValue": "38.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "38.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "39",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "39.4",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼9",
+      "intValue": "39.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "40.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "40.6",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "41",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼10",
+      "intValue": "41.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "41.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "42.2",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "42.6",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼11",
+      "intValue": "43",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "43.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "43.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "44.2",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "44.6",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼4",
+      "intValue": "45",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "45.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "45.8",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "46.2",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼5",
+      "intValue": "46.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "47",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "47.4",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "47.8",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼6",
+      "intValue": "48.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "48.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "49",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "49.4",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼7",
+      "intValue": "49.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "50.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "50.6",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "51",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼8",
+      "intValue": "51.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "51.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "52.2",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "52.6",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼9",
+      "intValue": "53",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "53.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "53.8",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "54.2",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "54.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "55",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "55.4",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼4",
+      "intValue": "55.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "56.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "56.6",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "57",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼5",
+      "intValue": "57.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "57.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "58.2",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "58.6",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼6",
+      "intValue": "59",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "59.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "59.8",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "60.2",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼7",
+      "intValue": "60.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "61",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "61.4",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "61.8",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼8",
+      "intValue": "62.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "62.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "63",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "63.4",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼9",
+      "intValue": "63.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "64.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "64.6",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "65",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼10",
+      "intValue": "65.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "65.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "66.2",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "66.6",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼11",
+      "intValue": "67",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "67.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "67.8",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "68.2",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼12",
+      "intValue": "68.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "69",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "69.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "69.8",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "70.2",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼5",
+      "intValue": "70.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "71",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "71.4",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "71.8",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼6",
+      "intValue": "72.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "72.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "73",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "73.4",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼7",
+      "intValue": "73.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "74.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "74.6",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "75",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼8",
+      "intValue": "75.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "75.8",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "76.2",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "76.6",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼9",
+      "intValue": "77",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "77.4",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "77.8",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "78.2",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼10",
+      "intValue": "78.6",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "79",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "79.4",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "79.8",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "파랑색 메테리얼",
+      "intValue": "80.2",
+      "strAutoEnum": "AutoEnum_1",
+      "AutoEnumValue": "AutoEnum_1",
+      "pOtherSO": "파랑색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "초록색 메테리얼",
+      "intValue": "80.6",
+      "strAutoEnum": "AutoEnum_2",
+      "AutoEnumValue": "AutoEnum_2",
+      "pOtherSO": "초록색 메테리얼"
+    },
+    {
+      "MaterialPath": "Assets/ExportData/Material/.mat",
+      "strComment": "빨간색 메테리얼",
+      "intValue": "81",
+      "strAutoEnum": "AutoEnum_3",
+      "AutoEnumValue": "AutoEnum_3",
+      "pOtherSO": "빨간색 메테리얼"
     }
   ]
 }

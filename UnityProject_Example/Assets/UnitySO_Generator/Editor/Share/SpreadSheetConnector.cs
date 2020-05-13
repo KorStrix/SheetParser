@@ -124,8 +124,7 @@ namespace SpreadSheetParser
             }
             else
             {
-                DataTable pSheet;
-                if (_mapWorkSheet.TryGetValue(strSheetName, out pSheet) == false)
+                if (_mapWorkSheet.TryGetValue(strSheetName, out var pSheet) == false)
                 {
                     return null;
                 }

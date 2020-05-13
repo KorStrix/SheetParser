@@ -1,0 +1,1114 @@
+{
+  "array": [
+    {
+      "IntCalculate": "2",
+      "Int": "7",
+      "stringmember": "stringValue7",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "3",
+      "stringmember": "stringValue3",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "-1",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "-5",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "-9",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "44",
+      "Int": "44",
+      "stringmember": "44"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "21",
+      "stringmember": "stringValue1",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "25.14285714",
+      "stringmember": "stringValue5",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "29.28571429",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "33.42857143",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "37.57142857",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "45",
+      "Int": "41.71428571",
+      "stringmember": "45"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "45.85714286",
+      "stringmember": "stringValue9",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "50",
+      "stringmember": "stringValue13",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "54.14285714",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "58.28571429",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "62.42857143",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "46",
+      "Int": "66.57142857",
+      "stringmember": "46"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "70.71428571",
+      "stringmember": "stringValue17",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "74.85714286",
+      "stringmember": "stringValue21",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "79",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "83.14285714",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "87.28571429",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "47",
+      "Int": "91.42857143",
+      "stringmember": "47"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "95.57142857",
+      "stringmember": "stringValue25",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "99.71428571",
+      "stringmember": "stringValue29",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "103.8571429",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "108",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "112.1428571",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "48",
+      "Int": "116.2857143",
+      "stringmember": "48"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "120.4285714",
+      "stringmember": "stringValue33",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "124.5714286",
+      "stringmember": "stringValue37",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "128.7142857",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "132.8571429",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "137",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "49",
+      "Int": "141.1428571",
+      "stringmember": "49"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "145.2857143",
+      "stringmember": "stringValue41",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "149.4285714",
+      "stringmember": "stringValue45",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "153.5714286",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "157.7142857",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "161.8571429",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "50",
+      "Int": "166",
+      "stringmember": "50"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "170.1428571",
+      "stringmember": "stringValue49",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "174.2857143",
+      "stringmember": "stringValue53",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "178.4285714",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "182.5714286",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "186.7142857",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "51",
+      "Int": "190.8571429",
+      "stringmember": "51"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "195",
+      "stringmember": "stringValue57",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "199.1428571",
+      "stringmember": "stringValue61",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "203.2857143",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "207.4285714",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "211.5714286",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "52",
+      "Int": "215.7142857",
+      "stringmember": "52"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "219.8571429",
+      "stringmember": "stringValue65",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "224",
+      "stringmember": "stringValue69",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "228.1428571",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "232.2857143",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "236.4285714",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "53",
+      "Int": "240.5714286",
+      "stringmember": "53"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "244.7142857",
+      "stringmember": "stringValue73",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "248.8571429",
+      "stringmember": "stringValue77",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "253",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "257.1428571",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "261.2857143",
+      "stringmember": "stringValue1",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "265.4285714",
+      "stringmember": "stringValue5",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "269.5714286",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "273.7142857",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "277.8571429",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "45",
+      "Int": "282",
+      "stringmember": "45"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "286.1428571",
+      "stringmember": "stringValue9",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "290.2857143",
+      "stringmember": "stringValue13",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "294.4285714",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "298.5714286",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "302.7142857",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "46",
+      "Int": "306.8571429",
+      "stringmember": "46"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "311",
+      "stringmember": "stringValue17",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "315.1428571",
+      "stringmember": "stringValue21",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "319.2857143",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "323.4285714",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "327.5714286",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "47",
+      "Int": "331.7142857",
+      "stringmember": "47"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "335.8571429",
+      "stringmember": "stringValue25",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "340",
+      "stringmember": "stringValue29",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "344.1428571",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "348.2857143",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "352.4285714",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "48",
+      "Int": "356.5714286",
+      "stringmember": "48"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "360.7142857",
+      "stringmember": "stringValue33",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "364.8571429",
+      "stringmember": "stringValue37",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "369",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "373.1428571",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "377.2857143",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "49",
+      "Int": "381.4285714",
+      "stringmember": "49"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "385.5714286",
+      "stringmember": "stringValue41",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "389.7142857",
+      "stringmember": "stringValue45",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "393.8571429",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "398",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "402.1428571",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "50",
+      "Int": "406.2857143",
+      "stringmember": "50"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "410.4285714",
+      "stringmember": "stringValue49",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "414.5714286",
+      "stringmember": "stringValue53",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "418.7142857",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "422.8571429",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "427",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "51",
+      "Int": "431.1428571",
+      "stringmember": "51"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "435.2857143",
+      "stringmember": "stringValue57",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "439.4285714",
+      "stringmember": "stringValue61",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "443.5714286",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "447.7142857",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "451.8571429",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "52",
+      "Int": "456",
+      "stringmember": "52"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "460.1428571",
+      "stringmember": "stringValue65",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "464.2857143",
+      "stringmember": "stringValue69",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "468.4285714",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "472.5714286",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "476.7142857",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "53",
+      "Int": "480.8571429",
+      "stringmember": "53"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "485",
+      "stringmember": "stringValue73",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "489.1428571",
+      "stringmember": "stringValue77",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "493.2857143",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "497.4285714",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "501.5714286",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "54",
+      "Int": "505.7142857",
+      "stringmember": "54"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "509.8571429",
+      "stringmember": "stringValue81",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "514",
+      "stringmember": "stringValue85",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "518.1428571",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "522.2857143",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "526.4285714",
+      "stringmember": "stringValue9",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "530.5714286",
+      "stringmember": "stringValue13",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "534.7142857",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "538.8571429",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "543",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "46",
+      "Int": "547.1428571",
+      "stringmember": "46"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "551.2857143",
+      "stringmember": "stringValue17",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "555.4285714",
+      "stringmember": "stringValue21",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "559.5714286",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "563.7142857",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "567.8571429",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "47",
+      "Int": "572",
+      "stringmember": "47"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "576.1428571",
+      "stringmember": "stringValue25",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "580.2857143",
+      "stringmember": "stringValue29",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "584.4285714",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "588.5714286",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "592.7142857",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "48",
+      "Int": "596.8571429",
+      "stringmember": "48"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "601",
+      "stringmember": "stringValue33",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "605.1428571",
+      "stringmember": "stringValue37",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "609.2857143",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "613.4285714",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "617.5714286",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "49",
+      "Int": "621.7142857",
+      "stringmember": "49"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "625.8571429",
+      "stringmember": "stringValue41",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "630",
+      "stringmember": "stringValue45",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "634.1428571",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "638.2857143",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "642.4285714",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "50",
+      "Int": "646.5714286",
+      "stringmember": "50"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "650.7142857",
+      "stringmember": "stringValue49",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "654.8571429",
+      "stringmember": "stringValue53",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "659",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "663.1428571",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "667.2857143",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "51",
+      "Int": "671.4285714",
+      "stringmember": "51"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "675.5714286",
+      "stringmember": "stringValue57",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "679.7142857",
+      "stringmember": "stringValue61",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "683.8571429",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "688",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "692.1428571",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "52",
+      "Int": "696.2857143",
+      "stringmember": "52"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "700.4285714",
+      "stringmember": "stringValue65",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "704.5714286",
+      "stringmember": "stringValue69",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "708.7142857",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "712.8571429",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "717",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "53",
+      "Int": "721.1428571",
+      "stringmember": "53"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "725.2857143",
+      "stringmember": "stringValue73",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "729.4285714",
+      "stringmember": "stringValue77",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "733.5714286",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "737.7142857",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "741.8571429",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "54",
+      "Int": "746",
+      "stringmember": "54"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "750.1428571",
+      "stringmember": "stringValue81",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "754.2857143",
+      "stringmember": "stringValue85",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "4",
+      "Int": "758.4285714",
+      "stringmember": "asdf",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "5",
+      "Int": "762.5714286",
+      "stringmember": "fdsa",
+      "enummember": "Zero"
+    },
+    {
+      "IntCalculate": "6",
+      "Int": "766.7142857",
+      "stringmember": "qwer",
+      "enummember": "One"
+    },
+    {
+      "IntCalculate": "55",
+      "Int": "770.8571429",
+      "stringmember": "55"
+    },
+    {
+      "IntCalculate": "2",
+      "Int": "775",
+      "stringmember": "stringValue89",
+      "enummember": "Minus_One"
+    },
+    {
+      "IntCalculate": "3",
+      "Int": "779.1428571",
+      "stringmember": "stringValue93",
+      "enummember": "Zero"
+    }
+  ]
+}

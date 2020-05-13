@@ -17,14 +17,56 @@ using UnityEngine;
 
 
 
-public class global : UnityEngine.ScriptableObject
+public struct struct1
 {
     
-    public string GlobalKey;
+    public int Int;
     
-    public string strValue;
+    public string stringmember;
     
-    public string strType;
+    public TestEnum enummember;
+}
+
+public enum TestEnum
+{
     
-    public string strComment;
+    /// <summary>
+    /// 마이너스일
+    /// </summary>
+    Minus_One = -1,
+    
+    /// <summary>
+    /// 제로
+    /// </summary>
+    Zero = 0,
+    
+    /// <summary>
+    /// 원
+    /// </summary>
+    One = 1,
+}
+
+public enum TestEnum2
+{
+    
+    /// <summary>
+    /// 111
+    /// </summary>
+    MO = -1,
+    
+    /// <summary>
+    /// 0
+    /// </summary>
+    ZO = 0,
+    
+    /// <summary>
+    /// 11
+    /// </summary>
+    O = 1,
+}
+
+public enum TestEnum3
+{
+    
+    A,
 }

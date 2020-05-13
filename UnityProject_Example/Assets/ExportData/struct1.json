@@ -1,0 +1,14 @@
+{
+  "array": [
+    {
+      "Int": "7",
+      "stringmember": "stringValue7",
+      "enummember": "A"
+    },
+    {
+      "Int": "3",
+      "stringmember": "stringValue3",
+      "enummember": "B"
+    }
+  ]
+}
