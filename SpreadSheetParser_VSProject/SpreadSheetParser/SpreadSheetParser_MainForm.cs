@@ -22,7 +22,7 @@ namespace SpreadSheetParser
         private static SpreadSheetParser_MainForm _instance;
 
         public static SaveData_SpreadSheet pSpreadSheet_CurrentConnected { get; private set; }
-        public static SpreadSheetConnector pSheetConnector { get; private set; } = new SpreadSheetConnector();
+        public static GoogleSpreadSheetConnector pSheetConnector { get; private set; } = new GoogleSpreadSheetConnector();
 
         delegate void SafeCallDelegate(string text);
 

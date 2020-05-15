@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,10 +24,10 @@ namespace SpreadSheetParser
 
             checkedListBox_SheetList.Items.Clear();
             checkedListBox_WorkList.Items.Clear();
-            pSheetConnector.DoConnect(strSheetID, OnFinishConnect);
+            pSheetConnector.ISheetConnector_DoConnect_And_Parsing(strSheetID, OnFinishConnect);
         }
 
-        private void OnFinishConnect(string strSheetID, string strFileName, ESpreadSheetType eSheetType, List<SheetWrapper> listSheet, Exception pException_OnError)
+        private void OnFinishConnect(ISheetConnector pConnector, Exception pException_OnError)
         {
             if (pException_OnError != null)
             {
@@ -34,31 +35,33 @@ namespace SpreadSheetParser
                 return;
             }
 
-            if (_mapSaveData.ContainsKey(strSheetID))
+            if (_mapSaveData.ContainsKey(pConnector.strSheetID))
             {
-                pSpreadSheet_CurrentConnected = _mapSaveData[strSheetID];
-                pSpreadSheet_CurrentConnected.eType = eSheetType;
+                pSpreadSheet_CurrentConnected = _mapSaveData[pConnector.strSheetID];
+                pSpreadSheet_CurrentConnected.eType = pConnector.eSheetType;
                 List<TypeData> listSavedTable = pSpreadSheet_CurrentConnected.listTable;
 
-                for (int i = 0; i < listSheet.Count; i++)
+                int iOrder = 0;
+                foreach (KeyValuePair<string, SheetData> pSheet in pConnector.mapWorkSheetData_Key_Is_SheetName)
                 {
-                    string strSheetName = listSheet[i].ToString();
-
-                    TypeData pTypeDataFind = listSavedTable.Where(x => (x.strSheetName == strSheetName)).FirstOrDefault();
+                    TypeData pTypeDataFind = listSavedTable.FirstOrDefault(x => (x.strSheetName == pSheet.Key));
                     if (pTypeDataFind == null)
-                        listSavedTable.Add(new TypeData(strSheetName, i));
+                        listSavedTable.Add(new TypeData(pSheet.Key, iOrder));
                     else
-                        pTypeDataFind.iOrder = i;
+                        pTypeDataFind.iOrder = iOrder;
+
+                    iOrder++;
                 }
             }
             else
             {
-                pSpreadSheet_CurrentConnected = new SaveData_SpreadSheet(strSheetID, eSheetType);
+                pSpreadSheet_CurrentConnected = new SaveData_SpreadSheet(pConnector.strSheetID, pConnector.eSheetType);
                 _mapSaveData[pSpreadSheet_CurrentConnected.strSheetID] = pSpreadSheet_CurrentConnected;
 
+                int iOrder = 0;
                 pSpreadSheet_CurrentConnected.listTable.Clear();
-                for (int i = 0; i < listSheet.Count; i++)
-                    pSpreadSheet_CurrentConnected.listTable.Add(new TypeData(listSheet[i].ToString(), i));
+                foreach (KeyValuePair<string, SheetData> pSheet in pConnector.mapWorkSheetData_Key_Is_SheetName)
+                    pSpreadSheet_CurrentConnected.listTable.Add(new TypeData(pSheet.Key, iOrder++));
 
                 SaveDataManager.SaveSheet(pSpreadSheet_CurrentConnected);
 
@@ -70,7 +73,7 @@ namespace SpreadSheetParser
             listSheetSaved.Sort((x, y) => x.iOrder.CompareTo(y.iOrder));
 
             TypeData[] arrSheetDelete = listSheetSaved.Where((pSheet) =>
-            listSheet.Where((pSheetWrapper) => pSheetWrapper.ToString() == pSheet.strSheetName).Count() == 0).ToArray();
+                pConnector.mapWorkSheetData_Key_Is_SheetName.Keys.Any((strName) => strName == pSheet.strSheetName) == false).ToArray();
 
             if (arrSheetDelete.Length > 0)
             {
@@ -117,7 +120,7 @@ namespace SpreadSheetParser
             checkedListBox_WorkList.Items.Clear();
             checkedListBox_SheetList.Items.Clear();
 
-            pSheetConnector.DoOpen_Excel(textBox_ExcelPath_ForConnect.Text, OnFinishConnect);
+            pSheetConnector.ISheetConnector_DoConnect_And_Parsing(textBox_ExcelPath_ForConnect.Text, OnFinishConnect);
         }
 
         private void button_OpenExcel_Click(object sender, EventArgs e)

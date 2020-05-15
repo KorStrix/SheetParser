@@ -87,7 +87,7 @@ namespace SpreadSheetParser
             return "Generate Unity SO";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkState)
+        public override void DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkState)
         {
             CodeNamespace pNameSpace = new CodeNamespace();
 

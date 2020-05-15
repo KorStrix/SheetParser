@@ -67,13 +67,15 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TypeData_Tester.cs" />
+    <Compile Include="TestTemplate.cs" />
     <Compile Include="SheetConnector_Tester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="credentials.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

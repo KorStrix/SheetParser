@@ -15,8 +15,8 @@ namespace SpreadSheetParser
     public class SaveData_SpreadSheet
     {
         public string strSheetID;
-        public ESpreadSheetType eType;
         public DateTime date_LastEdit;
+        public ESpreadSheetType eType;
         public List<TypeData> listTable = new List<TypeData>();
         public List<WorkBase> listSaveWork = new List<WorkBase>();
 

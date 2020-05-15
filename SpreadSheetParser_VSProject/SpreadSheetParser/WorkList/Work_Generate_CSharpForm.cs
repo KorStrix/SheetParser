@@ -79,7 +79,7 @@ namespace SpreadSheetParser
             return "Generate CSharp File";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkProcess)
+        public override void DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkProcess)
         {
             pCodeFileBuilder.Generate_CSharpCode($"{GetRelative_To_AbsolutePath(strPath)}/{strFileName}");
         }

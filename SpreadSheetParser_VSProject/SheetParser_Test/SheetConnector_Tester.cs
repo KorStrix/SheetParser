@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using SpreadSheetParser;
 
@@ -14,22 +15,19 @@ namespace SheetParser_Test
             // 테스트 시트
             // https://docs.google.com/spreadsheets/d/1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4/edit#gid=0
             string strTestSheetID = "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4";
-            ESpreadSheetType eSheetConnected = ESpreadSheetType.MSExcel;
-            SpreadSheetConnector pConnector = new SpreadSheetConnector();
+            ISheetConnector pConnector = new GoogleSpreadSheetConnector(GetDirectory_ForTestProject() + "/credentials.json");
             bool bIsConnected = false;
 
 
             // Act
-            await pConnector.DoConnect(strTestSheetID, (strSheetID, strFileName, eSheetType, listSheet, pException_OnError) => 
+            await pConnector.ISheetConnector_DoConnect_And_Parsing(strTestSheetID, (iConnector, pException_OnError) => 
             {
-                bIsConnected = strTestSheetID.Equals(strSheetID);
-                eSheetConnected = eSheetType;
+                bIsConnected = pException_OnError == null && strTestSheetID.Equals(iConnector.strSheetID) && iConnector.mapWorkSheetData_Key_Is_SheetName.Count > 0;
             });
 
 
             // Assert
             Assert.IsTrue(bIsConnected);
-            Assert.AreEqual(eSheetConnected, ESpreadSheetType.GoogleSpreadSheet);
         }
 
         [Test]
@@ -37,22 +35,27 @@ namespace SheetParser_Test
         {
             // Arrange
             string strTestExcelFileName = "TestExcel.xlsx";
-            ESpreadSheetType eSheetConnected = ESpreadSheetType.GoogleSpreadSheet;
-            SpreadSheetConnector pConnector = new SpreadSheetConnector();
+            ISheetConnector pConnector = new MSExcelConnector();
             bool bIsConnected = false;
 
-
             // Act
-            await pConnector.DoOpen_Excel(strTestExcelFileName, (strSheetID, strFileName, eSheetType, listSheet, pException_OnError) =>
+            await pConnector.ISheetConnector_DoConnect_And_Parsing(GetDirectory_ForTestProject() + strTestExcelFileName, (iConnector, pException_OnError) =>
             {
-                bIsConnected = strTestExcelFileName.Equals(strSheetID);
-                eSheetConnected = eSheetType;
+                bIsConnected = pException_OnError == null && iConnector.mapWorkSheetData_Key_Is_SheetName.Count > 0;
             });
 
 
             // Assert
             Assert.IsTrue(bIsConnected);
-            Assert.AreEqual(eSheetConnected, ESpreadSheetType.MSExcel);
+        }
+
+        private static string GetDirectory_ForTestProject()
+        {
+            // Get the executing directory of the tests 
+            string dir = NUnit.Framework.TestContext.CurrentContext.TestDirectory;
+            // Infer the project directory from there...2 levels up (depending on project type - for asp.net omit the latter Parent for a single level up)
+            dir = System.IO.Directory.GetParent(dir).Parent.FullName;
+            return dir + "/";
         }
     }
 }
