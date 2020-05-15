@@ -28,7 +28,7 @@ namespace SpreadSheetParser
             {
                 try
                 {
-                    pWork.DoWork(_pCodeFileBuilder, pSheetConnector, new TypeData[] { pSheetData }, SpreadSheetParser_MainForm.WriteConsole);
+                    pWork.DoWork(_pCodeFileBuilder, pSheetConnector, new TypeData[] { pSheetData }, WriteConsole);
                 }
                 catch (Exception pException)
                 {
@@ -81,7 +81,7 @@ namespace SpreadSheetParser
             {
                 try
                 {
-                    pWork.DoWork(_pCodeFileBuilder, pSheetConnector, listSheetData, SpreadSheetParser_MainForm.WriteConsole);
+                    pWork.DoWork(_pCodeFileBuilder, pSheetConnector, listSheetData, WriteConsole);
                 }
                 catch (Exception pException)
                 {

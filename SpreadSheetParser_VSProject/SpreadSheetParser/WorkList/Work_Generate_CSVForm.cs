@@ -60,7 +60,7 @@ namespace SpreadSheetParser
     }
 
 
-    [System.Serializable]
+    [Serializable]
     public class Work_Generate_CSV : WorkBase
     {
         public string strExportPath;
@@ -77,7 +77,7 @@ namespace SpreadSheetParser
             return "Generate CSV";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, System.Action<string> OnPrintWorkProcess)
+        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkProcess)
         {
             StringBuilder pStrBuilder = new StringBuilder();
 

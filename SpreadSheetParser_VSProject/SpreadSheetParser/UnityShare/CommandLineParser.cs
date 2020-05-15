@@ -9,7 +9,7 @@ namespace SpreadSheetParser
 
         public CommandLineArg(string strArgName)
         {
-            this.strArgName = strArgName; this.strArgValue = "";
+            this.strArgName = strArgName; strArgValue = "";
         }
 
         public CommandLineArg(string strArgName, string strArgValue)

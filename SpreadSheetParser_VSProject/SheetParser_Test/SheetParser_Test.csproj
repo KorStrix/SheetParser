@@ -71,7 +71,6 @@
   <ItemGroup>
     <Compile Include="TypeData_Tester.cs" />
     <Compile Include="SheetConnector_Tester.cs" />
-    <Compile Include="TestTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

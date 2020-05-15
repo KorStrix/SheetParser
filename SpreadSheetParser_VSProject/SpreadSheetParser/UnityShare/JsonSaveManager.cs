@@ -26,7 +26,7 @@ namespace SpreadSheetParser
             return pSetting;
         }
 
-        static public void SaveData(object pData, string strFilePath)
+        public static void SaveData(object pData, string strFilePath)
         {
             Check_ExistsFolderPath(strFilePath);
 
@@ -38,7 +38,7 @@ namespace SpreadSheetParser
         }
 
 #if !UNITY_EDITOR
-        static public async void SaveData_Async(object pData, string strFilePath, System.Action<bool> OnFinishAsync)
+        public static async void SaveData_Async(object pData, string strFilePath, System.Action<bool> OnFinishAsync)
         {
             if (_set_AsyncSave.Contains(strFilePath))
                 return;

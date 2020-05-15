@@ -11,22 +11,22 @@ namespace SpreadSheetParser
     {
         public static string const_strSaveFolderPath = Directory.GetCurrentDirectory() + "/SaveData/";
 
-        static public void SaveConfig(string strFilePath, object pData)
+        public static void SaveConfig(string strFilePath, object pData)
         {
             JsonSaveManager.SaveData(pData, GetFilePath(strFilePath));
         }
 
-        static public void SaveConfig(Config pData)
+        public static void SaveConfig(Config pData)
         {
             JsonSaveManager.SaveData(pData, GetFilePath("Config"));
         }
 
-        static public void SaveConfig_Async(Config pData, System.Action<bool> OnFinishAsync)
+        public static void SaveConfig_Async(Config pData, Action<bool> OnFinishAsync)
         {
             JsonSaveManager.SaveData_Async(pData, GetFilePath("Config"), OnFinishAsync);
         }
 
-        static public Config LoadConfig()
+        public static Config LoadConfig()
         {
             List<Config> listConfig = JsonSaveManager.LoadData_List<Config>(const_strSaveFolderPath);
             if (listConfig.Count > 0)
@@ -35,17 +35,17 @@ namespace SpreadSheetParser
                 return new Config();
         }
 
-        static public void SaveSheet(SaveData_SpreadSheet pSheet)
+        public static void SaveSheet(SaveData_SpreadSheet pSheet)
         {
             JsonSaveManager.SaveData(pSheet, GetFilePath(pSheet.GetFileName()));
         }
 
-        static public void SaveSheet_Async(SaveData_SpreadSheet pSheet, System.Action<bool> OnFinishAsync)
+        public static void SaveSheet_Async(SaveData_SpreadSheet pSheet, Action<bool> OnFinishAsync)
         {
             JsonSaveManager.SaveData_Async(pSheet, GetFilePath(pSheet.GetFileName()), OnFinishAsync);
         }
 
-        static public Dictionary<string, SaveData_SpreadSheet> LoadSheet(System.Action<string> OnError)
+        public static Dictionary<string, SaveData_SpreadSheet> LoadSheet(Action<string> OnError)
         {
             Dictionary<string, SaveData_SpreadSheet> mapSaveSheet = new Dictionary<string, SaveData_SpreadSheet>();
             List<SaveData_SpreadSheet> listSheet = JsonSaveManager.LoadData_List<SaveData_SpreadSheet>(const_strSaveFolderPath, OnError);

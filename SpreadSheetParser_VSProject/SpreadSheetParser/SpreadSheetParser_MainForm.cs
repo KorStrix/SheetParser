@@ -18,11 +18,11 @@ namespace SpreadSheetParser
             IsConnected_And_SelectTable,
         }
 
-        static public SpreadSheetParser_MainForm isntance => _instance;
-        static private SpreadSheetParser_MainForm _instance;
+        public static SpreadSheetParser_MainForm isntance => _instance;
+        private static SpreadSheetParser_MainForm _instance;
 
-        static public SaveData_SpreadSheet pSpreadSheet_CurrentConnected { get; private set; }
-        static public SpreadSheetConnector pSheetConnector { get; private set; } = new SpreadSheetConnector();
+        public static SaveData_SpreadSheet pSpreadSheet_CurrentConnected { get; private set; }
+        public static SpreadSheetConnector pSheetConnector { get; private set; } = new SpreadSheetConnector();
 
         delegate void SafeCallDelegate(string text);
 
@@ -44,7 +44,7 @@ namespace SpreadSheetParser
             _instance = this;
         }
 
-        static public void WriteConsole(string strText)
+        public static void WriteConsole(string strText)
         {
             // Winform 컨트롤을 스레드로부터 안전하게 호출하는 법
             // https://docs.microsoft.com/ko-kr/dotnet/framework/winforms/controls/how-to-make-thread-safe-calls-to-windows-forms-controls
@@ -60,7 +60,7 @@ namespace SpreadSheetParser
             }
         }
 
-        static public void DoOpenFolder(string strPath)
+        public static void DoOpenFolder(string strPath)
         {
             WriteConsole($"폴더 열기 시도.. 경로{strPath}");
             try
@@ -68,7 +68,7 @@ namespace SpreadSheetParser
                 System.Diagnostics.Process.Start(strPath);
                 WriteConsole($"폴더 열기 성공.. 경로{strPath}");
             }
-            catch (System.Exception pException)
+            catch (Exception pException)
             {
                 WriteConsole($"폴더 열기 실패.. 경로{strPath}");
                 WriteConsole($"에러:{ pException}");
@@ -77,7 +77,7 @@ namespace SpreadSheetParser
 
         public delegate void delOnCheck_IsCorrectPath(string strPath, ref string strErrorMessage);
 
-        static public bool DoShowFileBrowser_And_SavePath(bool bIsAbsolutePath, ref TextBox pTextBox_Path, delOnCheck_IsCorrectPath OnCheck_IsCorrect)
+        public static bool DoShowFileBrowser_And_SavePath(bool bIsAbsolutePath, ref TextBox pTextBox_Path, delOnCheck_IsCorrectPath OnCheck_IsCorrect)
         {
             if (OnCheck_IsCorrect == null)
                 OnCheck_IsCorrect = (string strPath, ref string strErrorMessage) => strErrorMessage = null;
@@ -106,7 +106,7 @@ namespace SpreadSheetParser
             return false;
         }
 
-        static public bool DoShowFolderBrowser_And_SavePath(bool bIsAbsolutePath, ref TextBox pTextBox_Path)
+        public static bool DoShowFolderBrowser_And_SavePath(bool bIsAbsolutePath, ref TextBox pTextBox_Path)
         {
             using (FolderBrowserDialog pDialog = new FolderBrowserDialog())
             {

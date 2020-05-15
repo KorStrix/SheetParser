@@ -56,9 +56,9 @@ namespace SpreadSheetParser
         public async Task DoConnect(string strSheetID, delOnFinishConnect OnFinishConnect, string strCredentialFilePath = "credentials.json")
         {
             List<SheetWrapper> listSheet = new List<SheetWrapper>();
-            this._pService = null;
-            this._eConnectedSheetType = ESpreadSheetType.GoogleSpreadSheet;
-            this._strSheetID = strSheetID;
+            _pService = null;
+            _eConnectedSheetType = ESpreadSheetType.GoogleSpreadSheet;
+            _strSheetID = strSheetID;
             UserCredential credential;
             Exception pException_OnError = null;
 
@@ -151,8 +151,8 @@ namespace SpreadSheetParser
         private async Task Open_Excel(SynchronizationContext pSyncContext_Call, string strFileAbsolutePath_And_IncludeExtension, delOnFinishConnect OnFinishConnect)
         {
             List<SheetWrapper> listSheet = new List<SheetWrapper>();
-            this._eConnectedSheetType = ESpreadSheetType.MSExcel;
-            this._strSheetID = strFileAbsolutePath_And_IncludeExtension;
+            _eConnectedSheetType = ESpreadSheetType.MSExcel;
+            _strSheetID = strFileAbsolutePath_And_IncludeExtension;
             Exception pException_OnError = null;
 
             foreach (DataTable pData in _mapWorkSheet.Values)
@@ -167,7 +167,7 @@ namespace SpreadSheetParser
                 {
                     using (var stream = File.Open(strAbsolutePath, FileMode.Open, FileAccess.Read))
                     {
-                        using (IExcelDataReader reader = ExcelDataReader.ExcelReaderFactory.CreateReader(stream))
+                        using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
                         {
                             var DataSet = reader.AsDataSet();
                             foreach (DataTable pSheet in DataSet.Tables)

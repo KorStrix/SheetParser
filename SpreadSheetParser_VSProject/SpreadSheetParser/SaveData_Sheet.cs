@@ -30,7 +30,7 @@ namespace SpreadSheetParser
 
         public void UpdateDate()
         {
-            date_LastEdit = System.DateTime.Now;
+            date_LastEdit = DateTime.Now;
         }
 
         public string GetFileName()
@@ -50,9 +50,9 @@ namespace SpreadSheetParser
         }
     }
 
-    static public class FieldDataHelper
+    public static class FieldDataHelper
     {
-        static public ListViewItem ConvertListViewItem(this FieldTypeData pFieldData)
+        public static ListViewItem ConvertListViewItem(this FieldTypeData pFieldData)
         {
             ListViewItem pViewItem = new ListViewItem();
             pFieldData.Reset_ListViewItem(pViewItem);
@@ -62,7 +62,7 @@ namespace SpreadSheetParser
 
         }
 
-        static public void Reset_ListViewItem(this FieldTypeData pFieldData, ListViewItem pViewItem)
+        public static void Reset_ListViewItem(this FieldTypeData pFieldData, ListViewItem pViewItem)
         {
             pViewItem.SubItems.Clear();
             pViewItem.SubItems.Add(pFieldData.strFieldType);

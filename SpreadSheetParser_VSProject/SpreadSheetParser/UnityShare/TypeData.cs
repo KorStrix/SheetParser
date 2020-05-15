@@ -42,7 +42,7 @@ namespace SpreadSheetParser
         public TypeData(string strSheetName, int iOrder)
         {
             this.strSheetName = strSheetName;
-            this.strFileName = strSheetName;
+            strFileName = strSheetName;
         }
 
         public override string ToString()

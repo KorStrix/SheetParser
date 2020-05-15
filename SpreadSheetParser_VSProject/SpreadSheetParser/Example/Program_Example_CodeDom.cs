@@ -59,7 +59,7 @@ namespace SpreadSheetParser
                 CodeMemberField widthValueField = new CodeMemberField();
                 widthValueField.Attributes = MemberAttributes.Private;
                 widthValueField.Name = "widthValue";
-                widthValueField.Type = new CodeTypeReference(typeof(System.Double));
+                widthValueField.Type = new CodeTypeReference(typeof(Double));
                 widthValueField.Comments.Add(new CodeCommentStatement(
                     "The width of the object."));
                 targetClass.Members.Add(widthValueField);
@@ -69,7 +69,7 @@ namespace SpreadSheetParser
                 heightValueField.Attributes = MemberAttributes.Private;
                 heightValueField.Name = "heightValue";
                 heightValueField.Type =
-                    new CodeTypeReference(typeof(System.Double));
+                    new CodeTypeReference(typeof(Double));
                 heightValueField.Comments.Add(new CodeCommentStatement(
                     "The height of the object."));
                 targetClass.Members.Add(heightValueField);
@@ -85,7 +85,7 @@ namespace SpreadSheetParser
                     MemberAttributes.Public | MemberAttributes.Final;
                 widthProperty.Name = "Width";
                 widthProperty.HasGet = true;
-                widthProperty.Type = new CodeTypeReference(typeof(System.Double));
+                widthProperty.Type = new CodeTypeReference(typeof(Double));
                 widthProperty.Comments.Add(new CodeCommentStatement(
                     "The Width property for the object."));
                 widthProperty.GetStatements.Add(new CodeMethodReturnStatement(
@@ -99,7 +99,7 @@ namespace SpreadSheetParser
                     MemberAttributes.Public | MemberAttributes.Final;
                 heightProperty.Name = "Height";
                 heightProperty.HasGet = true;
-                heightProperty.Type = new CodeTypeReference(typeof(System.Double));
+                heightProperty.Type = new CodeTypeReference(typeof(Double));
                 heightProperty.Comments.Add(new CodeCommentStatement(
                     "The Height property for the object."));
                 heightProperty.GetStatements.Add(new CodeMethodReturnStatement(
@@ -113,7 +113,7 @@ namespace SpreadSheetParser
                     MemberAttributes.Public | MemberAttributes.Final;
                 areaProperty.Name = "Area";
                 areaProperty.HasGet = true;
-                areaProperty.Type = new CodeTypeReference(typeof(System.Double));
+                areaProperty.Type = new CodeTypeReference(typeof(Double));
                 areaProperty.Comments.Add(new CodeCommentStatement(
                     "The Area property for the object."));
 
@@ -143,7 +143,7 @@ namespace SpreadSheetParser
                     MemberAttributes.Public | MemberAttributes.Override;
                 toStringMethod.Name = "ToString";
                 toStringMethod.ReturnType =
-                    new CodeTypeReference(typeof(System.String));
+                    new CodeTypeReference(typeof(String));
 
                 CodeFieldReferenceExpression widthReference =
                     new CodeFieldReferenceExpression(
@@ -185,9 +185,9 @@ namespace SpreadSheetParser
 
                 // Add parameters.
                 constructor.Parameters.Add(new CodeParameterDeclarationExpression(
-                    typeof(System.Double), "width"));
+                    typeof(Double), "width"));
                 constructor.Parameters.Add(new CodeParameterDeclarationExpression(
-                    typeof(System.Double), "height"));
+                    typeof(Double), "height"));
 
                 // Add field initialization logic
                 CodeFieldReferenceExpression widthReference =

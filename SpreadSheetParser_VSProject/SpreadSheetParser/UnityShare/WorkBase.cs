@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
-    abstract public class WorkBase
+    public abstract class WorkBase
     {
         public int iWorkOrder;
         public Type pType;
@@ -40,7 +40,7 @@ namespace SpreadSheetParser
 
         public WorkBase CopyInstance()
         {
-            return (WorkBase)this.MemberwiseClone();
+            return (WorkBase)MemberwiseClone();
         }
 
 #if !UNITY_EDITOR
@@ -56,15 +56,15 @@ namespace SpreadSheetParser
         }
 #endif
 
-        abstract public void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, System.Action<string> OnPrintWorkState);
+        public abstract void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkState);
 #if !UNITY_EDITOR
-        virtual public void DoWorkAfter() { }
+        public virtual void DoWorkAfter() { }
 
-        abstract protected void OnCreateInstance(out Type pFormType, out Type pType);
-        abstract protected void OnShowForm(Form pFormInstance);
+        protected abstract void OnCreateInstance(out Type pFormType, out Type pType);
+        protected abstract void OnShowForm(Form pFormInstance);
 #endif
 
-        abstract public string GetDisplayString();
+        public abstract string GetDisplayString();
 
         public override string ToString()
         {
@@ -133,7 +133,7 @@ namespace SpreadSheetParser
             throw new NotImplementedException(); // won't be called because CanWrite returns false
         }
 
-        public static IEnumerable<Type> GetEnumerableOfType(System.Type pBaseType)
+        public static IEnumerable<Type> GetEnumerableOfType(Type pBaseType)
         {
             List<Type> objects = new List<Type>();
             foreach (Type type in

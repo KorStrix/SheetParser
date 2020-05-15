@@ -20,7 +20,7 @@ using System.ComponentModel;
 
 public static class CSVUtility
 {
-    public static List<T> FromCSVText_List<T>(byte[] arrCSVByte, System.Action<string> OnError)
+    public static List<T> FromCSVText_List<T>(byte[] arrCSVByte, Action<string> OnError)
     where T : new()
     {
         using (var pStream = new MemoryStream(arrCSVByte))
@@ -32,19 +32,19 @@ public static class CSVUtility
         }
     }
 
-    public static List<T> FromCSVFile_List<T>(string strFileName, System.Action<string> OnError)
+    public static List<T> FromCSVFile_List<T>(string strFileName, Action<string> OnError)
         where T : new()
     {
         return Sinbad.CsvUtil.LoadObjects<T>(strFileName, OnError);
     }
 
-    public static void FromCSVFile_List<T>(string strFileName, out List<T> list, System.Action<string> OnError)
+    public static void FromCSVFile_List<T>(string strFileName, out List<T> list, Action<string> OnError)
         where T : new()
     {
         list = Sinbad.CsvUtil.LoadObjects<T>(strFileName, OnError);
     }
 
-    public static Dictionary<TKey, TValue> FromCSVFile_Dictionary<TKey, TValue>(string strFileName, System.Func<TValue, TKey> OnGetKey, System.Action<string> OnError)
+    public static Dictionary<TKey, TValue> FromCSVFile_Dictionary<TKey, TValue>(string strFileName, Func<TValue, TKey> OnGetKey, Action<string> OnError)
         where TValue : new()
     {
         Dictionary<TKey, TValue> mapReturn = new Dictionary<TKey, TValue>();
@@ -68,7 +68,7 @@ public static class CSVUtility
         return mapReturn;
     }
 
-    public static Dictionary<TKey, List<TValue>> FromCSVFile_Dictionary_ValueList<TKey, TValue>(string strFileName, System.Func<TValue, TKey> OnGetKey, System.Action<string> OnError)
+    public static Dictionary<TKey, List<TValue>> FromCSVFile_Dictionary_ValueList<TKey, TValue>(string strFileName, Func<TValue, TKey> OnGetKey, Action<string> OnError)
         where TValue : new()
     {
         Dictionary<TKey, List<TValue>> mapReturn = new Dictionary<TKey, List<TValue>>();
@@ -120,7 +120,7 @@ namespace Sinbad
         // @param filename File to load
         // @param strict If true, log errors if a line doesn't have enough
         //   fields as per the header. If false, ignores and just fills what it can
-        public static List<T> LoadObjects<T>(string filename, System.Action<string> OnError) where T : new()
+        public static List<T> LoadObjects<T>(string filename, Action<string> OnError) where T : new()
         {
             using (var stream = File.OpenRead(filename))
             {
@@ -139,7 +139,7 @@ namespace Sinbad
         // @param rdr Input reader
         // @param strict If true, log errors if a line doesn't have enough
         //   fields as per the header. If false, ignores and just fills what it can
-        public static List<T> LoadObjects<T>(TextReader rdr, System.Action<string> OnError) where T : new()
+        public static List<T> LoadObjects<T>(TextReader rdr, Action<string> OnError) where T : new()
         {
             var ret = new List<T>();
             string header = rdr.ReadLine();
@@ -188,7 +188,7 @@ namespace Sinbad
         // First column is property name, second is value
         // You can optionally include other columns for descriptions etc, these are ignored
         // Field names are matched case-insensitive for convenience
-        public static void LoadObject<T>(TextReader rdr, ref T destObject, System.Action<string> OnError)
+        public static void LoadObject<T>(TextReader rdr, ref T destObject, Action<string> OnError)
         {
             FieldInfo[] fi = typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             PropertyInfo[] pi = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -354,7 +354,7 @@ namespace Sinbad
         }
 
         // Parse an object line based on the header, return true if any fields matched
-        private static bool ParseLineToObject(string line, Dictionary<string, int> fieldDefs, FieldInfo[] fi, PropertyInfo[] pi, object destObject, System.Action<string> OnError)
+        private static bool ParseLineToObject(string line, Dictionary<string, int> fieldDefs, FieldInfo[] fi, PropertyInfo[] pi, object destObject, Action<string> OnError)
         {
 
             string[] values = EnumerateCsvLine(line).ToArray();

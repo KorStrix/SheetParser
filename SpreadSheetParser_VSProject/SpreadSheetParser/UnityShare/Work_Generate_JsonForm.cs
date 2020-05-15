@@ -60,7 +60,7 @@ namespace SpreadSheetParser
     }
 #endif
 
-    [System.Serializable]
+    [Serializable]
     public class Work_Generate_Json : WorkBase
     {
         public string strExportPath;
@@ -79,7 +79,7 @@ namespace SpreadSheetParser
             return "Generate Json";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, System.Action<string> OnPrintWorkProcess)
+        public override void DoWork(CodeFileBuilder pCodeFileBuilder, SpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkProcess)
         {
             TypeDataList pTypeDataList = JsonSaveManager.LoadData<TypeDataList>($"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json", OnPrintWorkProcess);
             //if (pTypeDataList != null)

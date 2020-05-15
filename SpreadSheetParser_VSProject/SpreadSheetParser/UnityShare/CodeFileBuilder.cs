@@ -3,19 +3,15 @@ using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static SpreadSheetParser.TypeDataHelper;
 
 namespace SpreadSheetParser
 {
     public static class TypeParser
     {
-        static public Type GetFieldType_OrNull(string strTypeName)
+        public static Type GetFieldType_OrNull(string strTypeName)
         {
-            System.Type pType = null;
+            Type pType = null;
             string strKey = strTypeName.ToLower();
             switch (strKey)
             {
@@ -41,17 +37,17 @@ namespace SpreadSheetParser
 
         public EnumFieldData()
         {
-            this.strValue = ""; this.iNumber = int.MaxValue; this.strComment = "";
+            strValue = ""; iNumber = int.MaxValue; strComment = "";
         }
 
         public EnumFieldData(string strValue)
         {
-            this.strValue = strValue; this.iNumber = int.MaxValue; this.strComment = "";
+            this.strValue = strValue; iNumber = int.MaxValue; strComment = "";
         }
 
         public EnumFieldData(string strValue, string strComment = "")
         {
-            this.strValue = strValue; this.iNumber = int.MaxValue; this.strComment = strComment;
+            this.strValue = strValue; iNumber = int.MaxValue; this.strComment = strComment;
         }
 
         public EnumFieldData(string strValue, int iNumber = int.MaxValue, string strComment = "")
@@ -70,7 +66,7 @@ namespace SpreadSheetParser
 
         public List<string> listDefaultUsing = new List<string>();
 
-        CodeTypeDeclarationCollection _arrCodeTypeDeclaration = new CodeTypeDeclarationCollection();
+        private CodeTypeDeclarationCollection _arrCodeTypeDeclaration = new CodeTypeDeclarationCollection();
 
         public CodeFileBuilder()
         {
@@ -166,7 +162,7 @@ namespace SpreadSheetParser
         #endregion
     }
 
-    static public class CodeFileHelper
+    public static class CodeFileHelper
     {
         public static void AddComment(this CodeTypeDeclaration pCodeType, string strComment)
         {
