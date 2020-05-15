@@ -8,8 +8,6 @@ namespace SpreadSheetParser
     public class Config
     {
         public bool bAutoConnect = true;
-        public bool bOpenPath_AfterBuild_Csharp;
-        public bool bOpenPath_AfterBuild_CSV;
     }
 
     public class SaveData_SpreadSheet
