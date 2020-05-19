@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
+using System.Threading.Tasks;
 #if !UNITY_EDITOR
 using System.Windows.Forms;
 #endif
@@ -56,7 +56,7 @@ namespace SpreadSheetParser
         }
 #endif
 
-        public abstract void DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkState);
+        public abstract Task DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkState);
 #if !UNITY_EDITOR
         public virtual void DoWorkAfter() { }
 

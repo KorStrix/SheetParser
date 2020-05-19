@@ -1,0 +1,8 @@
+EnumType,EnumValue,NumberValue,Comment
+TestEnum,Minus_One,-1,마이너스일
+TestEnum,Zero,0,제로
+TestEnum,One,1,원
+TestEnum2,MO,-1,111
+TestEnum2,ZO,0,0
+TestEnum2,O,1,11
+TestEnum3,A

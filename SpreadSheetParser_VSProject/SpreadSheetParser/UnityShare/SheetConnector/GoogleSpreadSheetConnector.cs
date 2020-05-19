@@ -111,8 +111,15 @@ namespace SpreadSheetParser
             SpreadsheetsResource.ValuesResource.GetRequest pRequest =
                 _pService.Spreadsheets.Values.Get(strSheetID, strSheetName);
 
-            var pResponse = pRequest.Execute();
-            return pResponse.Values;
+            return pRequest.Execute().Values;
+        }
+
+        public Task<IList<IList<object>>> ISheetConnector_GetSheetData_Async(string strSheetName)
+        {
+            SpreadsheetsResource.ValuesResource.GetRequest pRequest =
+                _pService.Spreadsheets.Values.Get(strSheetID, strSheetName);
+
+            return pRequest.ExecuteAsync().ContinueWith(p => p.Result.Values);
         }
     }
 }

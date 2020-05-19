@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 #if !UNITY_EDITOR
@@ -125,6 +125,49 @@ namespace SpreadSheetParser
             return listData;
         }
 
+        public static Task<T> LoadData_UseTask<T>(string strFilePath, System.Action<string> OnError = null)
+            where T : class
+        {
+            if (File.Exists(strFilePath) == false)
+                return null;
+
+            return ReadTextAsync(strFilePath).ContinueWith(p =>
+            {
+                T pData = null;
+                try
+                {
+                    pData = JsonConvert.DeserializeObject<T>(p.Result, _pSetting);
+                }
+                catch (System.Exception e)
+                {
+                    OnError?.Invoke($"Load Data Parsing Error - \nFileName : {strFilePath} Error : {e}");
+                }
+
+                return pData;
+            });
+        }
+
+        // ===================================================================================================
+
+        // https://docs.microsoft.com/ko-kr/dotnet/csharp/programming-guide/concepts/async/using-async-for-file-access
+        private static async Task<string> ReadTextAsync(string strFilePath)
+        {
+            using (FileStream sourceStream = new FileStream(strFilePath,
+                FileMode.Open, FileAccess.Read, FileShare.Read,
+                bufferSize: 4096, useAsync: true))
+            {
+                StringBuilder sb = new StringBuilder();
+
+                byte[] buffer = new byte[0x1000];
+                int numRead;
+                while ((numRead = await sourceStream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+                {
+                    sb.Append(Encoding.UTF8.GetString(buffer, 0, numRead));
+                }
+
+                return sb.ToString();
+            }
+        }
 
         private static void Check_ExistsFolderPath(string strFilePath)
         {

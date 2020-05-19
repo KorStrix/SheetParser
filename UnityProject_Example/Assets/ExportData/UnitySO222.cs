@@ -11,18 +11,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
 
-public class class2 : UnityEngine.ScriptableObject
+public class UnitySO222 : UnityEngine.ScriptableObject
 {
     
-    public int IntCalculate;
+    public string strComment;
     
-    public int Int;
+    public UnitySO pUnitySO;
     
-    public string stringmember;
-    
-    public TestEnum enummember;
+    /// <summary>
+    /// 자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=""/>
+    /// </summary>
+    public None None;
 }

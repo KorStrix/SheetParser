@@ -94,6 +94,11 @@ namespace SpreadSheetParser
             return listData;
         }
 
+        public Task<IList<IList<Object>>> ISheetConnector_GetSheetData_Async(string strSheetName)
+        {
+            return Task.Run(() => ISheetConnector_GetSheetData(strSheetName));
+        }
+
         public static string DoConvert_AbsolutePath(string strPath)
         {
             if (Path.IsPathRooted(strPath))

@@ -17,10 +17,6 @@ using UnityEngine;
 
 
 
-public class UnitySO2 : UnityEngine.ScriptableObject
+public class @enum : UnityEngine.ScriptableObject
 {
-    
-    public string strComment;
-    
-    public UnitySO pUnitySO;
 }

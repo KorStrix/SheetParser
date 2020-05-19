@@ -77,51 +77,57 @@ namespace SpreadSheetParser
             return "Generate CSV";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkProcess)
+
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
         {
-            StringBuilder pStrBuilder = new StringBuilder();
+            List<Task> listTask = new List<Task>();
+            foreach (var pSheet in arrSheetData)
+            {
+                listTask.Add(Task.Run(() =>
+                {
+                    StringBuilder pStrBuilder = new StringBuilder();
+                    StreamWriter pFileWriter = new StreamWriter($"{GetRelative_To_AbsolutePath(strExportPath)}/{pSheet.strFileName.Trim()}.csv");
 
-            foreach (var pSheet in listSheetData)
-            { 
-                pStrBuilder.Clear();
+                    int iLastRowIndex = -1;
+                    return pSheet.ParsingSheet_UseTask(pConnector,
+                        (listRow, strText, iRowIndex, iColumnIndex) =>
+                        {
+                            if (iLastRowIndex == -1)
+                                iLastRowIndex = iRowIndex;
 
-                StreamWriter pFileWriter = new StreamWriter($"{GetRelative_To_AbsolutePath(strExportPath)}/{pSheet.strFileName.Trim()}.csv");
+                            if (strText.Contains(':'))
+                            {
+                                string[] arrText = strText.Split(':');
+                                strText = arrText[0];
+                            }
 
-                int iLastRowIndex = -1;
-                pSheet.ParsingSheet(pConnector,
-                    (IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
+                            if (iLastRowIndex != iRowIndex)
+                            {
+                                iLastRowIndex = iRowIndex;
+
+                                pStrBuilder.Remove(pStrBuilder.Length - 1, 1);
+                                pFileWriter.WriteLine(pStrBuilder.ToString());
+                                pFileWriter.Flush();
+
+                                pStrBuilder.Clear();
+                            }
+
+                            pStrBuilder.Append(strText);
+                            pStrBuilder.Append(",");
+                        }).ContinueWith((p) =>
                     {
-                        if (iLastRowIndex == -1)
-                            iLastRowIndex = iRowIndex;
+                        pStrBuilder.Remove(pStrBuilder.Length - 1, 1);
+                        pFileWriter.WriteLine(pStrBuilder.ToString());
+                        pFileWriter.Flush();
 
-                        if (strText.Contains(':'))
-                        {
-                            string[] arrText = strText.Split(':');
-                            strText = arrText[0];
-                        }
-
-                        if (iLastRowIndex != iRowIndex)
-                        {
-                            iLastRowIndex = iRowIndex;
-
-                            pStrBuilder.Remove(pStrBuilder.Length - 1, 1);
-                            pFileWriter.WriteLine(pStrBuilder.ToString());
-                            pFileWriter.Flush();
-
-                            pStrBuilder.Clear();
-                        }
-
-                        pStrBuilder.Append(strText);
-                        pStrBuilder.Append(",");
+                        pFileWriter.Close();
+                        pFileWriter.Dispose();
                     });
-
-                pStrBuilder.Remove(pStrBuilder.Length - 1, 1);
-                pFileWriter.WriteLine(pStrBuilder.ToString());
-                pFileWriter.Flush();
-
-                pFileWriter.Close();
-                pFileWriter.Dispose();
+                }));
             }
+            // Task.WaitAll(listTask.ToArray());
+
+            return Task.WhenAll(listTask);
         }
 
         public override void DoWorkAfter()

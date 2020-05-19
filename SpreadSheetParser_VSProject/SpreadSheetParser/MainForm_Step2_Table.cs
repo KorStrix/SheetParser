@@ -107,6 +107,8 @@ namespace SpreadSheetParser
             int iDefinedTypeRow = -1;
             List<FieldTypeData> listFieldOption = pSheetData.listFieldData;
             HashSet<string> setRealField = new HashSet<string>();
+
+
             pSheetData.ParsingSheet(pSheetConnector,
             ((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
             {
@@ -140,20 +142,20 @@ namespace SpreadSheetParser
                     listView_Field.Items.Add(arrFieldData[0].ConvertListViewItem());
             }));
 
-            IEnumerable<FieldTypeData> pDeleteFieldOption = listFieldOption.Where((pFieldOption) => setRealField.Contains(pFieldOption.strFieldName) == false);
-            if (pDeleteFieldOption.Count() != 0)
-            {
-                foreach (FieldTypeData pFieldOption in pDeleteFieldOption)
-                {
-                    pFieldOption.bIsVirtualField = true;
-    
-                    if(bUpdateUI)
-                        listView_Field.Items.Add(pFieldOption.ConvertListViewItem());
-                }
+            var arrDeleteFieldOption = listFieldOption.Where((pFieldOption) => setRealField.Contains(pFieldOption.strFieldName) == false).ToArray();
+            if (arrDeleteFieldOption.Length == 0)
+                return;
 
-                if(bSaveSheet)
-                    AutoSaveAsync_CurrentSheet();
+            foreach (FieldTypeData pFieldOption in arrDeleteFieldOption)
+            {
+                pFieldOption.bIsVirtualField = true;
+
+                if(bUpdateUI)
+                    listView_Field.Items.Add(pFieldOption.ConvertListViewItem());
             }
+
+            if(bSaveSheet)
+                AutoSaveAsync_CurrentSheet();
         }
 
         private void Update_Step_2_TableSetting(TypeData pSheetData)

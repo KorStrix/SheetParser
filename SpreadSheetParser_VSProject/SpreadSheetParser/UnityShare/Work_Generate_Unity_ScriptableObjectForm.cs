@@ -1,8 +1,8 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using static SpreadSheetParser.TypeDataHelper;
 
 #if !UNITY_EDITOR
@@ -87,7 +87,7 @@ namespace SpreadSheetParser
             return "Generate Unity SO";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkState)
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkState)
         {
             CodeNamespace pNameSpace = new CodeNamespace();
 
@@ -122,7 +122,7 @@ namespace SpreadSheetParser
             IEnumerable<CodeTypeDeclaration> listUnitySO = listType.Where(p => string.IsNullOrEmpty(p.Name) == false && p.IsClass);
             foreach (CodeTypeDeclaration pType in listUnitySO)
             {
-                TypeData pSaveData = listSheetData.FirstOrDefault((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name);
+                TypeData pSaveData = arrSheetData.FirstOrDefault((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name);
                 if (pSaveData == null)
                     continue;
 
@@ -157,6 +157,8 @@ namespace SpreadSheetParser
 
             if (pNameSpace.Types.Count != 0)
                 pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/Others");
+
+            return Task.CompletedTask;
         }
 
         private void Create_SO(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, TypeData pSaveData)

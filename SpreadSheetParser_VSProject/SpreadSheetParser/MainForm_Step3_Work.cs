@@ -13,41 +13,23 @@ namespace SpreadSheetParser
         private void button_StartParsing_Selected_Click(object sender, EventArgs e)
         {
             TypeData pSheetData = (TypeData)checkedListBox_SheetList.SelectedItem;
-            if(pSheetData != null)
-            {
-                WriteConsole("선택한 시트만 코드 파일 생성중.." + pSheetData.strFileName);
-                _pCodeFileBuilder = new CodeFileBuilder();
-
-                listView_Field.Items.Clear();
-                UpdateSheetData(pSheetData, false, true);
-                pSheetData.DoWork(pSheetConnector, _pCodeFileBuilder, WriteConsole);
-            }
-
-            var listWork = checkedListBox_WorkList.CheckedItems;
-            foreach (WorkBase pWork in listWork)
-            {
-                try
-                {
-                    pWork.DoWork(_pCodeFileBuilder, pSheetConnector, new TypeData[] { pSheetData }, WriteConsole);
-                }
-                catch (Exception pException)
-                {
-                    WriteConsole($"빌드 중 에러 - Work : {pWork.pType} // Error : {pException}");
-                    return;
-                }
-            }
-
-            foreach (WorkBase pWork in listWork)
-                pWork.DoWorkAfter();
-
-            WriteConsole("빌드 완료");
+            if (pSheetData == null)
+                return;
+            WriteConsole("선택한 시트만 코드 파일 생성중.." + pSheetData.strFileName);
+            StartBuild(pSheetData);
         }
 
         private void button_StartParsing_Click(object sender, EventArgs e)
         {
             WriteConsole("코드 파일 생성중..");
+            StartBuild(checkedListBox_SheetList.CheckedItems.Cast<TypeData>().ToArray());
+        }
+
+        private void StartBuild(params TypeData[] arrTypeData)
+        {
             _pCodeFileBuilder = new CodeFileBuilder();
 
+            List<Task> listTask = new List<Task>();
             Stopwatch pTimer_Total = new Stopwatch();
             pTimer_Total.Start();
 
@@ -55,15 +37,20 @@ namespace SpreadSheetParser
             try
             {
                 int iLoopCount = 0;
-                int iCount = checkedListBox_SheetList.CheckedItems.Count;
-                foreach (var pItem in checkedListBox_SheetList.CheckedItems)
+                int iCount = arrTypeData.Length;
+                foreach (var pSheetData in arrTypeData)
                 {
                     pTimer.Restart();
 
-                    TypeData pSheetData = (TypeData)pItem;
-                    listView_Field.Items.Clear();
-                    UpdateSheetData(pSheetData, false, ++iLoopCount == iCount);
-                    pSheetData.DoWork(pSheetConnector, _pCodeFileBuilder, WriteConsole);
+                    // 왜 Update했는지 까먹었다.. 일단 상관없어보이니 주석처리
+                    // listView_Field.Items.Clear();
+                    // UpdateSheetData(pSheetData, false, ++iLoopCount == iCount);
+
+                    // 동기버전
+                    // pSheetData.DoWork(pSheetConnector, _pCodeFileBuilder, WriteConsole);
+
+                    // 비동기버전
+                    listTask.Add(pSheetData.DoWork(pSheetConnector, _pCodeFileBuilder, WriteConsole));
 
                     pTimer.Stop();
                     WriteConsole(pSheetData.strFileName + $" 작업완료 \r\n{pTimer.Elapsed}\r\n");
@@ -75,20 +62,34 @@ namespace SpreadSheetParser
                 return;
             }
 
-            var listSheetData = checkedListBox_SheetList.CheckedItems.Cast<TypeData>();
+
+            Task.WaitAll(listTask.ToArray());
+
+
+            listTask.Clear();
+            var arrSheetData = checkedListBox_SheetList.CheckedItems.Cast<TypeData>().ToArray();
             var listWork = checkedListBox_WorkList.CheckedItems;
             foreach (WorkBase pWork in listWork)
             {
                 try
                 {
-                    pWork.DoWork(_pCodeFileBuilder, pSheetConnector, listSheetData, WriteConsole);
+                    pTimer.Restart();
+
+                    listTask.Add(pWork.DoWork(_pCodeFileBuilder, pSheetConnector, arrSheetData, WriteConsole));
                 }
                 catch (Exception pException)
                 {
                     WriteConsole($"빌드 중 에러 - Work : {pWork.pType} // Error : {pException}");
                     return;
                 }
+                finally
+                {
+                    pTimer.Stop();
+                    WriteConsole(pWork.ToString() + $" 작업완료 \r\n{pTimer.Elapsed}\r\n");
+                }
             }
+            
+            Task.WaitAll(listTask.ToArray());
 
             foreach (WorkBase pWork in listWork)
                 pWork.DoWorkAfter();

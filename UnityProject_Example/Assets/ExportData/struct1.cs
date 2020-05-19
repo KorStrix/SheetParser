@@ -17,18 +17,12 @@ using UnityEngine;
 
 
 
-public class UnitySO : UnityEngine.ScriptableObject
+public class struct1 : UnityEngine.ScriptableObject
 {
     
-    public string MaterialPath;
+    public int Int;
     
-    public string strComment;
+    public string stringmember;
     
-    public int intValue;
-    
-    public string strAutoEnum;
-    
-    public AutoEnumTest AutoEnumValue;
-    
-    public UnitySO2 pOtherSO;
+    public TestEnum enummember;
 }

@@ -56,6 +56,8 @@ namespace SpreadSheetParser
         Task ISheetConnector_DoConnect_And_Parsing(string strSheetID, delOnFinishConnect OnFinishConnect);
 
         IList<IList<Object>> ISheetConnector_GetSheetData(string strSheetName);
+
+        Task<IList<IList<Object>>> ISheetConnector_GetSheetData_Async(string strSheetName);
     }
 
 }

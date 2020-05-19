@@ -1,0 +1,8 @@
+GlobalKey,strValue,strType,strComment
+floatValue,1.1,float,플롯설명
+stringValue,stringTest,string,스트링설명
+intValue,7,int,인트설명
+intValue22,-9,int,인트설명22
+strValue22,strValue22,string
+test,test2,string,test33
+Test44,test44,string,Test4444

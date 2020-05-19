@@ -1,12 +1,14 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
+
 
 #if !UNITY_EDITOR
 using System.Windows.Forms;
 #endif
+
 
 namespace SpreadSheetParser
 {
@@ -79,7 +81,7 @@ namespace SpreadSheetParser
             return "Generate Json";
         }
 
-        public override void DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, IEnumerable<TypeData> listSheetData, Action<string> OnPrintWorkProcess)
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
         {
             TypeDataList pTypeDataList = JsonSaveManager.LoadData<TypeDataList>($"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json", OnPrintWorkProcess);
             //if (pTypeDataList != null)
@@ -88,21 +90,36 @@ namespace SpreadSheetParser
             if (pTypeDataList == null)
                 pTypeDataList = new TypeDataList(pConnector.strFileName);
 
-            foreach (var pSheet in listSheetData)
+            List<Task> listTask = new List<Task>();
+            foreach (var pSheet in arrSheetData)
             {
                 if (pSheet.eType == ESheetType.Enum)
                     continue;
 
-                JObject pJson_Instance = new JObject();
-                JArray pArray = new JArray();
+                listTask.Add(ProcessJson(pConnector, OnPrintWorkProcess, pSheet, pTypeDataList));
+            }
 
-                Dictionary<string, FieldTypeData> mapFieldData = pSheet.listFieldData.Where(p => p.bIsVirtualField == false).ToDictionary(p => p.strFieldName);
-                Dictionary<int, string> mapMemberName = new Dictionary<int, string>();
-                Dictionary<int, string> mapMemberType = new Dictionary<int, string>();
-                int iColumnStartIndex = -1;
+            return Task.WhenAll(listTask).ContinueWith((p) =>
+            {
+                pTypeDataList.listTypeData.Sort((x, y) => x.iOrder.CompareTo(y.iOrder));
+                JsonSaveManager.SaveData(pTypeDataList, $"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json");
+            });
+        }
 
-                pSheet.ParsingSheet(pConnector,
-                ((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
+        private Task ProcessJson(GoogleSpreadSheetConnector pConnector, Action<string> OnPrintWorkProcess, TypeData pSheet,
+            TypeDataList pTypeDataList)
+        {
+            JObject pJson_Instance = new JObject();
+            JArray pArray = new JArray();
+
+            Dictionary<string, FieldTypeData> mapFieldData =
+                pSheet.listFieldData.Where(p => p.bIsVirtualField == false).ToDictionary(p => p.strFieldName);
+            Dictionary<int, string> mapMemberName = new Dictionary<int, string>();
+            // Dictionary<int, string> mapMemberType = new Dictionary<int, string>();
+            int iColumnStartIndex = -1;
+
+            return pSheet.ParsingSheet_UseTask(pConnector,
+                ((listRow, strText, iRowIndex, iColumnIndex) =>
                 {
                     if (strText.Contains(':')) // 변수 타입 파싱
                     {
@@ -111,7 +128,7 @@ namespace SpreadSheetParser
 
                         string[] arrText = strText.Split(':');
                         mapMemberName.Add(iColumnIndex, arrText[0]);
-                        mapMemberType.Add(iColumnIndex, arrText[1]);
+                        // mapMemberType.Add(iColumnIndex, arrText[1]);
 
                         if (iColumnStartIndex == -1)
                             iColumnStartIndex = iColumnIndex;
@@ -130,38 +147,32 @@ namespace SpreadSheetParser
                         if (mapMemberName.ContainsKey(i) == false)
                             continue;
 
-                        FieldTypeData pFieldTypeData;
-                        if (mapFieldData.TryGetValue(mapMemberName[i], out pFieldTypeData) == false)
+                        if (mapFieldData.TryGetValue(mapMemberName[i], out var pFieldTypeData) == false)
                         {
-                            OnPrintWorkProcess?.Invoke($"{pSheet.strSheetID} - mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
+                            OnPrintWorkProcess?.Invoke(
+                                $"{pSheet.strSheetID} - mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
                             continue;
                         }
 
                         string strFieldName = pFieldTypeData.strFieldName;
-                        string strValue = (string)listRow[i];
+                        string strValue = (string) listRow[i];
                         pObject.Add(strFieldName, strValue);
                     }
 
                     pArray.Add(pObject);
-                }));
+                })).ContinueWith((pTask) =>
+                {
+                    pJson_Instance.Add("array", pArray);
 
-                if (pArray.Count == 0)
-                    continue;
+                    string strFileName = $"{pSheet.strFileName}.json";
+                    JsonSaveManager.SaveData(pJson_Instance, $"{GetRelative_To_AbsolutePath(strExportPath)}/{strFileName}");
 
-                pJson_Instance.Add("array", pArray);
+                    var pAlreadyExist = pTypeDataList.listTypeData.FirstOrDefault(p => p.strSheetID == pSheet.strSheetID);
+                    if (pAlreadyExist != null)
+                        pTypeDataList.listTypeData.Remove(pAlreadyExist);
 
-                string strFileName = $"{pSheet.strFileName}.json";
-                JsonSaveManager.SaveData(pJson_Instance, $"{GetRelative_To_AbsolutePath(strExportPath)}/{strFileName}");
-
-                var pAlreadyExist = pTypeDataList.listTypeData.FirstOrDefault(p => p.strSheetID == pSheet.strSheetID);
-                if (pAlreadyExist != null)
-                    pTypeDataList.listTypeData.Remove(pAlreadyExist);
-
-                pTypeDataList.listTypeData.Add(pSheet);
-            }
-
-            pTypeDataList.listTypeData.Sort((x, y) => x.iOrder.CompareTo(y.iOrder));
-            JsonSaveManager.SaveData(pTypeDataList, $"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json");
+                    pTypeDataList.listTypeData.Add(pSheet);
+                });
         }
 
 #if !UNITY_EDITOR
