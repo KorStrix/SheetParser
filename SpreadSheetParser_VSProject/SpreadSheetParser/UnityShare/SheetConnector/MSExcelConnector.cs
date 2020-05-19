@@ -11,7 +11,7 @@ namespace SpreadSheetParser
 {
     public class MSExcelConnector : ISheetConnector
     {
-        public IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetName => _mapWorkSheet;
+        public IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetID => _mapWorkSheet;
         public string strSheetID { get; private set; }
         public ESpreadSheetType eSheetType => ESpreadSheetType.MSExcel;
 

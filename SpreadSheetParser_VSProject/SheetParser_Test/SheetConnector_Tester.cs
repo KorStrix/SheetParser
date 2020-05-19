@@ -22,7 +22,7 @@ namespace SheetParser_Test
             // Act
             await pConnector.ISheetConnector_DoConnect_And_Parsing(strTestSheetID, (iConnector, pException_OnError) => 
             {
-                bIsConnected = pException_OnError == null && strTestSheetID.Equals(iConnector.strSheetID) && iConnector.mapWorkSheetData_Key_Is_SheetName.Count > 0;
+                bIsConnected = pException_OnError == null && strTestSheetID.Equals(iConnector.strSheetID) && iConnector.mapWorkSheetData_Key_Is_SheetID.Count > 0;
             });
 
 
@@ -41,7 +41,7 @@ namespace SheetParser_Test
             // Act
             await pConnector.ISheetConnector_DoConnect_And_Parsing(GetDirectory_ForTestProject() + strTestExcelFileName, (iConnector, pException_OnError) =>
             {
-                bIsConnected = pException_OnError == null && iConnector.mapWorkSheetData_Key_Is_SheetName.Count > 0;
+                bIsConnected = pException_OnError == null && iConnector.mapWorkSheetData_Key_Is_SheetID.Count > 0;
             });
 
 

@@ -23,7 +23,7 @@ namespace SpreadSheetParser
         static readonly string ApplicationName = "Spread Sheet Parser";
 
 
-        public IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetName => _mapWorkSheet;
+        public IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetID => _mapWorkSheet;
         public ESpreadSheetType eSheetType => ESpreadSheetType.GoogleSpreadSheet;
 
         public string strFileName { get; private set; }
@@ -89,8 +89,8 @@ namespace SpreadSheetParser
 
                 strFileName = pResponse.Result.Properties.Title;
                 IList<Sheet> listSheet = pResponse.Result.Sheets;
-                for (int i = 0; i < listSheet.Count; i++)
-                    _mapWorkSheet.Add(listSheet[i].Properties.Title, new SheetData(this, listSheet[i].Properties.Title));
+                _mapWorkSheet = listSheet.ToDictionary(p => p.Properties.SheetId.ToString(),
+                    p => new SheetData(this, p.Properties.Title, p.Properties.SheetId.ToString()));
             }
             catch (Exception pException)
             {

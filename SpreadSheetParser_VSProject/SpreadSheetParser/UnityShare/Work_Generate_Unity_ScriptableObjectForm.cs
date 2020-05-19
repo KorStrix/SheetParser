@@ -122,23 +122,23 @@ namespace SpreadSheetParser
             IEnumerable<CodeTypeDeclaration> listUnitySO = listType.Where(p => string.IsNullOrEmpty(p.Name) == false && p.IsClass);
             foreach (CodeTypeDeclaration pType in listUnitySO)
             {
-                TypeData pSaveData = listSheetData.Where((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name).FirstOrDefault();
+                TypeData pSaveData = listSheetData.FirstOrDefault((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name);
                 if (pSaveData == null)
                     continue;
 
                 Create_SO(pCodeFileBuilder, pNameSpace, pType, pSaveData);
 
-                IEnumerable<CodeTypeDeclaration> arrEnumTypes = listType.Where(p => pSaveData.listEnumName.Contains(p.Name));
+                CodeTypeDeclaration[] arrEnumTypes = listType.Where(p => pSaveData.listEnumName.Contains(p.Name)).ToArray();
                 foreach(var pEnumType in arrEnumTypes)
                     setExecutedType.Add(pEnumType);
 
                 if (pSaveData.eType == ESheetType.Global)
                 {
-                    Create_GlobalSOContainer(pCodeFileBuilder, pNameSpace, arrDefaultUsing, pType, arrEnumTypes.ToArray(), pSaveData);
+                    Create_GlobalSOContainer(pCodeFileBuilder, pNameSpace, arrDefaultUsing, pType, arrEnumTypes, pSaveData);
                 }
                 else
                 {
-                    Create_SOContainer(pCodeFileBuilder, pNameSpace, arrDefaultUsing, pType, arrEnumTypes.ToArray(), pSaveData);
+                    Create_SOContainer(pCodeFileBuilder, pNameSpace, arrDefaultUsing, pType, arrEnumTypes, pSaveData);
                 }
 
                 OnPrintWorkState?.Invoke($"UnitySO - Working SO {pType.Name}");

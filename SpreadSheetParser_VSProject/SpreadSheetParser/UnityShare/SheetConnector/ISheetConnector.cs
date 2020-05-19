@@ -16,13 +16,24 @@ namespace SpreadSheetParser
 
     public class SheetData
     {
-        public ISheetConnector pConnector{ get; private set; }
+        public ISheetConnector pConnector { get; private set; }
         public string strSheetName { get; private set; }
+        public string strSheetID { get; private set; }
 
         public SheetData(ISheetConnector pConnector, string strSheetName)
         {
+            this.pConnector = pConnector;
             this.strSheetName = strSheetName;
+            this.strSheetID = strSheetName;
         }
+
+        public SheetData(ISheetConnector pConnector, string strSheetName, string strSheetID)
+        {
+            this.pConnector = pConnector;
+            this.strSheetName = strSheetName;
+            this.strSheetID = strSheetID;
+        }
+
 
         public override string ToString()
         {
@@ -37,7 +48,7 @@ namespace SpreadSheetParser
 
     public interface ISheetConnector
     {
-        IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetName { get; }
+        IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetID { get; }
         string strSheetID { get; }
         ESpreadSheetType eSheetType { get; }
 

@@ -133,7 +133,7 @@ namespace SpreadSheetParser
                         FieldTypeData pFieldTypeData;
                         if (mapFieldData.TryGetValue(mapMemberName[i], out pFieldTypeData) == false)
                         {
-                            OnPrintWorkProcess?.Invoke($"{pSheet.strSheetName} - mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
+                            OnPrintWorkProcess?.Invoke($"{pSheet.strSheetID} - mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
                             continue;
                         }
 
@@ -153,7 +153,7 @@ namespace SpreadSheetParser
                 string strFileName = $"{pSheet.strFileName}.json";
                 JsonSaveManager.SaveData(pJson_Instance, $"{GetRelative_To_AbsolutePath(strExportPath)}/{strFileName}");
 
-                var pAlreadyExist = pTypeDataList.listTypeData.Where(p => p.strSheetName == pSheet.strSheetName).FirstOrDefault();
+                var pAlreadyExist = pTypeDataList.listTypeData.FirstOrDefault(p => p.strSheetID == pSheet.strSheetID);
                 if (pAlreadyExist != null)
                     pTypeDataList.listTypeData.Remove(pAlreadyExist);
 

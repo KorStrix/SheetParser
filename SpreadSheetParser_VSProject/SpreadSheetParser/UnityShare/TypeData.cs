@@ -29,20 +29,24 @@ namespace SpreadSheetParser
     public class TypeData
     {
         public bool bEnable = true;
+        public string strFileName;
+        public string strHeaderFieldName;
 
         public int iOrder;
-        public string strFileName;
+
+        public string strSheetID;
         public string strSheetName;
-        public string strHeaderFieldName;
         public ESheetType eType;
         public string strCommandLine;
         public List<FieldTypeData> listFieldData = new List<FieldTypeData>();
         public List<string> listEnumName = new List<string>();
 
-        public TypeData(string strSheetName, int iOrder)
+        public TypeData(string strSheetID, string strSheetName, int iOrder)
         {
+            this.strSheetID = strSheetID;
             this.strSheetName = strSheetName;
-            strFileName = strSheetName;
+            this.strFileName = strSheetName;
+            this.iOrder = iOrder;
         }
 
         public override string ToString()

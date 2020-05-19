@@ -42,13 +42,17 @@ namespace SpreadSheetParser
                 List<TypeData> listSavedTable = pSpreadSheet_CurrentConnected.listTable;
 
                 int iOrder = 0;
-                foreach (KeyValuePair<string, SheetData> pSheet in pConnector.mapWorkSheetData_Key_Is_SheetName)
+                foreach (KeyValuePair<string, SheetData> pSheet in pConnector.mapWorkSheetData_Key_Is_SheetID)
                 {
-                    TypeData pTypeDataFind = listSavedTable.FirstOrDefault(x => (x.strSheetName == pSheet.Key));
+                    TypeData pTypeDataFind = listSavedTable.FirstOrDefault(x => (x.strSheetID == pSheet.Key));
                     if (pTypeDataFind == null)
-                        listSavedTable.Add(new TypeData(pSheet.Key, iOrder));
+                        listSavedTable.Add(new TypeData(pSheet.Value.strSheetID, pSheet.Value.strSheetName, iOrder));
                     else
+                    {
+                        // SheetName이 변경될 수 있음
+                        pTypeDataFind.strSheetName = pSheet.Value.strSheetName;
                         pTypeDataFind.iOrder = iOrder;
+                    }
 
                     iOrder++;
                 }
@@ -60,8 +64,8 @@ namespace SpreadSheetParser
 
                 int iOrder = 0;
                 pSpreadSheet_CurrentConnected.listTable.Clear();
-                foreach (KeyValuePair<string, SheetData> pSheet in pConnector.mapWorkSheetData_Key_Is_SheetName)
-                    pSpreadSheet_CurrentConnected.listTable.Add(new TypeData(pSheet.Key, iOrder++));
+                foreach (KeyValuePair<string, SheetData> pSheet in pConnector.mapWorkSheetData_Key_Is_SheetID)
+                    pSpreadSheet_CurrentConnected.listTable.Add(new TypeData(pSheet.Value.strSheetID, pSheet.Value.strSheetName, iOrder++));
 
                 SaveDataManager.SaveSheet(pSpreadSheet_CurrentConnected);
 
@@ -73,7 +77,7 @@ namespace SpreadSheetParser
             listSheetSaved.Sort((x, y) => x.iOrder.CompareTo(y.iOrder));
 
             TypeData[] arrSheetDelete = listSheetSaved.Where((pSheet) =>
-                pConnector.mapWorkSheetData_Key_Is_SheetName.Keys.Any((strName) => strName == pSheet.strSheetName) == false).ToArray();
+                pConnector.mapWorkSheetData_Key_Is_SheetID.Values.Any(p => p.strSheetID == pSheet.strSheetID) == false).ToArray();
 
             if (arrSheetDelete.Length > 0)
             {
