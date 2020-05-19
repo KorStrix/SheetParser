@@ -1,10 +1,8 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace SpreadSheetParser
@@ -22,7 +20,7 @@ namespace SpreadSheetParser
         private static SpreadSheetParser_MainForm _instance;
 
         public static SaveData_SpreadSheet pSpreadSheet_CurrentConnected { get; private set; }
-        public static GoogleSpreadSheetConnector pSheetConnector { get; private set; } = new GoogleSpreadSheetConnector();
+        public static ISheetConnector pSheetConnector { get; private set; } = new GoogleSpreadSheetConnector();
 
         delegate void SafeCallDelegate(string text);
 
@@ -237,9 +235,6 @@ namespace SpreadSheetParser
                     else
                         SetState(EState.IsConnected);
 
-                    break;
-
-                default:
                     break;
             }
         }

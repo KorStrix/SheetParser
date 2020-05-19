@@ -20,9 +20,6 @@ namespace SpreadSheetParser
 
                 case "int": pType = typeof(int); break;
                 case "string": pType = typeof(string); break;
-
-                default:
-                    break;
             }
 
             return pType;

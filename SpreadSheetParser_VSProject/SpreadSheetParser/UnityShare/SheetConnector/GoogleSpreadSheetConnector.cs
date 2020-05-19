@@ -9,8 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using ExcelDataReader;
-using System.Data;
 using Google.Apis.Sheets.v4.Data;
 
 namespace SpreadSheetParser

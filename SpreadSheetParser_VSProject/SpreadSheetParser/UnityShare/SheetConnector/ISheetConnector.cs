@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Data;
 
 namespace SpreadSheetParser
 {
@@ -12,7 +11,6 @@ namespace SpreadSheetParser
     }
     
     public delegate void delOnFinishConnect(ISheetConnector iConnector, Exception pException_OnError);
-
 
     public class SheetData
     {

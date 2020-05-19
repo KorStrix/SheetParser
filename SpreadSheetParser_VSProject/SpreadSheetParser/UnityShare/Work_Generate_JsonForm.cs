@@ -81,14 +81,14 @@ namespace SpreadSheetParser
             return "Generate Json";
         }
 
-        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, ISheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
         {
             TypeDataList pTypeDataList = JsonSaveManager.LoadData<TypeDataList>($"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json", OnPrintWorkProcess);
             //if (pTypeDataList != null)
             //    pTypeDataList.listTypeData.ForEach(p => p.bEnable = false);
 
             if (pTypeDataList == null)
-                pTypeDataList = new TypeDataList(pConnector.strFileName);
+                pTypeDataList = new TypeDataList(pConnector.strSheetID);
 
             List<Task> listTask = new List<Task>();
             foreach (var pSheet in arrSheetData)
@@ -106,7 +106,7 @@ namespace SpreadSheetParser
             });
         }
 
-        private Task ProcessJson(GoogleSpreadSheetConnector pConnector, Action<string> OnPrintWorkProcess, TypeData pSheet,
+        private Task ProcessJson(ISheetConnector pConnector, Action<string> OnPrintWorkProcess, TypeData pSheet,
             TypeDataList pTypeDataList)
         {
             JObject pJson_Instance = new JObject();

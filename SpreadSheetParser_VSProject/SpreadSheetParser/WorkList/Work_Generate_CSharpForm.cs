@@ -79,7 +79,7 @@ namespace SpreadSheetParser
             return "Generate CSharp File";
         }
 
-        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, ISheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
         {
             return Task.Run(() => pCodeFileBuilder.Generate_CSharpCode($"{GetRelative_To_AbsolutePath(strPath)}/{strFileName}"));
         }

@@ -78,7 +78,7 @@ namespace SpreadSheetParser
         }
 
 
-        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, ISheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
         {
             List<Task> listTask = new List<Task>();
             foreach (var pSheet in arrSheetData)

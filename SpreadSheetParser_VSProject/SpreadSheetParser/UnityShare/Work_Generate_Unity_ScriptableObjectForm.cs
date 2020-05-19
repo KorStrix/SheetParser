@@ -87,7 +87,7 @@ namespace SpreadSheetParser
             return "Generate Unity SO";
         }
 
-        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkState)
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, ISheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkState)
         {
             CodeNamespace pNameSpace = new CodeNamespace();
 
@@ -176,9 +176,7 @@ namespace SpreadSheetParser
 
         private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration[] arrEnumType, TypeData pSaveData)
         {
-            CodeTypeDeclaration pContainerType;
-            CodeMemberMethod pInitMethod;
-            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out pContainerType, out pInitMethod);
+            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out var pContainerType, out var pInitMethod);
             CodeTypeDeclaration pEnumHelperClass = GenerateEnumHelperClass(pNameSpace, pContainerType);
 
             IEnumerable<FieldTypeData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
@@ -215,27 +213,14 @@ namespace SpreadSheetParser
 
         private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration[] arrEnumType, TypeData pSaveData)
         {
-            CodeTypeDeclaration pContainerType;
-            CodeMemberMethod pInitMethod;
-            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out pContainerType, out pInitMethod);
+            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out var pContainerType, out var pInitMethod);
 
-            IEnumerable<FieldTypeData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
-
-            CodeTypeDeclaration pEnumHelperClass = listKeyField.Count() > 0 ? GenerateEnumHelperClass(pNameSpace, pContainerType) : null;
-            foreach (var pFieldData in listKeyField)
+            var arrKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField).ToArray();
+            CodeTypeDeclaration pEnumHelperClass = arrKeyField.Length > 0 ? GenerateEnumHelperClass(pNameSpace, pContainerType) : null;
+            foreach (var pFieldData in arrKeyField)
             {
-                string strFieldName = "";
-                string strMemberType = "";
-                if (pFieldData.bIsOverlapKey)
-                {
-                    strFieldName = $"mapData_Key_Is_{pFieldData.strFieldName}";
-                    strMemberType = $"Dictionary<{pFieldData.strFieldType}, List<{pType.Name}>>";
-                }
-                else
-                {
-                    strFieldName = $"mapData_Key_Is_{pFieldData.strFieldName}";
-                    strMemberType = $"Dictionary<{pFieldData.strFieldType}, {pType.Name}>";
-                }
+                string strFieldName = $"mapData_Key_Is_{pFieldData.strFieldName}";
+                string strMemberType = pFieldData.bIsOverlapKey ? $"Dictionary<{pFieldData.strFieldType}, List<{pType.Name}>>" : $"Dictionary<{pFieldData.strFieldType}, {pType.Name}>";
 
                 pContainerType.AddField(new FieldTypeData(strFieldName, strMemberType));
                 Generate_CacheMethod(pContainerType, pInitMethod, const_strFieldName_ListData, strFieldName, pFieldData.strFieldName, pFieldData.bIsOverlapKey);

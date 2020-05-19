@@ -115,7 +115,7 @@ namespace SpreadSheetParser
             FileInfo[] arrFile = pDirectory.GetFiles();
             for (int i = 0; i < arrFile.Length; i++)
             {
-                T pData = pData = LoadData<T>(arrFile[i].FullName);
+                T pData = LoadData<T>(arrFile[i].FullName);
                 if (pData == null)
                     continue;
 
@@ -172,7 +172,10 @@ namespace SpreadSheetParser
         private static void Check_ExistsFolderPath(string strFilePath)
         {
             string strFolderPath = Path.GetDirectoryName(strFilePath);
-            if (Directory.Exists(strFolderPath) == false)
+            if (string.IsNullOrEmpty(strFolderPath))
+                return;
+
+            if(Directory.Exists(strFolderPath) == false)
                 Directory.CreateDirectory(strFolderPath);
         }
     }

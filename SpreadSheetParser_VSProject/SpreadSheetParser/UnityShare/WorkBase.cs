@@ -56,7 +56,7 @@ namespace SpreadSheetParser
         }
 #endif
 
-        public abstract Task DoWork(CodeFileBuilder pCodeFileBuilder, GoogleSpreadSheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkState);
+        public abstract Task DoWork(CodeFileBuilder pCodeFileBuilder, ISheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkState);
 #if !UNITY_EDITOR
         public virtual void DoWorkAfter() { }
 
