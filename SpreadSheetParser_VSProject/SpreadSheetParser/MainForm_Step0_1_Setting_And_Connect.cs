@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
@@ -49,7 +45,8 @@ namespace SpreadSheetParser
                         listSavedTable.Add(new TypeData(pSheet.Value.strSheetID, pSheet.Value.strSheetName, iOrder));
                     else
                     {
-                        // SheetName이 변경될 수 있음
+                        // 이미 저장되있는 Sheet의 경우
+                        // 웹에 있는 SheetName과 로컬의 SheetName이 다를 수 있기 때문에 갱신
                         pTypeDataFind.strSheetName = pSheet.Value.strSheetName;
                         pTypeDataFind.iOrder = iOrder;
                     }
@@ -174,9 +171,9 @@ namespace SpreadSheetParser
             }
 
             if (pSheet_LastEdit != null)
-                WriteConsole(string.Format("마지막에 수정한 시트를 찾았다. 수정한 시간 {0}, SheetID {1}", pSheet_LastEdit.date_LastEdit, pSheet_LastEdit.strSheetID));
+                WriteConsole($"마지막에 수정한 시트를 찾았다. 수정한 시간 {pSheet_LastEdit.date_LastEdit}, SheetID {pSheet_LastEdit.strSheetID}");
             else
-                WriteConsole(string.Format("마지막에 수정한 시트를 못찾았다.."));
+                WriteConsole($"마지막에 수정한 시트를 못찾았다..");
 
             return pSheet_LastEdit;
         }
