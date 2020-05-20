@@ -77,7 +77,7 @@
       "iOrder": 1,
       "strSheetID": "1375194030",
       "strSheetName": "struct1",
-      "eType": 0,
+      "eType": 1,
       "strCommandLine": null,
       "listFieldData": [
         {
@@ -127,24 +127,12 @@
     },
     {
       "bEnable": true,
-      "strFileName": "enum",
-      "strHeaderFieldName": null,
-      "iOrder": 2,
-      "strSheetID": "1927301985",
-      "strSheetName": "enum",
-      "eType": 0,
-      "strCommandLine": null,
-      "listFieldData": [],
-      "listEnumName": []
-    },
-    {
-      "bEnable": true,
       "strFileName": "global",
       "strHeaderFieldName": null,
       "iOrder": 3,
       "strSheetID": "1771349379",
       "strSheetName": "global",
-      "eType": 0,
+      "eType": 3,
       "strCommandLine": null,
       "listFieldData": [
         {
@@ -155,7 +143,7 @@
           "strDependencyFieldName_Sub": null,
           "strEnumName": null,
           "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
+          "bDeleteThisField_InCode": true,
           "bIsKeyField": false,
           "bIsOverlapKey": false,
           "bIsTemp": false,
@@ -183,10 +171,10 @@
           "strDependencyFieldName_Sub": null,
           "strEnumName": null,
           "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bIsTemp": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bIsTemp": true,
           "bConvertStringToEnum": false
         },
         {
@@ -197,14 +185,88 @@
           "strDependencyFieldName_Sub": null,
           "strEnumName": null,
           "bIsVirtualField": false,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eGlobalKey_float",
+          "strFieldType": "EGlobalKey_float",
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"GlobalKey\"/>",
+          "strDependencyFieldName": "GlobalKey",
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
           "bDeleteThisField_InCode": false,
           "bIsKeyField": false,
           "bIsOverlapKey": false,
           "bIsTemp": false,
           "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strType",
+          "strFieldType": "float",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bIsTemp": true,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eGlobalKey_string",
+          "strFieldType": "EGlobalKey_string",
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"GlobalKey\"/>",
+          "strDependencyFieldName": "GlobalKey",
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "eGlobalKey_int",
+          "strFieldType": "EGlobalKey_int",
+          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"GlobalKey\"/>",
+          "strDependencyFieldName": "GlobalKey",
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": false,
+          "bIsKeyField": false,
+          "bIsOverlapKey": false,
+          "bIsTemp": false,
+          "bConvertStringToEnum": false
+        },
+        {
+          "strFieldName": "strType",
+          "strFieldType": "int",
+          "strComment": null,
+          "strDependencyFieldName": null,
+          "strDependencyFieldName_Sub": null,
+          "strEnumName": null,
+          "bIsVirtualField": true,
+          "bDeleteThisField_InCode": true,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
+          "bIsTemp": true,
+          "bConvertStringToEnum": false
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "EGlobalKey_float",
+        "EGlobalKey_string",
+        "EGlobalKey_int"
+      ]
     },
     {
       "bEnable": true,
@@ -264,13 +326,13 @@
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
+          "strEnumName": "AutoEnumTest",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
           "bIsTemp": false,
-          "bConvertStringToEnum": false
+          "bConvertStringToEnum": true
         },
         {
           "strFieldName": "AutoEnumValue",
@@ -278,11 +340,11 @@
           "strComment": null,
           "strDependencyFieldName": null,
           "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
+          "strEnumName": "",
           "bIsVirtualField": false,
           "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
+          "bIsKeyField": true,
+          "bIsOverlapKey": true,
           "bIsTemp": false,
           "bConvertStringToEnum": false
         },
@@ -301,11 +363,13 @@
           "bConvertStringToEnum": false
         }
       ],
-      "listEnumName": []
+      "listEnumName": [
+        "AutoEnumTest"
+      ]
     },
     {
       "bEnable": true,
-      "strFileName": "UnitySO222",
+      "strFileName": "UnitySO2",
       "strHeaderFieldName": null,
       "iOrder": 5,
       "strSheetID": "1026845452",
@@ -335,20 +399,6 @@
           "strDependencyFieldName_Sub": null,
           "strEnumName": null,
           "bIsVirtualField": false,
-          "bDeleteThisField_InCode": false,
-          "bIsKeyField": false,
-          "bIsOverlapKey": false,
-          "bIsTemp": false,
-          "bConvertStringToEnum": false
-        },
-        {
-          "strFieldName": "None",
-          "strFieldType": "None",
-          "strComment": "자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=\"\"/>",
-          "strDependencyFieldName": null,
-          "strDependencyFieldName_Sub": null,
-          "strEnumName": null,
-          "bIsVirtualField": true,
           "bDeleteThisField_InCode": false,
           "bIsKeyField": false,
           "bIsOverlapKey": false,

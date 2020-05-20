@@ -24,6 +24,12 @@ public class global_Container : UnityEngine.ScriptableObject
     
     public List<global> listData;
     
+    public Dictionary<EGlobalKey_string, string> mapData_Type_Is_string;
+    
+    public Dictionary<EGlobalKey_float, float> mapData_Type_Is_float;
+    
+    public Dictionary<EGlobalKey_int, int> mapData_Type_Is_int;
+    
     public static global_Container instance
     {
         get
@@ -49,5 +55,110 @@ public class global_Container : UnityEngine.ScriptableObject
                }
            }
 #endif
+        _instance.Init_mapData_Type_Is_string();
+        _instance.Init_mapData_Type_Is_float();
+        _instance.Init_mapData_Type_Is_int();
+    }
+    
+    private void Init_mapData_Type_Is_string()
+    {
+        var arrLocal = listData.Where(x => x.strType == "string");
+        this.mapData_Type_Is_string = arrLocal.ToDictionary(p => p.eGlobalKey_string, p => (string)System.Enum.Parse(typeof(string), p.strValue));
+    }
+    
+    private void Init_mapData_Type_Is_float()
+    {
+        var arrLocal = listData.Where(x => x.strType == "float");
+        this.mapData_Type_Is_float = arrLocal.ToDictionary(p => p.eGlobalKey_float, p => float.Parse(p.strValue));
+    }
+    
+    private void Init_mapData_Type_Is_int()
+    {
+        var arrLocal = listData.Where(x => x.strType == "int");
+        this.mapData_Type_Is_int = arrLocal.ToDictionary(p => p.eGlobalKey_int, p => int.Parse(p.strValue));
     }
 }
+
+public enum EGlobalKey_float
+{
+    
+    /// <summary>
+    /// 플롯설명
+    /// </summary>
+    floatValue,
+}
+
+public enum EGlobalKey_string
+{
+    
+    /// <summary>
+    /// 스트링설명
+    /// </summary>
+    stringValue,
+    
+    strValue22,
+    
+    /// <summary>
+    /// test33
+    /// </summary>
+    test,
+    
+    /// <summary>
+    /// Test4444
+    /// </summary>
+    Test44,
+}
+
+public enum EGlobalKey_int
+{
+    
+    /// <summary>
+    /// 인트설명
+    /// </summary>
+    intValue,
+    
+    /// <summary>
+    /// 인트설명22
+    /// </summary>
+    intValue22,
+}
+
+#region 
+static
+public class global_ContainerHelper
+{
+    
+    public static string Getstring(this EGlobalKey_string eKey, System.Action<string> OnError = null)
+    {
+          string pData;
+          if(global_Container.instance.mapData_Type_Is_string.TryGetValue(eKey, out pData) == false)
+          {
+              if(OnError != null)
+                  OnError(nameof(global_Container) + "- Not Found Data // Key : " + eKey);
+          }
+          return pData;
+    }
+    
+    public static float Getfloat(this EGlobalKey_float eKey, System.Action<string> OnError = null)
+    {
+          System.Single pData;
+          if(global_Container.instance.mapData_Type_Is_float.TryGetValue(eKey, out pData) == false)
+          {
+              if(OnError != null)
+                  OnError(nameof(global_Container) + "- Not Found Data // Key : " + eKey);
+          }
+          return pData;
+    }
+    
+    public static int Getint(this EGlobalKey_int eKey, System.Action<string> OnError = null)
+    {
+          System.Int32 pData;
+          if(global_Container.instance.mapData_Type_Is_int.TryGetValue(eKey, out pData) == false)
+          {
+              if(OnError != null)
+                  OnError(nameof(global_Container) + "- Not Found Data // Key : " + eKey);
+          }
+          return pData;
+    }
+}
+#endregion

@@ -1,0 +1,16 @@
+{
+  "array": [
+    {
+      "strComment": "파랑색 메테리얼",
+      "pUnitySO": "파랑색 메테리얼"
+    },
+    {
+      "strComment": "초록색 메테리얼",
+      "pUnitySO": "초록색 메테리얼"
+    },
+    {
+      "strComment": "빨간색 메테리얼",
+      "pUnitySO": "빨간색 메테리얼"
+    }
+  ]
+}

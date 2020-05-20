@@ -17,12 +17,10 @@ using UnityEngine;
 
 
 
-public class struct1 : UnityEngine.ScriptableObject
+public class UnitySO2 : UnityEngine.ScriptableObject
 {
     
-    public int Int;
+    public string strComment;
     
-    public string stringmember;
-    
-    public TestEnum enummember;
+    public UnitySO pUnitySO;
 }

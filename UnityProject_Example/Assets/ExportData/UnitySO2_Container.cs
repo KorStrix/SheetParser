@@ -17,14 +17,14 @@ using UnityEngine;
 
 
 
-public class struct1_Container : UnityEngine.ScriptableObject
+public class UnitySO2_Container : UnityEngine.ScriptableObject
 {
     
-    private static struct1_Container _instance;
+    private static UnitySO2_Container _instance;
     
-    public List<struct1> listData;
+    public List<UnitySO2> listData;
     
-    public static struct1_Container instance
+    public static UnitySO2_Container instance
     {
         get
         {
@@ -32,7 +32,7 @@ public class struct1_Container : UnityEngine.ScriptableObject
         }
     }
     
-    public static void DoInit(struct1_Container pSingletonInstance, bool bIsUpdateChildAsset)
+    public static void DoInit(UnitySO2_Container pSingletonInstance, bool bIsUpdateChildAsset)
     {
           _instance = pSingletonInstance;
 #if UNITY_EDITOR
@@ -41,7 +41,7 @@ public class struct1_Container : UnityEngine.ScriptableObject
               _instance.listData.Clear();
                Object[] arrObject = UnityEditor.AssetDatabase.LoadAllAssetRepresentationsAtPath(UnityEditor.AssetDatabase.GetAssetPath(_instance));
                for (int i = 0; i < arrObject.Length; i++)
-                  _instance.listData.Add((struct1)arrObject[i]);
+                  _instance.listData.Add((UnitySO2)arrObject[i]);
                if(Application.isPlaying == false)
                {
                    UnityEditor.EditorUtility.SetDirty(_instance);

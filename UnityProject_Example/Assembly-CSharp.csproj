@@ -72,8 +72,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\ExportData\class2.cs" />
-    <Compile Include="Assets\ExportData\class2_Container.cs" />
+    <Compile Include="Assets\ExportData\class1.cs" />
+    <Compile Include="Assets\ExportData\class1_Container.cs" />
     <Compile Include="Assets\ExportData\global.cs" />
     <Compile Include="Assets\ExportData\global_Container.cs" />
     <Compile Include="Assets\ExportData\Others.cs" />
@@ -81,6 +81,8 @@
     <Compile Include="Assets\ExportData\UnitySO_Container.cs" />
     <Compile Include="Assets\ExportData\UnitySO2.cs" />
     <Compile Include="Assets\ExportData\UnitySO2_Container.cs" />
+    <Compile Include="Assets\ExportData\UnitySO222.cs" />
+    <Compile Include="Assets\ExportData\UnitySO222_Container.cs" />
     <Compile Include="Assets\Tester.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/SpreadSheetParser/UnityProject_Example/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

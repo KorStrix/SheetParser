@@ -23,9 +23,4 @@ public class UnitySO222 : UnityEngine.ScriptableObject
     public string strComment;
     
     public UnitySO pUnitySO;
-    
-    /// <summary>
-    /// 자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref=""/>
-    /// </summary>
-    public None None;
 }

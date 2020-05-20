@@ -20,11 +20,22 @@ using UnityEngine;
 public class global : UnityEngine.ScriptableObject
 {
     
-    public string GlobalKey;
-    
     public string strValue;
     
     public string strType;
     
-    public string strComment;
+    /// <summary>
+    /// 자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref="GlobalKey"/>
+    /// </summary>
+    public EGlobalKey_float eGlobalKey_float;
+    
+    /// <summary>
+    /// 자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref="GlobalKey"/>
+    /// </summary>
+    public EGlobalKey_string eGlobalKey_string;
+    
+    /// <summary>
+    /// 자동으로 할당되는 필드입니다. 의존되는 필드 : <see cref="GlobalKey"/>
+    /// </summary>
+    public EGlobalKey_int eGlobalKey_int;
 }

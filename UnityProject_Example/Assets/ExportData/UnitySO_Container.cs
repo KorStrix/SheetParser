@@ -24,6 +24,10 @@ public class UnitySO_Container : UnityEngine.ScriptableObject
     
     public List<UnitySO> listData;
     
+    public Dictionary<string, List<UnitySO>> mapData_Key_Is_strAutoEnum;
+    
+    public Dictionary<AutoEnumTest, List<UnitySO>> mapData_Key_Is_AutoEnumValue;
+    
     public static UnitySO_Container instance
     {
         get
@@ -49,5 +53,58 @@ public class UnitySO_Container : UnityEngine.ScriptableObject
                }
            }
 #endif
+        _instance.Init_mapData_Key_Is_strAutoEnum();
+        _instance.Init_mapData_Key_Is_AutoEnumValue();
+    }
+    
+    private void Init_mapData_Key_Is_strAutoEnum()
+    {
+        var arrLocal = listData.GroupBy(x => x.strAutoEnum);
+        this.mapData_Key_Is_strAutoEnum = arrLocal.ToDictionary(g => g.Key, g => g.ToList());
+    }
+    
+    private void Init_mapData_Key_Is_AutoEnumValue()
+    {
+        var arrLocal = listData.GroupBy(x => x.AutoEnumValue);
+        this.mapData_Key_Is_AutoEnumValue = arrLocal.ToDictionary(g => g.Key, g => g.ToList());
     }
 }
+
+public enum AutoEnumTest
+{
+    
+    AutoEnum_1,
+    
+    AutoEnum_2,
+    
+    AutoEnum_3,
+}
+
+#region 
+static
+public class UnitySO_ContainerHelper
+{
+    
+    public static List<UnitySO> GetUnitySO_List(this string eKey, System.Action<string> OnError = null)
+    {
+          List<UnitySO> pData;
+          if(UnitySO_Container.instance.mapData_Key_Is_strAutoEnum.TryGetValue(eKey, out pData) == false)
+          {
+              if(OnError != null)
+                  OnError(nameof(UnitySO_Container) + "- Not Found Data // Key : " + eKey);
+          }
+          return pData;
+    }
+    
+    public static List<UnitySO> GetUnitySO_List(this AutoEnumTest eKey, System.Action<string> OnError = null)
+    {
+          List<UnitySO> pData;
+          if(UnitySO_Container.instance.mapData_Key_Is_AutoEnumValue.TryGetValue(eKey, out pData) == false)
+          {
+              if(OnError != null)
+                  OnError(nameof(UnitySO_Container) + "- Not Found Data // Key : " + eKey);
+          }
+          return pData;
+    }
+}
+#endregion
