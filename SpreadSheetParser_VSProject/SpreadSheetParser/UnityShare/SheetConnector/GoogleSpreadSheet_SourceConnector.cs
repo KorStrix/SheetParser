@@ -13,7 +13,7 @@ using Google.Apis.Sheets.v4.Data;
 
 namespace SpreadSheetParser
 {
-    public class GoogleSpreadSheetConnector : ISheetConnector
+    public class GoogleSpreadSheet_SourceConnector : SheetSourceConnector
     {
         // If modifying these scopes, delete your previously saved credentials
         // at ~/.credentials/sheets.googleapis.com-dotnet-quickstart.json
@@ -21,33 +21,29 @@ namespace SpreadSheetParser
         static readonly string ApplicationName = "Spread Sheet Parser";
 
 
-        public IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetID => _mapWorkSheet;
-        public ESpreadSheetType eSheetType => ESpreadSheetType.GoogleSpreadSheet;
+        public override IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetID => _mapWorkSheet;
+        public override ESheetSourceType eSheetSourceType => ESheetSourceType.GoogleSpreadSheet;
 
         public string strFileName { get; private set; }
-        public string strSheetID { get; private set; }
         public bool bIsConnected => _pService != null && _pService.Spreadsheets != null;
 
 
 
         Dictionary<string, SheetData> _mapWorkSheet = new Dictionary<string, SheetData>();
         SheetsService _pService;
+
         readonly CancellationTokenSource _pTokenSource = new CancellationTokenSource();
         readonly string _strCredentialFilePath;
 
 
-
-
-        public GoogleSpreadSheetConnector(string strCredentialFilePath = "credentials.json")
+        public GoogleSpreadSheet_SourceConnector(string strSheetSourceID, string strCredentialFilePath = "credentials.json") : base(strSheetSourceID)
         {
             this._strCredentialFilePath = strCredentialFilePath;
         }
 
-        public async Task ISheetConnector_DoConnect_And_Parsing(string strSheetID, delOnFinishConnect OnFinishConnect)
+        public override async Task ISheetSourceConnector_DoConnect_And_Parsing(delOnFinishConnect OnFinishConnect)
         {
             _mapWorkSheet.Clear();
-            this.strSheetID = strSheetID;
-
             _pService = null;
             Exception pException_OnError = null;
 
@@ -79,7 +75,7 @@ namespace SpreadSheetParser
             }
 
             strFileName = "";
-            var pRequest_HandShake = _pService.Spreadsheets.Get(strSheetID);
+            var pRequest_HandShake = _pService.Spreadsheets.Get(strSheetSourceID);
             try
             {
                 var pResponse = pRequest_HandShake.ExecuteAsync();
@@ -104,18 +100,18 @@ namespace SpreadSheetParser
             _pTokenSource.Cancel();
         }
 
-        public IList<IList<Object>> ISheetConnector_GetSheetData(string strSheetName)
+        public override IList<IList<Object>> ISheetSourceConnector_GetSheetData(string strSheetName)
         {
             SpreadsheetsResource.ValuesResource.GetRequest pRequest =
-                _pService.Spreadsheets.Values.Get(strSheetID, strSheetName);
+                _pService.Spreadsheets.Values.Get(strSheetSourceID, strSheetName);
 
             return pRequest.Execute().Values;
         }
 
-        public Task<IList<IList<object>>> ISheetConnector_GetSheetData_Async(string strSheetName)
+        public override Task<IList<IList<object>>> ISheetSourceConnector_GetSheetData_Async(string strSheetName)
         {
             SpreadsheetsResource.ValuesResource.GetRequest pRequest =
-                _pService.Spreadsheets.Values.Get(strSheetID, strSheetName);
+                _pService.Spreadsheets.Values.Get(strSheetSourceID, strSheetName);
 
             return pRequest.ExecuteAsync().ContinueWith(p => p.Result.Values);
         }

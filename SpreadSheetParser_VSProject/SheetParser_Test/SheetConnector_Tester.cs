@@ -15,14 +15,14 @@ namespace SheetParser_Test
             // 테스트 시트
             // https://docs.google.com/spreadsheets/d/1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4/edit#gid=0
             string strTestSheetID = "1_s89xLPwidVwRsmGS4bp3Y6huaLWoBDq7SUW7lYyxl4";
-            ISheetConnector pConnector = new GoogleSpreadSheetConnector(GetDirectory_ForTestProject() + "/credentials.json");
+            SheetSourceConnector pSourceConnector = new GoogleSpreadSheet_SourceConnector(GetDirectory_ForTestProject() + "/credentials.json");
             bool bIsConnected = false;
 
 
             // Act
-            await pConnector.ISheetConnector_DoConnect_And_Parsing(strTestSheetID, (iConnector, pException_OnError) => 
+            await pSourceConnector.ISheetSourceConnector_DoConnect_And_Parsing(strTestSheetID, (iConnector, pException_OnError) => 
             {
-                bIsConnected = pException_OnError == null && strTestSheetID.Equals(iConnector.strSheetID) && iConnector.mapWorkSheetData_Key_Is_SheetID.Count > 0;
+                bIsConnected = pException_OnError == null && strTestSheetID.Equals(iConnector.strSheetSourceID) && iConnector.mapWorkSheetData_Key_Is_SheetID.Count > 0;
             });
 
 
@@ -35,11 +35,11 @@ namespace SheetParser_Test
         {
             // Arrange
             string strTestExcelFileName = "TestExcel.xlsx";
-            ISheetConnector pConnector = new MSExcelConnector();
+            SheetSourceConnector pSourceConnector = new MSExcel_SourceConnector();
             bool bIsConnected = false;
 
             // Act
-            await pConnector.ISheetConnector_DoConnect_And_Parsing(GetDirectory_ForTestProject() + strTestExcelFileName, (iConnector, pException_OnError) =>
+            await pSourceConnector.ISheetSourceConnector_DoConnect_And_Parsing(GetDirectory_ForTestProject() + strTestExcelFileName, (iConnector, pException_OnError) =>
             {
                 bIsConnected = pException_OnError == null && iConnector.mapWorkSheetData_Key_Is_SheetID.Count > 0;
             });

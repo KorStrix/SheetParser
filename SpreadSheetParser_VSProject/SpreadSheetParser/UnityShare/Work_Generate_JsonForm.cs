@@ -50,7 +50,7 @@ namespace SpreadSheetParser
             if (_pWork == null)
                 return;
 
-            if (SpreadSheetParser_MainForm.DoShowFolderBrowser_And_SavePath(false, ref textBox_Path))
+            if (SheetParser_MainForm.DoShowFolderBrowser_And_SavePath(false, ref textBox_Path))
                 _pWork.strExportPath = textBox_Path.Text;
         }
 
@@ -81,14 +81,14 @@ namespace SpreadSheetParser
             return "Generate Json";
         }
 
-        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, ISheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
         {
             TypeDataList pTypeDataList = JsonSaveManager.LoadData<TypeDataList>($"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json", OnPrintWorkProcess);
             //if (pTypeDataList != null)
             //    pTypeDataList.listTypeData.ForEach(p => p.bEnable = false);
 
-            if (pTypeDataList == null)
-                pTypeDataList = new TypeDataList(pConnector.strSheetID);
+            //if (pTypeDataList == null)
+            //    pTypeDataList = new TypeDataList(pSourceConnector.strSheetSourceID);
 
             List<Task> listTask = new List<Task>();
             foreach (var pSheet in arrSheetData)
@@ -96,7 +96,7 @@ namespace SpreadSheetParser
                 if (pSheet.eType == ESheetType.Enum)
                     continue;
 
-                listTask.Add(ProcessJson(pConnector, OnPrintWorkProcess, pSheet, pTypeDataList));
+                listTask.Add(ProcessJson(OnPrintWorkProcess, pSheet, pTypeDataList));
             }
 
             return Task.WhenAll(listTask).ContinueWith((p) =>
@@ -106,7 +106,7 @@ namespace SpreadSheetParser
             });
         }
 
-        private Task ProcessJson(ISheetConnector pConnector, Action<string> OnPrintWorkProcess, TypeData pSheet,
+        private Task ProcessJson(Action<string> OnPrintWorkProcess, TypeData pSheet,
             TypeDataList pTypeDataList)
         {
             JObject pJson_Instance = new JObject();
@@ -118,7 +118,7 @@ namespace SpreadSheetParser
             // Dictionary<int, string> mapMemberType = new Dictionary<int, string>();
             int iColumnStartIndex = -1;
 
-            return pSheet.ParsingSheet_UseTask(pConnector,
+            return pSheet.ParsingSheet_UseTask(
                 ((listRow, strText, iRowIndex, iColumnIndex) =>
                 {
                     if (strText.Contains(':')) // 변수 타입 파싱

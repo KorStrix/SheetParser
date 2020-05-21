@@ -45,7 +45,7 @@ namespace SpreadSheetParser
             if (_pWork == null)
                 return;
 
-            if (SpreadSheetParser_MainForm.DoShowFolderBrowser_And_SavePath(false, ref textBox_ExportPath))
+            if (SheetParser_MainForm.DoShowFolderBrowser_And_SavePath(false, ref textBox_ExportPath))
                 _pWork.strExportPath = textBox_ExportPath.Text;
         }
 
@@ -87,7 +87,7 @@ namespace SpreadSheetParser
             return "Generate Unity SO";
         }
 
-        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, ISheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkState)
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, TypeData[] arrSheetData, Action<string> OnPrintWorkState)
         {
             CodeNamespace pNameSpace = new CodeNamespace();
 
@@ -382,7 +382,7 @@ namespace SpreadSheetParser
             {
                 strParseString = $"({strTypeName})System.Enum.Parse(typeof({strTypeName}), {strParseString})";
                 
-                // SpreadSheetParser_MainForm.WriteConsole($"Error Parsing Not Define {strTypeName}");
+                // SheetParser_MainForm.WriteConsole($"Error Parsing Not Define {strTypeName}");
             }
 
 

@@ -35,36 +35,36 @@ namespace SpreadSheetParser
                 return new Config();
         }
 
-        public static void SaveSheet(SaveData_SpreadSheet pSheet)
+        public static void SaveSheet(SaveData_SheetSource pSheetSource)
         {
-            JsonSaveManager.SaveData(pSheet, GetFilePath(pSheet.GetFileName()));
+            JsonSaveManager.SaveData(pSheetSource, GetFilePath(pSheetSource.GetFileName()));
         }
 
-        public static void SaveSheet_Async(SaveData_SpreadSheet pSheet, Action<bool> OnFinishAsync)
+        public static void SaveSheet_Async(SaveData_SheetSource pSheetSource, Action<bool> OnFinishAsync)
         {
-            JsonSaveManager.SaveData_Async(pSheet, GetFilePath(pSheet.GetFileName()), OnFinishAsync);
+            JsonSaveManager.SaveData_Async(pSheetSource, GetFilePath(pSheetSource.GetFileName()), OnFinishAsync);
         }
 
-        public static Dictionary<string, SaveData_SpreadSheet> LoadSheet(Action<string> OnError)
+        public static Dictionary<string, SaveData_SheetSource> LoadSheet(Action<string> OnError)
         {
-            Dictionary<string, SaveData_SpreadSheet> mapSaveSheet = new Dictionary<string, SaveData_SpreadSheet>();
-            List<SaveData_SpreadSheet> listSheet = JsonSaveManager.LoadData_List<SaveData_SpreadSheet>(const_strSaveFolderPath, OnError);
+            Dictionary<string, SaveData_SheetSource> mapSaveSheet = new Dictionary<string, SaveData_SheetSource>();
+            List<SaveData_SheetSource> listSheet = JsonSaveManager.LoadData_List<SaveData_SheetSource>(const_strSaveFolderPath, OnError);
 
             for (int i = 0; i < listSheet.Count; i++)
             {
                 var pData = listSheet[i];
-                if (string.IsNullOrEmpty(pData.strSheetID))
+                if (string.IsNullOrEmpty(pData.strSheetSourceID))
                     continue;
 
-                if (mapSaveSheet.ContainsKey(pData.strSheetID))
+                if (mapSaveSheet.ContainsKey(pData.strSheetSourceID))
                 {
-                    SaveData_SpreadSheet pSheetAlreadyAdded = mapSaveSheet[pData.strSheetID];
-                    if (pSheetAlreadyAdded.date_LastEdit < pData.date_LastEdit)
-                        mapSaveSheet[pData.strSheetID] = pData;
+                    SaveData_SheetSource pSheetSourceAlreadyAdded = mapSaveSheet[pData.strSheetSourceID];
+                    if (pSheetSourceAlreadyAdded.date_LastEdit < pData.date_LastEdit)
+                        mapSaveSheet[pData.strSheetSourceID] = pData;
                 }
                 else
                 {
-                    mapSaveSheet.Add(pData.strSheetID, pData);
+                    mapSaveSheet.Add(pData.strSheetSourceID, pData);
                 }
             }
 

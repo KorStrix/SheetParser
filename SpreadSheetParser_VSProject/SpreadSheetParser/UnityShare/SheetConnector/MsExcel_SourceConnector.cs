@@ -9,19 +9,23 @@ using System.Linq;
 
 namespace SpreadSheetParser
 {
-    public class MSExcelConnector : ISheetConnector
+    public class MSExcel_SourceConnector : SheetSourceConnector
     {
-        public IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetID => _mapWorkSheet;
-        public string strSheetID { get; private set; }
-        public ESpreadSheetType eSheetType => ESpreadSheetType.MSExcel;
+        public override IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetID => _mapWorkSheet;
+        public override ESheetSourceType eSheetSourceType => ESheetSourceType.MSExcel;
 
 
         private readonly Dictionary<string, SheetData> _mapWorkSheet = new Dictionary<string, SheetData>();
         private readonly Dictionary<string, DataTable> _mapDataTable = new Dictionary<string, DataTable>();
 
-        public async Task ISheetConnector_DoConnect_And_Parsing(string strSheetID, delOnFinishConnect OnFinishConnect)
+        public MSExcel_SourceConnector(string strFileAbsolutePath_And_IncludeExtension) : base(strFileAbsolutePath_And_IncludeExtension)
         {
-            await Open_Excel(SynchronizationContext.Current, strSheetID, OnFinishConnect);
+
+        }
+
+        public override async Task ISheetSourceConnector_DoConnect_And_Parsing(delOnFinishConnect OnFinishConnect)
+        {
+            await Open_Excel(SynchronizationContext.Current, strSheetSourceID, OnFinishConnect);
         }
 
         private async Task Open_Excel(SynchronizationContext pSyncContext_Call, string strFileAbsolutePath_And_IncludeExtension, delOnFinishConnect OnFinishConnect)
@@ -30,7 +34,6 @@ namespace SpreadSheetParser
                 pSet.Dispose();
             _mapDataTable.Clear();
             _mapWorkSheet.Clear();
-            strSheetID = strFileAbsolutePath_And_IncludeExtension;
             Exception pException_OnError = null;
 
             await Task.Run(() =>
@@ -59,7 +62,7 @@ namespace SpreadSheetParser
                 }
             });
 
-            // strSheetID = Path.GetFileNameWithoutExtension(strFileAbsolutePath_And_IncludeExtension);
+            // strSheetSourceID = Path.GetFileNameWithoutExtension(strFileAbsolutePath_And_IncludeExtension);
             if (pSyncContext_Call == null)
             {
                 OnFinishConnect(this, pException_OnError);
@@ -74,7 +77,7 @@ namespace SpreadSheetParser
             }
         }
 
-        public IList<IList<Object>> ISheetConnector_GetSheetData(string strSheetName)
+        public override IList<IList<Object>> ISheetSourceConnector_GetSheetData(string strSheetName)
         {
             if (_mapDataTable.TryGetValue(strSheetName, out var pSheet) == false)
             {
@@ -94,9 +97,9 @@ namespace SpreadSheetParser
             return listData;
         }
 
-        public Task<IList<IList<Object>>> ISheetConnector_GetSheetData_Async(string strSheetName)
+        public override Task<IList<IList<Object>>> ISheetSourceConnector_GetSheetData_Async(string strSheetName)
         {
-            return Task.Run(() => ISheetConnector_GetSheetData(strSheetName));
+            return Task.Run(() => ISheetSourceConnector_GetSheetData(strSheetName));
         }
 
         public static string DoConvert_AbsolutePath(string strPath)

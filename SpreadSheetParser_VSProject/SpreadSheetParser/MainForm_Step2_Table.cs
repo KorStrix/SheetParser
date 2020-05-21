@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
-    public partial class SpreadSheetParser_MainForm
+    public partial class SheetParser_MainForm
     {
         private void ListView_Field_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -32,10 +32,10 @@ namespace SpreadSheetParser
                 return;
             }
 
-            TypeData pSheetData = (TypeData)checkedListBox_SheetList.SelectedItem;
-            if (pSheetData == null)
+            if (listView_Sheet.SelectedItems.Count == 0)
                 return;
 
+            TypeData pSheetData = listView_Sheet.SelectedItems.Cast<TypeData>().First();
             bool bIsEnum = pSheetData.eType == ESheetType.Enum;
             if (bIsEnum)
                 return;
@@ -91,10 +91,10 @@ namespace SpreadSheetParser
             listView_Field.Items.Clear();
 
             ListView_Field_SelectedIndexChanged(null, null);
-            TypeData pSheetData = (TypeData)checkedListBox_SheetList.SelectedItem;
-            if (pSheetData == null)
+            if (listView_Sheet.SelectedItems.Count == 0)
                 return;
 
+            TypeData pSheetData = (TypeData)listView_Sheet.SelectedItems.Cast<ListViewItem>().First().Tag;
             bool bIsEnum = pSheetData.eType == ESheetType.Enum;
             if (bIsEnum)
                 return;
@@ -109,8 +109,8 @@ namespace SpreadSheetParser
             HashSet<string> setRealField = new HashSet<string>();
 
 
-            pSheetData.ParsingSheet(pSheetConnector,
-            ((IList<object> listRow, string strText, int iRowIndex, int iColumnIndex) =>
+            pSheetData.ParsingSheet(
+            ((listRow, strText, iRowIndex, iColumnIndex) =>
             {
                 if (strText.Contains(":") == false)
                     return;
@@ -215,7 +215,7 @@ namespace SpreadSheetParser
 
             try
             {
-                pSheetData.DoCheck_IsValid_Table(pSheetConnector, WriteConsole);
+                pSheetData.DoCheck_IsValid_Table(WriteConsole);
             }
             catch (Exception pException)
             {
@@ -348,7 +348,7 @@ namespace SpreadSheetParser
             if (_bIsConnecting)
                 return;
 
-            pSpreadSheet_CurrentConnected.listTable[e.Index].bEnable = e.NewValue == CheckState.Checked;
+            pSheetSourceCurrentConnected.listTable[e.Index].bEnable = e.NewValue == CheckState.Checked;
             AutoSaveAsync_CurrentSheet();
         }
 
@@ -363,7 +363,7 @@ namespace SpreadSheetParser
             pFieldData.bIsOverlapKey = checkBox_FieldKey_IsOverlap.Checked;
         }
 
-        private void checkedListBox_TableList_SelectedIndexChanged(object sender, EventArgs e)
+        private void listView_Sheet_SelectedIndexChanged(object sender, EventArgs e)
         {
             SetState(EState.IsConnected_And_SelectTable);
         }

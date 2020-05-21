@@ -48,7 +48,7 @@ namespace SpreadSheetParser
             if (_pWork == null)
                 return;
 
-            if (SpreadSheetParser_MainForm.DoShowFolderBrowser_And_SavePath(false, ref textBox_Path))
+            if (SheetParser_MainForm.DoShowFolderBrowser_And_SavePath(false, ref textBox_Path))
                 _pWork.strExportPath = textBox_Path.Text;
         }
 
@@ -78,7 +78,7 @@ namespace SpreadSheetParser
         }
 
 
-        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, ISheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
         {
             List<Task> listTask = new List<Task>();
             foreach (var pSheet in arrSheetData)
@@ -89,7 +89,7 @@ namespace SpreadSheetParser
                     StreamWriter pFileWriter = new StreamWriter($"{GetRelative_To_AbsolutePath(strExportPath)}/{pSheet.strFileName.Trim()}.csv");
 
                     int iLastRowIndex = -1;
-                    return pSheet.ParsingSheet_UseTask(pConnector,
+                    return pSheet.ParsingSheet_UseTask(
                         (listRow, strText, iRowIndex, iColumnIndex) =>
                         {
                             if (iLastRowIndex == -1)

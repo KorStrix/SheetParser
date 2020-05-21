@@ -47,26 +47,26 @@ namespace SpreadSheetParser
         const string const_strIgnoreString_Column = "C";
         const string const_strStartString = "Start";
 
-        public static void ParsingSheet(this TypeData pSheet, ISheetConnector pConnector, delOnParsingText OnParsingTextLine)
+        public static void ParsingSheet(this TypeData pSheet, delOnParsingText OnParsingTextLine)
         {
-            IList<IList<Object>> pData = pConnector.ISheetConnector_GetSheetData(pSheet.strSheetName);
+            IList<IList<Object>> pData = pSheet.pSheetSourceConnector.ISheetSourceConnector_GetSheetData(pSheet.strSheetName);
             if (pData == null)
                 return;
 
             _ParsingSheet(OnParsingTextLine, pData);
         }
 
-        public static Task ParsingSheet_UseTask(this TypeData pSheet, ISheetConnector pConnector, delOnParsingText OnParsingTextLine)
+        public static Task ParsingSheet_UseTask(this TypeData pSheet, delOnParsingText OnParsingTextLine)
         {
-            return pConnector.ISheetConnector_GetSheetData_Async(pSheet.strSheetName).
+            return pSheet.pSheetSourceConnector.ISheetSourceConnector_GetSheetData_Async(pSheet.strSheetName).
                 ContinueWith(p => _ParsingSheet(OnParsingTextLine, p.Result));
         }
 
-        public static void DoCheck_IsValid_Table(this TypeData pSheetData, ISheetConnector pConnector, Action<string> OnError)
+        public static void DoCheck_IsValid_Table(this TypeData pSheetData, Action<string> OnError)
         {
             bool bIsEnum = pSheetData.eType == ESheetType.Enum;
 
-            pSheetData.ParsingSheet(pConnector,
+            pSheetData.ParsingSheet(
             (listRow, strText, iRow, iColumn) =>
             {
                 if (bIsEnum)
@@ -75,7 +75,7 @@ namespace SpreadSheetParser
 
                     if (Enum.TryParse(strText, out EEnumHeaderType eType))
                     {
-                        // mapEnumType.Add(,eType)
+                        // mapEnumType.Add(,eSourceType)
                         if (eType == EEnumHeaderType.EnumType)
                         {
                             for (int i = iColumn; i < listRow.Count; i++)
@@ -117,7 +117,7 @@ namespace SpreadSheetParser
             });
         }
 
-        public static Task DoWork(this TypeData pSheetData, ISheetConnector pConnector, CodeFileBuilder pCodeFileBuilder, Action<string> OnError)
+        public static Task DoWork(this TypeData pSheetData, CodeFileBuilder pCodeFileBuilder, Action<string> OnError)
         {
             List<CommandLineArg> listCommandLine = Parsing_CommandLine(pSheetData.strCommandLine, OnError);
 
@@ -125,13 +125,13 @@ namespace SpreadSheetParser
             {
                 case ESheetType.Class:
                 case ESheetType.Struct:
-                    return Parsing_OnCode(pSheetData, pConnector, pCodeFileBuilder, listCommandLine);
+                    return Parsing_OnCode(pSheetData, pCodeFileBuilder, listCommandLine);
 
                 case ESheetType.Enum:
-                    return Parsing_OnEnum(pSheetData, pConnector, pCodeFileBuilder);
+                    return Parsing_OnEnum(pSheetData, pCodeFileBuilder);
 
                 case ESheetType.Global:
-                    return Parsing_OnGlobal(pSheetData, pConnector, pCodeFileBuilder);
+                    return Parsing_OnGlobal(pSheetData, pCodeFileBuilder);
 
                 default: return Task.CompletedTask;
             }
@@ -149,7 +149,7 @@ namespace SpreadSheetParser
             MAX,
         }
 
-        private static Task Parsing_OnGlobal(TypeData pSheetData, ISheetConnector pConnector, CodeFileBuilder pCodeFileBuilder)
+        private static Task Parsing_OnGlobal(TypeData pSheetData, CodeFileBuilder pCodeFileBuilder)
         {
             var pCodeType_Class = pCodeFileBuilder.AddCodeType(pSheetData.strFileName, pSheetData.eType);
 
@@ -162,7 +162,7 @@ namespace SpreadSheetParser
             int iColumnIndex_Type = -1;
             int iColumnIndex_Comment = -1;
 
-            return pSheetData.ParsingSheet_UseTask(pConnector,
+            return pSheetData.ParsingSheet_UseTask(
               (listRow, strText, iRow, iColumn) =>
               {
                   // 변수 선언 형식인경우
@@ -297,7 +297,7 @@ namespace SpreadSheetParser
             return pCodeType_GlobalKey;
         }
 
-        private static Task Parsing_OnCode(TypeData pSheetData, ISheetConnector pConnector, CodeFileBuilder pCodeFileBuilder, List<CommandLineArg> listCommandLine)
+        private static Task Parsing_OnCode(TypeData pSheetData, CodeFileBuilder pCodeFileBuilder, List<CommandLineArg> listCommandLine)
         {
             var pCodeType = pCodeFileBuilder.AddCodeType(pSheetData.strFileName, pSheetData.eType);
             var mapFieldData_ConvertStringToEnum = pSheetData.listFieldData.Where((pFieldData) => pFieldData.bConvertStringToEnum).ToDictionary(((pFieldData) => pFieldData.strFieldName));
@@ -308,7 +308,7 @@ namespace SpreadSheetParser
             int iDefinedTypeRow = -1;
 
             pSheetData.listEnumName.Clear();
-            return pSheetData.ParsingSheet_UseTask(pConnector,
+            return pSheetData.ParsingSheet_UseTask(
               (listRow, strText, iRow, iColumn) =>
               {
                   // 변수 선언 형식인경우
@@ -349,12 +349,12 @@ namespace SpreadSheetParser
               }).ContinueWith((p) => Execute_CommandLine(pCodeType, listCommandLine));
         }
 
-        private static Task Parsing_OnEnum(TypeData pSheetData, ISheetConnector pConnector, CodeFileBuilder pCodeFileBuilder)
+        private static Task Parsing_OnEnum(TypeData pSheetData, CodeFileBuilder pCodeFileBuilder)
         {
             Dictionary<int, EEnumHeaderType> mapEnumType = new Dictionary<int, EEnumHeaderType>();
             Dictionary<string, CodeTypeDeclaration> mapEnumValue = new Dictionary<string, CodeTypeDeclaration>();
 
-            return pSheetData.ParsingSheet_UseTask(pConnector,
+            return pSheetData.ParsingSheet_UseTask(
                 (listRow, strText, iRow, iColumn) =>
                 {
                     EEnumHeaderType eType = EEnumHeaderType.EnumNone;

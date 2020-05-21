@@ -17,7 +17,7 @@ namespace SpreadSheetParser
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SpreadSheetParser_MainForm());
+            Application.Run(new SheetParser_MainForm());
         }
     }
 }

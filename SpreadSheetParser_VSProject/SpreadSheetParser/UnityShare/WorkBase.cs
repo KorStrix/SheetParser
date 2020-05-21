@@ -46,17 +46,17 @@ namespace SpreadSheetParser
 #if !UNITY_EDITOR
         public void DoAutoSaveAsync()
         {
-            SpreadSheetParser_MainForm.WriteConsole($"자동 저장 중.. {GetDisplayString()}");
-            SaveDataManager.SaveSheet(SpreadSheetParser_MainForm.pSpreadSheet_CurrentConnected);
+            SheetParser_MainForm.WriteConsole($"자동 저장 중.. {GetDisplayString()}");
+            SaveDataManager.SaveSheet(SheetParser_MainForm.pSheetSourceCurrentConnected);
         }
 
         public void DoOpenFolder(string strPath)
         {
-            SpreadSheetParser_MainForm.DoOpenFolder(GetRelative_To_AbsolutePath(strPath));
+            SheetParser_MainForm.DoOpenFolder(GetRelative_To_AbsolutePath(strPath));
         }
 #endif
 
-        public abstract Task DoWork(CodeFileBuilder pCodeFileBuilder, ISheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkState);
+        public abstract Task DoWork(CodeFileBuilder pCodeFileBuilder, TypeData[] arrSheetData, Action<string> OnPrintWorkState);
 #if !UNITY_EDITOR
         public virtual void DoWorkAfter() { }
 
@@ -112,11 +112,16 @@ namespace SpreadSheetParser
             JObject jo = JObject.Load(reader);
             string strTypeName = jo["pType"].Value<string>();
 
-            foreach(var pType in GetEnumerableOfType(typeof(WorkBase)))
+            foreach (var pType in GetEnumerableOfType(typeof(WorkBase)))
             {
-                if(strTypeName.Contains(pType.Name))
+                try
                 {
-                    return JsonConvert.DeserializeObject(jo.ToString(), pType, SpecifiedSubclassConversion);
+                    if (strTypeName.Contains(pType.Name))
+                        return JsonConvert.DeserializeObject(jo.ToString(), pType, SpecifiedSubclassConversion);
+                }
+                catch (Exception e)
+                {
+
                 }
             }
 

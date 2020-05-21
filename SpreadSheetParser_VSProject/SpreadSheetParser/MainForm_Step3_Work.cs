@@ -8,11 +8,11 @@ using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
-    public partial class SpreadSheetParser_MainForm
+    public partial class SheetParser_MainForm
     {
         private void button_StartParsing_Selected_Click(object sender, EventArgs e)
         {
-            TypeData pSheetData = (TypeData)checkedListBox_SheetList.SelectedItem;
+            TypeData pSheetData = listView_Sheet.SelectedItems.Cast<TypeData>().FirstOrDefault();
             if (pSheetData == null)
                 return;
             WriteConsole("선택한 시트만 코드 파일 생성중.." + pSheetData.strFileName);
@@ -22,7 +22,7 @@ namespace SpreadSheetParser
         private void button_StartParsing_Click(object sender, EventArgs e)
         {
             WriteConsole("코드 파일 생성중..");
-            StartBuild(checkedListBox_SheetList.CheckedItems.Cast<TypeData>().ToArray());
+            StartBuild(listView_Sheet.CheckedItems.Cast<TypeData>().ToArray());
         }
 
         private void StartBuild(params TypeData[] arrTypeData)
@@ -47,10 +47,10 @@ namespace SpreadSheetParser
                     // UpdateSheetData(pSheetData, false, ++iLoopCount == iCount);
 
                     // 동기버전
-                    // pSheetData.DoWork(pSheetConnector, _pCodeFileBuilder, WriteConsole);
+                    // pSheetData.DoWork(pSheetSourceConnector, _pCodeFileBuilder, WriteConsole);
 
                     // 비동기버전
-                    listTask.Add(pSheetData.DoWork(pSheetConnector, _pCodeFileBuilder, WriteConsole));
+                    listTask.Add(pSheetData.DoWork(_pCodeFileBuilder, WriteConsole));
 
                     pTimer.Stop();
                     WriteConsole(pSheetData.strFileName + $" 작업완료 \r\n{pTimer.Elapsed}\r\n");
@@ -67,7 +67,7 @@ namespace SpreadSheetParser
 
 
             listTask.Clear();
-            var arrSheetData = checkedListBox_SheetList.CheckedItems.Cast<TypeData>().ToArray();
+            var arrSheetData = listView_Sheet.CheckedItems.Cast<TypeData>().ToArray();
             var listWork = checkedListBox_WorkList.CheckedItems;
             foreach (WorkBase pWork in listWork)
             {
@@ -75,7 +75,7 @@ namespace SpreadSheetParser
                 {
                     pTimer.Restart();
 
-                    listTask.Add(pWork.DoWork(_pCodeFileBuilder, pSheetConnector, arrSheetData, WriteConsole));
+                    listTask.Add(pWork.DoWork(_pCodeFileBuilder, arrSheetData, WriteConsole));
                 }
                 catch (Exception pException)
                 {
@@ -106,7 +106,7 @@ namespace SpreadSheetParser
             WorkBase pNewWork = pWork.CopyInstance();
             pNewWork.ShowForm();
             checkedListBox_WorkList.Items.Add(pNewWork, true);
-            pSpreadSheet_CurrentConnected.listSaveWork.Add(pNewWork);
+            pSheetSourceCurrentConnected.listSaveWork.Add(pNewWork);
             Update_WorkListOrder();
         }
 
@@ -163,7 +163,7 @@ namespace SpreadSheetParser
 
         private void button_RemoveWork_Click(object sender, EventArgs e)
         {
-            pSpreadSheet_CurrentConnected.listSaveWork.RemoveAt(checkedListBox_WorkList.SelectedIndex);
+            pSheetSourceCurrentConnected.listSaveWork.RemoveAt(checkedListBox_WorkList.SelectedIndex);
             checkedListBox_WorkList.Items.RemoveAt(checkedListBox_WorkList.SelectedIndex);
             Update_WorkListOrder();
         }
@@ -180,8 +180,8 @@ namespace SpreadSheetParser
             if (_bIsConnecting)
                 return;
 
-            if(e.Index < pSpreadSheet_CurrentConnected.listSaveWork.Count)
-                pSpreadSheet_CurrentConnected.listSaveWork[e.Index].bEnable = e.NewValue == CheckState.Checked;
+            if(e.Index < pSheetSourceCurrentConnected.listSaveWork.Count)
+                pSheetSourceCurrentConnected.listSaveWork[e.Index].bEnable = e.NewValue == CheckState.Checked;
             AutoSaveAsync_CurrentSheet();
         }
 

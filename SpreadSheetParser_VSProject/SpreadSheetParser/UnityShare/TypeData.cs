@@ -26,6 +26,8 @@ namespace SpreadSheetParser
     [System.Serializable]
     public class TypeData
     {
+        public SheetSourceConnector pSheetSourceConnector { get; private set; }
+
         public bool bEnable = true;
         public string strFileName;
         public string strHeaderFieldName;
@@ -39,12 +41,18 @@ namespace SpreadSheetParser
         public List<FieldTypeData> listFieldData = new List<FieldTypeData>();
         public List<string> listEnumName = new List<string>();
 
-        public TypeData(string strSheetID, string strSheetName, int iOrder)
+        public TypeData(SheetSourceConnector pSheetSourceConnector, string strSheetID, string strSheetName, int iOrder)
         {
+            this.pSheetSourceConnector = pSheetSourceConnector;
             this.strSheetID = strSheetID;
             this.strSheetName = strSheetName;
             this.strFileName = strSheetName;
             this.iOrder = iOrder;
+        }
+
+        public void DoSetSheetSourceConnector(SheetSourceConnector pSheetSourceConnector)
+        {
+            this.pSheetSourceConnector = pSheetSourceConnector;
         }
 
         public override string ToString()

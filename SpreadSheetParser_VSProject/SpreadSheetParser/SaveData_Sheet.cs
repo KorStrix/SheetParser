@@ -10,18 +10,18 @@ namespace SpreadSheetParser
         public bool bAutoConnect = true;
     }
 
-    public class SaveData_SpreadSheet
+    public class SaveData_SheetSource
     {
-        public string strSheetID;
+        public string strSheetSourceID;
         public DateTime date_LastEdit;
-        public ESpreadSheetType eType;
+        public ESheetSourceType eSourceType;
         public List<TypeData> listTable = new List<TypeData>();
         public List<WorkBase> listSaveWork = new List<WorkBase>();
 
-        public SaveData_SpreadSheet(string strSheetID, ESpreadSheetType eType)
+        public SaveData_SheetSource(string strSheetSourceID, ESheetSourceType eSourceType)
         {
-            this.strSheetID = strSheetID;
-            this.eType = eType;
+            this.strSheetSourceID = strSheetSourceID;
+            this.eSourceType = eSourceType;
 
             UpdateDate();
         }
@@ -33,18 +33,18 @@ namespace SpreadSheetParser
 
         public string GetFileName()
         {
-            string strID = strSheetID;
-            switch (eType)
+            string strID = strSheetSourceID;
+            switch (eSourceType)
             {
-                case ESpreadSheetType.MSExcel: strID = Path.GetFileNameWithoutExtension(strSheetID); break;
+                case ESheetSourceType.MSExcel: strID = Path.GetFileNameWithoutExtension(strSheetSourceID); break;
             }
 
-            return $"{eType}_{strID}";
+            return $"{eSourceType}_{strID}";
         }
 
         public override string ToString()
         {
-            return strSheetID;
+            return strSheetSourceID;
         }
     }
 
@@ -57,7 +57,6 @@ namespace SpreadSheetParser
             pViewItem.Tag = pFieldData;
 
             return pViewItem;
-
         }
 
         public static void Reset_ListViewItem(this FieldTypeData pFieldData, ListViewItem pViewItem)
