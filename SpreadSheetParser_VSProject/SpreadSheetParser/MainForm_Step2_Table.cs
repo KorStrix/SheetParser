@@ -348,7 +348,7 @@ namespace SpreadSheetParser
             if (_bIsConnecting)
                 return;
 
-            pSheetSourceCurrentConnected.listTable[e.Index].bEnable = e.NewValue == CheckState.Checked;
+            pSheetSource_Selected.pSheetSource_Selected.listTable[e.Index].bEnable = e.NewValue == CheckState.Checked;
             AutoSaveAsync_CurrentSheet();
         }
 

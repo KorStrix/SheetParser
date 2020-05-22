@@ -10,13 +10,56 @@ namespace SpreadSheetParser
         public bool bAutoConnect = true;
     }
 
+    public class SaveData_SheetSourceCollection
+    {
+        public string strFileName;
+        public DateTime date_LastEdit;
+
+        public List<string> listSheetSourceID = new List<string>();
+        public List<WorkBase> listSaveWork = new List<WorkBase>();
+
+        public Dictionary<string, SaveData_SheetSource> mapSaveSheetSource { get; private set; } = new Dictionary<string, SaveData_SheetSource>();
+        public SaveData_SheetSource pSheetSource_Selected { get; private set; }
+
+
+        public SaveData_SheetSourceCollection()
+        {
+            strFileName = "Test";
+            UpdateDate();
+        }
+
+        public void DoInit(Dictionary<string, SaveData_SheetSource> mapSaveSheetSource)
+        {
+            this.mapSaveSheetSource.Clear();
+            foreach (string strSheetSourceID in listSheetSourceID)
+            {
+                if (mapSaveSheetSource.ContainsKey(strSheetSourceID) == false)
+                {
+                    listSheetSourceID.Remove(strSheetSourceID);
+                    continue;
+                }
+
+                this.mapSaveSheetSource.Add(strSheetSourceID, mapSaveSheetSource[strSheetSourceID]);
+            }
+        }
+
+        public void DoSet_SelectedSheetSource(SaveData_SheetSource pSheetSource_Selected)
+        {
+            this.pSheetSource_Selected = pSheetSource_Selected;
+        }
+
+        public void UpdateDate()
+        {
+            date_LastEdit = DateTime.Now;
+        }
+    }
+
     public class SaveData_SheetSource
     {
         public string strSheetSourceID;
         public DateTime date_LastEdit;
         public ESheetSourceType eSourceType;
         public List<TypeData> listTable = new List<TypeData>();
-        public List<WorkBase> listSaveWork = new List<WorkBase>();
 
         public SaveData_SheetSource(string strSheetSourceID, ESheetSourceType eSourceType)
         {

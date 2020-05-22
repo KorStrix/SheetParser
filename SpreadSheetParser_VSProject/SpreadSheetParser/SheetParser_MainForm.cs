@@ -19,7 +19,7 @@ namespace SpreadSheetParser
         public static SheetParser_MainForm isntance => _instance;
         private static SheetParser_MainForm _instance;
 
-        public static SaveData_SheetSource pSheetSourceCurrentConnected { get; private set; }
+        public static SaveData_SheetSourceCollection pSheetSource_Selected { get; private set; }
 
         /// <summary>
         /// Key is SheetSource ID
@@ -33,7 +33,8 @@ namespace SpreadSheetParser
         CodeFileBuilder _pCodeFileBuilder = new CodeFileBuilder();
         Config _pConfig;
 
-        Dictionary<string, SaveData_SheetSource> _mapSaveData = new Dictionary<string, SaveData_SheetSource>();
+        Dictionary<string, SaveData_SheetSource> _mapSaveSheetSource = new Dictionary<string, SaveData_SheetSource>();
+        Dictionary<string, SaveData_SheetSourceCollection> _mapSaveSheetSourceCollection = new Dictionary<string, SaveData_SheetSourceCollection>();
 
         EState _eState;
         bool _bIsConnecting;
@@ -154,40 +155,34 @@ namespace SpreadSheetParser
             _bIsLoading_CreateForm = true;
 
             _pConfig = SaveDataManager.LoadConfig();
-            _mapSaveData = SaveDataManager.LoadSheet(WriteConsole);
-            
+            _mapSaveSheetSource = SaveDataManager.LoadSheet_SaveSheetSource(WriteConsole);
+            _mapSaveSheetSourceCollection = SaveDataManager.LoadSheet_SaveSheetSourceCollection(WriteConsole);
+
             radioButton_SheetSource_GoogleSheet.Checked = true;
             comboBox_DependencyField.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox_DependencyField_Sub.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            SaveData_SheetSource pSheetSourceLastEdit = GetSheetSource_LastEdit(_mapSaveData);
-            if (pSheetSourceLastEdit != null)
+            SaveData_SheetSourceCollection pSheetSourceLastEdit = GetSheetSource_LastEdit(_mapSaveSheetSourceCollection);
+            if (_pConfig.bAutoConnect && pSheetSourceLastEdit != null)
             {
-                switch (pSheetSourceLastEdit.eSourceType)
-                {
-                    case ESheetSourceType.MSExcel:
-                        //textBox_ExcelPath_ForConnect.Text = pSheetSourceLastEdit.strSheetSourceID;
-                        //if (_pConfig.bAutoConnect)
-                        //{
-                        //    WriteConsole("Config - 자동연결로 인해 연결을 시작합니다..");
-                        //    button_Connect_Excel_Click(null, null);
-                        //}
-                        break;
+                WriteConsole("Config - 자동연결로 인해 연결을 시작합니다..");
+                pSheetSourceLastEdit.DoInit(_mapSaveSheetSource);
 
-                    case ESheetSourceType.GoogleSpreadSheet:
-                        //textBox_SheetID.Text = pSheetSourceLastEdit.strSheetSourceID;
-                        //if (_pConfig.bAutoConnect)
-                        //{
-                        //    WriteConsole("Config - 자동연결로 인해 연결을 시작합니다..");
-                        //    button_Connect_Click(null, null);
-                        //}
-                        break;
+                mapSheetSourceConnector.Clear();
+                foreach (var pSaveSheetSource in pSheetSourceLastEdit.mapSaveSheetSource.Values)
+                {
+                    string strSheetSourceID = pSaveSheetSource.strSheetSourceID;
+                    SheetSourceConnector pSheetSourceConnector = Create_SheetSourceConnector(strSheetSourceID, pSaveSheetSource.eSourceType);
+
+                    mapSheetSourceConnector.Add(strSheetSourceID, pSheetSourceConnector);
+                    listView_SheetSourceConnector.Items.Add(pSheetSourceConnector.ConvertListViewItem());
                 }
             }
 
-            checkBox_AutoConnect.Checked = _pConfig.bAutoConnect;
+            // checkBox_AutoConnect.Checked = _pConfig.bAutoConnect;
             listView_Sheet.ItemCheck += CheckedListBox_TableList_ItemCheck;
             listView_Sheet.SelectedIndexChanged += CheckedListBox_SheetList_SelectedIndexChanged;
+
             checkedListBox_WorkList.ItemCheck += CheckedListBox_WorkList_ItemCheck;
             checkedListBox_WorkList.SelectedIndexChanged += CheckedListBox_WorkList_SelectedIndexChanged;
             CheckedListBox_WorkList_SelectedIndexChanged(null, null);
@@ -200,6 +195,7 @@ namespace SpreadSheetParser
 
             listView_Field.SelectedIndexChanged += ListView_Field_SelectedIndexChanged;
 
+
             _bIsLoading_CreateForm = false;
         }
 
@@ -211,13 +207,13 @@ namespace SpreadSheetParser
             {
                 case EState.None:
                     groupBox_2_1_TableSetting.Enabled = false;
-                    groupBox3_WorkSetting.Enabled = false;
+                    groupBox3_BuildSetting.Enabled = false;
                     groupBox_SelectedTable.Enabled = false;
                     break;
 
                 case EState.IsConnected:
                     groupBox_2_1_TableSetting.Enabled = true;
-                    groupBox3_WorkSetting.Enabled = true;
+                    groupBox3_BuildSetting.Enabled = true;
                     groupBox_SelectedTable.Enabled = false;
 
                     if (GetCurrentSelectedTable_OrNull() != null)
@@ -227,7 +223,7 @@ namespace SpreadSheetParser
 
                 case EState.IsConnected_And_SelectTable:
                     groupBox_2_1_TableSetting.Enabled = true;
-                    groupBox3_WorkSetting.Enabled = true;
+                    groupBox3_BuildSetting.Enabled = true;
                     groupBox_SelectedTable.Enabled = true;
 
                     var pWrapper = GetCurrentSelectedTable_OrNull();
@@ -245,9 +241,9 @@ namespace SpreadSheetParser
             if (_bIsUpdating_TableUI)
                 return;
 
-            pSheetSourceCurrentConnected.UpdateDate();
-            WriteConsole("자동 저장 중.." + pSheetSourceCurrentConnected.GetFileName());
-            SaveDataManager.SaveSheet_Async(pSheetSourceCurrentConnected, AutoSaveDone);
+            // pSheetSource_Selected.UpdateDate();
+            WriteConsole("자동 저장 중.." + pSheetSource_Selected.strFileName);
+            SaveDataManager.SaveSheet_Async(pSheetSource_Selected, AutoSaveDone);
         }
 
         private void AutoSaveAsync_Config()
@@ -289,25 +285,30 @@ namespace SpreadSheetParser
 
         private void button_AddSheetSource_Click(object sender, EventArgs e)
         {
-            string strSheetID = textBox_AddSheetSourceName.Text;
-            if(mapSheetSourceConnector.ContainsKey(strSheetID))
+            string strSheetSourceID = textBox_AddSheetSourceName.Text;
+            if(mapSheetSourceConnector.ContainsKey(strSheetSourceID))
             {
-                WriteConsole($"이미 추가된 시트.. \n{strSheetID}");
+                WriteConsole($"이미 추가된 시트.. \n{strSheetSourceID}");
                 return;
             }
 
             SheetSourceConnector pConnector = null;
-            if (radioButton_SheetSource_GoogleSheet.Checked)
-                pConnector = new GoogleSpreadSheet_SourceConnector(strSheetID);
-
-            if (radioButton_SheetSource_MSExcel.Checked)
-                pConnector = new MSExcel_SourceConnector(strSheetID);
-            
-            mapSheetSourceConnector.Add(strSheetID, pConnector);
-            listView_SheetSource.Items.Add(pConnector.ConvertListViewItem());
+            if(radioButton_SheetSource_GoogleSheet.Checked)
+                pConnector = Create_SheetSourceConnector(strSheetSourceID, ESheetSourceType.GoogleSpreadSheet);
+            else if (radioButton_SheetSource_MSExcel.Checked)
+                pConnector = Create_SheetSourceConnector(strSheetSourceID, ESheetSourceType.MSExcel);
 
             _bIsConnecting = true;
             pConnector?.ISheetSourceConnector_DoConnect_And_Parsing(OnFinishConnect);
+        }
+
+        private SheetSourceConnector Create_SheetSourceConnector(string strSheetID, ESheetSourceType eSheetSourceType)
+        {
+            SheetSourceConnector pConnector = SheetSourceConnector.DoCreate_SheetSource(eSheetSourceType, strSheetID);
+
+            mapSheetSourceConnector.Add(strSheetID, pConnector);
+            listView_SheetSourceConnector.Items.Add(pConnector.ConvertListViewItem());
+            return pConnector;
         }
 
         private void button_OpenSheetSource_Click(object sender, EventArgs e)

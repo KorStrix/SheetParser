@@ -15,18 +15,20 @@ namespace SpreadSheetParser
                 return;
             }
 
-            if (_mapSaveData.ContainsKey(pSourceConnector.strSheetSourceID))
+            SaveData_SheetSource pSheetSource = null;
+            if (_mapSaveSheetSource.ContainsKey(pSourceConnector.strSheetSourceID))
             {
-                pSheetSourceCurrentConnected = _mapSaveData[pSourceConnector.strSheetSourceID];
-                pSheetSourceCurrentConnected.eSourceType = pSourceConnector.eSheetSourceType;
-                List<TypeData> listSavedTable = pSheetSourceCurrentConnected.listTable;
+                pSheetSource.eSourceType = pSourceConnector.eSheetSourceType;
+                List<TypeData> listSavedTable = pSheetSource.listTable;
 
                 int iOrder = 0;
                 foreach (KeyValuePair<string, SheetData> pSheet in pSourceConnector.mapWorkSheetData_Key_Is_SheetID)
                 {
                     TypeData pTypeDataFind = listSavedTable.FirstOrDefault(x => (x.strSheetID == pSheet.Key));
                     if (pTypeDataFind == null)
+                    {
                         listSavedTable.Add(new TypeData(pSourceConnector, pSheet.Value.strSheetID, pSheet.Value.strSheetName, iOrder));
+                    }
                     else
                     {
                         // 이미 저장되있는 Sheet의 경우
@@ -41,21 +43,21 @@ namespace SpreadSheetParser
             }
             else
             {
-                pSheetSourceCurrentConnected = new SaveData_SheetSource(pSourceConnector.strSheetSourceID, pSourceConnector.eSheetSourceType);
-                _mapSaveData[pSheetSourceCurrentConnected.strSheetSourceID] = pSheetSourceCurrentConnected;
+                pSheetSource = new SaveData_SheetSource(pSourceConnector.strSheetSourceID, pSourceConnector.eSheetSourceType);
+                _mapSaveSheetSource[pSheetSource.strSheetSourceID] = pSheetSource;
 
                 int iOrder = 0;
-                pSheetSourceCurrentConnected.listTable.Clear();
+                pSheetSource.listTable.Clear();
                 foreach (KeyValuePair<string, SheetData> pSheet in pSourceConnector.mapWorkSheetData_Key_Is_SheetID)
-                    pSheetSourceCurrentConnected.listTable.Add(new TypeData(pSourceConnector, pSheet.Value.strSheetID, pSheet.Value.strSheetName, iOrder++));
+                    pSheetSource.listTable.Add(new TypeData(pSourceConnector, pSheet.Value.strSheetID, pSheet.Value.strSheetName, iOrder++));
 
-                SaveDataManager.SaveSheet(pSheetSourceCurrentConnected);
+                SaveDataManager.SaveSheet(pSheetSource);
 
                 WriteConsole("새 파일을 만들었습니다.");
             }
 
             listView_Sheet.Items.Clear();
-            List<TypeData> listSheetSaved = pSheetSourceCurrentConnected.listTable;
+            List<TypeData> listSheetSaved = pSheetSource.listTable;
             listSheetSaved.Sort((x, y) => x.iOrder.CompareTo(y.iOrder));
 
             TypeData[] arrSheetDelete = listSheetSaved.Where((pSheet) =>
@@ -74,10 +76,6 @@ namespace SpreadSheetParser
                 listView_Sheet.Items.Add(listSheetSaved[i].ConvertListViewItem());
 
             checkedListBox_WorkList.Items.Clear();
-            List<WorkBase> listWorkBase = pSheetSourceCurrentConnected.listSaveWork;
-            listWorkBase.Sort((x, y) => x.iWorkOrder.CompareTo(y.iWorkOrder));
-            for (int i = 0; i < listWorkBase.Count; i++)
-                checkedListBox_WorkList.Items.Add(listWorkBase[i], listWorkBase[i].bEnable);
 
             SetState(EState.IsConnected);
             WriteConsole("연결 성공");
@@ -118,12 +116,12 @@ namespace SpreadSheetParser
             }
         }
 
-        private SaveData_SheetSource GetSheetSource_LastEdit(Dictionary<string, SaveData_SheetSource> mapSaveData)
+        private SaveData_SheetSourceCollection GetSheetSource_LastEdit(Dictionary<string, SaveData_SheetSourceCollection> mapSaveData)
         {
-            WriteConsole("마지막에 수정한 Sheet 찾는 중..");
+            WriteConsole("마지막에 수정한 시트 리스트를 찾는 중..");
 
             DateTime date_LastEdit = DateTime.MinValue;
-            SaveData_SheetSource pSheetSourceLastEdit = null;
+            SaveData_SheetSourceCollection pSheetSourceLastEdit = null;
             foreach (var pSheet in mapSaveData.Values)
             {
                 if (date_LastEdit < pSheet.date_LastEdit)
@@ -134,11 +132,19 @@ namespace SpreadSheetParser
             }
 
             if (pSheetSourceLastEdit != null)
-                WriteConsole($"마지막에 수정한 시트를 찾았다. 수정한 시간 {pSheetSourceLastEdit.date_LastEdit}, SheetID {pSheetSourceLastEdit.strSheetSourceID}");
+                WriteConsole($"마지막에 수정한 시트 리스트를 찾았다. 수정한 시간 {pSheetSourceLastEdit.date_LastEdit}, SheetID {pSheetSourceLastEdit.strFileName}");
             else
-                WriteConsole($"마지막에 수정한 시트를 못찾았다..");
+                WriteConsole($"마지막에 수정한 시트 리스트를 못찾았다..");
 
             return pSheetSourceLastEdit;
+        }
+
+        private void UpdateWorkList(SaveData_SheetSourceCollection pSheetSourceCollection)
+        {
+            List<WorkBase> listWorkBase = pSheetSourceCollection.listSaveWork;
+            listWorkBase.Sort((x, y) => x.iWorkOrder.CompareTo(y.iWorkOrder));
+            for (int i = 0; i < listWorkBase.Count; i++)
+                checkedListBox_WorkList.Items.Add(listWorkBase[i], listWorkBase[i].bEnable);
         }
 
         private void Button_OpenPath_SaveSheet_Click(object sender, EventArgs e)
@@ -147,13 +153,13 @@ namespace SpreadSheetParser
             DoOpenFolder(strSaveFolderPath.Remove(strSaveFolderPath.Length - 1, 1));
         }
 
-        private void checkBox_AutoConnect_CheckedChanged(object sender, EventArgs e)
-        {
-            if (_bIsLoading_CreateForm)
-                return;
+        //private void checkBox_AutoConnect_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (_bIsLoading_CreateForm)
+        //        return;
 
-            _pConfig.bAutoConnect = checkBox_AutoConnect.Checked;
-            AutoSaveAsync_Config();
-        }
+        //    // _pConfig.bAutoConnect = checkBox_AutoConnect.Checked;
+        //    AutoSaveAsync_Config();
+        //}
     }
 }

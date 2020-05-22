@@ -47,7 +47,7 @@ namespace SpreadSheetParser
         public void DoAutoSaveAsync()
         {
             SheetParser_MainForm.WriteConsole($"자동 저장 중.. {GetDisplayString()}");
-            SaveDataManager.SaveSheet(SheetParser_MainForm.pSheetSourceCurrentConnected);
+            SaveDataManager.SaveSheet(SheetParser_MainForm.pSheetSource_Selected);
         }
 
         public void DoOpenFolder(string strPath)

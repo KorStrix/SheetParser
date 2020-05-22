@@ -62,6 +62,17 @@ namespace SpreadSheetParser
         public abstract IList<IList<Object>> ISheetSourceConnector_GetSheetData(string strSheetName);
         public abstract Task<IList<IList<Object>>> ISheetSourceConnector_GetSheetData_Async(string strSheetName);
 
+        public static SheetSourceConnector DoCreate_SheetSource(ESheetSourceType eSheetSourceType, string strSheetSourceID)
+        {
+            switch (eSheetSourceType)
+            {
+                case ESheetSourceType.GoogleSpreadSheet: return new GoogleSpreadSheet_SourceConnector(strSheetSourceID);
+                case ESheetSourceType.MSExcel:  return new MSExcel_SourceConnector(strSheetSourceID);
+                default:
+                    return null;
+            }
+        }
+
         public static void DoOpen_SheetSource(ESheetSourceType eSheetSourceType, string strSheetSourceID, System.Action<string> OnException)
         {
             switch (eSheetSourceType)

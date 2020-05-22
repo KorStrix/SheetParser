@@ -106,7 +106,7 @@ namespace SpreadSheetParser
             WorkBase pNewWork = pWork.CopyInstance();
             pNewWork.ShowForm();
             checkedListBox_WorkList.Items.Add(pNewWork, true);
-            pSheetSourceCurrentConnected.listSaveWork.Add(pNewWork);
+            pSheetSource_Selected.listSaveWork.Add(pNewWork);
             Update_WorkListOrder();
         }
 
@@ -163,7 +163,7 @@ namespace SpreadSheetParser
 
         private void button_RemoveWork_Click(object sender, EventArgs e)
         {
-            pSheetSourceCurrentConnected.listSaveWork.RemoveAt(checkedListBox_WorkList.SelectedIndex);
+            pSheetSource_Selected.listSaveWork.RemoveAt(checkedListBox_WorkList.SelectedIndex);
             checkedListBox_WorkList.Items.RemoveAt(checkedListBox_WorkList.SelectedIndex);
             Update_WorkListOrder();
         }
@@ -171,7 +171,7 @@ namespace SpreadSheetParser
         private void CheckedListBox_WorkList_SelectedIndexChanged(object sender, EventArgs e)
         {
             bool bIsSelected = checkedListBox_WorkList.SelectedIndex != -1;
-            groupBox_3_1_SelectedWork.Enabled = bIsSelected;
+            groupBox_3_1_SelectedBuild.Enabled = bIsSelected;
             button_RemoveWork.Enabled = bIsSelected;
         }
 
@@ -180,8 +180,8 @@ namespace SpreadSheetParser
             if (_bIsConnecting)
                 return;
 
-            if(e.Index < pSheetSourceCurrentConnected.listSaveWork.Count)
-                pSheetSourceCurrentConnected.listSaveWork[e.Index].bEnable = e.NewValue == CheckState.Checked;
+            if(e.Index < pSheetSource_Selected.listSaveWork.Count)
+                pSheetSource_Selected.listSaveWork[e.Index].bEnable = e.NewValue == CheckState.Checked;
             AutoSaveAsync_CurrentSheet();
         }
 
