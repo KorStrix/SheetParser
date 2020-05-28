@@ -14,57 +14,57 @@ namespace SpreadSheetParser
 #if !UNITY_EDITOR
     public partial class Work_Generate_Unity_ScriptableObjectForm : Form
     {
-        Work_Generate_Unity_ScriptableObject _pWork;
+        BuildGenerateUnityScriptableObject _pBuild;
 
         public Work_Generate_Unity_ScriptableObjectForm()
         {
             InitializeComponent();
         }
 
-        public void DoInit(Work_Generate_Unity_ScriptableObject pWork)
+        public void DoInit(BuildGenerateUnityScriptableObject pBuild)
         {
-            _pWork = null;
+            _pBuild = null;
 
-            checkBox_OpenFolder_AfterBuild.Checked = pWork.bOpenPath_AfterBuild_CSharp;
-            textBox_ExportPath.Text = pWork.strExportPath;
-            textBox_CommandLine_ForUnitySOWork.Text = pWork.strCommandLine;
+            checkBox_OpenFolder_AfterBuild.Checked = pBuild.bOpenPath_AfterBuild_CSharp;
+            textBox_ExportPath.Text = pBuild.strExportPath;
+            textBox_CommandLine_ForUnitySOWork.Text = pBuild.strCommandLine;
 
-            _pWork = pWork;
+            _pBuild = pBuild;
         }
 
         private void checkBox_OpenFolder_AfterBuild_CheckedChanged(object sender, EventArgs e)
         {
-            if (_pWork == null)
+            if (_pBuild == null)
                 return;
 
-            _pWork.bOpenPath_AfterBuild_CSharp = checkBox_OpenFolder_AfterBuild.Checked;
+            _pBuild.bOpenPath_AfterBuild_CSharp = checkBox_OpenFolder_AfterBuild.Checked;
         }
 
         private void button_SavePath_ExportPath_Click(object sender, EventArgs e)
         {
-            if (_pWork == null)
+            if (_pBuild == null)
                 return;
 
             if (SheetParser_MainForm.DoShowFolderBrowser_And_SavePath(false, ref textBox_ExportPath))
-                _pWork.strExportPath = textBox_ExportPath.Text;
+                _pBuild.strExportPath = textBox_ExportPath.Text;
         }
 
         private void Button_OpenPath_ExportPath_Click(object sender, EventArgs e)
         {
-            _pWork.DoOpenFolder(textBox_ExportPath.Text);
+            _pBuild.DoOpenFolder(textBox_ExportPath.Text);
         }
 
         private void button_SaveAndClose_Click(object sender, EventArgs e)
         {
-            _pWork.strCommandLine = textBox_CommandLine_ForUnitySOWork.Text;
-            _pWork.DoAutoSaveAsync();
+            _pBuild.strCommandLine = textBox_CommandLine_ForUnitySOWork.Text;
+            _pBuild.DoAutoSaveAsync();
             Close();
         }
     }
 #endif
 
     [Serializable]
-    public class Work_Generate_Unity_ScriptableObject : WorkBase
+    public class BuildGenerateUnityScriptableObject : BuildBase
     {
         const string const_strFieldName_ListData = "listData";
         const string const_strFieldName_private_instance = "_instance";

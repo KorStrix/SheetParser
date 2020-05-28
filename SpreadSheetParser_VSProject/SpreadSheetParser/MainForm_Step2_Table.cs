@@ -155,7 +155,7 @@ namespace SpreadSheetParser
             }
 
             if(bSaveSheet)
-                AutoSaveAsync_CurrentSheet();
+                AutoSaveAsync_CurrentProject();
         }
 
         private void Update_Step_2_TableSetting(TypeData pSheetData)
@@ -204,7 +204,7 @@ namespace SpreadSheetParser
                 _pSheet_CurrentConnected.eType = ESheetType.Global;
             }
 
-            AutoSaveAsync_CurrentSheet();
+            AutoSaveAsync_CurrentProject();
         }
 
         private void button_CheckTable_Click(object sender, EventArgs e)
@@ -237,7 +237,7 @@ namespace SpreadSheetParser
             _pSheet_CurrentConnected.listFieldData.Add(pFieldOption);
             listView_Field.Items.Add(pFieldOption.ConvertListViewItem());
 
-            AutoSaveAsync_CurrentSheet();
+            AutoSaveAsync_CurrentProject();
         }
 
         private void button_Remove_VirtualField_Click(object sender, EventArgs e)
@@ -251,7 +251,7 @@ namespace SpreadSheetParser
             _pSheet_CurrentConnected.listFieldData.Remove(pFieldOption);
             listView_Field.Items.Remove(pSelectedItem);
 
-            AutoSaveAsync_CurrentSheet();
+            AutoSaveAsync_CurrentProject();
         }
 
         private void button_Save_Field_Click(object sender, EventArgs e)
@@ -274,7 +274,7 @@ namespace SpreadSheetParser
             pSelectedItem.Text = pFieldData.strFieldName;
             pFieldData.Reset_ListViewItem(pSelectedItem);
 
-            AutoSaveAsync_CurrentSheet();
+            AutoSaveAsync_CurrentProject();
         }
 
         private void button_Check_TableAll_Click(object sender, EventArgs e)
@@ -285,13 +285,13 @@ namespace SpreadSheetParser
         private void button_Save_FileName_Click(object sender, EventArgs e)
         {
             _pSheet_CurrentConnected.strFileName = textBox_TableFileName.Text;
-            AutoSaveAsync_CurrentSheet();
+            AutoSaveAsync_CurrentProject();
         }
 
         private void buttonSave_CommandLine_Click(object sender, EventArgs e)
         {
             _pSheet_CurrentConnected.strCommandLine = textBox_CommandLine.Text;
-            AutoSaveAsync_CurrentSheet();
+            AutoSaveAsync_CurrentProject();
         }
 
         private void checkBox_Field_NullOrEmtpy_IsError_CheckedChanged(object sender, EventArgs e)
@@ -348,8 +348,10 @@ namespace SpreadSheetParser
             if (_bIsConnecting)
                 return;
 
-            pSheetSource_Selected.pSheetSource_Selected.listTable[e.Index].bEnable = e.NewValue == CheckState.Checked;
-            AutoSaveAsync_CurrentSheet();
+            var pWork = pCurrentProject.GetWork_OrNull(e.Index);
+            if (pWork != null)
+                pWork.bEnable = e.NewValue == CheckState.Checked;
+            AutoSaveAsync_CurrentProject();
         }
 
         private void checkBox_FieldKey_IsOverlap_CheckedChanged(object sender, EventArgs e)

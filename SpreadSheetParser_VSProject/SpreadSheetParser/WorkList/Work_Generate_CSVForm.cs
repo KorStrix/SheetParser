@@ -13,55 +13,55 @@ namespace SpreadSheetParser
 {
     public partial class Work_Generate_CSVForm : Form
     {
-        Work_Generate_CSV _pWork;
+        BuildGenerateCsv _pBuild;
 
         public Work_Generate_CSVForm()
         {
             InitializeComponent();
         }
 
-        public void DoInit(Work_Generate_CSV pWork)
+        public void DoInit(BuildGenerateCsv pBuild)
         {
-            _pWork = null;
+            _pBuild = null;
 
-            checkBox_OpenFolder_AfterBuild.Checked = pWork.bOpenPath_AfterBuild_CSharp;
-            textBox_Path.Text = pWork.strExportPath;
+            checkBox_OpenFolder_AfterBuild.Checked = pBuild.bOpenPath_AfterBuild_CSharp;
+            textBox_Path.Text = pBuild.strExportPath;
 
-            _pWork = pWork;
+            _pBuild = pBuild;
         }
 
         private void checkBox_OpenFolder_AfterBuild_CheckedChanged(object sender, EventArgs e)
         {
-            if (_pWork == null)
+            if (_pBuild == null)
                 return;
 
-            _pWork.bOpenPath_AfterBuild_CSharp = checkBox_OpenFolder_AfterBuild.Checked;
+            _pBuild.bOpenPath_AfterBuild_CSharp = checkBox_OpenFolder_AfterBuild.Checked;
         }
 
         private void Button_OpenPath_Click(object sender, EventArgs e)
         {
-            _pWork.DoOpenFolder(textBox_Path.Text);
+            _pBuild.DoOpenFolder(textBox_Path.Text);
         }
 
         private void button_SavePath_Click(object sender, EventArgs e)
         {
-            if (_pWork == null)
+            if (_pBuild == null)
                 return;
 
             if (SheetParser_MainForm.DoShowFolderBrowser_And_SavePath(false, ref textBox_Path))
-                _pWork.strExportPath = textBox_Path.Text;
+                _pBuild.strExportPath = textBox_Path.Text;
         }
 
         private void button_SaveAndClose_Click(object sender, EventArgs e)
         {
-            _pWork.DoAutoSaveAsync();
+            _pBuild.DoAutoSaveAsync();
             Close();
         }
     }
 
 
     [Serializable]
-    public class Work_Generate_CSV : WorkBase
+    public class BuildGenerateCsv : BuildBase
     {
         public string strExportPath;
         public bool bOpenPath_AfterBuild_CSharp;

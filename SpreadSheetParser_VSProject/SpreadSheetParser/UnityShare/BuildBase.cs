@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace SpreadSheetParser
 {
-    public abstract class WorkBase
+    public abstract class BuildBase
     {
         public int iWorkOrder;
         public Type pType;
@@ -23,7 +23,7 @@ namespace SpreadSheetParser
         private Type pFormType;
 
 #if !UNITY_EDITOR
-        protected WorkBase()
+        protected BuildBase()
         {
             OnCreateInstance(out pFormType, out pType);
         }
@@ -38,26 +38,25 @@ namespace SpreadSheetParser
         }
 #endif
 
-        public WorkBase CopyInstance()
+        public BuildBase CopyInstance()
         {
-            return (WorkBase)MemberwiseClone();
+            return (BuildBase)MemberwiseClone();
         }
+
+        public abstract Task DoWork(CodeFileBuilder pCodeFileBuilder, TypeData[] arrSheetData, Action<string> OnPrintWorkState);
 
 #if !UNITY_EDITOR
         public void DoAutoSaveAsync()
         {
             SheetParser_MainForm.WriteConsole($"자동 저장 중.. {GetDisplayString()}");
-            SaveDataManager.SaveSheet(SheetParser_MainForm.pSheetSource_Selected);
+            SaveDataManager.SaveProject(SheetParser_MainForm.pCurrentProject);
         }
 
         public void DoOpenFolder(string strPath)
         {
             SheetParser_MainForm.DoOpenFolder(GetRelative_To_AbsolutePath(strPath));
         }
-#endif
 
-        public abstract Task DoWork(CodeFileBuilder pCodeFileBuilder, TypeData[] arrSheetData, Action<string> OnPrintWorkState);
-#if !UNITY_EDITOR
         public virtual void DoWorkAfter() { }
 
         protected abstract void OnCreateInstance(out Type pFormType, out Type pType);
@@ -94,7 +93,7 @@ namespace SpreadSheetParser
         {
             protected override JsonConverter ResolveContractConverter(Type objectType)
             {
-                if (typeof(WorkBase).IsAssignableFrom(objectType) && !objectType.IsAbstract)
+                if (typeof(BuildBase).IsAssignableFrom(objectType) && !objectType.IsAbstract)
                     return null; // pretend TableSortRuleConvert is not specified (thus avoiding a stack overflow)
                 return base.ResolveContractConverter(objectType);
             }
@@ -104,7 +103,7 @@ namespace SpreadSheetParser
 
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof(WorkBase));
+            return (objectType == typeof(BuildBase));
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -112,7 +111,7 @@ namespace SpreadSheetParser
             JObject jo = JObject.Load(reader);
             string strTypeName = jo["pType"].Value<string>();
 
-            foreach (var pType in GetEnumerableOfType(typeof(WorkBase)))
+            foreach (var pType in GetEnumerableOfType(typeof(BuildBase)))
             {
                 try
                 {

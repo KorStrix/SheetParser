@@ -83,9 +83,9 @@
             this.button_EditWork = new System.Windows.Forms.Button();
             this.button_RemoveWork = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.comboBox_WorkList = new System.Windows.Forms.ComboBox();
+            this.comboBox_BuildList = new System.Windows.Forms.ComboBox();
             this.button_AddWork = new System.Windows.Forms.Button();
-            this.checkedListBox_WorkList = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBox_BuildList = new System.Windows.Forms.CheckedListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button_LogClear = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -106,7 +106,12 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mainMenu1 = new System.Windows.Forms.MainMenu(this.components);
             this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.menuItem_File_New = new System.Windows.Forms.MenuItem();
+            this.menuItem_File_Open = new System.Windows.Forms.MenuItem();
+            this.menuItem_File_Save = new System.Windows.Forms.MenuItem();
+            this.menuItem_File_SaveAs = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
+            this.menuItem_Tools_OpenSaveDataFolder = new System.Windows.Forms.MenuItem();
             this.groupBox_2_1_TableSetting.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -597,10 +602,10 @@
             this.groupBox3_BuildSetting.Controls.Add(this.button_StartBuild_Selected);
             this.groupBox3_BuildSetting.Controls.Add(this.groupBox_3_1_SelectedBuild);
             this.groupBox3_BuildSetting.Controls.Add(this.label4);
-            this.groupBox3_BuildSetting.Controls.Add(this.comboBox_WorkList);
+            this.groupBox3_BuildSetting.Controls.Add(this.comboBox_BuildList);
             this.groupBox3_BuildSetting.Controls.Add(this.button_AddWork);
             this.groupBox3_BuildSetting.Controls.Add(this.button_Check_TableAll);
-            this.groupBox3_BuildSetting.Controls.Add(this.checkedListBox_WorkList);
+            this.groupBox3_BuildSetting.Controls.Add(this.checkedListBox_BuildList);
             this.groupBox3_BuildSetting.Controls.Add(this.button_StartBuild);
             this.groupBox3_BuildSetting.Location = new System.Drawing.Point(362, 468);
             this.groupBox3_BuildSetting.Name = "groupBox3_BuildSetting";
@@ -684,14 +689,14 @@
             this.label4.TabIndex = 13;
             this.label4.Text = "추가할 빌드이름";
             // 
-            // comboBox_WorkList
+            // comboBox_BuildList
             // 
-            this.comboBox_WorkList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.comboBox_WorkList.FormattingEnabled = true;
-            this.comboBox_WorkList.Location = new System.Drawing.Point(6, 144);
-            this.comboBox_WorkList.Name = "comboBox_WorkList";
-            this.comboBox_WorkList.Size = new System.Drawing.Size(125, 20);
-            this.comboBox_WorkList.TabIndex = 7;
+            this.comboBox_BuildList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.comboBox_BuildList.FormattingEnabled = true;
+            this.comboBox_BuildList.Location = new System.Drawing.Point(6, 144);
+            this.comboBox_BuildList.Name = "comboBox_BuildList";
+            this.comboBox_BuildList.Size = new System.Drawing.Size(125, 20);
+            this.comboBox_BuildList.TabIndex = 7;
             // 
             // button_AddWork
             // 
@@ -704,14 +709,14 @@
             this.button_AddWork.UseVisualStyleBackColor = true;
             this.button_AddWork.Click += new System.EventHandler(this.button_AddWork_Click);
             // 
-            // checkedListBox_WorkList
+            // checkedListBox_BuildList
             // 
-            this.checkedListBox_WorkList.FormattingEnabled = true;
-            this.checkedListBox_WorkList.HorizontalScrollbar = true;
-            this.checkedListBox_WorkList.Location = new System.Drawing.Point(8, 15);
-            this.checkedListBox_WorkList.Name = "checkedListBox_WorkList";
-            this.checkedListBox_WorkList.Size = new System.Drawing.Size(206, 100);
-            this.checkedListBox_WorkList.TabIndex = 12;
+            this.checkedListBox_BuildList.FormattingEnabled = true;
+            this.checkedListBox_BuildList.HorizontalScrollbar = true;
+            this.checkedListBox_BuildList.Location = new System.Drawing.Point(8, 15);
+            this.checkedListBox_BuildList.Name = "checkedListBox_BuildList";
+            this.checkedListBox_BuildList.Size = new System.Drawing.Size(206, 100);
+            this.checkedListBox_BuildList.TabIndex = 12;
             // 
             // groupBox2
             // 
@@ -912,12 +917,49 @@
             // menuItem1
             // 
             this.menuItem1.Index = 0;
+            this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItem_File_New,
+            this.menuItem_File_Open,
+            this.menuItem_File_Save,
+            this.menuItem_File_SaveAs});
             this.menuItem1.Text = "File";
+            // 
+            // menuItem_File_New
+            // 
+            this.menuItem_File_New.Index = 0;
+            this.menuItem_File_New.Text = "New";
+            this.menuItem_File_New.Click += new System.EventHandler(this.menuItem_File_New_Click);
+            // 
+            // menuItem_File_Open
+            // 
+            this.menuItem_File_Open.Index = 1;
+            this.menuItem_File_Open.Text = "Open";
+            this.menuItem_File_Open.Click += new System.EventHandler(this.menuItem_File_Open_Click);
+            // 
+            // menuItem_File_Save
+            // 
+            this.menuItem_File_Save.Index = 2;
+            this.menuItem_File_Save.Text = "Save";
+            this.menuItem_File_Save.Click += new System.EventHandler(this.menuItem_File_Save_Click);
+            // 
+            // menuItem_File_SaveAs
+            // 
+            this.menuItem_File_SaveAs.Index = 3;
+            this.menuItem_File_SaveAs.Text = "Save As";
+            this.menuItem_File_SaveAs.Click += new System.EventHandler(this.menuItem_File_SaveAs_Click);
             // 
             // menuItem2
             // 
             this.menuItem2.Index = 1;
-            this.menuItem2.Text = "Config";
+            this.menuItem2.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItem_Tools_OpenSaveDataFolder});
+            this.menuItem2.Text = "Tools";
+            // 
+            // menuItem_Tools_OpenSaveDataFolder
+            // 
+            this.menuItem_Tools_OpenSaveDataFolder.Index = 0;
+            this.menuItem_Tools_OpenSaveDataFolder.Text = "Open SaveData";
+            this.menuItem_Tools_OpenSaveDataFolder.Click += new System.EventHandler(this.menuItem_Tools_OpenSaveDataFolder_Click);
             // 
             // SheetParser_MainForm
             // 
@@ -968,11 +1010,11 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton radioButton_Enum;
         private System.Windows.Forms.RadioButton radioButton_Struct;
-        private System.Windows.Forms.CheckedListBox checkedListBox_WorkList;
+        private System.Windows.Forms.CheckedListBox checkedListBox_BuildList;
         private System.Windows.Forms.Button button_AddWork;
         private System.Windows.Forms.Button button_EditWork;
         private System.Windows.Forms.Button button_RemoveWork;
-        private System.Windows.Forms.ComboBox comboBox_WorkList;
+        private System.Windows.Forms.ComboBox comboBox_BuildList;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox_3_1_SelectedBuild;
         private System.Windows.Forms.Button button_BuildOrderUp;
@@ -1036,6 +1078,11 @@
         private System.Windows.Forms.MainMenu mainMenu1;
         private System.Windows.Forms.MenuItem menuItem1;
         private System.Windows.Forms.MenuItem menuItem2;
+        private System.Windows.Forms.MenuItem menuItem_File_New;
+        private System.Windows.Forms.MenuItem menuItem_File_Open;
+        private System.Windows.Forms.MenuItem menuItem_File_Save;
+        private System.Windows.Forms.MenuItem menuItem_File_SaveAs;
+        private System.Windows.Forms.MenuItem menuItem_Tools_OpenSaveDataFolder;
     }
 }
 

@@ -68,8 +68,8 @@ namespace SpreadSheetParser
 
             listTask.Clear();
             var arrSheetData = listView_Sheet.CheckedItems.Cast<TypeData>().ToArray();
-            var listWork = checkedListBox_WorkList.CheckedItems;
-            foreach (WorkBase pWork in listWork)
+            var listWork = checkedListBox_BuildList.CheckedItems;
+            foreach (BuildBase pWork in listWork)
             {
                 try
                 {
@@ -91,7 +91,7 @@ namespace SpreadSheetParser
             
             Task.WaitAll(listTask.ToArray());
 
-            foreach (WorkBase pWork in listWork)
+            foreach (BuildBase pWork in listWork)
                 pWork.DoWorkAfter();
 
             WriteConsole($"빌드 완료 \r\n {pTimer_Total.Elapsed}\r\n");
@@ -99,21 +99,19 @@ namespace SpreadSheetParser
 
         private void button_AddWork_Click(object sender, EventArgs e)
         {
-            WorkBase pWork = (WorkBase)comboBox_WorkList.SelectedItem;
-            if (pWork == null)
+            BuildBase pBuild = (BuildBase)comboBox_BuildList.SelectedItem;
+            if (pBuild == null)
                 return;
 
-            WorkBase pNewWork = pWork.CopyInstance();
-            pNewWork.ShowForm();
-            checkedListBox_WorkList.Items.Add(pNewWork, true);
-            pSheetSource_Selected.listSaveWork.Add(pNewWork);
-            Update_WorkListOrder();
+            BuildBase pNewBuild = pBuild.CopyInstance();
+            pNewBuild.ShowForm();
+            pCurrentProject.DoAdd_Build(pNewBuild);
         }
 
         private void button_WorkOrderUp_Click(object sender, EventArgs e)
         {
-            int iSelectedIndex = checkedListBox_WorkList.SelectedIndex;
-            object pSelectedItem = checkedListBox_WorkList.SelectedItem;
+            int iSelectedIndex = checkedListBox_BuildList.SelectedIndex;
+            object pSelectedItem = checkedListBox_BuildList.SelectedItem;
 
             if (iSelectedIndex == 0)
                 return;
@@ -121,68 +119,68 @@ namespace SpreadSheetParser
             if (pSelectedItem == null)
                 return;
 
-            checkedListBox_WorkList.SelectedIndex = -1;
-            checkedListBox_WorkList.Items.RemoveAt(iSelectedIndex);
-            checkedListBox_WorkList.Items.Insert(iSelectedIndex - 1, pSelectedItem);
-            checkedListBox_WorkList.SelectedIndex = iSelectedIndex - 1;
-            Update_WorkListOrder();
+            checkedListBox_BuildList.SelectedIndex = -1;
+            checkedListBox_BuildList.Items.RemoveAt(iSelectedIndex);
+            checkedListBox_BuildList.Items.Insert(iSelectedIndex - 1, pSelectedItem);
+            checkedListBox_BuildList.SelectedIndex = iSelectedIndex - 1;
+            Update_BuildListOrder();
         }
 
         private void button_WorkOrderDown_Click(object sender, EventArgs e)
         {
-            int iSelectedIndex = checkedListBox_WorkList.SelectedIndex;
-            object pSelectedItem = checkedListBox_WorkList.SelectedItem;
+            int iSelectedIndex = checkedListBox_BuildList.SelectedIndex;
+            object pSelectedItem = checkedListBox_BuildList.SelectedItem;
 
-            if (iSelectedIndex == checkedListBox_WorkList.Items.Count - 1)
+            if (iSelectedIndex == checkedListBox_BuildList.Items.Count - 1)
                 return;
 
             if (pSelectedItem == null)
                 return;
 
-            checkedListBox_WorkList.SelectedIndex = -1;
-            checkedListBox_WorkList.Items.RemoveAt(iSelectedIndex);
-            checkedListBox_WorkList.Items.Insert(iSelectedIndex + 1, pSelectedItem);
-            checkedListBox_WorkList.SelectedIndex = iSelectedIndex + 1;
-            Update_WorkListOrder();
+            checkedListBox_BuildList.SelectedIndex = -1;
+            checkedListBox_BuildList.Items.RemoveAt(iSelectedIndex);
+            checkedListBox_BuildList.Items.Insert(iSelectedIndex + 1, pSelectedItem);
+            checkedListBox_BuildList.SelectedIndex = iSelectedIndex + 1;
+            Update_BuildListOrder();
         }
 
-        void Update_WorkListOrder()
+        void Update_BuildListOrder()
         {
             int iSortOrder = 0;
-            foreach (WorkBase pWork in checkedListBox_WorkList.Items)
+            foreach (BuildBase pWork in checkedListBox_BuildList.Items)
                 pWork.iWorkOrder = iSortOrder++;
 
-            AutoSaveAsync_CurrentSheet();
+            AutoSaveAsync_CurrentProject();
         }
 
         private void button_EditWork_Click(object sender, EventArgs e)
         {
-            WorkBase pWork = (WorkBase)checkedListBox_WorkList.SelectedItem;
-            pWork.ShowForm();
+            BuildBase pBuild = (BuildBase)checkedListBox_BuildList.SelectedItem;
+            pBuild.ShowForm();
         }
 
         private void button_RemoveWork_Click(object sender, EventArgs e)
         {
-            pSheetSource_Selected.listSaveWork.RemoveAt(checkedListBox_WorkList.SelectedIndex);
-            checkedListBox_WorkList.Items.RemoveAt(checkedListBox_WorkList.SelectedIndex);
-            Update_WorkListOrder();
+            pCurrentProject.DoRemove_Build(checkedListBox_BuildList.SelectedIndex);
         }
 
-        private void CheckedListBox_WorkList_SelectedIndexChanged(object sender, EventArgs e)
+        private void CheckedListBoxBuildListSelectedIndexChanged(object sender, EventArgs e)
         {
-            bool bIsSelected = checkedListBox_WorkList.SelectedIndex != -1;
+            bool bIsSelected = checkedListBox_BuildList.SelectedIndex != -1;
             groupBox_3_1_SelectedBuild.Enabled = bIsSelected;
             button_RemoveWork.Enabled = bIsSelected;
         }
 
-        private void CheckedListBox_WorkList_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void CheckedListBoxBuildListItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (_bIsConnecting)
                 return;
 
-            if(e.Index < pSheetSource_Selected.listSaveWork.Count)
-                pSheetSource_Selected.listSaveWork[e.Index].bEnable = e.NewValue == CheckState.Checked;
-            AutoSaveAsync_CurrentSheet();
+            var pWork = pCurrentProject.GetWork_OrNull(e.Index);
+            if(pWork != null)
+                pWork.bEnable = e.NewValue == CheckState.Checked;
+
+            AutoSaveAsync_CurrentProject();
         }
 
     }

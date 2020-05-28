@@ -16,10 +16,10 @@ namespace SpreadSheetParser
             IsConnected_And_SelectTable,
         }
 
-        public static SheetParser_MainForm isntance => _instance;
+        public static SheetParser_MainForm instance => _instance;
         private static SheetParser_MainForm _instance;
 
-        public static SaveData_SheetSourceCollection pSheetSource_Selected { get; private set; }
+        public static SaveData_Project pCurrentProject { get; private set; }
 
         /// <summary>
         /// Key is SheetSource ID
@@ -34,7 +34,7 @@ namespace SpreadSheetParser
         Config _pConfig;
 
         Dictionary<string, SaveData_SheetSource> _mapSaveSheetSource = new Dictionary<string, SaveData_SheetSource>();
-        Dictionary<string, SaveData_SheetSourceCollection> _mapSaveSheetSourceCollection = new Dictionary<string, SaveData_SheetSourceCollection>();
+        Dictionary<string, SaveData_Project> _mapSaveProject = new Dictionary<string, SaveData_Project>();
 
         EState _eState;
         bool _bIsConnecting;
@@ -94,10 +94,7 @@ namespace SpreadSheetParser
                     OnCheck_IsCorrect(pDialog.FileName, ref strErrorMessage);
                     if(string.IsNullOrEmpty(strErrorMessage))
                     {
-                        if (bIsAbsolutePath)
-                            pTextBox_Path.Text = pDialog.FileName;
-                        else
-                            pTextBox_Path.Text = DoMake_RelativePath(pDialog.FileName);
+                        pTextBox_Path.Text = bIsAbsolutePath ? pDialog.FileName : DoMake_RelativePath(pDialog.FileName);
                         return true;
                     }
                     else
@@ -154,49 +151,72 @@ namespace SpreadSheetParser
             SetState(EState.None);
             _bIsLoading_CreateForm = true;
 
-            _pConfig = SaveDataManager.LoadConfig();
-            _mapSaveSheetSource = SaveDataManager.LoadSheet_SaveSheetSource(WriteConsole);
-            _mapSaveSheetSourceCollection = SaveDataManager.LoadSheet_SaveSheetSourceCollection(WriteConsole);
 
-            radioButton_SheetSource_GoogleSheet.Checked = true;
-            comboBox_DependencyField.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox_DependencyField_Sub.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            SaveData_SheetSourceCollection pSheetSourceLastEdit = GetSheetSource_LastEdit(_mapSaveSheetSourceCollection);
-            if (_pConfig.bAutoConnect && pSheetSourceLastEdit != null)
+            // Update UI
             {
-                WriteConsole("Config - 자동연결로 인해 연결을 시작합니다..");
-                pSheetSourceLastEdit.DoInit(_mapSaveSheetSource);
+                radioButton_SheetSource_GoogleSheet.Checked = true;
+                comboBox_DependencyField.DropDownStyle = ComboBoxStyle.DropDownList;
+                comboBox_DependencyField_Sub.DropDownStyle = ComboBoxStyle.DropDownList;
 
-                mapSheetSourceConnector.Clear();
-                foreach (var pSaveSheetSource in pSheetSourceLastEdit.mapSaveSheetSource.Values)
-                {
-                    string strSheetSourceID = pSaveSheetSource.strSheetSourceID;
-                    SheetSourceConnector pSheetSourceConnector = Create_SheetSourceConnector(strSheetSourceID, pSaveSheetSource.eSourceType);
+                // checkBox_AutoConnect.Checked = _pConfig.bAutoConnect;
+                listView_Sheet.ItemCheck += CheckedListBox_TableList_ItemCheck;
+                listView_Sheet.SelectedIndexChanged += CheckedListBox_SheetList_SelectedIndexChanged;
 
-                    mapSheetSourceConnector.Add(strSheetSourceID, pSheetSourceConnector);
-                    listView_SheetSourceConnector.Items.Add(pSheetSourceConnector.ConvertListViewItem());
-                }
+                checkedListBox_BuildList.ItemCheck += CheckedListBoxBuildListItemCheck;
+                checkedListBox_BuildList.SelectedIndexChanged += CheckedListBoxBuildListSelectedIndexChanged;
+                CheckedListBoxBuildListSelectedIndexChanged(null, null);
+
+                comboBox_BuildList.DropDownStyle = ComboBoxStyle.DropDownList;
+                comboBox_BuildList.Items.Clear();
+                var listWork = GetEnumerableOfType<BuildBase>();
+                foreach (var pWork in listWork)
+                    comboBox_BuildList.Items.Add(pWork);
+
+                listView_Field.SelectedIndexChanged += ListView_Field_SelectedIndexChanged;
             }
 
-            // checkBox_AutoConnect.Checked = _pConfig.bAutoConnect;
-            listView_Sheet.ItemCheck += CheckedListBox_TableList_ItemCheck;
-            listView_Sheet.SelectedIndexChanged += CheckedListBox_SheetList_SelectedIndexChanged;
 
-            checkedListBox_WorkList.ItemCheck += CheckedListBox_WorkList_ItemCheck;
-            checkedListBox_WorkList.SelectedIndexChanged += CheckedListBox_WorkList_SelectedIndexChanged;
-            CheckedListBox_WorkList_SelectedIndexChanged(null, null);
+            // Load Saved Data
+            {
+                _pConfig = SaveDataManager.LoadConfig();
+                _mapSaveSheetSource = SaveDataManager.LoadSheet_SaveSheetSource(WriteConsole);
+                _mapSaveProject = SaveDataManager.LoadSheet_SaveProject(WriteConsole);
 
-            comboBox_WorkList.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox_WorkList.Items.Clear();
-            var listWork = GetEnumerableOfType<WorkBase>();
-            foreach(var pWork in listWork)
-                comboBox_WorkList.Items.Add(pWork);
 
-            listView_Field.SelectedIndexChanged += ListView_Field_SelectedIndexChanged;
+                if (_pConfig.bAutoConnect)
+                {
+                    pCurrentProject = GetSheetSource_LastEdit(_mapSaveProject);
+                    if (pCurrentProject != null)
+                    {
+                        WriteConsole("Config - 자동연결로 인해 프로젝트를 열었습니다.");
+                        pCurrentProject.DoInit(_mapSaveSheetSource.Values);
+
+                        mapSheetSourceConnector.Clear();
+                        foreach (var pSaveSheetSource in pCurrentProject.mapSaveSheetSource.Values)
+                        {
+                            string strSheetSourceID = pSaveSheetSource.strSheetSourceID;
+                            Create_SheetSourceConnector(strSheetSourceID, pSaveSheetSource.eSourceType);
+                        }
+                    }
+                }
+
+                if (pCurrentProject == null)
+                    pCurrentProject = new SaveData_Project();
+                pCurrentProject.OnChangeCount_BuildList += CurrentProject_OnChangeCount_BuildList;
+            }
 
 
             _bIsLoading_CreateForm = false;
+        }
+
+        private void CurrentProject_OnChangeCount_BuildList(SaveData_Project pProject)
+        {
+            checkedListBox_BuildList.Items.Clear();
+            foreach (var pWork in pProject.listSaveBuild)
+                checkedListBox_BuildList.Items.Add(pWork);
+
+            Update_BuildListOrder();
         }
 
         private void SetState(EState eState)
@@ -236,14 +256,14 @@ namespace SpreadSheetParser
             }
         }
 
-        private void AutoSaveAsync_CurrentSheet()
+        private void AutoSaveAsync_CurrentProject()
         {
             if (_bIsUpdating_TableUI)
                 return;
 
-            // pSheetSource_Selected.UpdateDate();
-            WriteConsole("자동 저장 중.." + pSheetSource_Selected.strFileName);
-            SaveDataManager.SaveSheet_Async(pSheetSource_Selected, AutoSaveDone);
+            // pCurrentProject.UpdateDate();
+            WriteConsole("자동 저장 중.." + pCurrentProject.strProjectName);
+            pCurrentProject.DoSave_Async(AutoSaveDone);
         }
 
         private void AutoSaveAsync_Config()
@@ -262,7 +282,7 @@ namespace SpreadSheetParser
 
         private TypeData GetCurrentSelectedTable_OrNull()
         {
-            return (TypeData)listView_Sheet.SelectedItems.Cast<TypeData>().FirstOrDefault();
+            return listView_Sheet.SelectedItems.Cast<TypeData>().FirstOrDefault();
         }
 
         public static IEnumerable<T> GetEnumerableOfType<T>(params object[] constructorArgs)
@@ -298,8 +318,11 @@ namespace SpreadSheetParser
             else if (radioButton_SheetSource_MSExcel.Checked)
                 pConnector = Create_SheetSourceConnector(strSheetSourceID, ESheetSourceType.MSExcel);
 
-            _bIsConnecting = true;
-            pConnector?.ISheetSourceConnector_DoConnect_And_Parsing(OnFinishConnect);
+            if (pConnector != null)
+            {
+                _bIsConnecting = true;
+                pConnector.ISheetSourceConnector_DoConnect_And_Parsing(OnFinishConnect);
+            }
         }
 
         private SheetSourceConnector Create_SheetSourceConnector(string strSheetID, ESheetSourceType eSheetSourceType)
@@ -318,6 +341,31 @@ namespace SpreadSheetParser
          
             if (radioButton_SheetSource_MSExcel.Checked)
                 SheetSourceConnector.DoOpen_SheetSource(ESheetSourceType.MSExcel, textBox_AddSheetSourceName.Text, WriteConsole);
+        }
+
+        private void menuItem_File_New_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuItem_File_Open_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuItem_File_Save_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuItem_File_SaveAs_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuItem_Tools_OpenSaveDataFolder_Click(object sender, EventArgs e)
+        {
+            DoOpenFolder(SaveDataManager.const_strSaveFolderPath);
         }
     }
 }

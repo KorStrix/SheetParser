@@ -15,11 +15,10 @@ namespace SpreadSheetParser
                 return;
             }
 
-            SaveData_SheetSource pSheetSource = null;
-            if (_mapSaveSheetSource.ContainsKey(pSourceConnector.strSheetSourceID))
+            if (pCurrentProject.mapSaveSheetSource.TryGetValue(pSourceConnector.strSheetSourceID, out SaveData_SheetSource pSheetSource))
             {
                 pSheetSource.eSourceType = pSourceConnector.eSheetSourceType;
-                List<TypeData> listSavedTable = pSheetSource.listTable;
+                List<TypeData> listSavedTable = pSheetSource.listSheet;
 
                 int iOrder = 0;
                 foreach (KeyValuePair<string, SheetData> pSheet in pSourceConnector.mapWorkSheetData_Key_Is_SheetID)
@@ -47,35 +46,20 @@ namespace SpreadSheetParser
                 _mapSaveSheetSource[pSheetSource.strSheetSourceID] = pSheetSource;
 
                 int iOrder = 0;
-                pSheetSource.listTable.Clear();
+                pSheetSource.listSheet.Clear();
                 foreach (KeyValuePair<string, SheetData> pSheet in pSourceConnector.mapWorkSheetData_Key_Is_SheetID)
-                    pSheetSource.listTable.Add(new TypeData(pSourceConnector, pSheet.Value.strSheetID, pSheet.Value.strSheetName, iOrder++));
+                    pSheetSource.listSheet.Add(new TypeData(pSourceConnector, pSheet.Value.strSheetID, pSheet.Value.strSheetName, iOrder++));
 
-                SaveDataManager.SaveSheet(pSheetSource);
+                pCurrentProject.DoAdd_SheetSource(pSheetSource);
+                pCurrentProject.DoSave();
 
                 WriteConsole("새 파일을 만들었습니다.");
             }
 
             listView_Sheet.Items.Clear();
-            List<TypeData> listSheetSaved = pSheetSource.listTable;
-            listSheetSaved.Sort((x, y) => x.iOrder.CompareTo(y.iOrder));
-
-            TypeData[] arrSheetDelete = listSheetSaved.Where((pSheet) =>
-                pSourceConnector.mapWorkSheetData_Key_Is_SheetID.Values.Any(p => p.strSheetID == pSheet.strSheetID) == false).ToArray();
-
-            if (arrSheetDelete.Length > 0)
-            {
-                for (int i = 0; i < arrSheetDelete.Length; i++)
-                    listSheetSaved.Remove(arrSheetDelete[i]);
-
-                AutoSaveAsync_CurrentSheet();
-            }
-            ClearFieldData(listSheetSaved);
-
-            for (int i = 0; i < listSheetSaved.Count; i++)
-                listView_Sheet.Items.Add(listSheetSaved[i].ConvertListViewItem());
-
-            checkedListBox_WorkList.Items.Clear();
+            pSheetSource.DoRefreshFieldData(pSourceConnector);
+            for (int i = 0; i < pSheetSource.listSheet.Count; i++)
+                listView_Sheet.Items.Add(pSheetSource.listSheet[i].ConvertListViewItem());
 
             SetState(EState.IsConnected);
             WriteConsole("연결 성공");
@@ -95,33 +79,12 @@ namespace SpreadSheetParser
         //}
 
 
-        private static void ClearFieldData(List<TypeData> listSheetSaved)
+        private SaveData_Project GetSheetSource_LastEdit(Dictionary<string, SaveData_Project> mapSaveData)
         {
-            for (int i = 0; i < listSheetSaved.Count; i++)
-            {
-                var listFieldGroup = listSheetSaved[i].listFieldData.GroupBy(p => p.strFieldName).ToList();
-                foreach (var listField in listFieldGroup)
-                {
-                    int iCount = listField.Count();
-                    foreach (var pField in listField.Reverse())
-                    {
-                        if (--iCount >= 1)
-                            listSheetSaved[i].listFieldData.Remove(pField);
-                    }
-                }
-
-                var listTemp = listSheetSaved[i].listFieldData.Where(p => p.bIsTemp);
-                foreach (var pTempField in listTemp)
-                    listSheetSaved[i].listFieldData.Remove(pTempField);
-            }
-        }
-
-        private SaveData_SheetSourceCollection GetSheetSource_LastEdit(Dictionary<string, SaveData_SheetSourceCollection> mapSaveData)
-        {
-            WriteConsole("마지막에 수정한 시트 리스트를 찾는 중..");
+            WriteConsole("마지막에 작업한 프로젝트를 찾는 중..");
 
             DateTime date_LastEdit = DateTime.MinValue;
-            SaveData_SheetSourceCollection pSheetSourceLastEdit = null;
+            SaveData_Project pSheetSourceLastEdit = null;
             foreach (var pSheet in mapSaveData.Values)
             {
                 if (date_LastEdit < pSheet.date_LastEdit)
@@ -132,19 +95,19 @@ namespace SpreadSheetParser
             }
 
             if (pSheetSourceLastEdit != null)
-                WriteConsole($"마지막에 수정한 시트 리스트를 찾았다. 수정한 시간 {pSheetSourceLastEdit.date_LastEdit}, SheetID {pSheetSourceLastEdit.strFileName}");
+                WriteConsole($"마지막에 수정한 프로젝트를 찾았다. 수정한 시간 {pSheetSourceLastEdit.date_LastEdit}, SheetID {pSheetSourceLastEdit.strProjectName}");
             else
-                WriteConsole($"마지막에 수정한 시트 리스트를 못찾았다..");
+                WriteConsole($"마지막에 수정한 프로젝트를 못찾았다..");
 
             return pSheetSourceLastEdit;
         }
 
-        private void UpdateWorkList(SaveData_SheetSourceCollection pSheetSourceCollection)
+        private void UpdateWorkList(SaveData_Project pProject)
         {
-            List<WorkBase> listWorkBase = pSheetSourceCollection.listSaveWork;
+            List<BuildBase> listWorkBase = pProject.listSaveBuild;
             listWorkBase.Sort((x, y) => x.iWorkOrder.CompareTo(y.iWorkOrder));
             for (int i = 0; i < listWorkBase.Count; i++)
-                checkedListBox_WorkList.Items.Add(listWorkBase[i], listWorkBase[i].bEnable);
+                checkedListBox_BuildList.Items.Add(listWorkBase[i], listWorkBase[i].bEnable);
         }
 
         private void Button_OpenPath_SaveSheet_Click(object sender, EventArgs e)

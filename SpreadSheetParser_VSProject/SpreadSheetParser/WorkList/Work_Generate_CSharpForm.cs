@@ -12,57 +12,57 @@ namespace SpreadSheetParser
 {
     public partial class Work_Generate_CSharpForm : Form
     {
-        Work_Generate_CSharpFile _pWork;
+        BuildGenerateCSharpFile _pBuild;
 
         public Work_Generate_CSharpForm()
         {
             InitializeComponent();
         }
 
-        public void DoInit(Work_Generate_CSharpFile pWork)
+        public void DoInit(BuildGenerateCSharpFile pBuild)
         {
-            _pWork = null;
+            _pBuild = null;
 
-            checkBox_OpenFolder_AfterBuild.Checked = pWork.bOpenPath_AfterBuild_CSharp;
-            textBox_Path.Text = pWork.strPath;
-            textBox_FileName.Text = pWork.strFileName;
+            checkBox_OpenFolder_AfterBuild.Checked = pBuild.bOpenPath_AfterBuild_CSharp;
+            textBox_Path.Text = pBuild.strPath;
+            textBox_FileName.Text = pBuild.strFileName;
 
-            _pWork = pWork;
+            _pBuild = pBuild;
         }
 
         private void checkBox_OpenFolder_AfterBuild_CheckedChanged(object sender, EventArgs e)
         {
-            if (_pWork == null)
+            if (_pBuild == null)
                 return;
 
-            _pWork.bOpenPath_AfterBuild_CSharp = checkBox_OpenFolder_AfterBuild.Checked;
+            _pBuild.bOpenPath_AfterBuild_CSharp = checkBox_OpenFolder_AfterBuild.Checked;
         }
 
         private void Button_OpenPath_Click(object sender, EventArgs e)
         {
-            _pWork.DoOpenFolder(textBox_Path.Text);
+            _pBuild.DoOpenFolder(textBox_Path.Text);
         }
 
         private void button_SavePath_Click(object sender, EventArgs e)
         {
-            if (_pWork == null)
+            if (_pBuild == null)
                 return;
 
             if (SheetParser_MainForm.DoShowFolderBrowser_And_SavePath(false, ref textBox_Path))
-                _pWork.strPath = textBox_Path.Text;
+                _pBuild.strPath = textBox_Path.Text;
         }
 
         private void button_SaveAndClose_Click(object sender, EventArgs e)
         {
-            _pWork.strFileName = textBox_FileName.Text;
-            _pWork.DoAutoSaveAsync();
+            _pBuild.strFileName = textBox_FileName.Text;
+            _pBuild.DoAutoSaveAsync();
             Close();
         }
     }
 
 
     [Serializable]
-    public class Work_Generate_CSharpFile : WorkBase
+    public class BuildGenerateCSharpFile : BuildBase
     {
         public string strPath;
         public string strFileName;
