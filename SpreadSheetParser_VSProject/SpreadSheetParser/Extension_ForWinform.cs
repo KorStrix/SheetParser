@@ -12,8 +12,9 @@ namespace SpreadSheetParser
         public static ListViewItem ConvertListViewItem(this TypeData pTypeData)
         {
             ListViewItem pViewItem = new ListViewItem(pTypeData.strSheetName);
-            pViewItem.SubItems.Add("O");
+            pViewItem.SubItems.Add(pTypeData.bEnable ? "O" : "X");
             pViewItem.SubItems.Add(pTypeData?.eType.ToString());
+            pViewItem.SubItems.Add(pTypeData.pSheetSourceConnector.strSheetSourceID);
             pViewItem.Tag = pTypeData;
 
             return pViewItem;
@@ -22,11 +23,32 @@ namespace SpreadSheetParser
         public static ListViewItem ConvertListViewItem(this SheetSourceConnector pSheetConnector)
         {
             ListViewItem pViewItem = new ListViewItem(pSheetConnector.strSheetSourceID);
-            pViewItem.SubItems.Add("O");
+            pViewItem.SubItems.Add(pSheetConnector.bEnable ? "O" : "X");
             pViewItem.SubItems.Add(pSheetConnector?.eSheetSourceType.ToString());
             pViewItem.Tag = pSheetConnector;
 
             return pViewItem;
+        }
+
+        public static ListViewItem ConvertListViewItem(this FieldTypeData pFieldData)
+        {
+            ListViewItem pViewItem = new ListViewItem();
+            pFieldData.Reset_ListViewItem(pViewItem);
+            pViewItem.Tag = pFieldData;
+
+            return pViewItem;
+        }
+
+        public static void Reset_ListViewItem(this FieldTypeData pFieldData, ListViewItem pViewItem)
+        {
+            pViewItem.SubItems.Clear();
+            pViewItem.SubItems.Add(pFieldData.strFieldType);
+            if (pFieldData.bIsVirtualField)
+                pViewItem.SubItems.Add(pFieldData.strDependencyFieldName);
+            else
+                pViewItem.SubItems.Add("X");
+
+            pViewItem.Text = pFieldData.strFieldName;
         }
     }
 }

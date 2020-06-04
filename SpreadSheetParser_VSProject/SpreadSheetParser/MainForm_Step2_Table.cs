@@ -86,6 +86,13 @@ namespace SpreadSheetParser
                 comboBox_DependencyField_Sub.SelectedIndex = comboBox_DependencyField.Items.IndexOf(pFieldData.strDependencyFieldName_Sub);
         }
 
+        private void ListView_SheetSourceConnector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            WriteConsole("여기 작업해야함" +
+                         " 자동 연결하면 시트 소스들도 자동 연결해고 시트리스트 갱신하고" +
+                         " 시트 세팅에 어디 시트 소스에 소속되는지 해야함");
+        }
+
         private void CheckedListBox_SheetList_SelectedIndexChanged(object sender, EventArgs e)
         {
             listView_Field.Items.Clear();
@@ -166,7 +173,7 @@ namespace SpreadSheetParser
             if (pSheetData == null)
                 return;
 
-            groupBox_SelectedTable.Text = pSheetData.ToString();
+            groupBox_SelectedSheet.Text = pSheetData.ToString();
             textBox_TableFileName.Text = pSheetData.strFileName;
             textBox_CommandLine.Text = pSheetData.strCommandLine;
 
@@ -370,5 +377,9 @@ namespace SpreadSheetParser
             SetState(EState.IsConnected_And_SelectTable);
         }
 
+        private void checkBox_IsEnableSheet_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -47,6 +47,7 @@ namespace SpreadSheetParser
 
     public abstract class SheetSourceConnector
     {
+        public bool bEnable = true;
         public string strSheetSourceID { get; private set; }
         public abstract IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetID { get; }
         public abstract ESheetSourceType eSheetSourceType { get; }

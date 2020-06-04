@@ -159,6 +159,8 @@ namespace SpreadSheetParser
                 comboBox_DependencyField.DropDownStyle = ComboBoxStyle.DropDownList;
                 comboBox_DependencyField_Sub.DropDownStyle = ComboBoxStyle.DropDownList;
 
+                listView_SheetSourceConnector.SelectedIndexChanged += ListView_SheetSourceConnector_SelectedIndexChanged;
+
                 // checkBox_AutoConnect.Checked = _pConfig.bAutoConnect;
                 listView_Sheet.ItemCheck += CheckedListBox_TableList_ItemCheck;
                 listView_Sheet.SelectedIndexChanged += CheckedListBox_SheetList_SelectedIndexChanged;
@@ -226,15 +228,15 @@ namespace SpreadSheetParser
             switch (_eState)
             {
                 case EState.None:
-                    groupBox_2_1_TableSetting.Enabled = false;
+                    groupBox_2_1_SheetSetting.Enabled = false;
                     groupBox3_BuildSetting.Enabled = false;
-                    groupBox_SelectedTable.Enabled = false;
+                    groupBox_SelectedSheet.Enabled = false;
                     break;
 
                 case EState.IsConnected:
-                    groupBox_2_1_TableSetting.Enabled = true;
+                    groupBox_2_1_SheetSetting.Enabled = true;
                     groupBox3_BuildSetting.Enabled = true;
-                    groupBox_SelectedTable.Enabled = false;
+                    groupBox_SelectedSheet.Enabled = false;
 
                     if (GetCurrentSelectedTable_OrNull() != null)
                         SetState(EState.IsConnected_And_SelectTable);
@@ -242,9 +244,9 @@ namespace SpreadSheetParser
                     break;
 
                 case EState.IsConnected_And_SelectTable:
-                    groupBox_2_1_TableSetting.Enabled = true;
+                    groupBox_2_1_SheetSetting.Enabled = true;
                     groupBox3_BuildSetting.Enabled = true;
-                    groupBox_SelectedTable.Enabled = true;
+                    groupBox_SelectedSheet.Enabled = true;
 
                     var pWrapper = GetCurrentSelectedTable_OrNull();
                     if (pWrapper != null)
