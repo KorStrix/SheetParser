@@ -21,7 +21,7 @@ namespace SpreadSheetParser
         static readonly string ApplicationName = "Spread Sheet Parser";
 
 
-        public override IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetID => _mapWorkSheet;
+        public override IReadOnlyDictionary<string, SheetConnectorWrapper> mapWorkSheetData_Key_Is_SheetID => _mapWorkSheet;
         public override ESheetSourceType eSheetSourceType => ESheetSourceType.GoogleSpreadSheet;
 
         public string strFileName { get; private set; }
@@ -29,7 +29,7 @@ namespace SpreadSheetParser
 
 
 
-        Dictionary<string, SheetData> _mapWorkSheet = new Dictionary<string, SheetData>();
+        Dictionary<string, SheetConnectorWrapper> _mapWorkSheet = new Dictionary<string, SheetConnectorWrapper>();
         SheetsService _pService;
 
         readonly CancellationTokenSource _pTokenSource = new CancellationTokenSource();
@@ -50,7 +50,7 @@ namespace SpreadSheetParser
             try
             {
                 UserCredential credential;
-                using (var stream =
+                using (FileStream stream =
                     new FileStream(_strCredentialFilePath, FileMode.Open, FileAccess.Read))
                 {
                     string credPath = "token.json";
@@ -75,16 +75,16 @@ namespace SpreadSheetParser
             }
 
             strFileName = "";
-            var pRequest_HandShake = _pService.Spreadsheets.Get(strSheetSourceID);
+            SpreadsheetsResource.GetRequest pRequest_HandShake = _pService.Spreadsheets.Get(strSheetSourceID);
             try
             {
-                var pResponse = pRequest_HandShake.ExecuteAsync();
+                Task<Spreadsheet> pResponse = pRequest_HandShake.ExecuteAsync();
                 await pResponse;
 
                 strFileName = pResponse.Result.Properties.Title;
                 IList<Sheet> listSheet = pResponse.Result.Sheets;
                 _mapWorkSheet = listSheet.ToDictionary(p => p.Properties.SheetId.ToString(),
-                    p => new SheetData(this, p.Properties.Title, p.Properties.SheetId.ToString()));
+                    p => new SheetConnectorWrapper(this, p.Properties.Title, p.Properties.SheetId.ToString()));
             }
             catch (Exception pException)
             {

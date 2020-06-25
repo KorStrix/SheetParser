@@ -11,11 +11,11 @@ namespace SpreadSheetParser
 {
     public class MSExcel_SourceConnector : SheetSourceConnector
     {
-        public override IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetID => _mapWorkSheet;
+        public override IReadOnlyDictionary<string, SheetConnectorWrapper> mapWorkSheetData_Key_Is_SheetID => _mapWorkSheet;
         public override ESheetSourceType eSheetSourceType => ESheetSourceType.MSExcel;
 
 
-        private readonly Dictionary<string, SheetData> _mapWorkSheet = new Dictionary<string, SheetData>();
+        private readonly Dictionary<string, SheetConnectorWrapper> _mapWorkSheet = new Dictionary<string, SheetConnectorWrapper>();
         private readonly Dictionary<string, DataTable> _mapDataTable = new Dictionary<string, DataTable>();
 
         public MSExcel_SourceConnector(string strFileAbsolutePath_And_IncludeExtension) : base(strFileAbsolutePath_And_IncludeExtension)
@@ -30,7 +30,7 @@ namespace SpreadSheetParser
 
         private async Task Open_Excel(SynchronizationContext pSyncContext_Call, string strFileAbsolutePath_And_IncludeExtension, delOnFinishConnect OnFinishConnect)
         {
-            foreach (var pSet in _mapDataTable.Values)
+            foreach (DataTable pSet in _mapDataTable.Values)
                 pSet.Dispose();
             _mapDataTable.Clear();
             _mapWorkSheet.Clear();
@@ -42,15 +42,15 @@ namespace SpreadSheetParser
 
                 try
                 {
-                    using (var stream = File.Open(strAbsolutePath, FileMode.Open, FileAccess.Read))
+                    using (FileStream stream = File.Open(strAbsolutePath, FileMode.Open, FileAccess.Read))
                     {
                         using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
                         {
-                            var DataSet = reader.AsDataSet();
+                            DataSet DataSet = reader.AsDataSet();
                             foreach (DataTable pSheet in DataSet.Tables)
                             {
                                 string strTableName = pSheet.TableName;
-                                _mapWorkSheet.Add(strTableName, new SheetData(this, strTableName));
+                                _mapWorkSheet.Add(strTableName, new SheetConnectorWrapper(this, strTableName));
                                 _mapDataTable.Add(strTableName, pSheet);
                             }
                         }
@@ -79,14 +79,14 @@ namespace SpreadSheetParser
 
         public override IList<IList<Object>> ISheetSourceConnector_GetSheetData(string strSheetName)
         {
-            if (_mapDataTable.TryGetValue(strSheetName, out var pSheet) == false)
+            if (_mapDataTable.TryGetValue(strSheetName, out DataTable pSheet) == false)
             {
                 return null;
             }
 
             List<IList<Object>> listData = new List<IList<object>>();
 
-            var pRows = pSheet.Rows;
+            DataRowCollection pRows = pSheet.Rows;
             foreach (DataRow pRow in pRows)
             {
                 List<Object> listRow = new List<Object>();
@@ -107,7 +107,7 @@ namespace SpreadSheetParser
             if (Path.IsPathRooted(strPath))
                 return strPath;
 
-            var pCurrentURI = new Uri(Directory.GetCurrentDirectory());
+            Uri pCurrentURI = new Uri(Directory.GetCurrentDirectory());
             return $"{pCurrentURI.AbsolutePath}/../{strPath}";
         }
     }

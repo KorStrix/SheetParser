@@ -23,7 +23,7 @@ public static class CSVUtility
     public static List<T> FromCSVText_List<T>(byte[] arrCSVByte, Action<string> OnError)
     where T : new()
     {
-        using (var pStream = new MemoryStream(arrCSVByte))
+        using (MemoryStream pStream = new MemoryStream(arrCSVByte))
         {
             using (StreamReader pReader = new StreamReader(pStream))
             {
@@ -122,9 +122,9 @@ namespace Sinbad
         //   fields as per the header. If false, ignores and just fills what it can
         public static List<T> LoadObjects<T>(string filename, Action<string> OnError) where T : new()
         {
-            using (var stream = File.OpenRead(filename))
+            using (FileStream stream = File.OpenRead(filename))
             {
-                using (var rdr = new StreamReader(stream))
+                using (StreamReader rdr = new StreamReader(stream))
                 {
                     return LoadObjects<T>(rdr, OnError);
                 }
@@ -141,16 +141,16 @@ namespace Sinbad
         //   fields as per the header. If false, ignores and just fills what it can
         public static List<T> LoadObjects<T>(TextReader rdr, Action<string> OnError) where T : new()
         {
-            var ret = new List<T>();
+            List<T> ret = new List<T>();
             string header = rdr.ReadLine();
-            var fieldDefs = ParseHeader(header);
+            Dictionary<string, int> fieldDefs = ParseHeader(header);
             FieldInfo[] fi = typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             PropertyInfo[] pi = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             bool isValueType = typeof(T).IsValueType;
             string line;
             while ((line = rdr.ReadLine()) != null)
             {
-                var obj = new T();
+                T obj = new T();
                 // box manually to avoid issues with structs
                 object boxed = obj;
                 if (ParseLineToObject(line, fieldDefs, fi, pi, boxed, OnError))
@@ -174,9 +174,9 @@ namespace Sinbad
         // Field names are matched case-insensitive for convenience
         public static void LoadObject<T>(string filename, ref T destObject)
         {
-            using (var stream = File.Open(filename, FileMode.Open))
+            using (FileStream stream = File.Open(filename, FileMode.Open))
             {
-                using (var rdr = new StreamReader(stream))
+                using (StreamReader rdr = new StreamReader(stream))
                 {
                     LoadObject<T>(rdr, ref destObject, null);
                 }
@@ -223,9 +223,9 @@ namespace Sinbad
         // This method throws exceptions if unable to write
         public static void SaveObject<T>(T obj, string filename)
         {
-            using (var stream = File.Open(filename, FileMode.Create))
+            using (FileStream stream = File.Open(filename, FileMode.Create))
             {
-                using (var wtr = new StreamWriter(stream))
+                using (StreamWriter wtr = new StreamWriter(stream))
                 {
                     SaveObject<T>(obj, wtr);
                 }
@@ -265,9 +265,9 @@ namespace Sinbad
         // This method throws exceptions if unable to write
         public static void SaveObjects<T>(IEnumerable<T> objs, string filename)
         {
-            using (var stream = File.Open(filename, FileMode.Create))
+            using (FileStream stream = File.Open(filename, FileMode.Create))
             {
-                using (var wtr = new StreamWriter(stream))
+                using (StreamWriter wtr = new StreamWriter(stream))
                 {
                     SaveObjects<T>(objs, wtr);
                 }
@@ -338,11 +338,11 @@ namespace Sinbad
         // indexes. Columns which have a '#' prefix are ignored.
         private static Dictionary<string, int> ParseHeader(string header)
         {
-            var headers = new Dictionary<string, int>();
+            Dictionary<string, int> headers = new Dictionary<string, int>();
             int n = 0;
             foreach (string field in EnumerateCsvLine(header))
             {
-                var trimmed = field.Trim();
+                string trimmed = field.Trim();
                 if (!trimmed.StartsWith("#"))
                 {
                     trimmed = RemoveSpaces(trimmed);
@@ -407,7 +407,7 @@ namespace Sinbad
 
         private static object ParseString(string strValue, Type t)
         {
-            var cv = TypeDescriptor.GetConverter(t);
+            TypeConverter cv = TypeDescriptor.GetConverter(t);
             return cv.ConvertFromInvariantString(strValue);
         }
 

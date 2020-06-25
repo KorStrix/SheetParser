@@ -29,7 +29,7 @@ namespace SpreadSheetParser
 
         delegate void SafeCallDelegate(string text);
 
-        TypeData _pSheet_CurrentConnected;
+        SheetData _pSheet_CurrentConnected;
         CodeFileBuilder _pCodeFileBuilder = new CodeFileBuilder();
         Config _pConfig;
 
@@ -54,7 +54,7 @@ namespace SpreadSheetParser
             // https://docs.microsoft.com/ko-kr/dotnet/framework/winforms/controls/how-to-make-thread-safe-calls-to-windows-forms-controls
             if (_instance.textBox_Log.InvokeRequired)
             {
-                var pDelegate = new SafeCallDelegate(WriteConsole);
+                SafeCallDelegate pDelegate = new SafeCallDelegate(WriteConsole);
                 _instance.textBox_Log.Invoke(pDelegate, new object[] { strText });
             }
             else
@@ -129,8 +129,8 @@ namespace SpreadSheetParser
         // https://stackoverflow.com/questions/13266756/absolute-to-relative-path
         public static string DoMake_RelativePath(string strPath)
         {
-            var pFileURI = new Uri(strPath);
-            var pCurrentURI = new Uri(Directory.GetCurrentDirectory());
+            Uri pFileURI = new Uri(strPath);
+            Uri pCurrentURI = new Uri(Directory.GetCurrentDirectory());
 
             return pCurrentURI.MakeRelativeUri(pFileURI).ToString();
         }
@@ -140,7 +140,7 @@ namespace SpreadSheetParser
             if (Path.IsPathRooted(strPath))
                 return strPath;
 
-            var pCurrentURI = new Uri(Directory.GetCurrentDirectory());
+            Uri pCurrentURI = new Uri(Directory.GetCurrentDirectory());
             return $"{pCurrentURI.AbsolutePath}/../{strPath}";
         }
 
@@ -171,8 +171,8 @@ namespace SpreadSheetParser
 
                 comboBox_BuildList.DropDownStyle = ComboBoxStyle.DropDownList;
                 comboBox_BuildList.Items.Clear();
-                var listWork = GetEnumerableOfType<BuildBase>();
-                foreach (var pWork in listWork)
+                IEnumerable<BuildBase> listWork = GetEnumerableOfType<BuildBase>();
+                foreach (BuildBase pWork in listWork)
                     comboBox_BuildList.Items.Add(pWork);
 
                 listView_Field.SelectedIndexChanged += ListView_Field_SelectedIndexChanged;
@@ -185,9 +185,9 @@ namespace SpreadSheetParser
                 _mapSaveSheetSource = SaveDataManager.LoadSheet_SaveSheetSource(WriteConsole);
                 _mapSaveProject = SaveDataManager.LoadSheet_SaveProject(WriteConsole);
 
-
-                if (_pConfig.bAutoConnect)
+                if (_pConfig.bAutoConnect) // 설정에서 프로젝트 자동 열기를 했을 경우
                 {
+                    // 마지막에 수정한 프로젝트를 현재 프로젝트로 설정
                     pCurrentProject = GetSheetSource_LastEdit(_mapSaveProject);
                     if (pCurrentProject != null)
                     {
@@ -195,27 +195,39 @@ namespace SpreadSheetParser
                         pCurrentProject.DoInit(_mapSaveSheetSource.Values);
 
                         mapSheetSourceConnector.Clear();
-                        foreach (var pSaveSheetSource in pCurrentProject.mapSaveSheetSource.Values)
+                        foreach (SaveData_SheetSource pSaveSheetSource in pCurrentProject.mapSaveSheetSource.Values)
                         {
-                            string strSheetSourceID = pSaveSheetSource.strSheetSourceID;
-                            Create_SheetSourceConnector(strSheetSourceID, pSaveSheetSource.eSourceType);
+                            SheetSourceConnector pConnector = Create_SheetSourceConnector(pSaveSheetSource.strSheetSourceID, pSaveSheetSource.eSourceType);
+                            pConnector.ISheetSourceConnector_DoConnect_And_Parsing(OnFinishConnect_SheetSource);
                         }
                     }
                 }
 
                 if (pCurrentProject == null)
                     pCurrentProject = new SaveData_Project();
+
+                pCurrentProject.OnChangeCount_SheetSourceList += CurrentProject_OnChangeCount_SheetSourceList;
                 pCurrentProject.OnChangeCount_BuildList += CurrentProject_OnChangeCount_BuildList;
             }
 
-
             _bIsLoading_CreateForm = false;
+        }
+
+        private void CurrentProject_OnChangeCount_SheetSourceList(SaveData_Project pProject)
+        {
+            IEnumerable<ListViewItem> listViewItems = listView_SheetSourceConnector.Items.Cast<ListViewItem>();
+            foreach (var pViewItem in listViewItems)
+            {
+                SheetSourceConnector pConnector = (SheetSourceConnector) pViewItem.Tag;
+                if (pProject.mapSaveSheetSource.ContainsKey(pConnector.strSheetSourceID) == false)
+                    listView_SheetSourceConnector.Items.Remove(pViewItem);
+            }
         }
 
         private void CurrentProject_OnChangeCount_BuildList(SaveData_Project pProject)
         {
             checkedListBox_BuildList.Items.Clear();
-            foreach (var pWork in pProject.listSaveBuild)
+            foreach (BuildBase pWork in pProject.listSaveBuild)
                 checkedListBox_BuildList.Items.Add(pWork);
 
             Update_BuildListOrder();
@@ -238,7 +250,7 @@ namespace SpreadSheetParser
                     groupBox3_BuildSetting.Enabled = true;
                     groupBox_SelectedSheet.Enabled = false;
 
-                    if (GetCurrentSelectedTable_OrNull() != null)
+                    if (GetCurrentSelected_Sheet_OrNull() != null)
                         SetState(EState.IsConnected_And_SelectTable);
 
                     break;
@@ -248,7 +260,7 @@ namespace SpreadSheetParser
                     groupBox3_BuildSetting.Enabled = true;
                     groupBox_SelectedSheet.Enabled = true;
 
-                    var pWrapper = GetCurrentSelectedTable_OrNull();
+                    SheetData pWrapper = GetCurrentSelected_Sheet_OrNull();
                     if (pWrapper != null)
                         Update_Step_2_TableSetting(pWrapper);
                     else
@@ -282,9 +294,25 @@ namespace SpreadSheetParser
                 WriteConsole("자동 저장 실패!");
         }
 
-        private TypeData GetCurrentSelectedTable_OrNull()
+        public SheetData GetCurrentSelected_Sheet_OrNull()
         {
-            return listView_Sheet.SelectedItems.Cast<TypeData>().FirstOrDefault();
+            if (listView_Sheet.SelectedItems.Count == 0)
+                return null;
+
+            return (SheetData)listView_Sheet.SelectedItems.Cast<ListViewItem>().FirstOrDefault()?.Tag;
+        }
+
+        public SheetSourceConnector GetCurrentSelected_SheetSource_OrNull()
+        {
+            if (listView_SheetSourceConnector.SelectedItems.Count == 0)
+                return null;
+
+            return (SheetSourceConnector)listView_SheetSourceConnector.SelectedItems.Cast<ListViewItem>().FirstOrDefault()?.Tag;
+        }
+
+        public bool TryGetSheetSourceData(string strSheetSourceID, out SaveData_SheetSource pSheetSource)
+        {
+            return pCurrentProject.mapSaveSheetSource.TryGetValue(strSheetSourceID, out pSheetSource);
         }
 
         public static IEnumerable<T> GetEnumerableOfType<T>(params object[] constructorArgs)
@@ -323,7 +351,7 @@ namespace SpreadSheetParser
             if (pConnector != null)
             {
                 _bIsConnecting = true;
-                pConnector.ISheetSourceConnector_DoConnect_And_Parsing(OnFinishConnect);
+                pConnector.ISheetSourceConnector_DoConnect_And_Parsing(OnFinishConnect_SheetSource);
             }
         }
 
@@ -335,7 +363,7 @@ namespace SpreadSheetParser
             listView_SheetSourceConnector.Items.Add(pConnector.ConvertListViewItem());
             return pConnector;
         }
-
+        
         private void button_OpenSheetSource_Click(object sender, EventArgs e)
         {
             if (radioButton_SheetSource_GoogleSheet.Checked)

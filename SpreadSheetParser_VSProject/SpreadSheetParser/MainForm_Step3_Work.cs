@@ -12,7 +12,7 @@ namespace SpreadSheetParser
     {
         private void button_StartParsing_Selected_Click(object sender, EventArgs e)
         {
-            TypeData pSheetData = listView_Sheet.SelectedItems.Cast<TypeData>().FirstOrDefault();
+            SheetData pSheetData = listView_Sheet.SelectedItems.Cast<SheetData>().FirstOrDefault();
             if (pSheetData == null)
                 return;
             WriteConsole("선택한 시트만 코드 파일 생성중.." + pSheetData.strFileName);
@@ -22,10 +22,10 @@ namespace SpreadSheetParser
         private void button_StartParsing_Click(object sender, EventArgs e)
         {
             WriteConsole("코드 파일 생성중..");
-            StartBuild(listView_Sheet.CheckedItems.Cast<TypeData>().ToArray());
+            StartBuild(listView_Sheet.CheckedItems.Cast<SheetData>().ToArray());
         }
 
-        private void StartBuild(params TypeData[] arrTypeData)
+        private void StartBuild(params SheetData[] arrTypeData)
         {
             _pCodeFileBuilder = new CodeFileBuilder();
 
@@ -38,7 +38,7 @@ namespace SpreadSheetParser
             {
                 int iLoopCount = 0;
                 int iCount = arrTypeData.Length;
-                foreach (var pSheetData in arrTypeData)
+                foreach (SheetData pSheetData in arrTypeData)
                 {
                     pTimer.Restart();
 
@@ -67,8 +67,8 @@ namespace SpreadSheetParser
 
 
             listTask.Clear();
-            var arrSheetData = listView_Sheet.CheckedItems.Cast<TypeData>().ToArray();
-            var listWork = checkedListBox_BuildList.CheckedItems;
+            SheetData[] arrSheetData = listView_Sheet.CheckedItems.Cast<SheetData>().ToArray();
+            CheckedListBox.CheckedItemCollection listWork = checkedListBox_BuildList.CheckedItems;
             foreach (BuildBase pWork in listWork)
             {
                 try
@@ -176,7 +176,7 @@ namespace SpreadSheetParser
             if (_bIsConnecting)
                 return;
 
-            var pWork = pCurrentProject.GetWork_OrNull(e.Index);
+            BuildBase pWork = pCurrentProject.GetWork_OrNull(e.Index);
             if(pWork != null)
                 pWork.bEnable = e.NewValue == CheckState.Checked;
 

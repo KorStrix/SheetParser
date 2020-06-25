@@ -21,7 +21,7 @@ namespace SpreadSheetParser
         {
             UserCredential credential;
 
-            using (var stream =
+            using (FileStream stream =
                 new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
             {
                 // The file token.json stores the user's access and refresh tokens, and is created
@@ -37,7 +37,7 @@ namespace SpreadSheetParser
             }
 
             // Create Google Sheets API service.
-            var service = new SheetsService(new BaseClientService.Initializer()
+            SheetsService service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
                 ApplicationName = ApplicationName,
@@ -56,7 +56,7 @@ namespace SpreadSheetParser
             if (values != null && values.Count > 0)
             {
                 Console.WriteLine("Name, Major");
-                foreach (var row in values)
+                foreach (IList<object> row in values)
                 {
                     // Print columns A and E, which correspond to indices 0 and 4.
                     Console.WriteLine("{0}, {1}", row[0], row[4]);

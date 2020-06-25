@@ -3,7 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static SpreadSheetParser.TypeDataHelper;
+using static SpreadSheetParser.SheetDataHelper;
 
 #if !UNITY_EDITOR
 using System.Windows.Forms;
@@ -87,7 +87,7 @@ namespace SpreadSheetParser
             return "Generate Unity SO";
         }
 
-        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, TypeData[] arrSheetData, Action<string> OnPrintWorkState)
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, SheetData[] arrSheetData, Action<string> OnPrintWorkState)
         {
             CodeNamespace pNameSpace = new CodeNamespace();
 
@@ -122,14 +122,14 @@ namespace SpreadSheetParser
             IEnumerable<CodeTypeDeclaration> listUnitySO = listType.Where(p => string.IsNullOrEmpty(p.Name) == false && p.IsClass);
             foreach (CodeTypeDeclaration pType in listUnitySO)
             {
-                TypeData pSaveData = arrSheetData.FirstOrDefault((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name);
+                SheetData pSaveData = arrSheetData.FirstOrDefault((pSaveDataSheet) => pSaveDataSheet.strFileName == pType.Name);
                 if (pSaveData == null)
                     continue;
 
                 Create_SO(pCodeFileBuilder, pNameSpace, pType, pSaveData);
 
                 CodeTypeDeclaration[] arrEnumTypes = listType.Where(p => pSaveData.listEnumName.Contains(p.Name)).ToArray();
-                foreach(var pEnumType in arrEnumTypes)
+                foreach(CodeTypeDeclaration pEnumType in arrEnumTypes)
                     setExecutedType.Add(pEnumType);
 
                 if (pSaveData.eType == ESheetType.Global)
@@ -161,29 +161,29 @@ namespace SpreadSheetParser
             return Task.CompletedTask;
         }
 
-        private void Create_SO(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, TypeData pSaveData)
+        private void Create_SO(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeTypeDeclaration pType, SheetData pSaveData)
         {
             pType.AddBaseClass("UnityEngine.ScriptableObject");
             pNameSpace.Types.Clear();
             pNameSpace.Types.Add(pType);
 
-            var listVirtualFieldOption = pSaveData.listFieldData.Where(pExportOption => pExportOption.bDeleteThisField_InCode == false && pExportOption.bIsVirtualField);
-            foreach (var pVirtualField in listVirtualFieldOption)
+            IEnumerable<FieldTypeData> listVirtualFieldOption = pSaveData.listFieldData.Where(pExportOption => pExportOption.bDeleteThisField_InCode == false && pExportOption.bIsVirtualField);
+            foreach (FieldTypeData pVirtualField in listVirtualFieldOption)
                 pType.AddField(pVirtualField);
 
             pCodeFileBuilder.Generate_CSharpCode(pNameSpace, $"{GetRelative_To_AbsolutePath(strExportPath)}/{pType.Name}");
         }
 
-        private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration[] arrEnumType, TypeData pSaveData)
+        private void Create_GlobalSOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration[] arrEnumType, SheetData pSaveData)
         {
-            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out var pContainerType, out var pInitMethod);
+            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out CodeTypeDeclaration pContainerType, out CodeMemberMethod pInitMethod);
             CodeTypeDeclaration pEnumHelperClass = GenerateEnumHelperClass(pNameSpace, pContainerType);
 
             IEnumerable<FieldTypeData> listKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField);
 
             string strValueFieldName = "";
             IEnumerable<FieldTypeData> listRealField = pSaveData.listFieldData.Where(p => p.bIsKeyField == false);
-            foreach (var pRealField in listRealField)
+            foreach (FieldTypeData pRealField in listRealField)
             {
                 if (pRealField.strFieldName.ToLower().Contains(nameof(EGlobalColumnType.Value).ToLower()))
                 {
@@ -193,7 +193,7 @@ namespace SpreadSheetParser
             }
 
             HashSet<string> setAlreadyExecute = new HashSet<string>();
-            foreach (var pFieldData in listKeyField)
+            foreach (FieldTypeData pFieldData in listKeyField)
             {
                 if (setAlreadyExecute.Contains(pFieldData.strFieldType))
                     continue;
@@ -211,13 +211,13 @@ namespace SpreadSheetParser
         }
 
 
-        private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration[] arrEnumType, TypeData pSaveData)
+        private void Create_SOContainer(CodeFileBuilder pCodeFileBuilder, CodeNamespace pNameSpace, CodeNamespaceImport[] arrDefaultUsing, CodeTypeDeclaration pType, CodeTypeDeclaration[] arrEnumType, SheetData pSaveData)
         {
-            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out var pContainerType, out var pInitMethod);
+            Create_SOContainer(pNameSpace, arrDefaultUsing, pType, arrEnumType, out CodeTypeDeclaration pContainerType, out CodeMemberMethod pInitMethod);
 
-            var arrKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField).ToArray();
+            FieldTypeData[] arrKeyField = pSaveData.listFieldData.Where(p => p.bIsKeyField).ToArray();
             CodeTypeDeclaration pEnumHelperClass = arrKeyField.Length > 0 ? GenerateEnumHelperClass(pNameSpace, pContainerType) : null;
-            foreach (var pFieldData in arrKeyField)
+            foreach (FieldTypeData pFieldData in arrKeyField)
             {
                 string strFieldName = $"mapData_Key_Is_{pFieldData.strFieldName}";
                 string strMemberType = pFieldData.bIsOverlapKey ? $"Dictionary<{pFieldData.strFieldType}, List<{pType.Name}>>" : $"Dictionary<{pFieldData.strFieldType}, {pType.Name}>";
@@ -255,7 +255,7 @@ namespace SpreadSheetParser
             if (bIsOverlapKey)
                 strMethodName += "_List";
 
-            var pMethod = pEnumHelperClass.AddMethod(strMethodName);
+            CodeMemberMethod pMethod = pEnumHelperClass.AddMethod(strMethodName);
             pMethod.Attributes = MemberAttributes.Public | MemberAttributes.Static;
 
             if (bIsOverlapKey)
@@ -306,7 +306,7 @@ namespace SpreadSheetParser
             pNameSpace.Types.AddRange(arrEnumType);
 
             pContainerType.AddField(new FieldTypeData(const_strFieldName_private_instance, strContainerTypeName), MemberAttributes.Private | MemberAttributes.Static);
-            var pPublicInstanceProperty = pContainerType.AddProperty(new FieldTypeData(const_strFieldName_instance, strContainerTypeName), MemberAttributes.Public | MemberAttributes.Static);
+            CodeMemberProperty pPublicInstanceProperty = pContainerType.AddProperty(new FieldTypeData(const_strFieldName_instance, strContainerTypeName), MemberAttributes.Public | MemberAttributes.Static);
             pPublicInstanceProperty.GetStatements.Add(new CodeSnippetStatement($"               return {const_strFieldName_private_instance};"));
 
             pContainerType.AddField(new FieldTypeData(const_strFieldName_ListData, $"List<{pType.Name}>"));
@@ -315,7 +315,7 @@ namespace SpreadSheetParser
 
         private CodeMemberMethod Generate_InitMethod(CodeTypeDeclaration pContainerType, string strTypeName)
         {
-            var pMethod = pContainerType.AddMethod($"DoInit", MemberAttributes.Public | MemberAttributes.Static);
+            CodeMemberMethod pMethod = pContainerType.AddMethod($"DoInit", MemberAttributes.Public | MemberAttributes.Static);
 
             pMethod.Parameters.Add(new CodeParameterDeclarationExpression(pContainerType.Name, "pSingletonInstance"));
             pMethod.Parameters.Add(new CodeParameterDeclarationExpression(typeof(bool), "bIsUpdateChildAsset"));
@@ -345,7 +345,7 @@ namespace SpreadSheetParser
         private void Generate_CacheMethod_Global(CodeTypeDeclaration pContainerType, CodeMemberMethod pInitMethod, string strListDataName, string strMapFieldName, string strTypeFieldName, string strTypeName, string strValueFieldName)
         {
             string strMethodName = $"Init_{strMapFieldName}";
-            var pMethod = pContainerType.AddMethod(strMethodName);
+            CodeMemberMethod pMethod = pContainerType.AddMethod(strMethodName);
             pMethod.Attributes = MemberAttributes.Private | MemberAttributes.Final;
 
             CodeFieldReferenceExpression pCasheMemberReference =
@@ -401,7 +401,7 @@ namespace SpreadSheetParser
         private void Generate_CacheMethod(CodeTypeDeclaration pContainerType, CodeMemberMethod pInitMethod, string strListDataName, string strMapFieldName, string strCacheFieldName, bool bIsOverlapKey)
         {
             string strMethodName = $"Init_{strMapFieldName}";
-            var pMethod = pContainerType.AddMethod(strMethodName);
+            CodeMemberMethod pMethod = pContainerType.AddMethod(strMethodName);
             pMethod.Attributes = MemberAttributes.Private | MemberAttributes.Final;
 
             CodeFieldReferenceExpression pCasheMemberReference =

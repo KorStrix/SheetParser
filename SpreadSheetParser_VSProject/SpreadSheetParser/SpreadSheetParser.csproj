@@ -206,8 +206,8 @@
     </Compile>
     <Compile Include="SaveData\SaveDataManager.cs" />
     <Compile Include="UnityShare\SheetConnector\GoogleSpreadSheet_SourceConnector.cs" />
-    <Compile Include="UnityShare\TypeData.cs" />
-    <Compile Include="UnityShare\TypeDataHelper.cs" />
+    <Compile Include="UnityShare\SheetData.cs" />
+    <Compile Include="UnityShare\SheetDataHelper.cs" />
     <Compile Include="Util\CSVUtility.cs" />
     <Compile Include="UnityShare\BuildBase.cs" />
     <Compile Include="WorkList\Work_Generate_CSVForm.cs">

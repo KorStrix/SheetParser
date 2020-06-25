@@ -48,15 +48,15 @@ namespace SpreadSheetParser
 
             try
             {
-                using (var file = File.Open(strFilePath, FileMode.Create))
+                using (FileStream file = File.Open(strFilePath, FileMode.Create))
                 {
                     // create this in the constructor, stream manages can be reused
                     // see details in this answer https://stackoverflow.com/a/42599288/185498
-                    var streamManager = new RecyclableMemoryStreamManager();
+                    RecyclableMemoryStreamManager streamManager = new RecyclableMemoryStreamManager();
 
-                    using (var memoryStream = streamManager.GetStream()) // RecyclableMemoryStream will be returned, it inherits MemoryStream, however prevents data allocation into the LOH
+                    using (MemoryStream memoryStream = streamManager.GetStream()) // RecyclableMemoryStream will be returned, it inherits MemoryStream, however prevents data allocation into the LOH
                     {
-                        using (var writer = new StreamWriter(memoryStream))
+                        using (StreamWriter writer = new StreamWriter(memoryStream))
                         {
                             JsonSerializerSettings pSetting = new JsonSerializerSettings();
                             pSetting.Formatting = Formatting.Indented;

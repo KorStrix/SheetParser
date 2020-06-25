@@ -35,7 +35,7 @@ namespace SpreadSheetParser
             if (listView_Sheet.SelectedItems.Count == 0)
                 return;
 
-            TypeData pSheetData = listView_Sheet.SelectedItems.Cast<TypeData>().First();
+            SheetData pSheetData = listView_Sheet.SelectedItems.Cast<SheetData>().First();
             bool bIsEnum = pSheetData.eType == ESheetType.Enum;
             if (bIsEnum)
                 return;
@@ -88,28 +88,35 @@ namespace SpreadSheetParser
 
         private void ListView_SheetSourceConnector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            WriteConsole("여기 작업해야함" +
-                         " 자동 연결하면 시트 소스들도 자동 연결해고 시트리스트 갱신하고" +
-                         " 시트 세팅에 어디 시트 소스에 소속되는지 해야함");
+            SheetSourceConnector pSelectedSourceConnector = GetCurrentSelected_SheetSource_OrNull();
+            if (pSelectedSourceConnector == null)
+                return;
+
+            if (TryGetSheetSourceData(pSelectedSourceConnector.strSheetSourceID, out SaveData_SheetSource pSaveData) == false)
+            {
+                WriteConsole("뭔가 이상한듯");
+                return;
+            }
+
+            UpdateUI_SheetList(pSelectedSourceConnector, pSaveData);
         }
 
         private void CheckedListBox_SheetList_SelectedIndexChanged(object sender, EventArgs e)
         {
             listView_Field.Items.Clear();
-
             ListView_Field_SelectedIndexChanged(null, null);
-            if (listView_Sheet.SelectedItems.Count == 0)
+
+            SheetData pSheetData = GetCurrentSelected_Sheet_OrNull();
+            if (pSheetData == null)
                 return;
 
-            TypeData pSheetData = (TypeData)listView_Sheet.SelectedItems.Cast<ListViewItem>().First().Tag;
-            bool bIsEnum = pSheetData.eType == ESheetType.Enum;
-            if (bIsEnum)
+            if (pSheetData.eType == ESheetType.Enum)
                 return;
 
             UpdateSheetData(pSheetData, true, true);
         }
 
-        private void UpdateSheetData(TypeData pSheetData, bool bUpdateUI, bool bSaveSheet)
+        private void UpdateSheetData(SheetData pSheetData, bool bUpdateUI, bool bSaveSheet)
         {
             int iDefinedTypeRow = -1;
             List<FieldTypeData> listFieldOption = pSheetData.listFieldData;
@@ -149,7 +156,7 @@ namespace SpreadSheetParser
                     listView_Field.Items.Add(arrFieldData[0].ConvertListViewItem());
             }));
 
-            var arrDeleteFieldOption = listFieldOption.Where((pFieldOption) => setRealField.Contains(pFieldOption.strFieldName) == false).ToArray();
+            FieldTypeData[] arrDeleteFieldOption = listFieldOption.Where((pFieldOption) => setRealField.Contains(pFieldOption.strFieldName) == false).ToArray();
             if (arrDeleteFieldOption.Length == 0)
                 return;
 
@@ -165,7 +172,7 @@ namespace SpreadSheetParser
                 AutoSaveAsync_CurrentProject();
         }
 
-        private void Update_Step_2_TableSetting(TypeData pSheetData)
+        private void Update_Step_2_TableSetting(SheetData pSheetData)
         {
             _bIsUpdating_TableUI = true;
 
@@ -216,7 +223,7 @@ namespace SpreadSheetParser
 
         private void button_CheckTable_Click(object sender, EventArgs e)
         {
-            TypeData pSheetData = GetCurrentSelectedTable_OrNull();
+            SheetData pSheetData = GetCurrentSelected_Sheet_OrNull();
             WriteConsole("테이블 유효성 체크중.." + pSheetData.ToString());
             int iErrorCount = 0;
 
@@ -252,7 +259,7 @@ namespace SpreadSheetParser
             if (listView_Field.SelectedItems.Count == 0)
                 return;
 
-            var pSelectedItem = listView_Field.SelectedItems[0];
+            ListViewItem pSelectedItem = listView_Field.SelectedItems[0];
             FieldTypeData pFieldOption = (FieldTypeData)pSelectedItem.Tag;
 
             _pSheet_CurrentConnected.listFieldData.Remove(pFieldOption);
@@ -266,7 +273,7 @@ namespace SpreadSheetParser
             if (listView_Field.SelectedItems.Count == 0)
                 return;
 
-            var pSelectedItem = listView_Field.SelectedItems[0];
+            ListViewItem pSelectedItem = listView_Field.SelectedItems[0];
             FieldTypeData pFieldData = (FieldTypeData)pSelectedItem.Tag;
 
             pFieldData.strDependencyFieldName = (string)comboBox_DependencyField.SelectedItem;
@@ -306,7 +313,7 @@ namespace SpreadSheetParser
             if (listView_Field.SelectedItems.Count == 0)
                 return;
 
-            var pSelectedItem = listView_Field.SelectedItems[0];
+            ListViewItem pSelectedItem = listView_Field.SelectedItems[0];
             FieldTypeData pFieldData = (FieldTypeData)pSelectedItem.Tag;
 
             pFieldData.bIsKeyField = checkBox_Field_ThisIsKey.Checked;
@@ -318,7 +325,7 @@ namespace SpreadSheetParser
             if (listView_Field.SelectedItems.Count == 0)
                 return;
 
-            var pSelectedItem = listView_Field.SelectedItems[0];
+            ListViewItem pSelectedItem = listView_Field.SelectedItems[0];
             FieldTypeData pFieldData = (FieldTypeData)pSelectedItem.Tag;
 
             pFieldData.bDeleteThisField_InCode = checkBox_DeleteField_OnCode.Checked;
@@ -329,7 +336,7 @@ namespace SpreadSheetParser
             if (listView_Field.SelectedItems.Count == 0)
                 return;
 
-            var pSelectedItem = listView_Field.SelectedItems[0];
+            ListViewItem pSelectedItem = listView_Field.SelectedItems[0];
             FieldTypeData pFieldData = (FieldTypeData)pSelectedItem.Tag;
 
             pFieldData.bConvertStringToEnum = checkBox_ConvertStringToEnum.Checked;
@@ -341,7 +348,7 @@ namespace SpreadSheetParser
             if (listView_Field.SelectedItems.Count == 0)
                 return;
 
-            var pSelectedItem = listView_Field.SelectedItems[0];
+            ListViewItem pSelectedItem = listView_Field.SelectedItems[0];
             FieldTypeData pFieldData = (FieldTypeData)pSelectedItem.Tag;
 
             if (checkBox_IsHeaderField.Checked)
@@ -355,7 +362,7 @@ namespace SpreadSheetParser
             if (_bIsConnecting)
                 return;
 
-            var pWork = pCurrentProject.GetWork_OrNull(e.Index);
+            BuildBase pWork = pCurrentProject.GetWork_OrNull(e.Index);
             if (pWork != null)
                 pWork.bEnable = e.NewValue == CheckState.Checked;
             AutoSaveAsync_CurrentProject();
@@ -366,7 +373,7 @@ namespace SpreadSheetParser
             if (listView_Field.SelectedItems.Count == 0)
                 return;
 
-            var pSelectedItem = listView_Field.SelectedItems[0];
+            ListViewItem pSelectedItem = listView_Field.SelectedItems[0];
             FieldTypeData pFieldData = (FieldTypeData)pSelectedItem.Tag;
 
             pFieldData.bIsOverlapKey = checkBox_FieldKey_IsOverlap.Checked;
@@ -379,7 +386,14 @@ namespace SpreadSheetParser
 
         private void checkBox_IsEnableSheet_CheckedChanged(object sender, EventArgs e)
         {
+            SheetData pCurrentSheetTable = GetCurrentSelected_Sheet_OrNull();
+            if (pCurrentSheetTable == null)
+            {
+                WriteConsole("뭔가 잘못됐다.. 에러");
+                return;
+            }
 
+            pCurrentSheetTable.bEnable = checkBox_IsEnable_Sheet.Checked;
         }
     }
 }

@@ -81,33 +81,33 @@ namespace SpreadSheetParser
             return "Generate Json";
         }
 
-        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, SheetData[] arrSheetData, Action<string> OnPrintWorkProcess)
         {
-            TypeDataList pTypeDataList = JsonSaveManager.LoadData<TypeDataList>($"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json", OnPrintWorkProcess);
-            //if (pTypeDataList != null)
-            //    pTypeDataList.listTypeData.ForEach(p => p.bEnable = false);
+            SheetDataList pSheetDataList = JsonSaveManager.LoadData<SheetDataList>($"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(SheetDataList)}.json", OnPrintWorkProcess);
+            //if (pSheetDataList != null)
+            //    pSheetDataList.listTypeData.ForEach(p => p.bEnable = false);
 
-            //if (pTypeDataList == null)
-            //    pTypeDataList = new TypeDataList(pSourceConnector.strSheetSourceID);
+            //if (pSheetDataList == null)
+            //    pSheetDataList = new SheetDataList(pSourceConnector.strSheetSourceID);
 
             List<Task> listTask = new List<Task>();
-            foreach (var pSheet in arrSheetData)
+            foreach (SheetData pSheet in arrSheetData)
             {
                 if (pSheet.eType == ESheetType.Enum)
                     continue;
 
-                listTask.Add(ProcessJson(OnPrintWorkProcess, pSheet, pTypeDataList));
+                listTask.Add(ProcessJson(OnPrintWorkProcess, pSheet, pSheetDataList));
             }
 
             return Task.WhenAll(listTask).ContinueWith((p) =>
             {
-                pTypeDataList.listTypeData.Sort((x, y) => x.iOrder.CompareTo(y.iOrder));
-                JsonSaveManager.SaveData(pTypeDataList, $"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json");
+                pSheetDataList.listTypeData.Sort((x, y) => x.iOrder.CompareTo(y.iOrder));
+                JsonSaveManager.SaveData(pSheetDataList, $"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(SheetDataList)}.json");
             });
         }
 
-        private Task ProcessJson(Action<string> OnPrintWorkProcess, TypeData pSheet,
-            TypeDataList pTypeDataList)
+        private Task ProcessJson(Action<string> OnPrintWorkProcess, SheetData pSheet,
+            SheetDataList pSheetDataList)
         {
             JObject pJson_Instance = new JObject();
             JArray pArray = new JArray();
@@ -147,7 +147,7 @@ namespace SpreadSheetParser
                         if (mapMemberName.ContainsKey(i) == false)
                             continue;
 
-                        if (mapFieldData.TryGetValue(mapMemberName[i], out var pFieldTypeData) == false)
+                        if (mapFieldData.TryGetValue(mapMemberName[i], out FieldTypeData pFieldTypeData) == false)
                         {
                             OnPrintWorkProcess?.Invoke(
                                 $"{pSheet.strSheetID} - mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
@@ -167,11 +167,11 @@ namespace SpreadSheetParser
                     string strFileName = $"{pSheet.strFileName}.json";
                     JsonSaveManager.SaveData(pJson_Instance, $"{GetRelative_To_AbsolutePath(strExportPath)}/{strFileName}");
 
-                    var pAlreadyExist = pTypeDataList.listTypeData.FirstOrDefault(p => p.strSheetID == pSheet.strSheetID);
+                    SheetData pAlreadyExist = pSheetDataList.listTypeData.FirstOrDefault(p => p.strSheetID == pSheet.strSheetID);
                     if (pAlreadyExist != null)
-                        pTypeDataList.listTypeData.Remove(pAlreadyExist);
+                        pSheetDataList.listTypeData.Remove(pAlreadyExist);
 
-                    pTypeDataList.listTypeData.Add(pSheet);
+                    pSheetDataList.listTypeData.Add(pSheet);
                 });
         }
 

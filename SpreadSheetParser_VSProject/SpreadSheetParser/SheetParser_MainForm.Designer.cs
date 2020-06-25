@@ -36,8 +36,9 @@
             this.columnHeader_SheetName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_IsEnable = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader_SheetType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader_SheetSource = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.checkBox_IsEnableSheet = new System.Windows.Forms.CheckBox();
+            this.checkBox_IsEnable_Sheet = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.button_CommandLine = new System.Windows.Forms.Button();
             this.textBox_CommandLine = new System.Windows.Forms.TextBox();
@@ -97,8 +98,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox_AddSheetSourceName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.button_Remove_SelectedSheetSource = new System.Windows.Forms.Button();
             this.listView_SheetSourceConnector = new System.Windows.Forms.ListView();
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -111,7 +111,7 @@
             this.menuItem_File_SaveAs = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.menuItem_Tools_OpenSaveDataFolder = new System.Windows.Forms.MenuItem();
-            this.columnHeader_SheetSource = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.checkBox_IsEnable_SheetSource = new System.Windows.Forms.CheckBox();
             this.groupBox_2_1_SheetSetting.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -166,8 +166,8 @@
             // listView_Sheet
             // 
             this.listView_Sheet.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader_IsEnable,
             this.columnHeader_SheetName,
+            this.columnHeader_IsEnable,
             this.columnHeader_SheetType,
             this.columnHeader_SheetSource});
             this.listView_Sheet.HideSelection = false;
@@ -182,7 +182,7 @@
             // 
             // columnHeader_SheetName
             // 
-            this.columnHeader_SheetName.DisplayIndex = 2;
+            this.columnHeader_SheetName.DisplayIndex = 1;
             this.columnHeader_SheetName.Text = "Name";
             this.columnHeader_SheetName.Width = 217;
             // 
@@ -194,13 +194,16 @@
             // 
             // columnHeader_SheetType
             // 
-            this.columnHeader_SheetType.DisplayIndex = 1;
             this.columnHeader_SheetType.Text = "Type";
             this.columnHeader_SheetType.Width = 68;
             // 
+            // columnHeader_SheetSource
+            // 
+            this.columnHeader_SheetSource.Text = "Source";
+            // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.checkBox_IsEnableSheet);
+            this.groupBox4.Controls.Add(this.checkBox_IsEnable_Sheet);
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.button_CommandLine);
             this.groupBox4.Controls.Add(this.textBox_CommandLine);
@@ -216,16 +219,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "2-1. Selected Sheet Setting";
             // 
-            // checkBox_IsEnableSheet
+            // checkBox_IsEnable_Sheet
             // 
-            this.checkBox_IsEnableSheet.AutoSize = true;
-            this.checkBox_IsEnableSheet.Location = new System.Drawing.Point(7, 20);
-            this.checkBox_IsEnableSheet.Name = "checkBox_IsEnableSheet";
-            this.checkBox_IsEnableSheet.Size = new System.Drawing.Size(63, 16);
-            this.checkBox_IsEnableSheet.TabIndex = 33;
-            this.checkBox_IsEnableSheet.Text = "Enable";
-            this.checkBox_IsEnableSheet.UseVisualStyleBackColor = true;
-            this.checkBox_IsEnableSheet.CheckedChanged += new System.EventHandler(this.checkBox_IsEnableSheet_CheckedChanged);
+            this.checkBox_IsEnable_Sheet.AutoSize = true;
+            this.checkBox_IsEnable_Sheet.Location = new System.Drawing.Point(7, 20);
+            this.checkBox_IsEnable_Sheet.Name = "checkBox_IsEnable_Sheet";
+            this.checkBox_IsEnable_Sheet.Size = new System.Drawing.Size(63, 16);
+            this.checkBox_IsEnable_Sheet.TabIndex = 33;
+            this.checkBox_IsEnable_Sheet.Text = "Enable";
+            this.checkBox_IsEnable_Sheet.UseVisualStyleBackColor = true;
+            this.checkBox_IsEnable_Sheet.CheckedChanged += new System.EventHandler(this.checkBox_IsEnableSheet_CheckedChanged);
             // 
             // label3
             // 
@@ -835,8 +838,8 @@
             // groupBox1
             // 
             this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupBox1.Controls.Add(this.button4);
-            this.groupBox1.Controls.Add(this.button5);
+            this.groupBox1.Controls.Add(this.checkBox_IsEnable_SheetSource);
+            this.groupBox1.Controls.Add(this.button_Remove_SelectedSheetSource);
             this.groupBox1.Location = new System.Drawing.Point(240, 222);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(95, 142);
@@ -844,25 +847,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "1-2. Selected SheetSource";
             // 
-            // button4
+            // button_Remove_SelectedSheetSource
             // 
-            this.button4.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button4.Location = new System.Drawing.Point(6, 75);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(82, 23);
-            this.button4.TabIndex = 14;
-            this.button4.Text = "작업 편집";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            this.button5.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.button5.Location = new System.Drawing.Point(6, 113);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(82, 23);
-            this.button5.TabIndex = 15;
-            this.button5.Text = "작업 삭제";
-            this.button5.UseVisualStyleBackColor = true;
+            this.button_Remove_SelectedSheetSource.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.button_Remove_SelectedSheetSource.Location = new System.Drawing.Point(6, 113);
+            this.button_Remove_SelectedSheetSource.Name = "button_Remove_SelectedSheetSource";
+            this.button_Remove_SelectedSheetSource.Size = new System.Drawing.Size(82, 23);
+            this.button_Remove_SelectedSheetSource.TabIndex = 15;
+            this.button_Remove_SelectedSheetSource.Text = "소스 삭제";
+            this.button_Remove_SelectedSheetSource.UseVisualStyleBackColor = true;
+            this.button_Remove_SelectedSheetSource.Click += new System.EventHandler(this.button_Remove_SelectedSheetSource_Click);
             // 
             // listView_SheetSourceConnector
             // 
@@ -950,10 +944,15 @@
             this.menuItem_Tools_OpenSaveDataFolder.Text = "Open SaveData";
             this.menuItem_Tools_OpenSaveDataFolder.Click += new System.EventHandler(this.menuItem_Tools_OpenSaveDataFolder_Click);
             // 
-            // columnHeader_SheetSource
+            // checkBox_IsEnable_SheetSource
             // 
-            this.columnHeader_SheetSource.DisplayIndex = 1;
-            this.columnHeader_SheetSource.Text = "Source";
+            this.checkBox_IsEnable_SheetSource.AutoSize = true;
+            this.checkBox_IsEnable_SheetSource.Location = new System.Drawing.Point(6, 30);
+            this.checkBox_IsEnable_SheetSource.Name = "checkBox_IsEnable_SheetSource";
+            this.checkBox_IsEnable_SheetSource.Size = new System.Drawing.Size(63, 16);
+            this.checkBox_IsEnable_SheetSource.TabIndex = 34;
+            this.checkBox_IsEnable_SheetSource.Text = "Enable";
+            this.checkBox_IsEnable_SheetSource.UseVisualStyleBackColor = true;
             // 
             // SheetParser_MainForm
             // 
@@ -989,6 +988,7 @@
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1057,8 +1057,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button_Remove_SelectedSheetSource;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.RadioButton radioButton_SheetSource_MSExcel;
@@ -1075,8 +1074,9 @@
         private System.Windows.Forms.MenuItem menuItem_File_Save;
         private System.Windows.Forms.MenuItem menuItem_File_SaveAs;
         private System.Windows.Forms.MenuItem menuItem_Tools_OpenSaveDataFolder;
-        private System.Windows.Forms.CheckBox checkBox_IsEnableSheet;
+        private System.Windows.Forms.CheckBox checkBox_IsEnable_Sheet;
         private System.Windows.Forms.ColumnHeader columnHeader_SheetSource;
+        private System.Windows.Forms.CheckBox checkBox_IsEnable_SheetSource;
     }
 }
 

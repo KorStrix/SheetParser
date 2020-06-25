@@ -9,13 +9,13 @@ namespace SpreadSheetParser
 {
     static class Extension_ForWinform
     {
-        public static ListViewItem ConvertListViewItem(this TypeData pTypeData)
+        public static ListViewItem ConvertListViewItem(this SheetData pSheetData)
         {
-            ListViewItem pViewItem = new ListViewItem(pTypeData.strSheetName);
-            pViewItem.SubItems.Add(pTypeData.bEnable ? "O" : "X");
-            pViewItem.SubItems.Add(pTypeData?.eType.ToString());
-            pViewItem.SubItems.Add(pTypeData.pSheetSourceConnector.strSheetSourceID);
-            pViewItem.Tag = pTypeData;
+            ListViewItem pViewItem = new ListViewItem(pSheetData.strSheetName);
+            pViewItem.SubItems.Add(pSheetData.bEnable ? "O" : "X");
+            pViewItem.SubItems.Add(pSheetData?.eType.ToString());
+            pViewItem.SubItems.Add(pSheetData.pSheetSourceConnector.strSheetSourceID);
+            pViewItem.Tag = pSheetData;
 
             return pViewItem;
         }

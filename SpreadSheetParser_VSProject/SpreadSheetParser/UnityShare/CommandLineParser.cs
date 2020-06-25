@@ -50,7 +50,7 @@ namespace SpreadSheetParser
                     if (i != arrCommandArgs.Length - 1)
                         strNextText = arrCommandArgs[i + 1];
 
-                    if(OnCheck_IsValid(strCommandArg, out var bHasValue) == false)
+                    if(OnCheck_IsValid(strCommandArg, out bool bHasValue) == false)
                     {
                         OnParsingError(strCommandArg, Error.Is_Not_CommandLineArg);
                         continue;

@@ -11,12 +11,12 @@ using System.Collections.Generic;
 namespace SpreadSheetParser
 {
     [System.Serializable]
-    public class TypeDataList
+    public class SheetDataList
     {
         public string strFileName;
-        public List<TypeData> listTypeData = new List<TypeData>();
+        public List<SheetData> listTypeData = new List<SheetData>();
 
-        public TypeDataList(string strFileName)
+        public SheetDataList(string strFileName)
         {
             this.strFileName = strFileName;
         }
@@ -24,8 +24,9 @@ namespace SpreadSheetParser
 
 
     [System.Serializable]
-    public class TypeData
+    public class SheetData
     {
+        [Newtonsoft.Json.JsonIgnore]
         public SheetSourceConnector pSheetSourceConnector { get; private set; }
 
         public bool bEnable = true;
@@ -41,7 +42,7 @@ namespace SpreadSheetParser
         public List<FieldTypeData> listFieldData = new List<FieldTypeData>();
         public List<string> listEnumName = new List<string>();
 
-        public TypeData(SheetSourceConnector pSheetSourceConnector, string strSheetID, string strSheetName, int iOrder)
+        public SheetData(SheetSourceConnector pSheetSourceConnector, string strSheetID, string strSheetName, int iOrder)
         {
             this.pSheetSourceConnector = pSheetSourceConnector;
             this.strSheetID = strSheetID;

@@ -13,20 +13,20 @@ namespace SpreadSheetParser
     
     public delegate void delOnFinishConnect(SheetSourceConnector iSourceConnector, Exception pException_OnError);
 
-    public class SheetData
+    public class SheetConnectorWrapper
     {
         public SheetSourceConnector pSourceConnector { get; private set; }
         public string strSheetName { get; private set; }
         public string strSheetID { get; private set; }
 
-        public SheetData(SheetSourceConnector pSourceConnector, string strSheetName)
+        public SheetConnectorWrapper(SheetSourceConnector pSourceConnector, string strSheetName)
         {
             this.pSourceConnector = pSourceConnector;
             this.strSheetName = strSheetName;
             this.strSheetID = strSheetName;
         }
 
-        public SheetData(SheetSourceConnector pSourceConnector, string strSheetName, string strSheetID)
+        public SheetConnectorWrapper(SheetSourceConnector pSourceConnector, string strSheetName, string strSheetID)
         {
             this.pSourceConnector = pSourceConnector;
             this.strSheetName = strSheetName;
@@ -49,7 +49,7 @@ namespace SpreadSheetParser
     {
         public bool bEnable = true;
         public string strSheetSourceID { get; private set; }
-        public abstract IReadOnlyDictionary<string, SheetData> mapWorkSheetData_Key_Is_SheetID { get; }
+        public abstract IReadOnlyDictionary<string, SheetConnectorWrapper> mapWorkSheetData_Key_Is_SheetID { get; }
         public abstract ESheetSourceType eSheetSourceType { get; }
 
         protected SheetSourceConnector(string strSheetSourceID)
@@ -99,7 +99,7 @@ namespace SpreadSheetParser
             if (Path.IsPathRooted(strPath))
                 return strPath;
 
-            var pCurrentURI = new Uri(Directory.GetCurrentDirectory());
+            Uri pCurrentURI = new Uri(Directory.GetCurrentDirectory());
             return $"{pCurrentURI.AbsolutePath}/../{strPath}";
         }
     }

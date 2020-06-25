@@ -43,7 +43,7 @@ namespace SpreadSheetParser
             return (BuildBase)MemberwiseClone();
         }
 
-        public abstract Task DoWork(CodeFileBuilder pCodeFileBuilder, TypeData[] arrSheetData, Action<string> OnPrintWorkState);
+        public abstract Task DoWork(CodeFileBuilder pCodeFileBuilder, SheetData[] arrSheetData, Action<string> OnPrintWorkState);
 
 #if !UNITY_EDITOR
         public void DoAutoSaveAsync()
@@ -111,7 +111,7 @@ namespace SpreadSheetParser
             JObject jo = JObject.Load(reader);
             string strTypeName = jo["pType"].Value<string>();
 
-            foreach (var pType in GetEnumerableOfType(typeof(BuildBase)))
+            foreach (Type pType in GetEnumerableOfType(typeof(BuildBase)))
             {
                 try
                 {

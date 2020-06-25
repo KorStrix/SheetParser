@@ -78,10 +78,10 @@ namespace SpreadSheetParser
         }
 
 
-        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
+        public override Task DoWork(CodeFileBuilder pCodeFileBuilder, SheetData[] arrSheetData, Action<string> OnPrintWorkProcess)
         {
             List<Task> listTask = new List<Task>();
-            foreach (var pSheet in arrSheetData)
+            foreach (SheetData pSheet in arrSheetData)
             {
                 listTask.Add(Task.Run(() =>
                 {
