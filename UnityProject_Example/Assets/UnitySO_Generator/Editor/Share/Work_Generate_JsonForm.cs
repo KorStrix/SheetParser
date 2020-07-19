@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -148,7 +148,9 @@ namespace SpreadSheetParser
                 pTypeDataList.listTypeData.Add(pSheet);
             }
 
+#if !UNITY_EDITOR
             JsonSaveManager.SaveData(pTypeDataList, $"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json");
+#endif
         }
 
 #if !UNITY_EDITOR
