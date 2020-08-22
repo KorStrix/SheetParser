@@ -83,12 +83,14 @@ namespace SpreadSheetParser
 
         public override Task DoWork(CodeFileBuilder pCodeFileBuilder, ISheetConnector pConnector, TypeData[] arrSheetData, Action<string> OnPrintWorkProcess)
         {
-            TypeDataList pTypeDataList = JsonSaveManager.LoadData<TypeDataList>($"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json", OnPrintWorkProcess);
-            //if (pTypeDataList != null)
-            //    pTypeDataList.listTypeData.ForEach(p => p.bEnable = false);
+            //TypeDataList pTypeDataList = JsonSaveManager.LoadData<TypeDataList>($"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json", OnPrintWorkProcess);
+            //if (pTypeDataList == null)
+            //    pTypeDataList = new TypeDataList(pConnector.strSheetID);
 
-            if (pTypeDataList == null)
-                pTypeDataList = new TypeDataList(pConnector.strSheetID);
+            // 로컬 데이터에 있는 TypeData와 현재 TypeData가 일치하지 않음.
+            // 무조건 현재 TypeData기준으로 작업하기
+            TypeDataList pTypeDataList = new TypeDataList(pConnector.strSheetID);
+            pTypeDataList.listTypeData = arrSheetData.ToList();
 
             List<Task> listTask = new List<Task>();
             foreach (var pSheet in arrSheetData)
@@ -99,7 +101,9 @@ namespace SpreadSheetParser
                 listTask.Add(ProcessJson(pConnector, OnPrintWorkProcess, pSheet, pTypeDataList));
             }
 
-            return Task.WhenAll(listTask).ContinueWith((p) =>
+            Task.WaitAll(listTask.ToArray(), new TimeSpan(3000));
+                
+            return Task.Run(() =>
             {
                 pTypeDataList.listTypeData.Sort((x, y) => x.iOrder.CompareTo(y.iOrder));
                 JsonSaveManager.SaveData(pTypeDataList, $"{GetRelative_To_AbsolutePath(strExportPath)}/{nameof(TypeDataList)}.json");
@@ -112,10 +116,8 @@ namespace SpreadSheetParser
             JObject pJson_Instance = new JObject();
             JArray pArray = new JArray();
 
-            Dictionary<string, FieldTypeData> mapFieldData =
-                pSheet.listFieldData.Where(p => p.bIsVirtualField == false).ToDictionary(p => p.strFieldName);
+            Dictionary<string, FieldTypeData> mapFieldData = pSheet.listFieldData.Where(p => p.bIsVirtualField == false).ToDictionary(p => p.strFieldName);
             Dictionary<int, string> mapMemberName = new Dictionary<int, string>();
-            // Dictionary<int, string> mapMemberType = new Dictionary<int, string>();
             int iColumnStartIndex = -1;
 
             return pSheet.ParsingSheet_UseTask(pConnector,
@@ -147,10 +149,9 @@ namespace SpreadSheetParser
                         if (mapMemberName.ContainsKey(i) == false)
                             continue;
 
-                        if (mapFieldData.TryGetValue(mapMemberName[i], out var pFieldTypeData) == false)
+                        if (mapFieldData.TryGetValue(mapMemberName[i], out FieldTypeData pFieldTypeData) == false)
                         {
-                            OnPrintWorkProcess?.Invoke(
-                                $"{pSheet.strSheetID} - mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
+                            OnPrintWorkProcess?.Invoke($"{pSheet.strSheetName}({pSheet.strSheetID}) - mapFieldData.ContainsKey({mapMemberName[i]}) Fail");
                             continue;
                         }
 

@@ -1,0 +1,520 @@
+{
+  "array": [
+    {
+      "ModelKey": "boy_beach",
+      "ModelPath": "Assets/BundlePath/Model/People/boy-beach.prefab"
+    },
+    {
+      "ModelKey": "boy_sport",
+      "ModelPath": "Assets/BundlePath/Model/People/boy-sport.prefab"
+    },
+    {
+      "ModelKey": "giant",
+      "ModelPath": "Assets/BundlePath/Model/People/giant.prefab"
+    },
+    {
+      "ModelKey": "girl_beach",
+      "ModelPath": "Assets/BundlePath/Model/People/girl-beach.prefab"
+    },
+    {
+      "ModelKey": "man_astronaut",
+      "ModelPath": "Assets/BundlePath/Model/People/man-astronaut.prefab"
+    },
+    {
+      "ModelKey": "man_beach",
+      "ModelPath": "Assets/BundlePath/Model/People/man-beach.prefab"
+    },
+    {
+      "ModelKey": "man_casual",
+      "ModelPath": "Assets/BundlePath/Model/People/man-casual.prefab"
+    },
+    {
+      "ModelKey": "man_construction_worker",
+      "ModelPath": "Assets/BundlePath/Model/People/man-construction-worker.prefab"
+    },
+    {
+      "ModelKey": "man_cowboy",
+      "ModelPath": "Assets/BundlePath/Model/People/man-cowboy.prefab"
+    },
+    {
+      "ModelKey": "man_cult",
+      "ModelPath": "Assets/BundlePath/Model/People/man-cult.prefab"
+    },
+    {
+      "ModelKey": "man_eskimo",
+      "ModelPath": "Assets/BundlePath/Model/People/man-eskimo.prefab"
+    },
+    {
+      "ModelKey": "man_farm",
+      "ModelPath": "Assets/BundlePath/Model/People/man-farm.prefab"
+    },
+    {
+      "ModelKey": "man_golf",
+      "ModelPath": "Assets/BundlePath/Model/People/man-golf.prefab"
+    },
+    {
+      "ModelKey": "man_hazard",
+      "ModelPath": "Assets/BundlePath/Model/People/man-hazard.prefab"
+    },
+    {
+      "ModelKey": "man_knight_soldier",
+      "ModelPath": "Assets/BundlePath/Model/People/man-knight-soldier.prefab"
+    },
+    {
+      "ModelKey": "man_knight",
+      "ModelPath": "Assets/BundlePath/Model/People/man-knight.prefab"
+    },
+    {
+      "ModelKey": "man_native_warrior",
+      "ModelPath": "Assets/BundlePath/Model/People/man-native-warrior.prefab"
+    },
+    {
+      "ModelKey": "man_native",
+      "ModelPath": "Assets/BundlePath/Model/People/man-native.prefab"
+    },
+    {
+      "ModelKey": "man_samurai_black",
+      "ModelPath": "Assets/BundlePath/Model/People/man-samurai-black.prefab"
+    },
+    {
+      "ModelKey": "man_samurai",
+      "ModelPath": "Assets/BundlePath/Model/People/man-samurai.prefab"
+    },
+    {
+      "ModelKey": "man_shirt",
+      "ModelPath": "Assets/BundlePath/Model/People/man-shirt.prefab"
+    },
+    {
+      "ModelKey": "man_soldier_ge",
+      "ModelPath": "Assets/BundlePath/Model/People/man-soldier-ge.prefab"
+    },
+    {
+      "ModelKey": "man_soldier_special_ge",
+      "ModelPath": "Assets/BundlePath/Model/People/man-soldier-special-ge.prefab"
+    },
+    {
+      "ModelKey": "man_soldier_us",
+      "ModelPath": "Assets/BundlePath/Model/People/man-soldier-us.prefab"
+    },
+    {
+      "ModelKey": "man_soldier",
+      "ModelPath": "Assets/BundlePath/Model/People/man-soldier.prefab"
+    },
+    {
+      "ModelKey": "man_swimming",
+      "ModelPath": "Assets/BundlePath/Model/People/man-swimming.prefab"
+    },
+    {
+      "ModelKey": "man_tie",
+      "ModelPath": "Assets/BundlePath/Model/People/man-tie.prefab"
+    },
+    {
+      "ModelKey": "man_worker",
+      "ModelPath": "Assets/BundlePath/Model/People/man-worker.prefab"
+    },
+    {
+      "ModelKey": "man_zombie_half",
+      "ModelPath": "Assets/BundlePath/Model/People/man-zombie-half.prefab"
+    },
+    {
+      "ModelKey": "man_zombie",
+      "ModelPath": "Assets/BundlePath/Model/People/man-zombie.prefab"
+    },
+    {
+      "ModelKey": "skeleton_soldier",
+      "ModelPath": "Assets/BundlePath/Model/People/skeleton-soldier.prefab"
+    },
+    {
+      "ModelKey": "skeleton",
+      "ModelPath": "Assets/BundlePath/Model/People/skeleton.prefab"
+    },
+    {
+      "ModelKey": "woman_casual",
+      "ModelPath": "Assets/BundlePath/Model/People/woman-casual.prefab"
+    },
+    {
+      "ModelKey": "woman_dress",
+      "ModelPath": "Assets/BundlePath/Model/People/woman-dress.prefab"
+    },
+    {
+      "ModelKey": "woman_farm",
+      "ModelPath": "Assets/BundlePath/Model/People/woman-farm.prefab"
+    },
+    {
+      "ModelKey": "woman_geisha",
+      "ModelPath": "Assets/BundlePath/Model/People/woman-geisha.prefab"
+    },
+    {
+      "ModelKey": "woman_ginger",
+      "ModelPath": "Assets/BundlePath/Model/People/woman-ginger.prefab"
+    },
+    {
+      "ModelKey": "woman_hazard",
+      "ModelPath": "Assets/BundlePath/Model/People/woman-hazard.prefab"
+    },
+    {
+      "ModelKey": "woman_native",
+      "ModelPath": "Assets/BundlePath/Model/People/woman-native.prefab"
+    },
+    {
+      "ModelKey": "woman_swimming_guard",
+      "ModelPath": "Assets/BundlePath/Model/People/woman-swimming-guard.prefab"
+    },
+    {
+      "ModelKey": "woman_swimming",
+      "ModelPath": "Assets/BundlePath/Model/People/woman-swimming.prefab"
+    },
+    {
+      "ModelKey": "woman_zombie",
+      "ModelPath": "Assets/BundlePath/Model/People/woman-zombie.prefab"
+    },
+    {
+      "ModelKey": "Mask",
+      "ModelPath": "Assets/Graphic/Model/Mask.prefab"
+    },
+    {
+      "ModelKey": "anchor",
+      "ModelPath": "Assets/BundlePath/Model/Props/anchor.prefab"
+    },
+    {
+      "ModelKey": "baby_carriage",
+      "ModelPath": "Assets/BundlePath/Model/Props/baby-carriage.prefab"
+    },
+    {
+      "ModelKey": "bag",
+      "ModelPath": "Assets/BundlePath/Model/Props/bag.prefab"
+    },
+    {
+      "ModelKey": "balloon",
+      "ModelPath": "Assets/BundlePath/Model/Props/balloon.prefab"
+    },
+    {
+      "ModelKey": "basketball_stand",
+      "ModelPath": "Assets/BundlePath/Model/Props/basketball-stand.prefab"
+    },
+    {
+      "ModelKey": "basketball",
+      "ModelPath": "Assets/BundlePath/Model/Props/basketball.prefab"
+    },
+    {
+      "ModelKey": "battery_9v",
+      "ModelPath": "Assets/BundlePath/Model/Props/battery-9v.prefab"
+    },
+    {
+      "ModelKey": "battery_car",
+      "ModelPath": "Assets/BundlePath/Model/Props/battery-car.prefab"
+    },
+    {
+      "ModelKey": "bear_trap",
+      "ModelPath": "Assets/BundlePath/Model/Props/bear-trap.prefab"
+    },
+    {
+      "ModelKey": "beart_trap",
+      "ModelPath": "Assets/BundlePath/Model/Props/beart-trap.prefab"
+    },
+    {
+      "ModelKey": "bench_forest",
+      "ModelPath": "Assets/BundlePath/Model/Props/bench-forest.prefab"
+    },
+    {
+      "ModelKey": "bench_old",
+      "ModelPath": "Assets/BundlePath/Model/Props/bench-old.prefab"
+    },
+    {
+      "ModelKey": "bike_old",
+      "ModelPath": "Assets/BundlePath/Model/Props/bike-old.prefab"
+    },
+    {
+      "ModelKey": "bin_wheelie",
+      "ModelPath": "Assets/BundlePath/Model/Props/bin-wheelie.prefab"
+    },
+    {
+      "ModelKey": "bungalov",
+      "ModelPath": "Assets/BundlePath/Model/Props/bungalov.prefab"
+    },
+    {
+      "ModelKey": "candle",
+      "ModelPath": "Assets/BundlePath/Model/Props/candle.prefab"
+    },
+    {
+      "ModelKey": "cargo_shipping",
+      "ModelPath": "Assets/BundlePath/Model/Props/cargo-shipping.prefab"
+    },
+    {
+      "ModelKey": "cargo_simple",
+      "ModelPath": "Assets/BundlePath/Model/Props/cargo-simple.prefab"
+    },
+    {
+      "ModelKey": "cat_ball",
+      "ModelPath": "Assets/BundlePath/Model/Props/cat-ball.prefab"
+    },
+    {
+      "ModelKey": "cooker",
+      "ModelPath": "Assets/BundlePath/Model/Props/cooker.prefab"
+    },
+    {
+      "ModelKey": "crane_port",
+      "ModelPath": "Assets/BundlePath/Model/Props/crane-port.prefab"
+    },
+    {
+      "ModelKey": "dj_controller",
+      "ModelPath": "Assets/BundlePath/Model/Props/dj-controller.prefab"
+    },
+    {
+      "ModelKey": "dock_wood",
+      "ModelPath": "Assets/BundlePath/Model/Props/dock-wood.prefab"
+    },
+    {
+      "ModelKey": "drugs",
+      "ModelPath": "Assets/BundlePath/Model/Props/drugs.prefab"
+    },
+    {
+      "ModelKey": "dryer_outside",
+      "ModelPath": "Assets/BundlePath/Model/Props/dryer-outside.prefab"
+    },
+    {
+      "ModelKey": "fence_big",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence-big.prefab"
+    },
+    {
+      "ModelKey": "fence_classic_snow",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence-classic-snow.prefab"
+    },
+    {
+      "ModelKey": "fence_classic",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence-classic.prefab"
+    },
+    {
+      "ModelKey": "fence_picket_broken",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence-picket-broken.prefab"
+    },
+    {
+      "ModelKey": "fence_picket",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence-picket.prefab"
+    },
+    {
+      "ModelKey": "fence_shrub",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence-shrub.prefab"
+    },
+    {
+      "ModelKey": "fence_start",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence-start.prefab"
+    },
+    {
+      "ModelKey": "fence_stone_gate_small",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence-stone-gate-small.prefab"
+    },
+    {
+      "ModelKey": "fence_stone_gate",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence-stone-gate.prefab"
+    },
+    {
+      "ModelKey": "fence_stone_metal",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence-stone-metal.prefab"
+    },
+    {
+      "ModelKey": "fence_stone_tower",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence-stone-tower.prefab"
+    },
+    {
+      "ModelKey": "fence_stone",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence-stone.prefab"
+    },
+    {
+      "ModelKey": "fence",
+      "ModelPath": "Assets/BundlePath/Model/Props/fence.prefab"
+    },
+    {
+      "ModelKey": "fire_extinguisher",
+      "ModelPath": "Assets/BundlePath/Model/Props/fire-extinguisher.prefab"
+    },
+    {
+      "ModelKey": "fire_hydrant",
+      "ModelPath": "Assets/BundlePath/Model/Props/fire-hydrant.prefab"
+    },
+    {
+      "ModelKey": "fire",
+      "ModelPath": "Assets/BundlePath/Model/Props/fire.prefab"
+    },
+    {
+      "ModelKey": "fireplace_nofire",
+      "ModelPath": "Assets/BundlePath/Model/Props/fireplace-nofire.prefab"
+    },
+    {
+      "ModelKey": "fireplace",
+      "ModelPath": "Assets/BundlePath/Model/Props/fireplace.prefab"
+    },
+    {
+      "ModelKey": "flag_big",
+      "ModelPath": "Assets/BundlePath/Model/Props/flag-big.prefab"
+    },
+    {
+      "ModelKey": "flag_golf",
+      "ModelPath": "Assets/BundlePath/Model/Props/flag-golf.prefab"
+    },
+    {
+      "ModelKey": "flowers_window",
+      "ModelPath": "Assets/BundlePath/Model/Props/flowers-window.prefab"
+    },
+    {
+      "ModelKey": "fuel_canister",
+      "ModelPath": "Assets/BundlePath/Model/Props/fuel-canister.prefab"
+    },
+    {
+      "ModelKey": "garbage_bag",
+      "ModelPath": "Assets/BundlePath/Model/Props/garbage-bag.prefab"
+    },
+    {
+      "ModelKey": "gas_bottle",
+      "ModelPath": "Assets/BundlePath/Model/Props/gas-bottle.prefab"
+    },
+    {
+      "ModelKey": "generator",
+      "ModelPath": "Assets/BundlePath/Model/Props/generator.prefab"
+    },
+    {
+      "ModelKey": "golf_bag",
+      "ModelPath": "Assets/BundlePath/Model/Props/golf-bag.prefab"
+    },
+    {
+      "ModelKey": "golf_club_iron",
+      "ModelPath": "Assets/BundlePath/Model/Props/golf-club-iron.prefab"
+    },
+    {
+      "ModelKey": "grill_round",
+      "ModelPath": "Assets/BundlePath/Model/Props/grill-round.prefab"
+    },
+    {
+      "ModelKey": "guidepost",
+      "ModelPath": "Assets/BundlePath/Model/Props/guidepost.prefab"
+    },
+    {
+      "ModelKey": "lantern",
+      "ModelPath": "Assets/BundlePath/Model/Props/lantern.prefab"
+    },
+    {
+      "ModelKey": "mail_box",
+      "ModelPath": "Assets/BundlePath/Model/Props/mail-box.prefab"
+    },
+    {
+      "ModelKey": "matches_box",
+      "ModelPath": "Assets/BundlePath/Model/Props/matches-box.prefab"
+    },
+    {
+      "ModelKey": "medkit",
+      "ModelPath": "Assets/BundlePath/Model/Props/medkit.prefab"
+    },
+    {
+      "ModelKey": "motorbike_old",
+      "ModelPath": "Assets/BundlePath/Model/Props/motorbike-old.prefab"
+    },
+    {
+      "ModelKey": "music_record",
+      "ModelPath": "Assets/BundlePath/Model/Props/music-record.prefab"
+    },
+    {
+      "ModelKey": "package_box_open",
+      "ModelPath": "Assets/BundlePath/Model/Props/package-box-open.prefab"
+    },
+    {
+      "ModelKey": "package_box",
+      "ModelPath": "Assets/BundlePath/Model/Props/package-box.prefab"
+    },
+    {
+      "ModelKey": "palette",
+      "ModelPath": "Assets/BundlePath/Model/Props/palette.prefab"
+    },
+    {
+      "ModelKey": "pc_desktop",
+      "ModelPath": "Assets/BundlePath/Model/Props/pc-desktop.prefab"
+    },
+    {
+      "ModelKey": "pc_keyboard",
+      "ModelPath": "Assets/BundlePath/Model/Props/pc-keyboard.prefab"
+    },
+    {
+      "ModelKey": "pc_monitor",
+      "ModelPath": "Assets/BundlePath/Model/Props/pc-monitor.prefab"
+    },
+    {
+      "ModelKey": "pc_mouse",
+      "ModelPath": "Assets/BundlePath/Model/Props/pc-mouse.prefab"
+    },
+    {
+      "ModelKey": "pool_inflatable",
+      "ModelPath": "Assets/BundlePath/Model/Props/pool-inflatable.prefab"
+    },
+    {
+      "ModelKey": "present_box",
+      "ModelPath": "Assets/BundlePath/Model/Props/present-box.prefab"
+    },
+    {
+      "ModelKey": "presne_box_block",
+      "ModelPath": "Assets/BundlePath/Model/Props/presne-box-block.prefab"
+    },
+    {
+      "ModelKey": "quern",
+      "ModelPath": "Assets/BundlePath/Model/Props/quern.prefab"
+    },
+    {
+      "ModelKey": "road_sign_green",
+      "ModelPath": "Assets/BundlePath/Model/Props/road-sign-green.prefab"
+    },
+    {
+      "ModelKey": "sand_box",
+      "ModelPath": "Assets/BundlePath/Model/Props/sand-box.prefab"
+    },
+    {
+      "ModelKey": "shack",
+      "ModelPath": "Assets/BundlePath/Model/Props/shack.prefab"
+    },
+    {
+      "ModelKey": "shed_dog",
+      "ModelPath": "Assets/BundlePath/Model/Props/shed-dog.prefab"
+    },
+    {
+      "ModelKey": "sleeping_bag",
+      "ModelPath": "Assets/BundlePath/Model/Props/sleeping-bag.prefab"
+    },
+    {
+      "ModelKey": "soccer_ball",
+      "ModelPath": "Assets/BundlePath/Model/Props/soccer-ball.prefab"
+    },
+    {
+      "ModelKey": "soccer_gate",
+      "ModelPath": "Assets/BundlePath/Model/Props/soccer-gate.prefab"
+    },
+    {
+      "ModelKey": "sunscreen_tropic",
+      "ModelPath": "Assets/BundlePath/Model/Props/sunscreen-tropic.prefab"
+    },
+    {
+      "ModelKey": "tent_pyramid",
+      "ModelPath": "Assets/BundlePath/Model/Props/tent-pyramid.prefab"
+    },
+    {
+      "ModelKey": "tent",
+      "ModelPath": "Assets/BundlePath/Model/Props/tent.prefab"
+    },
+    {
+      "ModelKey": "toilet_paper",
+      "ModelPath": "Assets/BundlePath/Model/Props/toilet-paper.prefab"
+    },
+    {
+      "ModelKey": "traffic_lights",
+      "ModelPath": "Assets/BundlePath/Model/Props/traffic-lights.prefab"
+    },
+    {
+      "ModelKey": "traffic_sign_rhomb",
+      "ModelPath": "Assets/BundlePath/Model/Props/traffic-sign-rhomb.prefab"
+    },
+    {
+      "ModelKey": "wall_concrete",
+      "ModelPath": "Assets/BundlePath/Model/Props/wall-concrete.prefab"
+    },
+    {
+      "ModelKey": "windmill",
+      "ModelPath": "Assets/BundlePath/Model/Props/windmill.prefab"
+    }
+  ]
+}

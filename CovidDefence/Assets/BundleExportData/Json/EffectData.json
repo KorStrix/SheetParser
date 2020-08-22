@@ -1,0 +1,14 @@
+{
+  "array": [
+    {
+      "EffectKey": "OnCough",
+      "EffectFolder": "InGameEffect",
+      "EffectName": "Test1"
+    },
+    {
+      "EffectKey": "OnInfacted",
+      "EffectFolder": "InGameEffect",
+      "EffectName": "Test2"
+    }
+  ]
+}

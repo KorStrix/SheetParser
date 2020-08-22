@@ -36,15 +36,13 @@ namespace SpreadSheetParser
             Stopwatch pTimer = new Stopwatch();
             try
             {
-                int iLoopCount = 0;
-                int iCount = arrTypeData.Length;
                 foreach (var pSheetData in arrTypeData)
                 {
                     pTimer.Restart();
 
                     // 왜 Update했는지 까먹었다.. 일단 상관없어보이니 주석처리
-                    // listView_Field.Items.Clear();
-                    // UpdateSheetData(pSheetData, false, ++iLoopCount == iCount);
+                    listView_Field.Items.Clear();
+                    UpdateSheetData(pSheetData, false, true);
 
                     // 동기버전
                     // pSheetData.DoWork(pSheetConnector, _pCodeFileBuilder, WriteConsole);
@@ -69,27 +67,33 @@ namespace SpreadSheetParser
             listTask.Clear();
             var arrSheetData = checkedListBox_SheetList.CheckedItems.Cast<TypeData>().ToArray();
             var listWork = checkedListBox_WorkList.CheckedItems;
-            foreach (WorkBase pWork in listWork)
             {
-                try
+                foreach (WorkBase pWork in listWork)
                 {
-                    pTimer.Restart();
+                    try
+                    {
+                        pTimer.Restart();
 
-                    listTask.Add(pWork.DoWork(_pCodeFileBuilder, pSheetConnector, arrSheetData, WriteConsole));
-                }
-                catch (Exception pException)
-                {
-                    WriteConsole($"빌드 중 에러 - Work : {pWork.pType} // Error : {pException}");
-                    return;
-                }
-                finally
-                {
-                    pTimer.Stop();
-                    WriteConsole(pWork.ToString() + $" 작업완료 \r\n{pTimer.Elapsed}\r\n");
+                        listTask.Add(pWork.DoWork(_pCodeFileBuilder, pSheetConnector, arrSheetData, WriteConsole));
+                    }
+                    catch (Exception pException)
+                    {
+                        WriteConsole($"빌드 중 에러 - Work : {pWork.pType} // Error : {pException}");
+                        return;
+                    }
+                    finally
+                    {
+                        pTimer.Stop();
+                        WriteConsole(pWork.ToString() + $" 작업완료 \r\n{pTimer.Elapsed}\r\n");
+                    }
                 }
             }
-            
-            Task.WaitAll(listTask.ToArray());
+
+            Task.WaitAll(listTask.ToArray(), new TimeSpan(10000));
+
+            var arrTask_NotCompleted = listTask.Where(pTask => pTask.IsCompleted == false).ToArray();
+            if (arrTask_NotCompleted.Length != 0)
+                WriteConsole($"빌드 실패.. 타임아웃!!; \r\n {pTimer_Total.Elapsed}\r\n");
 
             foreach (WorkBase pWork in listWork)
                 pWork.DoWorkAfter();

@@ -1,0 +1,14 @@
+{
+  "array": [
+    {
+      "ImageKey": "Test1",
+      "ImageFolder": "이미지",
+      "ImageName": "Test1"
+    },
+    {
+      "ImageKey": "Test2",
+      "ImageFolder": "이미지2",
+      "ImageName": "Test2"
+    }
+  ]
+}

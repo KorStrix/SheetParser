@@ -1,0 +1,49 @@
+{
+  "array": [
+    {
+      "AIKey": "일반시민",
+      "State": "Idle",
+      "Behaviour": "MoveRandom"
+    },
+    {
+      "AIKey": "일반시민",
+      "State": "OnCloseThings",
+      "Behaviour": "Nothing"
+    },
+    {
+      "AIKey": "일반시민",
+      "State": "OnManyCitizenAround",
+      "Behaviour": "Avoid"
+    },
+    {
+      "AIKey": "어그로시민",
+      "State": "Idle",
+      "Behaviour": "MoveRandom"
+    },
+    {
+      "AIKey": "어그로시민",
+      "State": "OnCloseThings",
+      "Behaviour": "Use"
+    },
+    {
+      "AIKey": "어그로시민",
+      "State": "OnManyCitizenAround",
+      "Behaviour": "Chase"
+    },
+    {
+      "AIKey": "게으른시민",
+      "State": "Idle",
+      "Behaviour": "Nothing"
+    },
+    {
+      "AIKey": "게으른시민",
+      "State": "OnCloseThings",
+      "Behaviour": "Nothing"
+    },
+    {
+      "AIKey": "게으른시민",
+      "State": "OnManyCitizenAround",
+      "Behaviour": "Avoid"
+    }
+  ]
+}

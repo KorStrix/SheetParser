@@ -1,0 +1,64 @@
+{
+  "array": [
+    {
+      "SoundKey": "DefaultInGameSound",
+      "FilePath": "Assets\\BundlePath\\Sound\\BGM\\music_epic_heroes_story.wav",
+      "IsBGM": "1",
+      "SoundVolumeOffset": "0.5"
+    },
+    {
+      "SoundKey": "Title_Scene",
+      "FilePath": "Assets\\BundlePath\\Sound\\BGM\\music_calm_green_lake_serenade.wav",
+      "IsBGM": "1",
+      "SoundVolumeOffset": "0.5"
+    },
+    {
+      "SoundKey": "Beach",
+      "FilePath": "Assets\\BundlePath\\Sound\\BGM\\music_bytes_the_retro_adventure.wav",
+      "IsBGM": "1",
+      "SoundVolumeOffset": "0.5"
+    },
+    {
+      "SoundKey": "Murmurous_sound",
+      "FilePath": "Assets\\BundlePath\\Sound\\BGM\\music_bytes_the_retro_adventure.wav",
+      "IsBGM": "1",
+      "SoundVolumeOffset": "0.5"
+    },
+    {
+      "SoundKey": "When_the_click_of_a_button",
+      "FilePath": "Assets\\BundlePath\\Sound\\UI\\retro_ui_menu_blip_click_01.wav",
+      "IsBGM": "0",
+      "SoundVolumeOffset": "0.5"
+    },
+    {
+      "SoundKey": "When_you_press_the_Start_button_Games",
+      "FilePath": "Assets\\BundlePath\\Sound\\UI\\retro_ui_menu_blip_click_19.wav",
+      "IsBGM": "0",
+      "SoundVolumeOffset": "0.5"
+    },
+    {
+      "SoundKey": "When_the_mask_to_roll",
+      "FilePath": "Assets\\BundlePath\\Sound\\InGame\\retro_collect_pickup_coin_15.wav",
+      "IsBGM": "0",
+      "SoundVolumeOffset": "0.5"
+    },
+    {
+      "SoundKey": "When_you_install_something",
+      "FilePath": "Assets\\BundlePath\\Sound\\InGame\\retro_collect_pickup_coin_25.wav",
+      "IsBGM": "0",
+      "SoundVolumeOffset": "0.5"
+    },
+    {
+      "SoundKey": "When_just_a_click",
+      "FilePath": "Assets\\BundlePath\\Sound\\InGame\\retro_blip_beep_07.wav",
+      "IsBGM": "0",
+      "SoundVolumeOffset": "0.5"
+    },
+    {
+      "SoundKey": "When_an_infected_person_increases",
+      "FilePath": "Assets\\BundlePath\\Sound\\InGame\\retro_blip_beep_09.wav",
+      "IsBGM": "0",
+      "SoundVolumeOffset": "0.5"
+    }
+  ]
+}

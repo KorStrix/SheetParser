@@ -1,0 +1,40 @@
+{
+  "array": [
+    {
+      "ActionKey": "Put_away",
+      "ImageKey": "",
+      "ActionName": "거리두기",
+      "ActionDesc": "사람들간의 거리를 벌려둡니다.",
+      "isQuick": "1",
+      "MoneyCost": "0",
+      "StaffCost": "0"
+    },
+    {
+      "ActionKey": "Icing_Mask",
+      "ImageKey": "",
+      "ActionName": "마스크 씌우기",
+      "ActionDesc": "마스크를 쓰지 않은 시민에게 마스크를 씌웁니다.",
+      "isQuick": "1",
+      "MoneyCost": "0",
+      "StaffCost": "0"
+    },
+    {
+      "ActionKey": "Hand_Sanitizer_Beach",
+      "ImageKey": "",
+      "ActionName": "손소독제 비치",
+      "ActionDesc": "손소독제를 비치합니다.",
+      "isQuick": "0",
+      "MoneyCost": "10",
+      "StaffCost": "0"
+    },
+    {
+      "ActionKey": "Move_Health_Center",
+      "ImageKey": "",
+      "ActionName": "보건소 이동",
+      "ActionDesc": "보건소로 이동시킵니다.",
+      "isQuick": "0",
+      "MoneyCost": "10",
+      "StaffCost": "1"
+    }
+  ]
+}

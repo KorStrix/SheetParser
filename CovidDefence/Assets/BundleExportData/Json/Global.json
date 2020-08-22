@@ -1,0 +1,74 @@
+{
+  "array": [
+    {
+      "strGlobalKey": "인게임_시민주위판정거리",
+      "strValue": "5",
+      "strType": "float"
+    },
+    {
+      "strGlobalKey": "인게임_시민사람수가_많다고느끼는_사람수",
+      "strValue": "3",
+      "strType": "int"
+    },
+    {
+      "strGlobalKey": "인게임_시민_기본이동속도",
+      "strValue": "1",
+      "strType": "float"
+    },
+    {
+      "strGlobalKey": "인게임_감염자에서_시민에게_감염시간",
+      "strValue": "5",
+      "strType": "float"
+    },
+    {
+      "strGlobalKey": "인게임_시작_현금",
+      "strValue": "100",
+      "strType": "int"
+    },
+    {
+      "strGlobalKey": "인게임_시작_직원",
+      "strValue": "10",
+      "strType": "int"
+    },
+    {
+      "strGlobalKey": "인게임_시작_감염자수",
+      "strValue": "5",
+      "strType": "int"
+    },
+    {
+      "strGlobalKey": "인게임_시작_시민수",
+      "strValue": "50",
+      "strType": "int"
+    },
+    {
+      "strGlobalKey": "인게임_시작_평판도_퍼센트",
+      "strValue": "50",
+      "strType": "float"
+    },
+    {
+      "strGlobalKey": "인게임_감염자당_평판도감소",
+      "strValue": "1",
+      "strType": "float"
+    },
+    {
+      "strGlobalKey": "인게임_잘못된_보건소선별당_평판도감소",
+      "strValue": "5",
+      "strType": "float"
+    },
+    {
+      "strGlobalKey": "인게임_올바른_보건소선별당_평판도증가",
+      "strValue": "2",
+      "strType": "float"
+    },
+    {
+      "strGlobalKey": "인게임_평판도_상한치",
+      "strValue": "100",
+      "strType": "int"
+    },
+    {
+      "strGlobalKey": "인게임_액션_밀어내기_파워",
+      "strValue": "500",
+      "strType": "float"
+    }
+  ]
+}
